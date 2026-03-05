@@ -398,6 +398,49 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 @media(max-width:760px){.home-grid{grid-template-columns:1fr}.myspace-grid{grid-template-columns:1fr}main{padding:10px 10px 80px}header{padding:0 10px;height:52px}nav{display:none}#mobile-nav{display:block}#health-bubble{bottom:72px}#toast{bottom:80px}.prof-stats{grid-template-columns:repeat(2,1fr)}.theme-grid{grid-template-columns:repeat(2,1fr)}.focus-t{font-size:52px}.hdr-btn{display:none}.xp-chip span:last-child{display:none}.logo-sub{display:none}.perf-grid{grid-template-columns:1fr}.tt-grid{font-size:9px;grid-template-columns:40px repeat(7,1fr)}.jgrid{grid-template-columns:1fr}.conn-grid{grid-template-columns:1fr}.forum-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.tt-grid{overflow-x:auto;min-width:500px}.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}}
 </style>
+<!--
+  ══════════════════════════════════════════════════════════════
+  REQUIRED FIRESTORE SECURITY RULES  (Firebase Console → Firestore → Rules)
+  ══════════════════════════════════════════════════════════════
+  rules_version = '2';
+  service cloud.firestore {
+    match /databases/{database}/documents {
+
+      // Private user data — owner only
+      match /userData/{userId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // Public study stats — any logged-in user can READ, only owner can WRITE
+      // This is what makes the buddy Progress tracker work!
+      match /publicStats/{userId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // Chat rooms — only members can read/write
+      match /chats/{chatId} {
+        allow read, write: if request.auth != null && request.auth.uid in resource.data.members;
+        match /messages/{msgId} {
+          allow read, write: if request.auth != null;
+        }
+      }
+
+      // Community forum posts — any logged-in user can read, owner can write
+      match /posts/{postId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null;
+      }
+
+      // User public profiles (username lookup)
+      match /users/{userId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+  ══════════════════════════════════════════════════════════════
+-->
 </head>
 <body>
 
@@ -1177,14 +1220,19 @@ async function loadUD(){
 window._save=async()=>{
   if(!window._CU)return;
   try{
-    // FIX A: strip dataUrl from papers before saving - base64 PDFs can be 2-5MB
-    // which silently breaks the entire Firestore save (1MB doc limit)
     const papersForSave=window.papers.map(p=>({id:p.id,name:p.name,size:p.size,type:p.type,date:p.date}));
     await setDoc(doc(db,'userData',window._CU.uid),{
       studyData:window.studyData,todos:window.todos,countdowns:window.countdowns,
       papers:papersForSave,pastTests:window.pastTests,journals:window.journals,
       assignments:window.assignments,resources:window.resources,timetable:window.timetable,
       xp:window.xp,coins:window.coins,subjects:window.subjects
+    },{merge:true});
+    // LOADING FIX: mirror study hours into publicStats (any auth user can read)
+    // userData is owner-private, so buddy's listener was silently failing -> "Loading..."
+    await setDoc(doc(db,'publicStats',window._CU.uid),{
+      studyData:window.studyData,
+      username:window._uname||'',
+      updatedAt:serverTimestamp()
     },{merge:true});
   }catch(e){console.warn('Save error:',e);window.toast('⚠️ Save failed — check connection');}
 };
@@ -1660,7 +1708,8 @@ function loadProgress(chatId,oUid){
   window._progressMyPoll=setInterval(updateMyProgress,10000);
 
   // FIX 4b: Live Firestore listener for OTHER user's study data
-  window._progressUnsub2=onSnapshot(doc(db,'userData',oUid),oSnap=>{
+  // LOADING FIX: read from publicStats (public) not userData (private, would silently fail)
+  window._progressUnsub2=onSnapshot(doc(db,'publicStats',oUid),oSnap=>{
     const od=oSnap.exists()?oSnap.data():{};
     const oSD=od.studyData||{};
     const oH=oSD[window._today]||0;
@@ -1926,7 +1975,7 @@ window.toggleDark=()=>{const c=document.documentElement.getAttribute('data-theme
 window.applyCustom=()=>{const p=document.getElementById('custom-p').value,bg=document.getElementById('custom-bg').value;const r=document.documentElement.style;document.documentElement.removeAttribute('data-theme');r.setProperty('--primary',p);r.setProperty('--pd',shade(p,-20));r.setProperty('--pl',shade(p,40));r.setProperty('--pglow',p+'22');r.setProperty('--bg',bg);r.setProperty('--bg2',shade(bg,-4));r.setProperty('--bg3',shade(bg,-8));r.setProperty('--surface',shade(bg,3));r.setProperty('--ink','#1a1c16');r.setProperty('--ink2','#4a5240');r.setProperty('--ink3','#8a9280');r.setProperty('--border',p+'33');r.setProperty('--border2',p+'18');toast('Custom theme applied 🎨');};
 function shade(c,p){const n=parseInt(c.slice(1),16),t=p<0?0:255,R=n>>16,G=(n>>8)&0xFF,B=n&0xFF;return'#'+(0x1000000+(Math.round((t-R)*Math.abs(p)/100)+R)*0x10000+(Math.round((t-G)*Math.abs(p)/100)+G)*0x100+(Math.round((t-B)*Math.abs(p)/100)+B)).toString(16).slice(1);}
 window.renderThemeGrid=function(){const el=document.getElementById('theme-grid-el');if(!el)return;const cur=document.documentElement.getAttribute('data-theme');el.innerHTML=Object.entries(THEMES).map(([k,v])=>`<div class="theme-card ${cur===k?'active':''}" onclick="setTheme('${k}')"><div class="tp-row"><div class="tp-b" style="background:${v.p}"></div><div class="tp-b" style="background:${v.b}"></div><div class="tp-b" style="background:${v.s}"></div></div><div class="tnm">${v.name}</div></div>`).join('');};
-setTheme(localStorage.getItem('tisa-theme')||'light');
+try{setTheme(localStorage.getItem('tisa-theme')||'light');}catch(e){setTheme('light');}
 
 // ── QUOTES ──
 const QS=[{t:"The secret of getting ahead is getting started.",a:"Mark Twain"},{t:"It always seems impossible until it's done.",a:"Nelson Mandela"},{t:"Success is the sum of small efforts repeated day in and day out.",a:"Robert Collier"},{t:"Don't watch the clock; do what it does. Keep going.",a:"Sam Levenson"},{t:"The expert in anything was once a beginner.",a:"Helen Hayes"},{t:"An investment in knowledge pays the best interest.",a:"Benjamin Franklin"},{t:"The beautiful thing about learning is nobody can take it away from you.",a:"B.B. King"},{t:"Hard work beats talent when talent doesn't work hard.",a:"Tim Notke"},{t:"Education is not the filling of a pail, but the lighting of a fire.",a:"W.B. Yeats"},{t:"Push yourself, because no one else is going to do it for you.",a:"Unknown"},{t:"Your limitation—it's only your imagination.",a:"Unknown"}];
