@@ -569,7 +569,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   }
   ══════════════════════════════════════════════════════════════
 -->
-</head>
+<style>   /* --- AESTHETIC OVERHAUL --- */      /* 1. Clean, Classy Typography */   :root {     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;     --font-serif: 'Playfair Display', serif;     --font-mono: 'Space Mono', monospace;   }    body {      font-family: var(--font-main) !important;      letter-spacing: -0.01em;     -webkit-font-smoothing: antialiased;   }    /* Elegant Serif Titles */   .logo-tisa, .modal-title, .prof-name, .ft, #j-date-d, .ls-logo {     font-family: var(--font-serif) !important;     font-weight: 700 !important;     letter-spacing: 1px !important;   }    /* Soothing Numericals (Timer, Stats, Calculator) */   .t-digits, .snum, .calc-num, .test-big-t, .cd-t {     font-family: var(--font-mono) !important;     font-weight: 400 !important;     letter-spacing: -2px !important;     font-variant-numeric: tabular-nums;   }    /* 2. Soft, Professional UI Elements */   .card {     border-radius: 12px !important;     border: 1px solid var(--border2) !important;     box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;     transition: transform 0.2s ease, box-shadow 0.2s ease !important;   }    .card:hover {     transform: translateY(-2px);     box-shadow: 0 8px 30px rgba(0,0,0,0.06) !important;   }    /* 3. Hide the redundant Pomodoro card */   .home-grid > .card:nth-child(2) { display: none !important; }    /* 4. Layout Fixes */   @media(min-width: 761px) {     .home-grid { grid-template-columns: 1.6fr 1fr !important; gap: 24px !important; }   }    .timer-ring { width: 340px !important; height: 340px !important; margin: 40px auto !important; }   .tsvg { width: 340px !important; height: 340px !important; }   .t-digits { font-size: 64px !important; color: var(--ink) !important; }    /* 5. Mobile Fixes */   @media (max-width: 760px) {     .home-grid, .myspace-grid, .perf-grid { grid-template-columns: 1fr !important; }     .home-grid > * { grid-column: 1 !important; width: 100% !important; }     .t-digits { font-size: 48px !important; }     .timer-ring { width: 260px !important; height: 260px !important; }     .tsvg { width: 260px !important; height: 260px !important; }   } </style>   .home-grid > .card:nth-child(2) { display: none !important; }      /* 2. Desktop Layout: Timer Big (1.4fr), To-Do Small (1fr) */   @media(min-width: 761px) {     .home-grid { grid-template-columns: 1.4fr 1fr !important; }   }      /* 3. Make the Timer Circle MASSIVE and increase text size */   .timer-ring { width: 340px !important; height: 340px !important; margin-top: 30px !important; margin-bottom: 20px !important; }   .tsvg { width: 340px !important; height: 340px !important; }   .t-digits { font-size: 56px !important; }   .t-mode { font-size: 14px !important; margin-top: 8px !important; }      /* 4. Make the To-Do List taller to fit more tasks */   .todo-list { max-height: 400px !important; }    /* 5. FIX MOBILE OVERLAPS (Forces 1 column on phones) */   @media (max-width: 760px) {     .myspace-grid > *, .perf-grid > *, .home-grid > *, .test-grid > *, .conn-grid > *, .jgrid > *, .forum-grid > * {        grid-column: 1 !important;        width: 100% !important;     }   } </style> </head>
 <body>
 
 <!-- LOADING -->
@@ -2471,9 +2471,12 @@ main {
   opacity: 0.4 !important; 
 }
 
-/* 6. Fix CSS Typo for login doodles */
-.ld1, .ld4 { 
-  display: none !important; 
+/* 6. Show the Login Doodles! */
+.ld-svg, .ld1, .ld2, .ld3, .ld4 { 
+  display: block !important; 
+}
+@media (max-width: 600px) {
+  .ld1, .ld4 { display: none !important; } 
 }
 
 /* 7. Smooth Scrolling & Box Sizing Improvements */
