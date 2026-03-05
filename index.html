@@ -1316,7 +1316,7 @@ window.setFF=(f,btn)=>{
   document.querySelectorAll('#forum-list-v .fbtn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   if(forumUnsub)forumUnsub();
-  loadForum();
+  loadForum();window._loadForum&&window._loadForum();
 };
 
 window.handlePostAttach=(files)=>{
@@ -1672,6 +1672,7 @@ function loadMyChats(){
   );
 }
 window._loadMyChats=loadMyChats;
+window._loadForum=loadForum;
 </script>
 <script>
 // ══ GLOBAL STATE ══
@@ -1699,7 +1700,6 @@ function fmtHLabel(s){if(!s)return'0h';const h=Math.floor(s/3600),m=Math.floor((
 function fmtHMS(s){return pad(Math.floor(s/3600))+':'+pad(Math.floor((s%3600)/60))+':'+pad(s%60);}
 window._dStr=function(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];};
 function fmtDate(d){return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
-function save(){if(window._save)window._save();}
 function toast(msg){const el=document.getElementById('toast');if(!el)return;el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2600);}
 window.toast=toast;
 
