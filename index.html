@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>TISA — Study Companion</title>
+<!-- Favicon: inline SVG data URI -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%235c7a3e'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='900' font-size='28' fill='white' letter-spacing='2'%3ETISA%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%235c7a3e'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='900' font-size='28' fill='white' letter-spacing='2'%3ETISA%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#5c7a3e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="TISA">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
@@ -81,7 +88,13 @@ input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
   font-variant-numeric: tabular-nums;
 }
 
-/* ══ LOGIN ══ */
+/* ══ STAT BOXES ══ */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.stat-box{background:var(--bg);border:1px solid var(--border2);border-radius:12px;padding:14px 12px;text-align:center;transition:all .2s}
+.stat-box:hover{border-color:var(--primary);transform:translateY(-1px)}
+/* Minimal numerals: regular weight, moderate size, no heavy stroke */
+.snum{font-family:'Space Mono',monospace !important;font-size:22px;font-weight:400;color:var(--primary);line-height:1.2;letter-spacing:0px;font-variant-numeric:tabular-nums}
+.slbl{font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;font-weight:600}
 #login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;overflow:hidden}
 .login-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .login-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.12}
@@ -90,7 +103,7 @@ input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 @keyframes blobf{0%,100%{transform:scale(1) translate(0,0)}50%{transform:scale(1.08) translate(20px,-15px)}}
 .login-card{background:var(--surface);border:1.5px solid var(--border);border-radius:28px;padding:52px 44px 40px;text-align:center;max-width:400px;width:92%;position:relative;box-shadow:var(--shl);animation:loginIn .7s cubic-bezier(.34,1.56,.64,1)}
 @keyframes loginIn{from{opacity:0;transform:translateY(40px) scale(.93)}to{opacity:1;transform:none}}
-.tisa-logo{font-family:'Playfair Display',serif;font-size:54px;font-weight:900;color:var(--primary);line-height:1;margin-bottom:4px;letter-spacing:14px;text-transform:uppercase;text-indent:14px}
+.tisa-logo{font-family:'Playfair Display',serif;font-size:58px;font-weight:400;color:var(--primary);line-height:1;margin-bottom:4px;letter-spacing:22px;text-transform:uppercase;text-indent:22px}
 .tisa-tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--ink3);letter-spacing:3px;margin-bottom:6px}
 .login-quote-box{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--ink2);margin-bottom:22px;line-height:1.7;padding:12px 16px;border-left:3px solid var(--pl);background:var(--bg);border-radius:0 10px 10px 0;text-align:left}
 .welcome-note{background:var(--pglow);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:12px;color:var(--ink2);line-height:1.7;font-weight:500}
@@ -120,7 +133,7 @@ input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 header{background:var(--surface);border-bottom:1.5px solid var(--border);padding:0 16px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:8px;box-shadow:var(--sh)}
 .logo-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .logo-icon-svg{width:36px;height:36px;flex-shrink:0}
-.logo-tisa{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--primary);line-height:1;letter-spacing:4px;text-transform:uppercase}
+.logo-tisa{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--primary);line-height:1;letter-spacing:8px;text-transform:uppercase;text-indent:8px}
 .logo-sub{font-size:9px;color:var(--ink3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:-2px}
 
 /* Desktop nav */
@@ -236,12 +249,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 .tmeta.ol{color:var(--danger)}
 .tag{display:inline-block;padding:2px 7px;background:var(--pglow);color:var(--primary);border-radius:20px;font-size:10px;font-weight:700}
 
-/* ══ STAT BOXES ══ */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
-.stat-box{background:var(--bg);border:1px solid var(--border2);border-radius:12px;padding:12px;text-align:center;transition:all .2s}
-.stat-box:hover{border-color:var(--primary);transform:translateY(-1px)}
-.snum{font-family:'Space Mono',monospace !important;font-size:28px;font-weight:700;color:var(--primary);line-height:1.1;letter-spacing:-1px}
-.slbl{font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px;font-weight:700}
+/* ══ WK CHART ══ */
 .wk-chart{display:flex;align-items:flex-end;gap:5px;height:52px;margin-top:8px}
 .wb-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end}
 .wb{width:100%;background:var(--pl);border-radius:4px 4px 0 0;transition:height .6s cubic-bezier(.34,1.56,.64,1);min-height:3px;cursor:pointer}
@@ -393,13 +401,19 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 
 /* PDF viewer inline */
 .pdf-preview-card{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:6px;background:var(--bg)}
-.pdf-preview-card iframe{width:100%;height:520px;border:none;display:block}
-.pdf-preview-card .pdf-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--surface);border-bottom:1px solid var(--border2);font-size:12px;font-weight:700}
-
+.pdf-preview-card .pdf-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--surface);border-bottom:1px solid var(--border2);font-size:12px;font-weight:700;gap:8px;flex-wrap:wrap}
 /* Test modal */
 #test-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(5px);padding:16px}
 #test-modal.open{display:flex}
-.test-win{background:var(--surface);border:2px solid var(--border);border-radius:22px;width:100%;max-width:800px;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column}
+.test-hdr{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1.5px solid var(--border2);position:sticky;top:0;background:var(--surface);flex-wrap:wrap;gap:8px;flex-shrink:0}
+.test-big-t{font-family:'Space Mono',monospace !important;font-size:28px;font-weight:700;color:var(--primary);letter-spacing:2px}
+.test-big-t.low{color:var(--danger);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.test-pdf-wrap{flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column;background:var(--bg2)}
+.test-pdf-toolbar{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--surface);border-bottom:1px solid var(--border2);flex-shrink:0;flex-wrap:wrap}
+.test-pdf-toolbar span{font-size:12px;font-weight:700;color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.test-pdf-frame{flex:1;width:100%;border:none;display:block;min-height:300px}
+.test-pdf-frame-wrap{flex:1;overflow:auto;-webkit-overflow-scrolling:touch}
 .test-hdr{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1.5px solid var(--border2);position:sticky;top:0;background:var(--surface);flex-wrap:wrap;gap:8px}
 .test-big-t{font-family:'Space Mono',monospace !important;font-size:28px;font-weight:700;color:var(--primary);letter-spacing:2px}
 .test-big-t.low{color:var(--danger);animation:pulse 1s infinite}
@@ -1059,9 +1073,19 @@ Continue with Google</button>
 <div class="cpanel active" id="cpanel-messages">
 <div class="chat-msgs" id="chat-msgs"><div class="empty">Select someone to start chatting</div></div>
 <div style="padding:5px 12px;background:var(--bg);font-size:10px;color:var(--ink3);font-weight:700;border-top:1px solid var(--border2)">🔒 End-to-end encrypted</div>
-<div class="chat-inp-row"><input type="text" id="chat-inp" placeholder="Message..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="csend" onclick="sendMsg()">Send</button></div>
+<div class="chat-inp-row">
+  <label style="padding:12px 10px;cursor:pointer;color:var(--ink3);font-size:16px;border-right:1px solid var(--border2);display:flex;align-items:center" title="Attach image/PDF">
+    📎<input type="file" id="chat-attach" accept="image/*,.pdf" style="display:none" onchange="sendChatFile(this.files)">
+  </label>
+  <input type="text" id="chat-inp" placeholder="Message..." onkeydown="if(event.key==='Enter')sendMsg()">
+  <button class="csend" onclick="sendMsg()">Send</button>
 </div>
-<div class="cpanel" id="cpanel-progress" style="padding:14px;overflow-y:auto"><div id="progress-view"><div class="empty">Open a conversation first</div></div></div>
+</div>
+<div class="cpanel" id="cpanel-progress" style="overflow-y:auto">
+<div id="progress-view" style="padding:14px">
+<div class="empty">Open a conversation first</div>
+</div>
+</div>
 <div class="cpanel" id="cpanel-goals" style="padding:14px;overflow-y:auto"><div id="goals-view"><div class="empty">Open a conversation first</div></div></div>
 </div>
 </div>
@@ -1075,7 +1099,15 @@ Continue with Google</button>
 <div class="ct"><div class="ct-ic">✍</div>Share Anonymously <span class="anon-badge" style="margin-left:auto">🎭 <span id="alias-prev">...</span></span></div>
 <select class="tisa-inp" id="post-cat" style="width:100%;margin-bottom:8px;padding:8px 10px;font-size:12px"><option value="Question">❓ Question</option><option value="Discussion">💬 Discussion</option><option value="Article">📝 Article</option><option value="Tip">💡 Tip</option><option value="Help">🆘 Help</option></select>
 <input type="text" class="tisa-inp" id="post-title" placeholder="Title your post..." style="width:100%;margin-bottom:8px">
-<textarea class="jtarea" id="post-body" placeholder="Share your thoughts..." style="min-height:75px;margin-bottom:10px"></textarea>
+<textarea class="jtarea" id="post-body" placeholder="Share your thoughts, questions, or doubts..." style="min-height:75px;margin-bottom:8px"></textarea>
+<!-- Image/PDF attach for community -->
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+  <label style="display:flex;align-items:center;gap:6px;padding:7px 12px;border:1.5px dashed var(--border);border-radius:9px;cursor:pointer;font-size:11px;font-weight:700;color:var(--ink3);transition:all .2s" id="post-attach-lbl" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border)'">
+    📎 Attach image/PDF
+    <input type="file" id="post-attach" accept="image/*,.pdf" style="display:none" onchange="handlePostAttach(this.files)">
+  </label>
+  <div id="post-attach-preview" style="font-size:11px;color:var(--primary);font-weight:700"></div>
+</div>
 <div style="display:flex;justify-content:flex-end"><button class="btn btn-sm btn-p" onclick="submitPost()">Post Anonymously →</button></div>
 </div>
 <div id="forum-list-v">
@@ -1096,6 +1128,7 @@ Continue with Google</button>
 <div class="anon-badge" id="pv-alias"></div><span id="pv-date"></span>
 </div>
 <div style="font-size:13px;color:var(--ink);line-height:1.8;white-space:pre-wrap;font-weight:500" id="pv-body"></div>
+<div id="pv-attachment" style="margin-top:12px"></div>
 <div style="display:flex;gap:8px;margin-top:12px">
 <button class="vbtn" onclick="voteP(true)">▲ <span id="pv-ups">0</span></button>
 <button class="vbtn" onclick="voteP(false)">▼ <span id="pv-dns">0</span></button>
@@ -1201,10 +1234,22 @@ Continue with Google</button>
 <div class="test-win">
 <div class="test-hdr">
 <div><div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--primary)" id="m-title">Test</div><div style="font-size:11px;color:var(--ink3);font-weight:600" id="m-sub">timed</div></div>
-<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap"><div class="test-big-t" id="m-timer">60:00</div><button class="btn btn-sm btn-o" onclick="addTime5()">+5 min</button></div>
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+  <div class="test-big-t" id="m-timer">60:00</div>
+  <button class="btn btn-sm btn-o" onclick="addTime5()">+5 min</button>
+  <button class="btn btn-sm btn-o" onclick="toggleTestZoom()" id="zoom-btn">⛶ Expand</button>
 </div>
-<div style="padding:20px;flex:1" id="test-body"></div>
-<div style="padding:12px 20px;border-top:1.5px solid var(--border2);display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+</div>
+<!-- PDF toolbar -->
+<div class="test-pdf-toolbar" id="pdf-toolbar" style="display:none">
+  <span id="pdf-name-lbl">—</span>
+  <button class="pill-btn" onclick="rotatePDF()">↻ Rotate</button>
+  <button class="pill-btn" onclick="zoomPDFIn()">＋ Zoom</button>
+  <button class="pill-btn" onclick="zoomPDFOut()">－ Zoom</button>
+  <a id="pdf-download-btn" class="pill-btn" download style="text-decoration:none">⬇ Download</a>
+</div>
+<div class="test-pdf-frame-wrap" id="test-body" style="flex:1;overflow:auto;padding:0"></div>
+<div style="padding:12px 20px;border-top:1.5px solid var(--border2);display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--surface);flex-shrink:0">
 <input type="number" class="tisa-inp" id="m-got" placeholder="Marks got" style="width:88px;padding:7px 10px;font-size:12px" min="0">
 <input type="number" class="tisa-inp" id="m-total" placeholder="Total marks" style="width:98px;padding:7px 10px;font-size:12px" min="0">
 <input type="number" class="tisa-inp" id="m-wrong" placeholder="Wrong answers" style="width:112px;padding:7px 10px;font-size:12px" min="0">
@@ -1318,20 +1363,94 @@ window.tGoal=async(chatId,i)=>{const snap=await getDoc(doc(db,'chats',chatId));c
 window.rmGoal=async(chatId,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const goals=snap.data().goals||[];goals.splice(i,1);await updateDoc(doc(db,'chats',chatId),{goals});};
 window.switchTab=(tab,btn)=>{document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById('cpanel-'+tab).classList.add('active');if(tab==='progress'&&aChatId)loadProgress(aChatId,aOtherUid,document.getElementById('chat-name').textContent.replace('@',''));if(tab==='goals'&&aChatId)loadGoals(aChatId);};
 
+// ── COMMUNITY POST ATTACHMENT ──
+let postAttachData=null,postAttachType=null,postAttachName='';
+window.handlePostAttach=(files)=>{if(!files[0])return;const f=files[0];postAttachName=f.name;const r=new FileReader();r.onload=e=>{postAttachData=e.target.result;postAttachType=f.type;document.getElementById('post-attach-preview').textContent='📎 '+f.name.substring(0,28)+(f.name.length>28?'…':'');};r.readAsDataURL(f);};
+
 // ── FORUM ──
 const aAdj=['Curious','Bright','Focused','Clever','Quiet','Bold','Wise','Swift','Calm','Eager'];
 const aAni=['Panda','Fox','Owl','Wolf','Bear','Lynx','Hawk','Crow','Moth','Hare'];
 function genAlias(s){const n=Math.abs(s.split('').reduce((a,c)=>a+c.charCodeAt(0),0));return aAdj[n%10]+' '+aAni[Math.floor(n/10)%10];}
 let myAlias='';
-function loadForum(){if(!CU)return;myAlias=genAlias(CU.uid+today);document.getElementById('alias-prev').textContent=myAlias;if(forumUnsub)forumUnsub();forumUnsub=onSnapshot(query(collection(db,'posts'),orderBy('ts','desc'),limit(50)),snap=>{const el=document.getElementById('forum-posts');let posts=snap.docs.map(d=>({id:d.id,...d.data()}));if(fFilter!=='all')posts=posts.filter(p=>p.category===fFilter);if(!posts.length){el.innerHTML='<div class="empty">No posts yet. Be the first! 🐼</div>';return;}el.innerHTML=posts.map(p=>`<div class="fcard" onclick="openPost('${p.id}')"><div style="display:flex;gap:7px;align-items:center;margin-bottom:7px"><span class="cat-tag">${esc(p.category||'Post')}</span></div><div class="ft">${esc(p.title||'')}</div><div class="fb2">${esc(p.body||'')}</div><div class="fmeta"><div class="anon-badge">🎭 ${esc(p.alias||'Anonymous')}</div><span>▲ ${p.ups||0}</span><span>💬 ${p.commentCount||0}</span><span>${p.ts?new Date(p.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</span></div></div>`).join('');});}
+function loadForum(){if(!CU)return;myAlias=genAlias(CU.uid+today);document.getElementById('alias-prev').textContent=myAlias;if(forumUnsub)forumUnsub();forumUnsub=onSnapshot(query(collection(db,'posts'),orderBy('ts','desc'),limit(50)),snap=>{const el=document.getElementById('forum-posts');let posts=snap.docs.map(d=>({id:d.id,...d.data()}));if(fFilter!=='all')posts=posts.filter(p=>p.category===fFilter);if(!posts.length){el.innerHTML='<div class="empty">No posts yet. Be the first! 🐼</div>';return;}el.innerHTML=posts.map(p=>`<div class="fcard" onclick="openPost('${p.id}')"><div style="display:flex;gap:7px;align-items:center;margin-bottom:7px"><span class="cat-tag">${esc(p.category||'Post')}</span>${p.hasAttachment?'<span style="font-size:10px;font-weight:700;color:var(--ink3)">📎</span>':''}</div><div class="ft">${esc(p.title||'')}</div><div class="fb2">${esc(p.body||'')}</div><div class="fmeta"><div class="anon-badge">🎭 ${esc(p.alias||'Anonymous')}</div><span>▲ ${p.ups||0}</span><span>💬 ${p.commentCount||0}</span><span>${p.ts?new Date(p.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</span></div></div>`).join('');});}
 window.setFF=(f,btn)=>{fFilter=f;document.querySelectorAll('#forum-list-v .fbtn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');loadForum();};
-window.submitPost=async()=>{const title=document.getElementById('post-title').value.trim(),body=document.getElementById('post-body').value.trim(),cat=document.getElementById('post-cat').value;if(!title||!body){toast('Add title and content');return;}await addDoc(collection(db,'posts'),{title,body,category:cat,alias:myAlias,ts:serverTimestamp(),ups:0,downs:0,commentCount:0});document.getElementById('post-title').value='';document.getElementById('post-body').value='';toast('Posted! 🐼');};
-window.openPost=async(pid)=>{curPostId=pid;const snap=await getDoc(doc(db,'posts',pid));const p=snap.data();document.getElementById('forum-list-v').style.display='none';document.getElementById('write-sec').style.display='none';document.getElementById('post-view').style.display='block';document.getElementById('pv-cat').textContent=p.category||'Post';document.getElementById('pv-title').textContent=p.title||'';document.getElementById('pv-body').textContent=p.body||'';document.getElementById('pv-alias').textContent='🎭 '+(p.alias||'Anonymous');document.getElementById('pv-date').textContent=p.ts?new Date(p.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';document.getElementById('pv-ups').textContent=p.ups||0;document.getElementById('pv-dns').textContent=p.downs||0;onSnapshot(query(collection(db,'posts',pid,'comments'),orderBy('ts','asc'),limit(100)),snap=>{const el=document.getElementById('cmt-list');document.getElementById('cmt-cnt').textContent=`(${snap.size})`;if(snap.empty){el.innerHTML='<div class="empty">No comments yet</div>';return;}el.innerHTML=snap.docs.map(d=>{const c=d.data();return`<div style="padding:9px 13px;background:var(--bg);border-radius:9px;border-left:3px solid var(--border);margin-bottom:7px"><div style="font-size:12px;font-weight:600">${esc(c.text||'')}</div><div style="font-size:10px;color:var(--ink3);margin-top:3px;font-weight:600">🎭 ${esc(c.alias||'Anonymous')} · ${c.ts?new Date(c.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</div></div>`;}).join('');});};
+window.submitPost=async()=>{const title=document.getElementById('post-title').value.trim(),body=document.getElementById('post-body').value.trim(),cat=document.getElementById('post-cat').value;if(!title||!body){toast('Add title and content');return;}const postObj={title,body,category:cat,alias:myAlias,ts:serverTimestamp(),ups:0,downs:0,commentCount:0,hasAttachment:!!postAttachData};if(postAttachData)postObj.attachment={data:postAttachData,type:postAttachType,name:postAttachName};await addDoc(collection(db,'posts'),postObj);document.getElementById('post-title').value='';document.getElementById('post-body').value='';document.getElementById('post-attach-preview').textContent='';postAttachData=null;postAttachType=null;document.getElementById('post-attach').value='';toast('Posted! 🐼');};
+window.openPost=async(pid)=>{curPostId=pid;const snap=await getDoc(doc(db,'posts',pid));const p=snap.data();document.getElementById('forum-list-v').style.display='none';document.getElementById('write-sec').style.display='none';document.getElementById('post-view').style.display='block';document.getElementById('pv-cat').textContent=p.category||'Post';document.getElementById('pv-title').textContent=p.title||'';document.getElementById('pv-body').textContent=p.body||'';document.getElementById('pv-alias').textContent='🎭 '+(p.alias||'Anonymous');document.getElementById('pv-date').textContent=p.ts?new Date(p.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';document.getElementById('pv-ups').textContent=p.ups||0;document.getElementById('pv-dns').textContent=p.downs||0;
+// Render attachment
+const attEl=document.getElementById('pv-attachment');if(p.attachment){const a=p.attachment;if(a.type&&a.type.startsWith('image/')){attEl.innerHTML=`<div style="margin-top:8px;border:1.5px solid var(--border);border-radius:12px;overflow:hidden"><div style="padding:6px 10px;background:var(--bg);font-size:10px;font-weight:700;color:var(--ink3)">📎 ${esc(a.name||'Image')}</div><img src="${a.data}" style="width:100%;max-height:400px;object-fit:contain;display:block;background:#000"></div>`;}else if(a.data){attEl.innerHTML=`<div style="margin-top:8px;border:1.5px solid var(--border);border-radius:12px;overflow:hidden"><div style="padding:6px 10px 0;background:var(--bg);font-size:10px;font-weight:700;color:var(--ink3);display:flex;justify-content:space-between">📄 ${esc(a.name||'PDF')} <a href="${a.data}" target="_blank" class="pill-btn" style="font-size:10px;text-decoration:none;padding:3px 10px">Open ↗</a></div><iframe src="${a.data}" style="width:100%;height:450px;border:none;display:block"></iframe></div>`;}}else attEl.innerHTML='';
+onSnapshot(query(collection(db,'posts',pid,'comments'),orderBy('ts','asc'),limit(100)),snap=>{const el=document.getElementById('cmt-list');document.getElementById('cmt-cnt').textContent=`(${snap.size})`;if(snap.empty){el.innerHTML='<div class="empty">No comments yet</div>';return;}el.innerHTML=snap.docs.map(d=>{const c=d.data();let att='';if(c.attachment){if(c.attachment.type&&c.attachment.type.startsWith('image/'))att=`<img src="${c.attachment.data}" style="max-width:100%;border-radius:8px;margin-top:6px;display:block">`;else att=`<a href="${c.attachment.data}" target="_blank" style="font-size:10px;color:var(--primary);font-weight:700">📄 ${esc(c.attachment.name)}</a>`;}return`<div style="padding:9px 13px;background:var(--bg);border-radius:9px;border-left:3px solid var(--border);margin-bottom:7px"><div style="font-size:12px;font-weight:600">${esc(c.text||'')}</div>${att}<div style="font-size:10px;color:var(--ink3);margin-top:3px;font-weight:600">🎭 ${esc(c.alias||'Anonymous')} · ${c.ts?new Date(c.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</div></div>`;}).join('');});};
 window.backForum=()=>{document.getElementById('forum-list-v').style.display='block';document.getElementById('write-sec').style.display='block';document.getElementById('post-view').style.display='none';curPostId=null;};
 window.voteP=async(up)=>{if(!curPostId)return;const ref=doc(db,'posts',curPostId);const snap=await getDoc(ref);const d=snap.data();if(up){await updateDoc(ref,{ups:(d.ups||0)+1});document.getElementById('pv-ups').textContent=(d.ups||0)+1;}else{await updateDoc(ref,{downs:(d.downs||0)+1});document.getElementById('pv-dns').textContent=(d.downs||0)+1;}};
-window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt)return;inp.value='';await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias:genAlias(CU.uid+curPostId),ts:serverTimestamp()});};
+// Comment with optional file
+let cmtAttachData=null,cmtAttachType=null,cmtAttachName='';
+window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt&&!cmtAttachData)return;inp.value='';const obj={text:txt||'',alias:genAlias(CU.uid+curPostId),ts:serverTimestamp()};if(cmtAttachData)obj.attachment={data:cmtAttachData,type:cmtAttachType,name:cmtAttachName};await addDoc(collection(db,'posts',curPostId,'comments'),obj);cmtAttachData=null;cmtAttachType=null;};
 
-// ── HEALTH ──
+// ── CHAT FILE SEND ──
+window.sendChatFile=async(files)=>{if(!files[0]||!aChatId){toast('Select a conversation first');return;}const f=files[0];const r=new FileReader();r.onload=async(e)=>{const ck=cKey(CU.uid,aOtherUid);const isImg=f.type.startsWith('image/');const msgObj={text:xE(isImg?'[image]':'[pdf: '+f.name+']',ck),encrypted:true,sender:CU.uid,sName:CU.displayName,suname:window._uname||'',ts:serverTimestamp(),fileType:f.type,fileName:f.name,fileData:e.target.result};await addDoc(collection(db,'chats',aChatId,'messages'),msgObj);document.getElementById('chat-attach').value='';toast('File sent! 📎');};r.readAsDataURL(f);};
+
+// Patch chat renderer to show images/PDFs
+function renderChatMsg(m,ck,me){const txt=m.encrypted?xD(m.text,ck):m.text;const t=m.ts?new Date(m.ts.toDate()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';let content='';if(m.fileData){if(m.fileType&&m.fileType.startsWith('image/')){content=`<img src="${m.fileData}" style="max-width:180px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px;cursor:pointer" onclick="window.open(this.src)">`;}else{content=`<a href="${m.fileData}" target="_blank" style="display:flex;align-items:center;gap:5px;color:${me?'white':'var(--primary)'};font-size:11px;font-weight:700;text-decoration:none">📄 ${esc(m.fileName||'File')}</a>`;}}else{content=esc(txt);}return`<div class="msg ${me?'me':'them'}">${content}<div class="msg-t">${t}${!me?' · @'+esc(m.suname||m.sName||''):''}${me?' 🔒':''}</div></div>`;}
+
+// Mutual progress/todos in progress tab
+function loadProgress(chatId,oUid,oName){const el=document.getElementById('progress-view');el.style.padding='14px';
+const myH=studyData[today]||0,goal=8*3600,myP=Math.min(100,Math.round(myH/goal*100));
+getDoc(doc(db,'userData',oUid)).then(snap=>{const od=snap.exists()?snap.data():{};const oSD=od.studyData||{};const oH=oSD[today]||0;const oP=Math.min(100,Math.round(oH/goal*100));let wM=0,wO=0;for(let i=0;i<7;i++){wM+=(studyData[dStr(i)]||0);wO+=(oSD[dStr(i)]||0);}const myUname='@'+(window._uname||'You');const oUname='@'+oName;
+el.innerHTML=`
+<div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">📊 Today's Study Progress</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+  <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center">
+    <div style="font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:6px">${esc(myUname)}</div>
+    <div class="snum" style="font-size:20px">${fmtH(myH)}</div>
+    <div class="pt-bar-w"><div class="pt-bar" style="width:${myP}%"></div></div>
+    <div style="font-size:10px;color:var(--ink3);font-weight:700">${myP}% of daily goal</div>
+  </div>
+  <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center">
+    <div style="font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:6px">${esc(oUname)}</div>
+    <div class="snum" style="font-size:20px">${fmtH(oH)}</div>
+    <div class="pt-bar-w"><div class="pt-bar" style="width:${oP}%;opacity:.7"></div></div>
+    <div style="font-size:10px;color:var(--ink3);font-weight:700">${oP}% of daily goal</div>
+  </div>
+</div>
+<div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📋 Mutual Task Tracker</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px">
+    <div style="font-size:11px;font-weight:800;color:var(--primary);margin-bottom:6px">${esc(myUname)} Tasks</div>
+    <div id="mutual-my-todos" style="max-height:140px;overflow-y:auto;margin-bottom:7px"></div>
+    <div style="display:flex;gap:5px"><input type="text" class="tisa-inp" id="mut-my-inp" placeholder="Add task..." style="flex:1;padding:6px 8px;font-size:11px" onkeydown="if(event.key==='Enter')addMutualTodo('${chatId}','my')"><button class="btn btn-sm btn-p" style="padding:6px 9px;font-size:11px" onclick="addMutualTodo('${chatId}','my')">+</button></div>
+  </div>
+  <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px">
+    <div style="font-size:11px;font-weight:800;color:var(--ink3);margin-bottom:6px">${esc(oUname)} Tasks</div>
+    <div id="mutual-o-todos" style="max-height:140px;overflow-y:auto"></div>
+  </div>
+</div>`;
+// Live mutual todos
+onSnapshot(doc(db,'chats',chatId),cSnap=>{if(!cSnap.exists())return;const cd=cSnap.data();const myTd=(cd.mutualTodos||{})[CU.uid]||[];const oTd=(cd.mutualTodos||{})[oUid]||[];const myEl=document.getElementById('mutual-my-todos');const oEl=document.getElementById('mutual-o-todos');if(myEl)myEl.innerHTML=myTd.length?myTd.map((t,i)=>`<div style="display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:1px dashed var(--border2);font-size:11px"><div style="width:14px;height:14px;border:1.5px solid var(--primary);border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;${t.done?'background:var(--primary)':''}" onclick="toggleMutualTodo('${chatId}','${CU.uid}',${i})">${t.done?'✓':''}</div><span style="${t.done?'text-decoration:line-through;opacity:.4':''};flex:1">${esc(t.text)}</span><button style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--ink3)" onclick="removeMutualTodo('${chatId}','${CU.uid}',${i})">×</button></div>`).join(''):'<div style="font-size:11px;color:var(--ink3);padding:4px">No tasks yet</div>';
+if(oEl)oEl.innerHTML=oTd.length?oTd.map((t,i)=>`<div style="display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:1px dashed var(--border2);font-size:11px"><div style="width:14px;height:14px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;${t.done?'background:var(--success);border-color:var(--success)':''}">${t.done?'<span style="color:white;font-size:9px">✓</span>':''}</div><span style="${t.done?'text-decoration:line-through;opacity:.4':''};flex:1">${esc(t.text)}</span></div>`).join(''):'<div style="font-size:11px;color:var(--ink3);padding:4px">No tasks yet</div>';});});
+}
+
+window.addMutualTodo=async(chatId,who)=>{const inp=document.getElementById('mut-my-inp');const txt=inp.value.trim();if(!txt)return;inp.value='';const snap=await getDoc(doc(db,'chats',chatId));const cd=snap.exists()?snap.data():{};const mt={...(cd.mutualTodos||{})};const uid=CU.uid;mt[uid]=[...(mt[uid]||[]),{text:txt,done:false}];await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});};
+window.toggleMutualTodo=async(chatId,uid,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const cd=snap.data();const mt={...(cd.mutualTodos||{})};mt[uid]=[...mt[uid]];mt[uid][i]={...mt[uid][i],done:!mt[uid][i].done};await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});};
+window.removeMutualTodo=async(chatId,uid,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const cd=snap.data();const mt={...(cd.mutualTodos||{})};mt[uid]=[...mt[uid]];mt[uid].splice(i,1);await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});};
+
+// Patch openChat to use new renderer
+window.openChat=(chatId,oUid,oName,oUname)=>{aChatId=chatId;aOtherUid=oUid;document.getElementById('chat-av').textContent=(oName||'?')[0];document.getElementById('chat-name').textContent='@'+(oUname||oName);document.getElementById('chat-sub').textContent='@'+oUname+' · 🔒 encrypted';document.querySelectorAll('.uitem').forEach(i=>i.classList.remove('sel'));const sel=document.getElementById('ci-'+chatId);if(sel)sel.classList.add('sel');if(chatUnsub)chatUnsub();const ck=cKey(CU.uid,oUid);
+chatUnsub=onSnapshot(query(collection(db,'chats',chatId,'messages'),orderBy('ts','asc'),limit(200)),snap=>{const el=document.getElementById('chat-msgs');if(snap.empty){el.innerHTML='<div class="empty">No messages yet. Say hello! 🐼</div>';return;}el.innerHTML=snap.docs.map(d=>{const m=d.data();const me=m.sender===CU.uid;return renderChatMsg(m,ck,me);}).join('');el.scrollTop=el.scrollHeight;});loadProgress(chatId,oUid,oName);loadGoals(chatId);};
+
+// ── PDF TEST VIEWER ──
+let pdfZoom=1,pdfRotate=0,curTestPaperData=null,curTestPaperType=null;
+window.toggleTestZoom=()=>{const modal=document.getElementById('test-modal');const isMax=modal.style.padding==='0px';modal.style.padding=isMax?'16px':'0px';document.getElementById('zoom-btn').textContent=isMax?'⛶ Expand':'⛶ Exit';};
+window.rotatePDF=()=>{pdfRotate=(pdfRotate+90)%360;updatePDFView();};
+window.zoomPDFIn=()=>{pdfZoom=Math.min(pdfZoom+0.25,3);updatePDFView();};
+window.zoomPDFOut=()=>{pdfZoom=Math.max(pdfZoom-0.25,0.5);updatePDFView();};
+function updatePDFView(){const tb=document.getElementById('test-body');if(!curTestPaperData)return;if(curTestPaperType&&curTestPaperType.startsWith('image/')){const img=tb.querySelector('img');if(img){img.style.transform=`scale(${pdfZoom}) rotate(${pdfRotate}deg)`;img.style.transformOrigin='top left';}}else{const ifr=tb.querySelector('iframe');if(ifr){ifr.style.transform=`scale(${pdfZoom}) rotate(${pdfRotate}deg)`;ifr.style.transformOrigin='top left';ifr.style.width=(100/pdfZoom)+'%';ifr.style.height=(600/pdfZoom)+'px';}}}
+
+// ── OFFLINE / SERVICE WORKER ──
+if('serviceWorker' in navigator){const swCode=`
+const CACHE='tisa-v1';
+const ASSETS=['/'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{if(res.ok){const cl=res.clone();caches.open(CACHE).then(c=>c.put(e.request,cl));}return res;}).catch(()=>caches.match('/'))));});
+`;const blob=new Blob([swCode],{type:'application/javascript'});const swUrl=URL.createObjectURL(blob);navigator.serviceWorker.register(swUrl).then(()=>console.log('TISA: Offline ready ✓')).catch(()=>{});}
 const hItems=[{i:'🥤',t:'Drink some water!'},{i:'🍎',t:'Time to eat!'},{i:'☕',t:'Take a break!'},{i:'🏃',t:'Stretch & move!'},{i:'🌬️',t:"Deep breath — great job!"}];
 let hVis=false;
 function startHealth(){setInterval(()=>toast(hItems[Math.floor(Math.random()*hItems.length)].i+' '+hItems[Math.floor(Math.random()*hItems.length)].t),45*60*1000);}
@@ -1358,7 +1477,9 @@ const today=new Date().toISOString().split('T')[0];
 function save(){if(window._save)window._save();}
 function pad(n){return String(n).padStart(2,'0');}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function fmtH(s){if(!s)return'0h';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;if(h>0)return m>0?`${h}h ${m}m`:`${h}h`;if(m>0)return`${m}m ${sc}s`;return`${sc}s`;}
+function fmtH(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;return`${h}:${pad(m)}:${pad(sc)}`;}
+function fmtHShort(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;return`${h}:${pad(m)}:${pad(sc)}`;}
+function fmtHLabel(s){if(!s)return'0h';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);if(h>0)return m>0?`${h}h ${m}m`:`${h}h`;if(m>0)return`${m}m`;return`<1m`;}
 function fmtHMS(s){return`${pad(Math.floor(s/3600))}:${pad(Math.floor((s%3600)/60))}:${pad(s%60)}`;}
 function dStr(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];}
 function fmtDate(d){return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
@@ -1430,7 +1551,7 @@ function updTD(){const t=fmtHMS(tSecs);document.getElementById('t-digits').textC
 function updTRing(){const dur=pomoMode?(pomoState==='work'?pomoDur*60:brkDur*60):3600;const pct=Math.min(1,tSecs/dur);document.getElementById('t-prog').style.strokeDashoffset=408*(1-pct);}
 function saveSecs(s){studyData[today]=(studyData[today]||0)+s;save();renderStats();renderWkChart();renderCal();renderBigChart();renderPieChart();checkXP();}
 function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel').value,dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});tSecs=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
-function renderSessLog(){const el=document.getElementById('sess-log');if(!sessions.length){el.innerHTML='';return;}el.innerHTML=sessions.slice(0,4).map(s=>`<div class="sess-item"><span class="tag" style="font-size:10px">${esc(s.sub)}</span><span style="font-weight:800;color:var(--primary)">${fmtH(s.dur)}</span><span style="color:var(--ink3)">${s.time}</span></div>`).join('');}
+function renderSessLog(){const el=document.getElementById('sess-log');if(!sessions.length){el.innerHTML='';return;}el.innerHTML=sessions.slice(0,4).map(s=>`<div class="sess-item"><span class="tag" style="font-size:10px">${esc(s.sub)}</span><span style="font-weight:800;color:var(--primary);font-family:'Space Mono',monospace">${fmtHLabel(s.dur)}</span><span style="color:var(--ink3)">${s.time}</span></div>`).join('');}
 function renderStats(){const ts=studyData[today]||0;document.getElementById('st-today').textContent=fmtH(ts);let ws=0;for(let i=0;i<7;i++)ws+=(studyData[dStr(i)]||0);document.getElementById('st-week').textContent=fmtH(ws);let st=0;for(let i=0;i<365;i++){if(studyData[dStr(i)]>0)st++;else if(i>0)break;}document.getElementById('st-streak').textContent=st;document.getElementById('st-sess').textContent=sessions.length;}
 function renderWkChart(){const days=['S','M','T','W','T','F','S'],dow=new Date().getDay(),el=document.getElementById('wk-chart');if(!el)return;const vals=[];for(let i=6;i>=0;i--)vals.push({l:days[(dow-i+7)%7],v:studyData[dStr(i)]||0});const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map((v,i)=>`<div class="wb-wrap"><div class="wb ${i===6?'today':''}" style="height:${Math.round(v.v/mx*48)+3}px" title="${fmtH(v.v)}"></div><div class="wb-lbl">${v.l}</div></div>`).join('');}
 window.setPomoDur=(m,btn)=>{pomoDur=m;const card=btn.closest('.card,.cpanel,.page');if(card){const chips=card.querySelectorAll('.time-chip');chips.forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');}document.getElementById('pomo-dur-lbl').textContent=m+'m';document.getElementById('pomo-total').textContent=calcPomoTotal();};
@@ -1474,9 +1595,9 @@ function renderTodos(){const el=document.getElementById('todo-list');const dn=to
 
 // ══ PERFORMANCE CHARTS ══
 const PIE_COLORS=['#5c7a3e','#7db356','#d4688a','#2a7fa8','#d4783a','#8b6fd4','#c8941a','#2d7a3a'];
-function renderBigChart(){const el=document.getElementById('big-chart');if(!el)return;const vals=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];vals.push({l:d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:(studyData[ds]||0)/3600,ds});}const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map((v,i)=>`<div class="bc-bar-wrap"><div class="bc-bar" style="height:${Math.round(v.v/mx*150)+4}px;width:100%;min-width:20px"><div class="bc-bar-tip">${v.v.toFixed(1)}h</div></div><div class="bc-lbl">${v.ds===today?'Today':new Date(v.ds+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</div></div>`).join('');let tw=0,lw=0;for(let i=0;i<7;i++)tw+=(studyData[dStr(i)]||0);for(let i=7;i<14;i++)lw+=(studyData[dStr(i)]||0);document.getElementById('pw-this').textContent=fmtH(tw);document.getElementById('pw-last').textContent=fmtH(lw);const diff=tw-lw;const d2=document.getElementById('pw-diff');d2.textContent=diff>=0?`↑ +${fmtH(diff)} vs last week`:`↓ ${fmtH(Math.abs(diff))} vs last week`;d2.style.color=diff>=0?'var(--success)':'var(--danger)';}
-function renderPieChart(){const canvas=document.getElementById('pie-canvas');if(!canvas)return;const ctx=canvas.getContext('2d');const subTotals={};sessions.forEach(s=>{subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const entries=Object.entries(subTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,7);const total=entries.reduce((a,[,v])=>a+v,0);ctx.clearRect(0,0,150,150);if(!total){ctx.fillStyle='var(--bg3)';ctx.beginPath();ctx.arc(75,75,65,0,Math.PI*2);ctx.fill();document.getElementById('pie-legend').innerHTML='<div style="font-size:11px;color:var(--ink3);font-weight:600">Start studying to see chart!</div>';return;}let angle=-Math.PI/2;entries.forEach(([s,v],i)=>{const slice=(v/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,65,angle,angle+slice);ctx.closePath();ctx.fillStyle=PIE_COLORS[i%PIE_COLORS.length];ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();angle+=slice;});document.getElementById('pie-legend').innerHTML=entries.map(([s,v],i)=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${PIE_COLORS[i%PIE_COLORS.length]}"></div><span>${esc(s)}</span><span style="margin-left:auto;color:var(--primary);font-weight:800">${fmtH(v)}</span></div>`).join('');}
-function renderSubjPerf(){const el=document.getElementById('subj-perf');if(!el)return;const subTotals={};sessions.forEach(s=>{subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const sorted=Object.entries(subTotals).sort((a,b)=>b[1]-a[1]).slice(0,5);if(!sorted.length){el.innerHTML='<div class="empty">No study data yet</div>';return;}const mx=Math.max(...sorted.map(([,v])=>v),1);el.innerHTML=sorted.map(([s,v],i)=>`<div class="sp-item"><div style="font-size:11px;font-weight:700;width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s)}</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:${Math.round(v/mx*100)}%;background:${PIE_COLORS[i%PIE_COLORS.length]}"></div></div><div style="font-size:11px;font-weight:800;color:var(--primary);width:40px;text-align:right">${fmtH(v)}</div></div>`).join('');let allTime=0;Object.values(studyData).forEach(v=>allTime+=v);const days=Object.values(studyData).filter(v=>v>0);const avg=days.length?allTime/days.length:0;const best=Math.max(...Object.values(studyData),0);document.getElementById('p-total-h').textContent=fmtH(allTime);document.getElementById('p-best-day').textContent=fmtH(best);document.getElementById('p-avg').textContent=fmtH(avg);document.getElementById('p-tests-c').textContent=pastTests.length;}
+function renderBigChart(){const el=document.getElementById('big-chart');if(!el)return;const vals=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];vals.push({l:d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:(studyData[ds]||0)/3600,ds,s:studyData[ds]||0});}const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map((v,i)=>`<div class="bc-bar-wrap"><div class="bc-bar" style="height:${Math.round(v.v/mx*150)+4}px;width:100%;min-width:20px"><div class="bc-bar-tip">${fmtHLabel(v.s)}</div></div><div class="bc-lbl">${v.ds===today?'Today':new Date(v.ds+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</div></div>`).join('');let tw=0,lw=0;for(let i=0;i<7;i++)tw+=(studyData[dStr(i)]||0);for(let i=7;i<14;i++)lw+=(studyData[dStr(i)]||0);document.getElementById('pw-this').textContent=fmtH(tw);document.getElementById('pw-last').textContent=fmtH(lw);const diff=tw-lw;const d2=document.getElementById('pw-diff');d2.textContent=diff>=0?`↑ +${fmtHLabel(diff)} vs last week`:`↓ ${fmtHLabel(Math.abs(diff))} vs last week`;d2.style.color=diff>=0?'var(--success)':'var(--danger)';}
+function renderPieChart(){const canvas=document.getElementById('pie-canvas');if(!canvas)return;const ctx=canvas.getContext('2d');const subTotals={};sessions.forEach(s=>{subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const entries=Object.entries(subTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,7);const total=entries.reduce((a,[,v])=>a+v,0);ctx.clearRect(0,0,150,150);if(!total){ctx.fillStyle='var(--bg3)';ctx.beginPath();ctx.arc(75,75,65,0,Math.PI*2);ctx.fill();document.getElementById('pie-legend').innerHTML='<div style="font-size:11px;color:var(--ink3);font-weight:600">Start studying to see chart!</div>';return;}let angle=-Math.PI/2;entries.forEach(([s,v],i)=>{const slice=(v/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,65,angle,angle+slice);ctx.closePath();ctx.fillStyle=PIE_COLORS[i%PIE_COLORS.length];ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();angle+=slice;});document.getElementById('pie-legend').innerHTML=entries.map(([s,v],i)=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${PIE_COLORS[i%PIE_COLORS.length]}"></div><span>${esc(s)}</span><span style="margin-left:auto;color:var(--primary);font-weight:800">${fmtHLabel(v)}</span></div>`).join('');}
+function renderSubjPerf(){const el=document.getElementById('subj-perf');if(!el)return;const subTotals={};sessions.forEach(s=>{subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const sorted=Object.entries(subTotals).sort((a,b)=>b[1]-a[1]).slice(0,5);if(!sorted.length){el.innerHTML='<div class="empty">No study data yet</div>';return;}const mx=Math.max(...sorted.map(([,v])=>v),1);el.innerHTML=sorted.map(([s,v],i)=>`<div class="sp-item"><div style="font-size:11px;font-weight:700;width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s)}</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:${Math.round(v/mx*100)}%;background:${PIE_COLORS[i%PIE_COLORS.length]}"></div></div><div style="font-size:11px;font-weight:800;color:var(--primary);width:52px;text-align:right;font-family:'Space Mono',monospace">${fmtHLabel(v)}</div></div>`).join('');let allTime=0;Object.values(studyData).forEach(v=>allTime+=v);const days=Object.values(studyData).filter(v=>v>0);const avg=days.length?allTime/days.length:0;const best=Math.max(...Object.values(studyData),0);document.getElementById('p-total-h').textContent=fmtH(allTime);document.getElementById('p-best-day').textContent=fmtHLabel(best)||'—';document.getElementById('p-avg').textContent=fmtH(avg);document.getElementById('p-tests-c').textContent=pastTests.length;}
 
 // ══ PAPERS & TESTS (with inline PDF preview) ══
 let testTimeSelected=60;
@@ -1503,7 +1624,7 @@ window.previewPaper=(id)=>{
   }
   prev.scrollIntoView({behavior:'smooth',block:'nearest'});
 };
-window.startTest=()=>{const id=document.getElementById('tpsel').value;if(!id){toast('Select a paper first');return;}const paper=papers.find(p=>p.id==id);if(!paper)return;testPaper=paper;testLeft=testTimeSelected*60;document.getElementById('m-title').textContent=paper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';const body=document.getElementById('test-body');if(paper.type&&paper.type.startsWith('image/'))body.innerHTML=`<img src="${paper.dataUrl}" style="max-width:100%;border-radius:12px">`;else body.innerHTML=`<iframe style="width:100%;height:500px;border:1.5px solid var(--border);border-radius:12px" src="${paper.dataUrl}"></iframe>`;document.getElementById('test-modal').classList.add('open');updTestT();testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)submitTest();},1000);};
+window.startTest=()=>{const id=document.getElementById('tpsel').value;if(!id){toast('Select a paper first');return;}const paper=papers.find(p=>p.id==id);if(!paper)return;testPaper=paper;testLeft=testTimeSelected*60;pdfZoom=1;pdfRotate=0;curTestPaperData=paper.dataUrl;curTestPaperType=paper.type;document.getElementById('m-title').textContent=paper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';document.getElementById('pdf-name-lbl').textContent=paper.name;document.getElementById('pdf-download-btn').href=paper.dataUrl;document.getElementById('pdf-download-btn').download=paper.name;const toolbar=document.getElementById('pdf-toolbar');const body=document.getElementById('test-body');body.style.padding='0';if(paper.type&&paper.type.startsWith('image/')){toolbar.style.display='flex';body.innerHTML=`<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="${paper.dataUrl}" style="max-width:100%;border-radius:4px;transition:transform .3s;cursor:zoom-in" id="test-img"></div>`;}else{toolbar.style.display='flex';body.innerHTML=`<iframe src="${paper.dataUrl}" style="width:100%;height:560px;border:none;display:block;transition:transform .3s" id="test-iframe"></iframe>`;}document.getElementById('test-modal').classList.add('open');updTestT();testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)submitTest();},1000);document.getElementById('m-got').value='';document.getElementById('m-total').value='';document.getElementById('m-wrong').value='';};
 window.addTime5=()=>{testLeft+=300;toast('+5 min added ⏱');updTestT();};
 function updTestT(){const m=Math.floor(testLeft/60),s=testLeft%60;const el=document.getElementById('m-timer');el.textContent=`${pad(m)}:${pad(s)}`;el.classList.toggle('low',testLeft<=300);}
 window.endTest=()=>{clearInterval(testInt);document.getElementById('test-modal').classList.remove('open');};
@@ -1548,7 +1669,7 @@ function renderJSidebar(){const el=document.getElementById('j-sidebar');const da
 function renderProfilePage(){if(!window._CU)return;document.getElementById('prof-name').textContent=window._CU.displayName||'Student';const pAv=document.getElementById('prof-av');if(customAvatarUrl){pAv.innerHTML=`<img src="${customAvatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;}else if(window._CU.photoURL){pAv.innerHTML=`<img src="${window._CU.photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;}else pAv.textContent=(window._CU.displayName||'?')[0];
 const uname=window._uname||window._CU.displayName||'';document.getElementById('prof-uname').textContent='@'+uname;document.getElementById('user-dname').textContent='@'+uname;
 let allTime=0;Object.values(studyData).forEach(v=>allTime+=v);let ws=0;for(let i=0;i<7;i++)ws+=(studyData[dStr(i)]||0);let st=0;for(let i=0;i<365;i++){if(studyData[dStr(i)]>0)st++;else if(i>0)break;}document.getElementById('p-alltime').textContent=fmtH(allTime);document.getElementById('p-wk').textContent=fmtH(ws);document.getElementById('p-st').textContent=st;document.getElementById('p-ts').textContent=pastTests.length;
-const el=document.getElementById('recent-act');const acts=[];sessions.slice(0,3).forEach(s=>acts.push({icon:'⏱',text:`Studied ${fmtH(s.dur)} of ${s.sub}`,time:s.time}));pastTests.slice(0,2).forEach(t=>acts.push({icon:'📝',text:`Test: ${t.name.split('.')[0]}`,time:t.date}));if(!acts.length){el.innerHTML='<div class="empty">No activity yet</div>';}else{el.innerHTML=acts.map(a=>`<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px dashed var(--border2);font-size:12px;font-weight:600;flex-wrap:wrap"><span style="font-size:16px;flex-shrink:0">${a.icon}</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.text)}</span><span style="font-size:10px;color:var(--ink3);font-weight:600;flex-shrink:0">${a.time}</span></div>`).join('');}renderXP();renderBadges();}
+const el=document.getElementById('recent-act');const acts=[];sessions.slice(0,3).forEach(s=>acts.push({icon:'⏱',text:`Studied ${fmtHLabel(s.dur)} of ${s.sub}`,time:s.time}));pastTests.slice(0,2).forEach(t=>acts.push({icon:'📝',text:`Test: ${t.name.split('.')[0]}`,time:t.date}));if(!acts.length){el.innerHTML='<div class="empty">No activity yet</div>';}else{el.innerHTML=acts.map(a=>`<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px dashed var(--border2);font-size:12px;font-weight:600;flex-wrap:wrap"><span style="font-size:16px;flex-shrink:0">${a.icon}</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(a.text)}</span><span style="font-size:10px;color:var(--ink3);font-weight:600;flex-shrink:0">${a.time}</span></div>`).join('');}renderXP();renderBadges();}
 
 // ══ PAGE NAVIGATION ══
 window.showPage=(name,btn)=>{document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById('page-'+name).classList.add('active');if(btn)btn.classList.add('active');// Sync mobile nav
