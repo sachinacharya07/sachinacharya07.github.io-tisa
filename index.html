@@ -109,6 +109,8 @@ input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 .welcome-note{background:var(--pglow);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:12px;color:var(--ink2);line-height:1.7;font-weight:500}
 .google-btn{display:flex;align-items:center;gap:12px;justify-content:center;width:100%;padding:14px 24px;background:var(--primary);color:white;border:none;border-radius:14px;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:.3px;transition:all .25s;box-shadow:0 4px 18px var(--pglow)}
 .google-btn:hover,.google-btn:active{background:var(--pd);transform:translateY(-2px);box-shadow:0 7px 24px var(--pglow)}
+.google-btn:disabled{opacity:.7;transform:none;cursor:not-allowed}
+@keyframes spin{to{transform:rotate(360deg)}}
 .google-btn svg{width:18px;height:18px;flex-shrink:0}
 .login-theme-row{display:flex;gap:10px;justify-content:center;margin-top:18px;align-items:center}
 .lt-dot{width:20px;height:20px;border-radius:50%;cursor:pointer;transition:all .2s;border:2.5px solid transparent;flex-shrink:0}
@@ -649,9 +651,44 @@ footer span{color:var(--ink3)}
 <div class="tisa-tagline">study companion</div>
 <div class="login-quote-box"><span id="lq">Loading quote...</span></div>
 <div class="welcome-note">👋 Welcome to TISA! Track study time, connect with peers, earn badges, and grow every day. Sign in to begin your journey. 🌿</div>
-<button class="google-btn" onclick="signInWithGoogle()">
+<button class="google-btn" id="google-btn" onclick="handleSignIn(this)">
 <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
 Continue with Google</button>
+<script>
+// Bridge: queue sign-in if module not loaded yet
+window._signInPending = false;
+window.handleSignIn = function(btn) {
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-block;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0"></span> Signing in...';
+  if (typeof window.signInWithGoogle === 'function') {
+    window.signInWithGoogle().catch(function(e){
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Continue with Google';
+      if(window.toast) window.toast('Sign-in failed: ' + (e.message||'Try again'));
+    });
+  } else {
+    // Module not yet loaded — wait up to 8s
+    window._signInPending = true;
+    var waited = 0;
+    var iv = setInterval(function(){
+      waited += 100;
+      if (typeof window.signInWithGoogle === 'function') {
+        clearInterval(iv);
+        window._signInPending = false;
+        window.signInWithGoogle().catch(function(){
+          btn.disabled = false;
+          btn.textContent = 'Continue with Google';
+        });
+      } else if (waited > 8000) {
+        clearInterval(iv);
+        btn.disabled = false;
+        btn.textContent = 'Continue with Google';
+        alert('Sign-in unavailable. Please check your internet connection and try again.');
+      }
+    }, 100);
+  }
+};
+</script>
 <div class="login-theme-row">
 <span style="font-size:10px;color:var(--ink3);font-weight:700">Theme:</span>
 <div class="lt-dot active" style="background:#5c7a3e" onclick="setTheme('light')" title="Light"></div>
@@ -1281,7 +1318,7 @@ Continue with Google</button>
 
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut as fbOut}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import{getFirestore,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,limit}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
 const app=initializeApp(FC),auth=getAuth(app),db=getFirestore(app);
@@ -1290,8 +1327,33 @@ let CU=null,aChatId=null,aOtherUid=null,chatUnsub=null,forumUnsub=null,curPostId
 function xE(t,k){let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(unescape(encodeURIComponent(r)));}
 function xD(e,k){try{const t=decodeURIComponent(escape(atob(e)));let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return r;}catch{return'[encrypted]';}}
 function cKey(a,b){return[a,b].sort().join('');}
-window.signInWithGoogle=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider());}catch(e){toast('Sign-in failed: '+e.message);}};
-window.doSignOut=async()=>{if(chatUnsub)chatUnsub();if(forumUnsub)forumUnsub();await fbOut(auth);location.reload();};
+
+// Handle redirect result first (for mobile / popup-blocked scenarios)
+getRedirectResult(auth).then(result=>{
+  if(result&&result.user) console.log('TISA: redirect sign-in ok');
+}).catch(e=>console.warn('TISA redirect result:',e.message));
+
+window.signInWithGoogle=async()=>{
+  const btn=document.getElementById('google-btn');
+  try{
+    // Try popup first
+    await signInWithPopup(auth,new GoogleAuthProvider());
+  }catch(e){
+    // If popup blocked or not allowed, fall back to redirect
+    if(e.code==='auth/popup-blocked'||e.code==='auth/popup-closed-by-user'||e.code==='auth/cancelled-popup-request'){
+      if(btn){btn.textContent='Redirecting…';}
+      try{await signInWithRedirect(auth,new GoogleAuthProvider());}
+      catch(e2){
+        if(btn){btn.disabled=false;btn.textContent='Continue with Google';}
+        if(window.toast)window.toast('Sign-in failed: '+e2.message);
+      }
+    } else {
+      if(btn){btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Continue with Google';}
+      if(window.toast)window.toast('Sign-in failed: '+e.message);
+    }
+  }
+};
+window.doSignOut=async()=>{if(chatUnsub)chatUnsub();if(forumUnsub)forumUnsub();await fbOut(auth);location.reload()};
 onAuthStateChanged(auth,async(user)=>{
   if(user){CU=user;window._CU=user;
     await setDoc(doc(db,'users',user.uid),{uid:user.uid,name:user.displayName,email:user.email,photo:user.photoURL,lastSeen:serverTimestamp()},{merge:true});
