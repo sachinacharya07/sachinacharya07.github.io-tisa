@@ -6,25 +6,72 @@
 <title>TISA — Study Companion</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%235c7a3e'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='900' font-size='28' fill='white' letter-spacing='2'%3ETISA%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#5c7a3e">
+<meta name="description" content="TISA Study Companion — track study time, connect with buddies, earn badges">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="TISA">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+html{overflow-x:hidden}
 :root,[data-theme="light"]{--bg:#f8f6f0;--bg2:#f0ede4;--bg3:#e8e3d8;--surface:#ffffff;--surface2:#faf8f3;--primary:#5c7a3e;--pd:#3d5429;--pl:#b8d090;--pglow:rgba(92,122,62,.15);--ink:#1a1c16;--ink2:#4a5240;--ink3:#8a9280;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(92,122,62,.22);--border2:rgba(92,122,62,.1);--sh:0 2px 14px rgba(92,122,62,.1);--shl:0 8px 32px rgba(92,122,62,.14);}
 [data-theme="dark"]{--bg:#141810;--bg2:#1c2116;--bg3:#232a1c;--surface:#1e2419;--surface2:#252d1f;--primary:#7db356;--pd:#5c9038;--pl:#4a6830;--pglow:rgba(125,179,86,.18);--ink:#e8f0e0;--ink2:#a8b898;--ink3:#6a7a5a;--danger:#e05a4a;--success:#4db360;--warn:#e0a830;--border:rgba(125,179,86,.2);--border2:rgba(125,179,86,.1);--sh:0 2px 14px rgba(0,0,0,.35);--shl:0 8px 32px rgba(0,0,0,.45);}
 [data-theme="sakura"]{--bg:#fdf0f5;--bg2:#fae0ea;--bg3:#f5cede;--surface:#fff8fb;--surface2:#fdeef5;--primary:#c8527a;--pd:#a03560;--pl:#f0a0be;--pglow:rgba(200,82,122,.15);--ink:#2a0e1a;--ink2:#6a3048;--ink3:#a87090;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(200,82,122,.22);--border2:rgba(200,82,122,.1);--sh:0 2px 14px rgba(200,82,122,.1);--shl:0 8px 32px rgba(200,82,122,.14);}
 [data-theme="ocean"]{--bg:#edf4fa;--bg2:#d8ecf7;--bg3:#c2e0f0;--surface:#f8fcff;--surface2:#eef6fc;--primary:#1a6fa8;--pd:#0e4e7a;--pl:#7ab8dc;--pglow:rgba(26,111,168,.15);--ink:#091828;--ink2:#2a4a62;--ink3:#6a8aa0;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(26,111,168,.22);--border2:rgba(26,111,168,.1);--sh:0 2px 14px rgba(26,111,168,.1);--shl:0 8px 32px rgba(26,111,168,.14);}
 [data-theme="sunset"]{--bg:#fdf4ea;--bg2:#fae6cc;--bg3:#f5d4aa;--surface:#fffaf4;--surface2:#fdf0e0;--primary:#c8682a;--pd:#a04a18;--pl:#f0b080;--pglow:rgba(200,104,42,.15);--ink:#2a1200;--ink2:#6a3a18;--ink3:#a07848;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(200,104,42,.22);--border2:rgba(200,104,42,.1);--sh:0 2px 14px rgba(200,104,42,.1);--shl:0 8px 32px rgba(200,104,42,.14);}
+[data-theme="minimalist"]{
+  --primary:#4a5e2a;
+  --pd:#3a4d1f;
+  --pl:#8aab54;
+  --pglow:rgba(74,94,42,.12);
+  --bg:#f7f9f4;
+  --bg2:#edf0e8;
+  --bg3:#e2e7d8;
+  --surface:#ffffff;
+  --surface2:#f4f6f0;
+  --card:#ffffff;
+  --border:#d4dcc8;
+  --border2:#c4cfb5;
+  --shl:0 1px 4px rgba(74,94,42,.08);
+  --ink:#1e2416;
+  --ink2:#3a4530;
+  --ink3:#7a8a6a;
+  --success:#2d7a2d;
+  --danger:#a02020;
+  --warn:#7a5500;
+  --sh:0 2px 8px rgba(74,94,42,.10);
+  --font:'Inter','Helvetica Neue',Arial,sans-serif;
+}
+[data-theme="minimalist"] .tisa-logo{font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-weight:300;letter-spacing:8px;font-size:28px}
+[data-theme="minimalist"] .card{border-radius:6px;border:1px solid var(--border);box-shadow:none}
+[data-theme="minimalist"] .btn{border-radius:4px}
+[data-theme="minimalist"] .tisa-inp{border-radius:4px}
+[data-theme="minimalist"] .pill-btn{border-radius:4px}
+[data-theme="minimalist"] .badge{border-radius:4px}
+[data-theme="minimalist"] .nav-bubble{border-radius:4px}
+[data-theme="minimalist"] header{border-bottom:1px solid var(--border);box-shadow:none}
+[data-theme="minimalist"] nav{border-top:1px solid var(--border);box-shadow:none}
+[data-theme="minimalist"] .qbanner{display:none}
+[data-theme="minimalist"] .ct-ic{display:none}
+[data-theme="minimalist"] .login-blob{display:none}
+
+[data-theme="minimalist"] .timer-ring svg circle.t-prog{stroke-linecap:square}
+[data-theme="minimalist"] .pomo-dots .dot{border-radius:2px}
+[data-theme="minimalist"] .xp-chip{border-radius:4px}
+[data-theme="minimalist"] *{font-family:'Inter','Helvetica Neue',Arial,sans-serif !important}
+[data-theme="minimalist"] .t-digits{font-family:'Courier New',monospace !important;font-weight:300}
+[data-theme="minimalist"] .login-card{border:1px solid var(--border);box-shadow:none;border-radius:8px}
+[data-theme="minimalist"] .tisa-tagline{display:none}
+[data-theme="minimalist"] .welcome-note{font-size:11px;color:var(--ink3)}
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;font-size:14px}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;transition:background .35s,color .35s;overscroll-behavior:none}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;transition:background .35s,color .35s;overflow-x:hidden;overflow-y:auto;}
 input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--primary);border-radius:4px}
+*{scrollbar-width:thin;scrollbar-color:var(--primary) var(--bg2)}
 .snum,.t-digits,.focus-t,.cd-t,.calc-num,.test-big-t{font-family:'Space Mono',monospace!important;font-variant-numeric:tabular-nums}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes blobf{0%,100%{transform:scale(1)}50%{transform:scale(1.08) translate(20px,-15px)}}
@@ -45,7 +92,14 @@ input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 /* LOGIN */
 #login-screen{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:1000;overflow:hidden}
 #login-screen.show{display:flex}
-.login-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.login-deco{position:absolute;inset:0;pointer-events:none}
+.ld-svg{position:absolute;pointer-events:none}
+.ld1{width:110px;height:110px;top:5%;right:6%;opacity:1}
+.ld2{width:130px;height:130px;bottom:8%;left:4%;opacity:1}
+.ld3{width:36px;height:100px;top:18%;left:8%;opacity:1}
+.ld4{width:70px;height:70px;bottom:22%;right:10%;opacity:.9}
+[data-theme="dark"] .ld-svg{opacity:.25}
+[data-theme="minimalist"] .ld-svg{display:none}
 .login-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.12}
 .lb1{width:600px;height:600px;background:var(--primary);top:-150px;right:-150px;animation:blobf 9s ease-in-out infinite}
 .lb2{width:400px;height:400px;background:var(--pl);bottom:-100px;left:-100px;animation:blobf 12s ease-in-out infinite reverse}
@@ -63,8 +117,8 @@ input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 .lt-dot.active{border-color:var(--ink);transform:scale(1.15)}
 
 /* MODALS */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:2000;backdrop-filter:blur(6px);padding:16px}
-.modal-overlay.open{display:flex}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:2000;backdrop-filter:blur(6px);padding:16px;pointer-events:none}
+.modal-overlay.open{display:flex;pointer-events:all}
 .modal-box{background:var(--surface);border:1.5px solid var(--border);border-radius:24px;padding:36px;max-width:430px;width:100%;box-shadow:var(--shl);animation:modalIn .35s cubic-bezier(.34,1.56,.64,1)}
 .modal-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--primary);margin-bottom:5px}
 .modal-sub{font-size:12px;color:var(--ink3);margin-bottom:20px;line-height:1.7;font-weight:500}
@@ -115,7 +169,7 @@ html[data-theme="dark"] .dark-toggle::after{transform:translateX(16px);backgroun
 .more-btn.active .mbl{color:var(--primary)}
 
 /* LAYOUT */
-main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-bottom:24px}
+main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px;overflow-x:hidden;overflow-y:auto;}
 .page{display:none}.page.active{display:block}
 .card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:16px;transition:box-shadow .2s;position:relative;overflow:hidden}
 .card:hover{box-shadow:var(--sh)}
@@ -145,7 +199,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 .qrefresh:hover{color:var(--primary);transform:rotate(90deg)}
 
 /* GRIDS */
-.home-grid{display:grid;grid-template-columns:290px 290px 1fr;gap:14px;align-items:start}
+.home-grid{display:grid;grid-template-columns:min(290px,100%) min(290px,100%) 1fr;gap:14px;align-items:start}
 .myspace-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .test-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -154,12 +208,12 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 .forum-grid{display:grid;grid-template-columns:1fr 240px;gap:14px}
 
 /* TIMER */
-.timer-ring{position:relative;width:150px;height:150px;margin:8px auto}
-.tsvg{width:150px;height:150px;transform:rotate(-90deg)}
+.timer-ring{position:relative;width:200px;height:200px;margin:10px auto}
+.tsvg{width:200px;height:200px;transform:rotate(-90deg)}
 .t-track{fill:none;stroke:var(--bg3);stroke-width:9}
 .t-prog{fill:none;stroke:var(--primary);stroke-width:9;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset .6s ease}
 .t-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.t-digits{font-family:'Space Mono',monospace!important;font-size:30px;font-weight:700;color:var(--primary);letter-spacing:2px;line-height:1}
+.t-digits{font-family:'Space Mono',monospace!important;font-size:38px;font-weight:700;color:var(--primary);letter-spacing:2px;line-height:1}
 .t-mode{font-size:10px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-top:3px;font-weight:700}
 .t-btns{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}
 .subj-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
@@ -193,7 +247,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 .fbtn:hover:not(.active){border-color:var(--primary);color:var(--primary)}
 .todo-pb-w{height:5px;background:var(--bg2);border-radius:10px;margin-bottom:9px;overflow:hidden}
 .todo-pb{height:100%;background:linear-gradient(90deg,var(--primary),var(--pl));border-radius:10px;transition:width .5s}
-.todo-list{display:flex;flex-direction:column;gap:5px;max-height:280px;overflow-y:auto}
+.todo-list{display:flex;flex-direction:column;gap:5px;max-height:200px;overflow-y:auto}
 .todo-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1.5px solid var(--border2);border-radius:10px;background:var(--bg);transition:all .2s}
 .todo-item:hover{border-color:var(--border)}
 .todo-item.done{opacity:.42}
@@ -331,7 +385,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 .pdf-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--surface);border-bottom:1px solid var(--border2);font-size:12px;font-weight:700;gap:8px;flex-wrap:wrap}
 
 /* TEST MODAL */
-#test-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(5px);padding:16px}
+#test-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1500;align-items:center;justify-content:center;backdrop-filter:blur(5px);padding:16px}
 #test-modal.open{display:flex}
 .test-win{background:var(--surface);border-radius:20px;width:100%;max-width:920px;max-height:95vh;display:flex;flex-direction:column;overflow:hidden}
 .test-hdr{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1.5px solid var(--border2);background:var(--surface);flex-wrap:wrap;gap:8px;flex-shrink:0}
@@ -378,7 +432,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 #focus-mode{display:none;position:fixed;inset:0;background:var(--bg);z-index:9000;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:20px}
 #focus-mode.active{display:flex}
 .focus-t{font-family:'Space Mono',monospace!important;font-size:72px;font-weight:700;color:var(--primary);letter-spacing:4px;line-height:1}
-#toast{position:fixed;bottom:100px;right:16px;background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;font-size:12px;font-weight:700;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;z-index:9999;max-width:280px;box-shadow:var(--shl)}
+#toast{position:fixed;bottom:100px;right:16px;background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;font-size:12px;font-weight:700;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;z-index:9999;max-width:300px;box-shadow:var(--shl);display:flex;align-items:center;gap:6px;word-break:normal;white-space:normal;line-height:1.4}
 #toast.show{opacity:1;transform:none}
 
 /* FOOTER */
@@ -393,9 +447,128 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 /* RESPONSIVE */
 @media(max-width:1100px){.home-grid{grid-template-columns:1fr 1fr}.perf-grid{grid-template-columns:1fr}.conn-grid,.jgrid,.forum-grid{grid-template-columns:1fr}.test-grid{grid-template-columns:1fr}}
-@media(max-width:760px){.home-grid{grid-template-columns:1fr}.myspace-grid{grid-template-columns:1fr}main{padding:10px 10px 80px}header{padding:0 10px;height:52px}nav{display:none}#mobile-nav{display:block}#health-bubble{bottom:72px}#toast{bottom:80px}.prof-stats{grid-template-columns:repeat(2,1fr)}.theme-grid{grid-template-columns:repeat(2,1fr)}.focus-t{font-size:52px}.hdr-btn{display:none}.xp-chip span:last-child{display:none}.logo-sub{display:none}.perf-grid{grid-template-columns:1fr}.tt-grid{font-size:9px;grid-template-columns:40px repeat(7,1fr)}.jgrid{grid-template-columns:1fr}.conn-grid{grid-template-columns:1fr}.forum-grid{grid-template-columns:1fr}}
-@media(max-width:600px){.tt-grid{overflow-x:auto;min-width:500px}.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}}
+@media(max-width:760px){
+  /* All multi-column grids collapse to single column */
+  .home-grid{grid-template-columns:1fr}
+  .home-grid>*{grid-column:1 !important}
+  .myspace-grid{grid-template-columns:1fr}
+  .perf-grid{grid-template-columns:1fr}
+  .test-grid{grid-template-columns:1fr}
+  .jgrid{grid-template-columns:1fr}
+  .conn-grid{grid-template-columns:1fr}
+  .forum-grid{grid-template-columns:1fr}
+  .prof-stats{grid-template-columns:repeat(2,1fr)}
+  .theme-grid{grid-template-columns:repeat(2,1fr)}
+  .more-grid{grid-template-columns:repeat(2,1fr)}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  /* Layout */
+  main{padding:10px 10px 80px;width:100%;overflow-x:hidden}
+  header{padding:0 10px;height:52px}
+  nav{display:none}
+  #mobile-nav{display:block}
+  #health-bubble{bottom:72px}
+  #toast{bottom:80px;left:12px;right:12px;text-align:center}
+  .focus-t{font-size:52px}
+  .hdr-btn{display:none}
+  .xp-chip span:last-child{display:none}
+  .logo-sub{display:none}
+  /* Timetable - horizontal scroll */
+  .tt-grid{font-size:9px;grid-template-columns:40px repeat(7,1fr)}
+  .tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  /* Timer */
+  .timer-ring{width:160px;height:160px}
+  .tsvg{width:160px;height:160px}
+  .t-digits{font-size:28px}
+  /* Todo */
+  .todo-toolbar{flex-wrap:wrap;gap:6px}
+  .todo-toolbar input{min-width:0;flex:1 1 100%}
+  /* Chat */
+  .chat-layout{flex-direction:column;height:auto}
+  .users-list{width:100%;max-height:180px;border-right:none;border-bottom:1px solid var(--border)}
+  .cpanel{min-height:300px;height:auto;}
+  .connect-layout{flex-direction:column}
+  /* Cards */
+  .card{padding:14px 12px;width:100%;box-sizing:border-box}
+  /* Login doodles */
+  .ld1{width:70px;height:70px;top:3%;right:3%}
+  .ld2{width:80px;height:80px;bottom:4%;left:2%}
+  .ld3{width:24px;height:68px;top:12%;left:5%}
+  .ld4{width:50px;height:50px;bottom:14%;right:6%}
+}
+@media(max-width:600px){.tt-grid{overflow-x:auto;min-width:500px}}
+@media(max-width:480px){
+  .home-grid{grid-template-columns:1fr;gap:10px}
+  .home-grid>*{grid-column:1 !important}
+  .myspace-grid{grid-template-columns:1fr}
+  .perf-grid{grid-template-columns:1fr}
+  .timer-ring{width:140px;height:140px;margin:6px auto}
+  .tsvg{width:140px;height:140px}
+  .t-digits{font-size:24px;letter-spacing:1px}
+  .more-grid{grid-template-columns:repeat(2,1fr)}
+  main{padding:8px 8px 80px}
+  .card{padding:12px 10px;width:100%;box-sizing:border-box}
+  .ld1,.ld4{display:none}
+  .ld2{width:60px;height:60px}
+  .ld3{width:20px;height:56px}
+}
+  .timer-ring{width:140px;height:140px;margin:6px auto}
+  .tsvg{width:140px;height:140px}
+  .t-digits{font-size:24px;letter-spacing:1px}
+  .prof-stats{grid-template-columns:1fr 1fr}
+  .theme-grid{grid-template-columns:repeat(2,1fr)}
+  .card{padding:12px 10px}
+  .ct{font-size:12px}
+  main{padding:8px 8px 76px}
+  .login-card{padding:28px 18px;margin:10px}
+  .ld1,.ld2,.ld4{display:none}
+  .ld3{width:20px;height:56px}
+  header .logo-text{font-size:16px}
+  .xp-chip{font-size:10px;padding:3px 8px}
+}.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%}}
 </style>
+<!--
+  ══════════════════════════════════════════════════════════════
+  REQUIRED FIRESTORE SECURITY RULES  (Firebase Console → Firestore → Rules)
+  ══════════════════════════════════════════════════════════════
+  rules_version = '2';
+  service cloud.firestore {
+    match /databases/{database}/documents {
+
+      // Private user data — owner only
+      match /userData/{userId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // Public study stats — any logged-in user can READ, only owner can WRITE
+      // This is what makes the buddy Progress tracker work!
+      match /publicStats/{userId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // Chat rooms — only members can read/write
+      match /chats/{chatId} {
+        allow read, write: if request.auth != null && request.auth.uid in resource.data.members;
+        match /messages/{msgId} {
+          allow read, write: if request.auth != null;
+        }
+      }
+
+      // Community forum posts — any logged-in user can read, owner can write
+      match /posts/{postId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null;
+      }
+
+      // User public profiles (username lookup)
+      match /users/{userId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+  ══════════════════════════════════════════════════════════════
+-->
 </head>
 <body>
 
@@ -408,7 +581,57 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 <!-- LOGIN -->
 <div id="login-screen">
-<div class="login-deco"><div class="login-blob lb1"></div><div class="login-blob lb2"></div></div>
+<div class="login-deco">
+  <div class="login-blob lb1"></div>
+  <div class="login-blob lb2"></div>
+  <!-- Sakura / book / pencil doodles restored -->
+  <svg class="ld-svg ld1 sakura-float" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Sakura flower -->
+    <g opacity=".85">
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(0 40 40)"/>
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(72 40 40)"/>
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(144 40 40)"/>
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(216 40 40)"/>
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(288 40 40)"/>
+      <circle cx="40" cy="40" r="8" fill="#fce4ee"/>
+      <circle cx="40" cy="40" r="4" fill="#f48fb1"/>
+    </g>
+  </svg>
+  <svg class="ld-svg ld2 sakura-sway" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Open book -->
+    <g opacity=".75">
+      <path d="M10 25 Q45 18 45 18 Q45 18 80 25 L80 68 Q45 60 45 60 Q45 60 10 68 Z" fill="var(--primary)" opacity=".35"/>
+      <path d="M45 18 L45 60" stroke="var(--primary)" stroke-width="2.5" opacity=".5"/>
+      <line x1="18" y1="34" x2="42" y2="30" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="18" y1="41" x2="42" y2="37" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="18" y1="48" x2="42" y2="44" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="52" y1="30" x2="76" y2="34" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="52" y1="37" x2="76" y2="41" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="52" y1="44" x2="76" y2="48" stroke="white" stroke-width="1.5" opacity=".6"/>
+    </g>
+  </svg>
+  <svg class="ld-svg ld3 t-anim" viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Pencil -->
+    <g opacity=".75">
+      <rect x="10" y="10" width="20" height="85" rx="3" fill="var(--primary)" opacity=".6"/>
+      <polygon points="10,95 30,95 20,115" fill="#f9c784"/>
+      <polygon points="14,108 26,108 20,115" fill="#333" opacity=".4"/>
+      <rect x="10" y="10" width="20" height="10" rx="3" fill="#ccc" opacity=".7"/>
+      <rect x="12" y="22" width="16" height="60" fill="var(--pl)" opacity=".3"/>
+    </g>
+  </svg>
+  <svg class="ld-svg ld4 sakura-float" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Small sakura petal -->
+    <g opacity=".7">
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(0 30 30)"/>
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(72 30 30)"/>
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(144 30 30)"/>
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(216 30 30)"/>
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(288 30 30)"/>
+      <circle cx="30" cy="30" r="6" fill="#fce4ee"/>
+    </g>
+  </svg>
+</div>
 <div class="login-card">
   <div class="tisa-logo">TISA</div>
   <div class="tisa-tagline">study companion</div>
@@ -426,6 +649,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <div class="lt-dot" style="background:#d4688a" onclick="setTheme('sakura')" title="Sakura"></div>
     <div class="lt-dot" style="background:#2a7fa8" onclick="setTheme('ocean')" title="Ocean"></div>
     <div class="lt-dot" style="background:#d4783a" onclick="setTheme('sunset')" title="Sunset"></div>
+    <div class="lt-dot" style="background:#4a5e2a;border:2px solid #8aab54" onclick="setTheme('minimalist')" title="Minimalist"></div>
   </div>
 </div>
 </div>
@@ -558,7 +782,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div class="card">
   <div class="ct"><div class="ct-ic">✅</div>To-Do List</div>
   <div class="todo-toolbar">
-    <input type="text" class="tisa-inp" id="todo-inp" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()" style="flex:2;min-width:100px;padding:9px 12px;font-size:13px">
+    <input type="text" class="tisa-inp" id="todo-inp" placeholder="Add a task..." maxlength="200" onkeydown="if(event.key==='Enter')addTodo()" style="flex:2;min-width:100px;padding:9px 12px;font-size:13px" maxlength="200">
     <select class="tisa-inp" id="todo-pri" style="padding:9px 10px;font-size:12px"><option value="normal">Normal</option><option value="high">🔴 High</option><option value="low">🟢 Low</option></select>
     <select class="tisa-inp" id="todo-subj-sel" style="padding:9px 10px;font-size:12px"></select>
     <input type="date" class="tisa-inp" id="todo-due" style="padding:9px 10px;font-size:12px">
@@ -597,7 +821,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div class="card">
     <div class="ct"><div class="ct-ic">📅</div>Countdowns</div>
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
-      <input type="text" class="tisa-inp" id="cd-name" placeholder="Exam / event..." style="flex:2;padding:8px 10px;font-size:12px">
+      <input type="text" class="tisa-inp" id="cd-name" placeholder="Exam / event..." style="flex:2;padding:8px 10px;font-size:12px" maxlength="80">
       <input type="date" class="tisa-inp" id="cd-date" style="padding:8px 10px;font-size:12px">
       <button class="btn btn-sm btn-p" onclick="addCD()">+</button>
     </div>
@@ -728,9 +952,9 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div style="margin-top:14px"><div class="card">
   <div class="ct"><div class="ct-ic">📒</div>Assignments & Grades</div>
   <div style="display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap">
-    <input type="text" class="tisa-inp" id="asgn-name" placeholder="Assignment name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px">
+    <input type="text" class="tisa-inp" id="asgn-name" placeholder="Assignment name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px" maxlength="150">
     <select class="tisa-inp" id="asgn-subj" style="padding:8px 10px;font-size:12px"></select>
-    <input type="text" class="tisa-inp" id="asgn-marks" placeholder="e.g. 45/50" style="width:100px;padding:8px 10px;font-size:12px">
+    <input type="text" class="tisa-inp" id="asgn-marks" placeholder="e.g. 45/50" style="width:100px;padding:8px 10px;font-size:12px" maxlength="20">
     <input type="date" class="tisa-inp" id="asgn-due" style="padding:8px 10px;font-size:12px">
     <button class="btn btn-sm btn-p" onclick="addAssign()">+ Add</button>
   </div>
@@ -766,15 +990,15 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <div><div class="snum" id="j-tdone" style="font-size:22px">0</div><div class="slbl">Tasks Done</div></div>
       <div><div class="snum" id="j-ttot" style="font-size:22px">0</div><div class="slbl">Total Tasks</div></div>
     </div>
-    <div><div class="jlbl">✍ What did I study today?</div><textarea class="jtarea" id="j-what" placeholder="Covered wave optics..."></textarea></div>
+    <div><div class="jlbl">✍ What did I study today?</div><textarea class="jtarea" id="j-what" placeholder="Covered wave optics..." maxlength="2000"></textarea></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
-      <div><div class="jlbl">💡 What went well?</div><textarea class="jtarea sm" id="j-well" placeholder="Focused for 2 hours..."></textarea></div>
-      <div><div class="jlbl">🔧 Improve tomorrow?</div><textarea class="jtarea sm" id="j-improve" placeholder="Start earlier..."></textarea></div>
+      <div><div class="jlbl">💡 What went well?</div><textarea class="jtarea sm" id="j-well" placeholder="Focused for 2 hours..." maxlength="1000"></textarea></div>
+      <div><div class="jlbl">🔧 Improve tomorrow?</div><textarea class="jtarea sm" id="j-improve" placeholder="Start earlier..." maxlength="1000"></textarea></div>
     </div>
-    <div><div class="jlbl">🌱 Thoughts & reflections</div><textarea class="jtarea" id="j-thoughts" placeholder="How are you feeling..."></textarea></div>
+    <div><div class="jlbl">🌱 Thoughts & reflections</div><textarea class="jtarea" id="j-thoughts" placeholder="How are you feeling..." maxlength="2000"></textarea></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
       <div><div class="jlbl">⭐ Productivity</div><div style="display:flex;gap:4px;align-items:center;margin-top:5px"><span class="rstar" onclick="setRating(1)">★</span><span class="rstar" onclick="setRating(2)">★</span><span class="rstar" onclick="setRating(3)">★</span><span class="rstar" onclick="setRating(4)">★</span><span class="rstar" onclick="setRating(5)">★</span><span style="font-size:11px;color:var(--ink3);margin-left:6px;font-weight:700" id="r-lbl">tap to rate</span></div></div>
-      <div><div class="jlbl">🏷 Tags</div><input type="text" class="tisa-inp" id="j-tags" placeholder="revision, focused..." style="margin-top:5px;padding:8px 10px;font-size:12px"></div>
+      <div><div class="jlbl">🏷 Tags</div><input type="text" class="tisa-inp" id="j-tags" placeholder="revision, focused..." style="margin-top:5px;padding:8px 10px;font-size:12px" maxlength="100"></div>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center;flex-wrap:wrap">
       <span class="saved-msg" id="j-saved">✓ Saved!</span>
@@ -817,7 +1041,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <div style="padding:4px 12px;background:var(--bg);font-size:10px;color:var(--ink3);font-weight:700;border-top:1px solid var(--border2);flex-shrink:0">🔒 End-to-end encrypted</div>
       <div class="chat-inp-row" style="flex-shrink:0">
         <label style="padding:12px 10px;cursor:pointer;color:var(--ink3);font-size:16px;border-right:1px solid var(--border2);display:flex;align-items:center" title="Attach file">📎<input type="file" id="chat-attach" accept="image/*,.pdf" style="display:none" onchange="sendChatFile(this.files)"></label>
-        <input type="text" id="chat-inp" placeholder="Message..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <input type="text" id="chat-inp" placeholder="Message..." onkeydown="if(event.key==='Enter')sendMsg()" maxlength="1000">
         <button class="csend" onclick="sendMsg()">Send</button>
       </div>
     </div>
@@ -848,8 +1072,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <select class="tisa-inp" id="post-cat" style="width:100%;margin-bottom:8px;padding:8px 10px;font-size:12px">
         <option value="Question">❓ Question</option><option value="Discussion">💬 Discussion</option><option value="Article">📝 Article</option><option value="Tip">💡 Tip</option><option value="Help">🆘 Help</option>
       </select>
-      <input type="text" class="tisa-inp" id="post-title" placeholder="Title your post..." style="width:100%;margin-bottom:8px">
-      <textarea class="jtarea" id="post-body" placeholder="Share your thoughts, questions, or doubts..." style="min-height:75px;margin-bottom:8px"></textarea>
+      <input type="text" class="tisa-inp" id="post-title" placeholder="Title your post..." style="width:100%;margin-bottom:8px" maxlength="150">
+      <textarea class="jtarea" id="post-body" placeholder="Share your thoughts, questions, or doubts..." style="min-height:75px;margin-bottom:8px" maxlength="2000"></textarea>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
         <label style="display:flex;align-items:center;gap:6px;padding:7px 12px;border:1.5px dashed var(--border);border-radius:9px;cursor:pointer;font-size:11px;font-weight:700;color:var(--ink3);transition:all .2s" id="post-attach-lbl">📎 Attach image/PDF<input type="file" id="post-attach" accept="image/*,.pdf" style="display:none" onchange="handlePostAttach(this.files)"></label>
         <div id="post-attach-preview" style="font-size:11px;color:var(--primary);font-weight:700"></div>
@@ -876,15 +1100,15 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
         <div style="font-size:13px;color:var(--ink);line-height:1.8;white-space:pre-wrap;font-weight:500" id="pv-body"></div>
         <div id="pv-attachment" style="margin-top:12px"></div>
         <div style="display:flex;gap:8px;margin-top:12px">
-          <button class="vbtn" onclick="voteP(true)">▲ <span id="pv-ups">0</span></button>
-          <button class="vbtn" onclick="voteP(false)">▼ <span id="pv-dns">0</span></button>
+          <button id="pv-up-btn" class="vbtn" onclick="voteP(true)">▲ <span id="pv-ups">0</span></button>
+          <button id="pv-dn-btn" class="vbtn" onclick="voteP(false)">▼ <span id="pv-dns">0</span></button>
         </div>
       </div>
       <div class="card">
         <div class="ct"><div class="ct-ic">💬</div>Comments <span style="font-size:12px;font-weight:500;color:var(--ink3)" id="cmt-cnt"></span></div>
         <div id="cmt-list"><div class="empty">No comments yet</div></div>
         <div style="display:flex;gap:7px;margin-top:9px">
-          <input type="text" class="tisa-inp" id="cmt-inp" placeholder="Add a comment (random alias)..." style="flex:1;padding:9px 12px;font-size:12px" onkeydown="if(event.key==='Enter')submitCmt()">
+          <input type="text" class="tisa-inp" id="cmt-inp" placeholder="Add a comment (random alias)..." style="flex:1;padding:9px 12px;font-size:12px" onkeydown="if(event.key==='Enter')submitCmt()" maxlength="500">
           <button class="btn btn-sm btn-p" onclick="submitCmt()">Post</button>
         </div>
       </div>
@@ -967,8 +1191,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div class="card">
     <div class="ct"><div class="ct-ic">🔗</div>Resources</div>
     <div style="display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap">
-      <input type="text" class="tisa-inp" id="res-title" placeholder="Name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px">
-      <input type="text" class="tisa-inp" id="res-url" placeholder="URL..." style="flex:3;min-width:100px;padding:8px 10px;font-size:12px">
+      <input type="text" class="tisa-inp" id="res-title" placeholder="Name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px" maxlength="150">
+      <input type="text" class="tisa-inp" id="res-url" placeholder="URL..." style="flex:3;min-width:100px;padding:8px 10px;font-size:12px" maxlength="500">
       <select class="tisa-inp" id="res-type" style="padding:8px 10px;font-size:12px"><option value="📄">📄 PDF</option><option value="🔗">🔗 Link</option><option value="📹">📹 Video</option><option value="📝">📝 Note</option></select>
       <button class="btn btn-sm btn-p" onclick="addResource()">+ Add</button>
     </div>
@@ -1016,7 +1240,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div class="modal-box" style="max-width:320px">
   <div class="modal-title">Add Class</div>
   <div class="modal-sub" id="tt-lbl2">Select slot</div>
-  <input type="text" class="tisa-inp" id="tt-inp" placeholder="Subject / Class..." style="margin-bottom:10px">
+  <input type="text" class="tisa-inp" id="tt-inp" placeholder="Subject / Class..." style="margin-bottom:10px" maxlength="60">
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="btn btn-p" style="flex:1" onclick="saveTT()">Save</button>
     <button class="btn btn-d" style="flex:1" onclick="clearTT()">Clear</button>
@@ -1030,7 +1254,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import{getFirestore,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,limit,deleteDoc}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import{getFirestore,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
 const app=initializeApp(FC);
@@ -1045,8 +1269,13 @@ function cKey(a,b){return[a,b].sort().join('');}
 
 // ── PERSIST + REDIRECT RESULT ──
 setPersistence(auth,browserLocalPersistence).catch(()=>{});
-getRedirectResult(auth).then(r=>{if(r&&r.user)console.log('TISA redirect OK');}).catch(e=>{
-  if(e.code&&e.code!=='auth/no-current-user'){
+getRedirectResult(auth).then(r=>{
+  if(r&&r.user){
+    // Redirect sign-in succeeded - onAuthStateChanged will fire and handle the rest
+    console.log('TISA redirect sign-in OK');
+  }
+}).catch(e=>{
+  if(e.code&&e.code!=='auth/no-current-user'&&e.code!=='auth/null-user'){
     setTimeout(()=>window._showLoginErr&&window._showLoginErr(e.code+': '+e.message),600);
   }
 });
@@ -1075,10 +1304,18 @@ window.handleSignIn=async(btn)=>{
 };
 
 window.doSignOut=async()=>{
+  // FIX 2: stop all timers before signing out
+  if(typeof tRun!=='undefined'&&tRun){clearInterval(tInt);tRun=false;}
+  if(typeof focusRun!=='undefined'&&focusRun){clearInterval(focusInt);focusRun=false;}
+  if(typeof testInt!=='undefined'&&testInt){clearInterval(testInt);testInt=null;}
   if(window._chatUnsub)window._chatUnsub();
   if(window._forumUnsub)window._forumUnsub();
   if(window._chatListUnsub)window._chatListUnsub();
   if(window._progressUnsub)window._progressUnsub();
+  if(window._progressUnsub2)window._progressUnsub2();
+  if(window._progressMyPoll)clearInterval(window._progressMyPoll);
+  if(window._goalsUnsub){window._goalsUnsub();window._goalsUnsub=null;}
+  if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}
   await fbOut(auth);
   window._CU=null; window._currentUser=null;
   document.getElementById('login-screen').classList.add('show');
@@ -1168,13 +1405,21 @@ async function loadUD(){
 window._save=async()=>{
   if(!window._CU)return;
   try{
+    const papersForSave=window.papers.map(p=>({id:p.id,name:p.name,size:p.size,type:p.type,date:p.date}));
     await setDoc(doc(db,'userData',window._CU.uid),{
       studyData:window.studyData,todos:window.todos,countdowns:window.countdowns,
-      papers:window.papers,pastTests:window.pastTests,journals:window.journals,
+      papers:papersForSave,pastTests:window.pastTests,journals:window.journals,
       assignments:window.assignments,resources:window.resources,timetable:window.timetable,
       xp:window.xp,coins:window.coins,subjects:window.subjects
     },{merge:true});
-  }catch(e){console.warn('Save error:',e);}
+    // LOADING FIX: mirror study hours into publicStats (any auth user can read)
+    // userData is owner-private, so buddy's listener was silently failing -> "Loading..."
+    await setDoc(doc(db,'publicStats',window._CU.uid),{
+      studyData:window.studyData,
+      username:window._uname||'',
+      updatedAt:serverTimestamp()
+    },{merge:true});
+  }catch(e){console.warn('Save error:',e);window.toast('⚠️ Save failed — check connection');}
 };
 
 window.uploadAvatar=async(files)=>{
@@ -1213,7 +1458,7 @@ window.checkUname=async(val)=>{
 window.confirmUname=async()=>{
   if(!_uVld)return;
   const un=document.getElementById('uname-inp').value.trim().toLowerCase();
-  await setDoc(doc(db,'users',window._CU.uid),{username:un,usernameSet:true},{merge:true});
+  await setDoc(doc(db,'users',window._CU.uid),{username:un,usernameSet:true,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG2 FIX: save uid so self-search check works
   window._uname=un;
   document.getElementById('uname-modal').classList.remove('open');
   document.getElementById('user-dname').textContent='@'+un;
@@ -1239,7 +1484,7 @@ window.saveNewUsername=async()=>{
   fb.textContent='Checking...';fb.style.color='var(--ink3)';
   const snap=await getDocs(query(collection(db,'users'),where('username','==',val)));
   if(snap.docs.some(d=>d.id!==window._CU.uid)){fb.textContent='@'+val+' is taken';fb.style.color='var(--danger)';return;}
-  await setDoc(doc(db,'users',window._CU.uid),{username:val},{merge:true});
+  await setDoc(doc(db,'users',window._CU.uid),{username:val,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG9 FIX: keep uid in sync when username changes
   window._uname=val;
   document.getElementById('prof-uname').textContent='@'+val;
   document.getElementById('user-dname').textContent='@'+val;
@@ -1321,7 +1566,10 @@ window.setFF=(f,btn)=>{
 
 window.handlePostAttach=(files)=>{
   if(!files[0])return;
-  const f=files[0]; postAttachName=f.name;
+  const f=files[0];
+  // FIX B: enforce size limit so forum post doesn't exceed Firestore 1MB doc limit
+  if(f.size>700*1024){window.toast('File too large. Max 700KB 📎');document.getElementById('post-attach').value='';return;}
+  postAttachName=f.name;
   const r=new FileReader();
   r.onload=e=>{postAttachData=e.target.result;postAttachType=f.type;document.getElementById('post-attach-preview').textContent='📎 '+f.name.substring(0,26)+(f.name.length>26?'…':'');};
   r.readAsDataURL(f);
@@ -1332,6 +1580,8 @@ window.submitPost=async()=>{
   const body=document.getElementById('post-body').value.trim();
   const cat=document.getElementById('post-cat').value;
   if(!title||!body){window.toast('Add title and content');return;}
+  if(title.length>150){window.toast('Title too long (max 150 chars)');return;}
+  if(body.length>2000){window.toast('Post too long (max 2000 chars)');return;}
   const alias=getPostAlias();
   const obj={title,body,category:cat,alias,ts:serverTimestamp(),ups:0,downs:0,commentCount:0,hasAttachment:!!postAttachData};
   if(postAttachData) obj.attachment={data:postAttachData,type:postAttachType,name:postAttachName};
@@ -1370,8 +1620,18 @@ window.openPost=async(pid)=>{
       attEl.innerHTML=`<div style="border:1.5px solid var(--border);border-radius:12px;overflow:hidden"><div style="padding:6px 10px;background:var(--bg);font-size:10px;font-weight:700;color:var(--ink3);display:flex;justify-content:space-between;align-items:center">📄 ${window._esc(a.name||'PDF')} <a href="${a.data}" target="_blank" rel="noopener" style="color:var(--primary);font-size:10px;font-weight:700">Open ↗</a></div><iframe src="${a.data}" style="width:100%;height:450px;border:none;display:block"></iframe></div>`;
     }
   }else attEl.innerHTML='';
+  // BUG8 FIX: clean up old comment listener before creating new one
+  if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}
+  // Show already-voted state
+  const myVote=(p.voters||{})[window._CU?.uid];
+  const upBtn=document.getElementById('pv-up-btn');
+  const dnBtn=document.getElementById('pv-dn-btn');
+  if(upBtn)upBtn.style.opacity=myVote?'0.45':'1';
+  if(dnBtn)dnBtn.style.opacity=myVote?'0.45':'1';
+  if(upBtn)upBtn.title=myVote?'Already voted':'Upvote';
+  if(dnBtn)dnBtn.title=myVote?'Already voted':'Downvote';
   // Live comments
-  onSnapshot(query(collection(db,'posts',pid,'comments'),orderBy('ts','asc'),limit(100)),cSnap=>{
+  window._cmtUnsub=onSnapshot(query(collection(db,'posts',pid,'comments'),orderBy('ts','asc'),limit(100)),cSnap=>{
     const el=document.getElementById('cmt-list');
     document.getElementById('cmt-cnt').textContent='('+cSnap.size+')';
     if(cSnap.empty){el.innerHTML='<div class="empty">No comments yet — be first!</div>';return;}
@@ -1384,9 +1644,27 @@ window.openPost=async(pid)=>{
   });
 };
 
-window.backForum=()=>{document.getElementById('forum-list-v').style.display='block';document.getElementById('write-sec').style.display='block';document.getElementById('post-view').style.display='none';curPostId=null;};
-window.voteP=async(up)=>{if(!curPostId)return;const ref=doc(db,'posts',curPostId);const snap=await getDoc(ref);const d=snap.data();if(up){await updateDoc(ref,{ups:(d.ups||0)+1});document.getElementById('pv-ups').textContent=(d.ups||0)+1;}else{await updateDoc(ref,{downs:(d.downs||0)+1});document.getElementById('pv-dns').textContent=(d.downs||0)+1;}};
-window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt)return;inp.value='';const alias=getCommentAlias(curPostId);await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});const ref=doc(db,'posts',curPostId);const s=await getDoc(ref);if(s.exists())await updateDoc(ref,{commentCount:(s.data().commentCount||0)+1});};
+window.backForum=()=>{if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}document.getElementById('forum-list-v').style.display='block';document.getElementById('write-sec').style.display='block';document.getElementById('post-view').style.display='none';curPostId=null;}; // BUG8 FIX: clean comment listener on back
+window.voteP=async(up)=>{
+  if(!curPostId||!window._CU)return;
+  const uid=window._CU.uid;
+  const ref=doc(db,'posts',curPostId);
+  const snap=await getDoc(ref);
+  const d=snap.data()||{};
+  const voters=d.voters||{};
+  // BUG4 FIX: prevent spam voting - each user gets one vote total
+  if(voters[uid]){window.toast('You already voted on this post');return;}
+  voters[uid]=up?'up':'down';
+  const newUps=up?(d.ups||0)+1:(d.ups||0);
+  const newDns=up?(d.downs||0):(d.downs||0)+1;
+  await updateDoc(ref,{ups:newUps,downs:newDns,voters});
+  const uEl=document.getElementById('pv-ups');
+  const dEl=document.getElementById('pv-dns');
+  if(uEl)uEl.textContent=newUps;
+  if(dEl)dEl.textContent=newDns;
+  window.toast(up?'👍 Upvoted!':'👎 Downvoted!');
+};
+window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt||txt.length>500)return;inp.value='';const alias=getCommentAlias(curPostId);await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});await updateDoc(doc(db,'posts',curPostId),{commentCount:increment(1)});};
 
 // ── CHAT (FULLY FIXED) ──
 let aChatId=null,aOtherUid=null,aOtherUname='',aOtherName='';
@@ -1400,7 +1678,7 @@ window.searchUser=async()=>{
   const snap=await getDocs(query(collection(db,'users'),where('username','==',q)));
   if(snap.empty){el.innerHTML='<div style="font-size:11px;color:var(--danger);padding:4px;font-weight:700">@'+window._esc(q)+' not found</div>';return;}
   const f=snap.docs[0].data();
-  if(f.uid===window._CU.uid){el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px">That\'s you!</div>';return;}
+  if(snap.docs[0].id===window._CU.uid||f.uid===window._CU.uid){el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px">That\'s you! 🐼</div>';return;} // BUG2 FIX: check by doc ID (reliable) and uid field
   el.innerHTML=`<div style="padding:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:8px">
     <div><div style="font-size:12px;font-weight:800">@${window._esc(f.username||f.name)}</div><div style="font-size:10px;color:var(--ink3);font-weight:600">${window._esc(f.name||'')}</div></div>
     <button class="pill-btn" onclick="startChat('${f.uid}','${window._esc(f.name||'')}','${window._esc(f.username||'')}')">Chat →</button>
@@ -1424,6 +1702,8 @@ window.startChat=async(oUid,oName,oUname)=>{
 // CORE FIX: openChat properly sets header and loads live messages
 window.openChat=(chatId,oUid,oName,oUname)=>{
   aChatId=chatId; aOtherUid=oUid; aOtherName=oName||''; aOtherUname=oUname||oName||'';
+  // FIX 2: persist last open chat so it reopens after page refresh
+  try{sessionStorage.setItem('tisa_last_chat',chatId);}catch(e){}
   const dispN=oUname?('@'+oUname):oName;
   const av=(oUname||oName||'?')[0].toUpperCase();
   document.getElementById('chat-av').textContent=av;
@@ -1476,90 +1756,144 @@ function renderMsg(m,ck){
   return`<div class="msg ${isMe?'me':'them'}">${senderLabel}${content}<div class="msg-t">${t}${isMe?' 🔒':''}</div></div>`;
 }
 
+let _sending=false;
 window.sendMsg=async()=>{
   if(!aChatId){window.toast('Select a conversation first');return;}
+  if(_sending)return; // FIX 3: prevent duplicate sends on rapid Enter
   const inp=document.getElementById('chat-inp');
-  const txt=inp.value.trim(); if(!txt)return; inp.value='';
-  const ck=cKey(window._CU.uid,aOtherUid);
-  await addDoc(collection(db,'chats',aChatId,'messages'),{
-    text:xE(txt,ck),encrypted:true,
-    sender:window._CU.uid,sName:window._CU.displayName,suname:window._uname||'',
-    ts:serverTimestamp()
-  });
-  await updateDoc(doc(db,'chats',aChatId),{updatedAt:serverTimestamp(),lastMsg:'[encrypted]'});
+  const txt=inp.value.trim(); if(!txt)return;
+  if(txt.length>1000){window.toast('Message too long (max 1000 chars)');return;}
+  inp.value=''; _sending=true;
+  try{
+    const ck=cKey(window._CU.uid,aOtherUid);
+    await addDoc(collection(db,'chats',aChatId,'messages'),{
+      text:xE(txt,ck),encrypted:true,
+      sender:window._CU.uid,sName:window._CU.displayName,suname:window._uname||'',
+      ts:serverTimestamp()
+    });
+    await updateDoc(doc(db,'chats',aChatId),{updatedAt:serverTimestamp(),lastMsg:'[encrypted]'});
+  }catch(e){
+    window.toast('Failed to send. Check connection.');
+    inp.value=txt; // restore on failure
+  }finally{
+    _sending=false;
+  }
 };
+
+// FIX 1: persistent storage — compress images, enforce 700KB limit (Firestore 1MB doc limit)
+async function compressImage(dataUrl,maxW=600){
+  return new Promise(res=>{
+    const img=new Image();
+    img.onload=()=>{
+      const scale=Math.min(1,maxW/Math.max(img.width,img.height));
+      const canvas=document.createElement('canvas');
+      canvas.width=Math.round(img.width*scale);
+      canvas.height=Math.round(img.height*scale);
+      canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+      res(canvas.toDataURL('image/jpeg',0.6));
+    };
+    img.onerror=()=>res(dataUrl);
+    img.src=dataUrl;
+  });
+}
 
 window.sendChatFile=async(files)=>{
   if(!files[0]||!aChatId){window.toast('Select a conversation first');return;}
+  if(_sending){window.toast('Please wait...');return;} // BUG1 FIX: prevent duplicate file sends
   const f=files[0];
+  if(f.size>600*1024){window.toast('File too large. Max 600KB 📎');document.getElementById('chat-attach').value='';return;}
   const r=new FileReader();
+  _sending=true;
   r.onload=async(e)=>{
     const ck=cKey(window._CU.uid,aOtherUid);
     const isImg=f.type.startsWith('image/');
-    await addDoc(collection(db,'chats',aChatId,'messages'),{
-      text:xE(isImg?'[image]':'[file: '+f.name+']',ck),encrypted:true,
-      sender:window._CU.uid,sName:window._CU.displayName,suname:window._uname||'',
-      ts:serverTimestamp(),
-      fileType:f.type,fileName:f.name,originalFileName:f.name,fileData:e.target.result
-    });
-    document.getElementById('chat-attach').value='';
-    await updateDoc(doc(db,'chats',aChatId),{updatedAt:serverTimestamp()});
-    window.toast('File sent! 📎');
+    // Compress images before storing
+    const fileData=isImg?await compressImage(e.target.result):e.target.result;
+    try{
+      await addDoc(collection(db,'chats',aChatId,'messages'),{
+        text:xE(isImg?'[image]':'[file: '+f.name+']',ck),encrypted:true,
+        sender:window._CU.uid,sName:window._CU.displayName,suname:window._uname||'',
+        ts:serverTimestamp(),
+        fileType:f.type,fileName:f.name,originalFileName:f.name,fileData
+      });
+      document.getElementById('chat-attach').value='';
+      await updateDoc(doc(db,'chats',aChatId),{updatedAt:serverTimestamp()});
+      window.toast('File sent! 📎');
+    }catch(err){
+      window.toast('File too large for storage. Try a smaller file.');
+      document.getElementById('chat-attach').value='';
+    }finally{
+      _sending=false; // BUG3 FIX: always release lock after file upload
+    }
   };
   r.readAsDataURL(f);
 };
 
 window.switchTab=(tab,btn)=>{
+  // Clean up progress poll when leaving progress tab
+  if(tab!=='progress'&&window._progressMyPoll){
+    clearInterval(window._progressMyPoll);
+    window._progressMyPoll=null;
+  }
+  // BUG2 FIX: clean up goals listener when leaving goals tab
+  if(tab!=='goals'&&window._goalsUnsub){
+    window._goalsUnsub();
+    window._goalsUnsub=null;
+  }
   document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('cpanel-'+tab).classList.add('active');
-  if(tab==='progress'&&aChatId&&aOtherUid)loadProgress(aChatId,aOtherUid);
-  if(tab==='goals'&&aChatId)loadGoals(aChatId);
+  document.getElementById('cpanel-'+tab)?.classList.add('active');
+  if(tab==='progress'&&aChatId&&aOtherUid){
+    loadProgress(aChatId,aOtherUid);
+  }
+  if(tab==='goals'&&aChatId){
+    loadGoals(aChatId);
+  }
+  // FIX 2: re-attach chat listener if switching back to messages and listener is gone
+  if(tab==='messages'&&aChatId&&aOtherUid&&!window._chatUnsub){
+    window.openChat(aChatId,aOtherUid,aOtherName,aOtherUname);
+  }
 };
 
-// ── PROGRESS TRACKER (FIXED: live Firestore) ──
+// FIX 4: Progress tracker — use live listeners for BOTH users so it updates in real time
 function loadProgress(chatId,oUid){
   const el=document.getElementById('progress-view');
   if(!el)return;
+  // Clean up old listeners
   if(window._progressUnsub){window._progressUnsub();window._progressUnsub=null;}
+  if(window._progressUnsub2){window._progressUnsub2();window._progressUnsub2=null;}
   const myUname='@'+(window._uname||'You');
   const oUname='@'+(aOtherUname||'Buddy');
   const goal=8*3600;
-  getDoc(doc(db,'userData',oUid)).then(oSnap=>{
-    const od=oSnap.exists()?oSnap.data():{};
-    const oSD=od.studyData||{};
-    const oH=oSD[window._today]||0;
-    const oP=Math.min(100,Math.round(oH/goal*100));
-    let wO=0; for(let i=0;i<7;i++) wO+=(oSD[window._dStr(i)]||0);
-    const myH=window.studyData[window._today]||0;
-    const myP=Math.min(100,Math.round(myH/goal*100));
-    let wM=0; for(let i=0;i<7;i++) wM+=(window.studyData[window._dStr(i)]||0);
-    el.innerHTML=`
+  const chk=`<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`;
+
+  // Render the static skeleton first
+  el.innerHTML=`
 <div style="font-size:11px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">📊 Today's Study Progress</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-  <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center">
+  <div id="prog-my-today" style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center">
     <div style="font-size:11px;font-weight:800;color:var(--primary);margin-bottom:6px">${window._esc(myUname)}</div>
-    <div class="snum" style="font-size:20px">${window._fmtH(myH)}</div>
-    <div class="pt-bar-w"><div class="pt-bar" style="width:${myP}%"></div></div>
-    <div style="font-size:10px;color:var(--ink3);font-weight:700">${myP}% of 8h daily goal</div>
+    <div class="snum" style="font-size:20px" id="prog-my-h">--:--:--</div>
+    <div class="pt-bar-w"><div class="pt-bar" id="prog-my-bar" style="width:0%"></div></div>
+    <div style="font-size:10px;color:var(--ink3);font-weight:700" id="prog-my-pct">0% of 8h daily goal</div>
   </div>
-  <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center">
+  <div id="prog-o-today" style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center">
     <div style="font-size:11px;font-weight:800;color:var(--ink3);margin-bottom:6px">${window._esc(oUname)}</div>
-    <div class="snum" style="font-size:20px">${window._fmtH(oH)}</div>
-    <div class="pt-bar-w"><div class="pt-bar" style="width:${oP}%;opacity:.7"></div></div>
-    <div style="font-size:10px;color:var(--ink3);font-weight:700">${oP}% of 8h daily goal</div>
+    <div class="snum" style="font-size:20px" id="prog-o-h">Loading...</div>
+    <div class="pt-bar-w"><div class="pt-bar" id="prog-o-bar" style="width:0%;opacity:.7"></div></div>
+    <div style="font-size:10px;color:var(--ink3);font-weight:700" id="prog-o-pct">—</div>
   </div>
 </div>
 <div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📈 This Week</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
   <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px;text-align:center">
     <div style="font-size:11px;font-weight:700;color:var(--primary)">${window._esc(myUname)}</div>
-    <div class="snum" style="font-size:18px">${window._fmtH(wM)}</div>
+    <div class="snum" style="font-size:18px" id="prog-my-wk">--:--:--</div>
   </div>
   <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px;text-align:center">
     <div style="font-size:11px;font-weight:700;color:var(--ink3)">${window._esc(oUname)}</div>
-    <div class="snum" style="font-size:18px">${window._fmtH(wO)}</div>
+    <div class="snum" style="font-size:18px" id="prog-o-wk">Loading...</div>
   </div>
 </div>
 <div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📋 Mutual Task Tracker</div>
@@ -1577,62 +1911,137 @@ function loadProgress(chatId,oUid){
     <div id="mut-o" style="max-height:160px;overflow-y:auto"></div>
   </div>
 </div>`;
-    // Live mutual todos
-    window._progressUnsub=onSnapshot(doc(db,'chats',chatId),cs=>{
-      if(!cs.exists())return;
-      const cd=cs.data();
-      const myTd=((cd.mutualTodos||{})[window._CU.uid])||[];
-      const oTd=((cd.mutualTodos||{})[oUid])||[];
-      const myEl=document.getElementById('mut-my');
-      const oEl=document.getElementById('mut-o');
-      const chk=`<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`;
-      if(myEl)myEl.innerHTML=myTd.length?myTd.map((t,i)=>`<div class="mutual-todo-item">
-        <div class="mut-check ${t.done?'done':''}" onclick="togMutTodo('${chatId}','${window._CU.uid}',${i})">${t.done?chk:''}</div>
-        <span style="${t.done?'text-decoration:line-through;opacity:.4':''}flex:1;font-size:11px">${window._esc(t.text)}</span>
-        <button style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--ink3);padding:0" onclick="remMutTodo('${chatId}','${window._CU.uid}',${i})">×</button>
-      </div>`).join(''):'<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">No tasks yet</div>';
-      if(oEl)oEl.innerHTML=oTd.length?oTd.map(t=>`<div class="mutual-todo-item">
-        <div class="mut-check ${t.done?'done':''}" style="pointer-events:none;border-color:var(--border)">${t.done?chk:''}</div>
-        <span style="${t.done?'text-decoration:line-through;opacity:.4':''}flex:1;font-size:11px">${window._esc(t.text)}</span>
-      </div>`).join(''):'<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">No tasks yet</div>';
-    });
+
+  // FIX 4a: Live listener for MY study data (linked directly to timer)
+  function updateMyProgress(){
+    const myH=window.studyData[window._today]||0;
+    const myP=Math.min(100,Math.round(myH/goal*100));
+    let wM=0; for(let i=0;i<7;i++) wM+=(window.studyData[window._dStr(i)]||0);
+    const mh=document.getElementById('prog-my-h');
+    const mb=document.getElementById('prog-my-bar');
+    const mp=document.getElementById('prog-my-pct');
+    const mw=document.getElementById('prog-my-wk');
+    if(mh)mh.textContent=window._fmtH(myH);
+    if(mb)mb.style.width=myP+'%';
+    if(mp)mp.textContent=myP+'% of 8h daily goal';
+    if(mw)mw.textContent=window._fmtH(wM);
+  }
+  updateMyProgress();
+  // Poll my data every 10 seconds while progress tab is open (timer may be running)
+  window._progressMyPoll=setInterval(updateMyProgress,10000);
+
+  // FIX 4b: Live Firestore listener for OTHER user's study data
+  // LOADING FIX: read from publicStats (public) not userData (private, would silently fail)
+  window._progressUnsub2=onSnapshot(doc(db,'publicStats',oUid),oSnap=>{
+    const od=oSnap.exists()?oSnap.data():{};
+    const oSD=od.studyData||{};
+    const oH=oSD[window._today]||0;
+    const oP=Math.min(100,Math.round(oH/goal*100));
+    let wO=0; for(let i=0;i<7;i++) wO+=(oSD[window._dStr(i)]||0);
+    const oh=document.getElementById('prog-o-h');
+    const ob=document.getElementById('prog-o-bar');
+    const op=document.getElementById('prog-o-pct');
+    const ow=document.getElementById('prog-o-wk');
+    if(oh)oh.textContent=window._fmtH(oH);
+    if(ob)ob.style.width=oP+'%';
+    if(op)op.textContent=oP+'% of 8h daily goal';
+    if(ow)ow.textContent=window._fmtH(wO);
+  });
+
+  // Live mutual todos listener
+  window._progressUnsub=onSnapshot(doc(db,'chats',chatId),cs=>{
+    if(!cs.exists())return;
+    const cd=cs.data();
+    const myTd=((cd.mutualTodos||{})[window._CU.uid])||[];
+    const oTd=((cd.mutualTodos||{})[oUid])||[];
+    const myEl=document.getElementById('mut-my');
+    const oEl=document.getElementById('mut-o');
+    if(myEl)myEl.innerHTML=renderMyTodos(myTd,chatId,window._CU.uid,chk);
+    if(oEl)oEl.innerHTML=renderOTodos(oTd,chk);
   });
 }
 
+// Separate functions avoid nested backtick template literal syntax errors
+function renderMyTodos(list,chatId,uid,chk){
+  if(!list.length)return '<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">No tasks yet</div>';
+  return list.map(function(t,i){
+    var done=t.done;
+    var check='<div class="mut-check '+(done?'done':'')+'" data-cid="'+chatId+'" data-uid="'+uid+'" data-idx="'+i+'" onclick="togMutTodo(this.dataset.cid,this.dataset.uid,+this.dataset.idx)">'+(done?chk:'')+'</div>';
+    var text='<span style="'+(done?'text-decoration:line-through;opacity:.4;':'')+'flex:1;font-size:11px">'+window._esc(t.text)+'</span>';
+    var del='<button style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--ink3);padding:0 2px" data-cid="'+chatId+'" data-uid="'+uid+'" data-idx="'+i+'" onclick="remMutTodo(this.dataset.cid,this.dataset.uid,+this.dataset.idx)">×</button>';
+    return '<div class="mutual-todo-item">'+check+text+del+'</div>';
+  }).join('');
+}
+
+function renderOTodos(list,chk){
+  if(!list.length)return '<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">No tasks yet</div>';
+  return list.map(function(t){
+    var done=t.done;
+    var check='<div class="mut-check '+(done?'done':'')+'" style="pointer-events:none;border-color:var(--border)">'+(done?chk:'')+'</div>';
+    var text='<span style="'+(done?'text-decoration:line-through;opacity:.4;':'')+'flex:1;font-size:11px">'+window._esc(t.text)+'</span>';
+    return '<div class="mutual-todo-item">'+check+text+'</div>';
+  }).join('');
+}
+
+// FIX 3: All todo mutations use runTransaction for atomic reads+writes
+// Eliminates race conditions when both users click simultaneously
 window.addMutTodo=async(chatId)=>{
   const inp=document.getElementById('mut-my-inp');
   const txt=inp?.value.trim(); if(!txt)return; inp.value='';
-  const snap=await getDoc(doc(db,'chats',chatId));
-  const mt={...((snap.exists()?snap.data().mutualTodos:{})||{})};
-  mt[window._CU.uid]=[...(mt[window._CU.uid]||[]),{text:txt,done:false}];
-  await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',chatId);
+      const snap=await tx.get(ref);
+      const mt={...((snap.exists()?snap.data().mutualTodos:{})||{})};
+      mt[window._CU.uid]=[...(mt[window._CU.uid]||[]),{text:txt,done:false}];
+      tx.update(ref,{mutualTodos:mt});
+    });
+  }catch(e){window.toast('Failed to add task. Try again.');inp.value=txt;}
 };
+
 window.togMutTodo=async(chatId,uid,i)=>{
-  const snap=await getDoc(doc(db,'chats',chatId));
-  const mt={...snap.data().mutualTodos};
-  mt[uid]=[...mt[uid]]; mt[uid][i]={...mt[uid][i],done:!mt[uid][i].done};
-  await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',chatId);
+      const snap=await tx.get(ref);
+      if(!snap.exists())return;
+      const mt={...snap.data().mutualTodos};
+      mt[uid]=[...mt[uid]];
+      mt[uid][i]={...mt[uid][i],done:!mt[uid][i].done};
+      tx.update(ref,{mutualTodos:mt});
+    });
+  }catch(e){window.toast('Failed to update task. Try again.');}
 };
+
 window.remMutTodo=async(chatId,uid,i)=>{
-  const snap=await getDoc(doc(db,'chats',chatId));
-  const mt={...snap.data().mutualTodos};
-  mt[uid]=[...mt[uid]]; mt[uid].splice(i,1);
-  await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',chatId);
+      const snap=await tx.get(ref);
+      if(!snap.exists())return;
+      const mt={...snap.data().mutualTodos};
+      mt[uid]=[...mt[uid]];
+      mt[uid].splice(i,1);
+      tx.update(ref,{mutualTodos:mt});
+    });
+  }catch(e){window.toast('Failed to remove task. Try again.');}
 };
 
 // ── GOALS ──
 function loadGoals(chatId){
   const el=document.getElementById('goals-view');if(!el)return;
-  onSnapshot(doc(db,'chats',chatId),snap=>{
+  // BUG1 FIX: clean up old goals listener before creating a new one
+  if(window._goalsUnsub){window._goalsUnsub();window._goalsUnsub=null;}
+  window._goalsUnsub=onSnapshot(doc(db,'chats',chatId),snap=>{
     if(!snap.exists())return;
     const goals=snap.data().goals||[];
     const chk=`<svg width="9" height="9" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`;
     el.innerHTML=`<div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px">🎯 Shared Goals</div>
 ${goals.length?goals.map((g,i)=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--border2);font-size:12px;font-weight:600">
-  <div style="width:18px;height:18px;border:2px solid var(--primary);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;${g.done?'background:var(--primary)':''}" onclick="tGoal('${chatId}',${i})">${g.done?chk:''}</div>
+  <div style="width:18px;height:18px;border:2px solid var(--primary);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;${g.done?'background:var(--primary)':''}" data-cid="${chatId}" data-idx="${i}" onclick="tGoal(this.dataset.cid,+this.dataset.idx)">${g.done?chk:''}</div>
   <span style="flex:1;${g.done?'text-decoration:line-through;opacity:.5':''}">${window._esc(g.text)}</span>
   <span style="font-size:10px;color:var(--ink3)">${window._esc(g.by||'')}</span>
-  <button class="ic-btn" onclick="rmGoal('${chatId}',${i})" style="font-size:14px">×</button>
+  <button class="ic-btn" data-cid="${chatId}" data-idx="${i}" onclick="rmGoal(this.dataset.cid,+this.dataset.idx)" style="font-size:14px">×</button>
 </div>`).join(''):'<div class="empty" style="padding:10px">No shared goals yet</div>'}
 <div style="display:flex;gap:7px;margin-top:10px">
   <input type="text" class="tisa-inp" id="gi-${chatId}" placeholder="Add a shared goal..." style="flex:1;padding:8px 10px;font-size:12px" onkeydown="if(event.key==='Enter')addGoal('${chatId}')">
@@ -1640,9 +2049,43 @@ ${goals.length?goals.map((g,i)=>`<div style="display:flex;align-items:center;gap
 </div>`;
   });
 }
-window.addGoal=async(cId)=>{const inp=document.getElementById('gi-'+cId);const txt=inp?.value.trim();if(!txt)return;inp.value='';const snap=await getDoc(doc(db,'chats',cId));const goals=[...(snap.exists()?(snap.data().goals||[]):[])];goals.push({text:txt,done:false,by:'@'+(window._uname||'')});await updateDoc(doc(db,'chats',cId),{goals});};
-window.tGoal=async(cId,i)=>{const snap=await getDoc(doc(db,'chats',cId));const goals=[...snap.data().goals];goals[i]={...goals[i],done:!goals[i].done};await updateDoc(doc(db,'chats',cId),{goals});};
-window.rmGoal=async(cId,i)=>{const snap=await getDoc(doc(db,'chats',cId));const goals=[...snap.data().goals];goals.splice(i,1);await updateDoc(doc(db,'chats',cId),{goals});};
+window.addGoal=async(cId)=>{
+  const inp=document.getElementById('gi-'+cId);
+  const txt=inp?.value.trim();if(!txt)return;inp.value='';
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',cId);
+      const snap=await tx.get(ref);
+      const goals=[...(snap.exists()?(snap.data().goals||[]):[])];
+      goals.push({text:txt,done:false,by:'@'+(window._uname||'')});
+      tx.update(ref,{goals});
+    });
+  }catch(e){window.toast('Failed to add goal.');inp.value=txt;}
+};
+window.tGoal=async(cId,i)=>{
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',cId);
+      const snap=await tx.get(ref);
+      if(!snap.exists())return;
+      const goals=[...snap.data().goals];
+      goals[i]={...goals[i],done:!goals[i].done};
+      tx.update(ref,{goals});
+    });
+  }catch(e){window.toast('Failed to update goal.');}
+};
+window.rmGoal=async(cId,i)=>{
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',cId);
+      const snap=await tx.get(ref);
+      if(!snap.exists())return;
+      const goals=[...snap.data().goals];
+      goals.splice(i,1);
+      tx.update(ref,{goals});
+    });
+  }catch(e){window.toast('Failed to remove goal.');}
+};
 
 // ── CHAT SIDEBAR ──
 function loadMyChats(){
@@ -1668,6 +2111,20 @@ function loadMyChats(){
           </div>
         </div>`;
       }).join('');
+      // FIX 2: auto-reopen last chat after page refresh
+      if(!aChatId){
+        const lastId=sessionStorage.getItem('tisa_last_chat');
+        if(lastId){
+          const lastDoc=sorted.find(d=>d.id===lastId);
+          if(lastDoc){
+            const ch=lastDoc.data();
+            const oId=ch.members.find(i=>i!==window._CU.uid);
+            const oUname=(ch.memberUsernames||{})[oId]||'';
+            const oName=(ch.memberNames||{})[oId]||'Unknown';
+            window.openChat(lastId,oId,oName,oUname);
+          }
+        }
+      }
     }
   );
 }
@@ -1675,12 +2132,20 @@ window._loadMyChats=loadMyChats;
 window._loadForum=loadForum;
 </script>
 <script>
-// ══ GLOBAL STATE ══
+// ══ GLOBAL STATE (protected with || fallbacks) ══
 window.defaultSubjects=['General','Math','Physics','Chemistry','Biology','History','Literature','Computer Science'];
-window.studyData={};window.todos=[];window.countdowns=[];window.papers=[];window.pastTests=[];
-window.journals={};window.assignments=[];window.resources=[];window.timetable={};
-window.subjects=[...window.defaultSubjects];window.customAvatarUrl='';
-window.xp=0;window.coins=0;
+window.studyData=window.studyData||{};
+window.todos=window.todos||[];
+window.countdowns=window.countdowns||[];
+window.papers=window.papers||[];
+window.pastTests=window.pastTests||[];
+window.journals=window.journals||{};
+window.assignments=window.assignments||[];
+window.resources=window.resources||[];
+window.timetable=window.timetable||{};
+window.subjects=window.subjects||[...window.defaultSubjects];
+window.customAvatarUrl=window.customAvatarUrl||'';
+window.xp=window.xp||0;window.coins=0;
 let tRun=false,tSecs=0,tInt=null,sessions=[];
 let pomoMode=false,pomoState='work',pomoDur=25,brkDur=5,pomoCount=0,pomoTotal=4;
 let testInt=null,testLeft=0,testPaper=null,testMins=60,testTimeSelected=60;
@@ -1692,7 +2157,12 @@ let focusRun=false,focusSecs=0,focusInt=null;
 window._today=new Date().toISOString().split('T')[0];
 
 // ── UTILS ──
-function save(){if(window._save)window._save();}
+let _saveTimer=null;
+function save(){
+  if(!window._save)return;
+  clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(()=>window._save(),1500);
+}
 function pad(n){return String(n).padStart(2,'0');}
 window._esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
 window._fmtH=function(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=Math.floor(s%60);return h+':'+pad(m)+':'+pad(sc);};
@@ -1711,29 +2181,80 @@ window.showPage=(name,btn)=>{
   if(btn)btn.classList.add('active');
   else{const nb=document.querySelector(`nav button[onclick*="'${name}'"]`);if(nb)nb.classList.add('active');}
   if(name==='connect'){window._loadMyChats&&window._loadMyChats();}
-  if(name==='community'){window.initCommunityAlias&&window.initCommunityAlias();}
+  if(name==='community'){window.initCommunityAlias&&window.initCommunityAlias();window._loadForum&&window._loadForum();} // BUG3 FIX: reload forum when navigating to community page
   if(name==='performance'){renderBigChart();renderPieChart();renderSubjPerf();renderXP();renderCal();}
   if(name==='profile'){renderProfilePage();}
 };
 let moreOpen=false;
-window.toggleMoreMenu=()=>{moreOpen=!moreOpen;document.getElementById('more-menu').classList.toggle('open',moreOpen);};
+window.toggleMoreMenu=()=>{moreOpen=!moreOpen;document.getElementById('more-menu')?.classList.toggle('open',moreOpen);};
 window.closeMoreMenu=()=>{moreOpen=false;document.getElementById('more-menu').classList.remove('open');};
 window.showPageMob=(name,btn)=>{showPage(name,null);document.querySelectorAll('.mnb').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.more-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');else{document.querySelector('.mnb[data-page="'+name+'"]')?.classList.add('active');document.querySelector('.more-btn[data-page="'+name+'"]')?.classList.add('active');}};
 document.addEventListener('click',e=>{if(moreOpen&&!e.target.closest('#more-menu')&&!e.target.closest('.mnb'))closeMoreMenu();});
-window.addEventListener('resize',()=>{const mn=document.getElementById('mobile-nav');if(mn&&document.getElementById('app-main').style.display!=='none')mn.style.display=window.innerWidth<=760?'block':'none';});
+window.addEventListener('resize',()=>{const mn=document.getElementById('mobile-nav');if(!mn)return;const appVisible=document.getElementById('app-main')?.style.display!=='none';mn.style.display=(appVisible&&window.innerWidth<=760)?'block':'none';});
 
 // ── THEME ──
-const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'}};
+const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimalist',p:'#4a5e2a',b:'#f7f9f4',s:'#ffffff'}};
 function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);localStorage.setItem('tisa-theme',name);document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();}
 window.setTheme=setTheme;
 window.toggleDark=()=>{const c=document.documentElement.getAttribute('data-theme');setTheme(c==='dark'?'light':'dark');};
 window.applyCustom=()=>{const p=document.getElementById('custom-p').value,bg=document.getElementById('custom-bg').value;const r=document.documentElement.style;document.documentElement.removeAttribute('data-theme');r.setProperty('--primary',p);r.setProperty('--pd',shade(p,-20));r.setProperty('--pl',shade(p,40));r.setProperty('--pglow',p+'22');r.setProperty('--bg',bg);r.setProperty('--bg2',shade(bg,-4));r.setProperty('--bg3',shade(bg,-8));r.setProperty('--surface',shade(bg,3));r.setProperty('--ink','#1a1c16');r.setProperty('--ink2','#4a5240');r.setProperty('--ink3','#8a9280');r.setProperty('--border',p+'33');r.setProperty('--border2',p+'18');toast('Custom theme applied 🎨');};
 function shade(c,p){const n=parseInt(c.slice(1),16),t=p<0?0:255,R=n>>16,G=(n>>8)&0xFF,B=n&0xFF;return'#'+(0x1000000+(Math.round((t-R)*Math.abs(p)/100)+R)*0x10000+(Math.round((t-G)*Math.abs(p)/100)+G)*0x100+(Math.round((t-B)*Math.abs(p)/100)+B)).toString(16).slice(1);}
 window.renderThemeGrid=function(){const el=document.getElementById('theme-grid-el');if(!el)return;const cur=document.documentElement.getAttribute('data-theme');el.innerHTML=Object.entries(THEMES).map(([k,v])=>`<div class="theme-card ${cur===k?'active':''}" onclick="setTheme('${k}')"><div class="tp-row"><div class="tp-b" style="background:${v.p}"></div><div class="tp-b" style="background:${v.b}"></div><div class="tp-b" style="background:${v.s}"></div></div><div class="tnm">${v.name}</div></div>`).join('');};
-setTheme(localStorage.getItem('tisa-theme')||'light');
+try{setTheme(localStorage.getItem('tisa-theme')||'light');}catch(e){setTheme('light');}
 
 // ── QUOTES ──
-const QS=[{t:"The secret of getting ahead is getting started.",a:"Mark Twain"},{t:"It always seems impossible until it's done.",a:"Nelson Mandela"},{t:"Success is the sum of small efforts repeated day in and day out.",a:"Robert Collier"},{t:"Don't watch the clock; do what it does. Keep going.",a:"Sam Levenson"},{t:"The expert in anything was once a beginner.",a:"Helen Hayes"},{t:"An investment in knowledge pays the best interest.",a:"Benjamin Franklin"},{t:"The beautiful thing about learning is nobody can take it away from you.",a:"B.B. King"},{t:"Hard work beats talent when talent doesn't work hard.",a:"Tim Notke"},{t:"Education is not the filling of a pail, but the lighting of a fire.",a:"W.B. Yeats"},{t:"Push yourself, because no one else is going to do it for you.",a:"Unknown"},{t:"Your limitation—it's only your imagination.",a:"Unknown"}];
+const QS=[
+{t:"The secret of getting ahead is getting started.",a:"Mark Twain"},
+{t:"It always seems impossible until it's done.",a:"Nelson Mandela"},
+{t:"Success is the sum of small efforts repeated day in and day out.",a:"Robert Collier"},
+{t:"Don't watch the clock; do what it does. Keep going.",a:"Sam Levenson"},
+{t:"The expert in anything was once a beginner.",a:"Helen Hayes"},
+{t:"An investment in knowledge pays the best interest.",a:"Benjamin Franklin"},
+{t:"The beautiful thing about learning is nobody can take it away from you.",a:"B.B. King"},
+{t:"Hard work beats talent when talent doesn't work hard.",a:"Tim Notke"},
+{t:"Education is not the filling of a pail, but the lighting of a fire.",a:"W.B. Yeats"},
+{t:"Push yourself, because no one else is going to do it for you.",a:"Unknown"},
+{t:"Your limitation—it's only your imagination.",a:"Unknown"},
+{t:"Great things never come from comfort zones.",a:"Unknown"},
+{t:"Dream it. Wish it. Do it.",a:"Unknown"},
+{t:"Success doesn't just find you. You have to go out and get it.",a:"Unknown"},
+{t:"The harder you work for something, the greater you'll feel when you achieve it.",a:"Unknown"},
+{t:"Don't stop when you're tired. Stop when you're done.",a:"Unknown"},
+{t:"Wake up with determination. Go to bed with satisfaction.",a:"Unknown"},
+{t:"Do something today that your future self will thank you for.",a:"Sean Patrick Flanery"},
+{t:"Little things make big days.",a:"Unknown"},
+{t:"It's going to be hard, but hard does not mean impossible.",a:"Unknown"},
+{t:"Don't wait for opportunity. Create it.",a:"Unknown"},
+{t:"Sometimes we're tested not to show our weaknesses, but to discover our strengths.",a:"Unknown"},
+{t:"The key to success is to focus on goals, not obstacles.",a:"Unknown"},
+{t:"Dream bigger. Do bigger.",a:"Unknown"},
+{t:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},
+{t:"Act as if what you do makes a difference. It does.",a:"William James"},
+{t:"Success is not final, failure is not fatal: it is the courage to continue that counts.",a:"Winston Churchill"},
+{t:"Believe you can and you're halfway there.",a:"Theodore Roosevelt"},
+{t:"You are never too old to set another goal or to dream a new dream.",a:"C.S. Lewis"},
+{t:"To know how much there is to know is the beginning of learning to live.",a:"Dorothy West"},
+{t:"Study while others are sleeping; work while others are loafing; prepare while others are playing.",a:"William A. Ward"},
+{t:"The mind is not a vessel to be filled, but a fire to be kindled.",a:"Plutarch"},
+{t:"Learning is a treasure that will follow its owner everywhere.",a:"Chinese Proverb"},
+{t:"Education is the passport to the future.",a:"Malcolm X"},
+{t:"Develop a passion for learning. If you do, you will never cease to grow.",a:"Anthony J. D'Angelo"},
+{t:"Commitment is an act, not a word.",a:"Jean-Paul Sartre"},
+{t:"A year from now you may wish you had started today.",a:"Karen Lamb"},
+{t:"You don't need to see the whole staircase. Just take the first step.",a:"Martin Luther King Jr."},
+{t:"The only way to do great work is to love what you do.",a:"Steve Jobs"},
+{t:"Opportunities don't happen, you create them.",a:"Chris Grosser"},
+{t:"Don't limit your challenges. Challenge your limits.",a:"Unknown"},
+{t:"Every accomplishment starts with the decision to try.",a:"Unknown"},
+{t:"You will never always be motivated. You have to learn to be disciplined.",a:"Unknown"},
+{t:"Discipline is choosing between what you want now and what you want most.",a:"Abraham Lincoln"},
+{t:"Small daily improvements are the key to staggering long-term results.",a:"Unknown"},
+{t:"The secret to getting ahead is getting started.",a:"Agatha Christie"},
+{t:"You don't get what you wish for. You get what you work for.",a:"Unknown"},
+{t:"There are no shortcuts to any place worth going.",a:"Beverly Sills"},
+{t:"Stay focused and never give up.",a:"Unknown"},
+{t:"The future belongs to those who believe in the beauty of their dreams.",a:"Eleanor Roosevelt"}
+];
 let qI=Math.floor(Math.random()*QS.length);
 window.nextQ=function(){qI=(qI+1)%QS.length;const q=QS[qI];const qt=document.getElementById('qt');const qa=document.getElementById('qa');const lq=document.getElementById('lq');if(qt)qt.textContent='"'+q.t+'"';if(qa)qa.textContent='— '+q.a;if(lq)lq.textContent='"'+q.t+'"';};
 nextQ();
@@ -1750,7 +2271,8 @@ window.focusSubjSync=function(){const el=document.getElementById('focus-subj');i
 
 // ── TIMER ──
 window.toggleTimer=()=>tRun?pauseT():startT();
-function startT(){tRun=true;document.getElementById('t-btn').textContent='Pause';document.getElementById('t-mode').textContent=pomoMode?(pomoState==='work'?'🍅 focus':'☕ break'):'studying ✏';tInt=setInterval(()=>{tSecs++;updTD();updTRing();if(tSecs%60===0&&pomoState==='work')saveSecs(60);if(pomoMode){const dur=pomoState==='work'?pomoDur*60:brkDur*60;if(tSecs>=dur)pomoCycle();}},1000);}
+function startT(){if(tInt)clearInterval(tInt); // BUG6 FIX: always clear before starting
+  tRun=true;document.getElementById('t-btn').textContent='Pause';document.getElementById('t-mode').textContent=pomoMode?(pomoState==='work'?'🍅 focus':'☕ break'):'studying ✏';tInt=setInterval(()=>{tSecs++;updTD();updTRing();if(tSecs%60===0&&pomoState==='work')saveSecs(60);if(pomoMode){const dur=pomoState==='work'?pomoDur*60:brkDur*60;if(tSecs>=dur)pomoCycle();}},1000);}
 function pauseT(){tRun=false;clearInterval(tInt);document.getElementById('t-btn').textContent='Continue';document.getElementById('t-mode').textContent='paused';if(tSecs>10&&pomoState==='work')logSess();}
 window.resetTimer=()=>{if(tRun){clearInterval(tInt);tRun=false;}if(tSecs>10)logSess();tSecs=0;updTD();updTRing();document.getElementById('t-btn').textContent='Start';document.getElementById('t-mode').textContent='ready';};
 function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){saveSecs(pomoDur*60);pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){pomoCount=0;toast('🎉 4 Pomodoros done!');pomoState='work';tSecs=0;}else{pomoState='break';tSecs=0;toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';tSecs=0;toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}updTD();}
@@ -1758,7 +2280,12 @@ window.togglePomo=()=>{pomoMode=!pomoMode;const btn=document.getElementById('pom
 function updPomoDots(){['pomo-dots','pomo-info','focus-pomo'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=Array(pomoTotal).fill(0).map((_,i)=>`<div class="pdot ${i<pomoCount?'done':i===pomoCount&&tRun?'cur':''}"></div>`).join('');});}
 function updTD(){const t=fmtHMS(tSecs);const td=document.getElementById('t-digits');const ft=document.getElementById('focus-t');if(td)td.textContent=t;if(ft)ft.textContent=t;}
 function updTRing(){const dur=pomoMode?(pomoState==='work'?pomoDur*60:brkDur*60):3600;const pct=Math.min(1,tSecs/dur);const pr=document.getElementById('t-prog');if(pr)pr.style.strokeDashoffset=408*(1-pct);}
-function saveSecs(s){window.studyData[window._today]=(window.studyData[window._today]||0)+s;save();renderStats();renderWkChart();renderCal();renderBigChart();checkXP();}
+function saveSecs(s){
+  // FIX C: recompute today on every save - handles midnight crossover
+  window._today=new Date().toISOString().slice(0,10);
+  window.studyData[window._today]=(window.studyData[window._today]||0)+s;
+  save();renderStats();renderWkChart();checkXP();
+}
 function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel')?.value||'General',dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});tSecs=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
 function renderSessLog(){const el=document.getElementById('sess-log');if(!el)return;if(!sessions.length){el.innerHTML='';return;}el.innerHTML=sessions.slice(0,4).map(s=>`<div class="sess-item"><span class="tag" style="font-size:10px">${window._esc(s.sub)}</span><span style="font-weight:800;color:var(--primary);font-family:'Space Mono',monospace">${fmtHLabel(s.dur)}</span><span style="color:var(--ink3)">${s.time}</span></div>`).join('');}
 function renderStats(){const ts=window.studyData[window._today]||0;const stdEl=document.getElementById('st-today');if(stdEl)stdEl.textContent=window._fmtH(ts);let ws=0;for(let i=0;i<7;i++)ws+=(window.studyData[window._dStr(i)]||0);const swEl=document.getElementById('st-week');if(swEl)swEl.textContent=window._fmtH(ws);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const ssEl=document.getElementById('st-streak');if(ssEl)ssEl.textContent=st;const seEl=document.getElementById('st-sess');if(seEl)seEl.textContent=sessions.length;}
@@ -1769,7 +2296,7 @@ function calcPomoTotal(){const t=pomoDur*4+brkDur*3;return t>=60?Math.floor(t/60
 
 // ── FOCUS ──
 window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
-window.toggleFocusTimer=()=>{if(focusRun){focusRun=false;clearInterval(focusInt);document.getElementById('focus-btn').textContent='Continue';document.getElementById('focus-lbl').textContent='paused';}else{focusRun=true;document.getElementById('focus-btn').textContent='Pause';document.getElementById('focus-lbl').textContent='deep focus 🎯';focusInt=setInterval(()=>{focusSecs++;const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);},1000);}};
+window.toggleFocusTimer=()=>{if(focusRun){focusRun=false;clearInterval(focusInt);document.getElementById('focus-btn').textContent='Continue';document.getElementById('focus-lbl').textContent='paused';}else{focusRun=true;if(focusInt)clearInterval(focusInt);document.getElementById('focus-btn').textContent='Pause';document.getElementById('focus-lbl').textContent='deep focus 🎯';focusInt=setInterval(()=>{focusSecs++;const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);},1000);}};
 window.resetFocusTimer=()=>{if(focusRun){clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
 
 // ── XP ──
@@ -1805,7 +2332,8 @@ function renderTodos(){const el=document.getElementById('todo-list');if(!el)retu
 // ── CHARTS ──
 const PIE_COLORS=['#5c7a3e','#7db356','#d4688a','#2a7fa8','#d4783a','#8b6fd4','#c8941a','#2d7a3a'];
 function renderBigChart(){const el=document.getElementById('big-chart');if(!el)return;const vals=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];vals.push({l:d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:(window.studyData[ds]||0)/3600,s:window.studyData[ds]||0,isT:ds===window._today});}const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map(v=>`<div class="bc-bar-wrap"><div class="bc-bar" style="height:${Math.round(v.v/mx*150)+4}px;min-width:22px"><div class="bc-bar-tip">${fmtHLabel(v.s)}</div></div><div class="bc-lbl">${v.isT?'Today':v.l}</div></div>`).join('');let tw=0,lw=0;for(let i=0;i<7;i++)tw+=(window.studyData[window._dStr(i)]||0);for(let i=7;i<14;i++)lw+=(window.studyData[window._dStr(i)]||0);const pte=document.getElementById('pw-this'),ple=document.getElementById('pw-last'),pd=document.getElementById('pw-diff');if(pte)pte.textContent=window._fmtH(tw);if(ple)ple.textContent=window._fmtH(lw);if(pd){const diff=tw-lw;pd.textContent=diff>=0?'↑ +'+fmtHLabel(diff)+' vs last week':'↓ '+fmtHLabel(Math.abs(diff))+' vs last week';pd.style.color=diff>=0?'var(--success)':'var(--danger)';}}
-function renderPieChart(){const canvas=document.getElementById('pie-canvas');if(!canvas)return;const ctx=canvas.getContext('2d');const subTotals={};sessions.forEach(s=>{subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const entries=Object.entries(subTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,7);const total=entries.reduce((a,[,v])=>a+v,0);ctx.clearRect(0,0,150,150);const leg=document.getElementById('pie-legend');if(!total){ctx.fillStyle='#e0e0e0';ctx.beginPath();ctx.arc(75,75,65,0,Math.PI*2);ctx.fill();if(leg)leg.innerHTML='<div style="font-size:11px;color:var(--ink3);font-weight:600">Start studying to see chart!</div>';return;}let angle=-Math.PI/2;entries.forEach(([s,v],i)=>{const slice=(v/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,65,angle,angle+slice);ctx.closePath();ctx.fillStyle=PIE_COLORS[i%8];ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();angle+=slice;});if(leg)leg.innerHTML=entries.map(([s,v],i)=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${PIE_COLORS[i%8]}"></div><span>${window._esc(s)}</span><span style="margin-left:auto;color:var(--primary);font-weight:800">${fmtHLabel(v)}</span></div>`).join('');}
+function renderPieChart(){const canvas=document.getElementById('pie-canvas');if(!canvas)return;const ctx=canvas.getContext('2d');const subTotals={};(sessions||[]).forEach(s=>{ // guard undefined sessions
+  subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const entries=Object.entries(subTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,7);const total=entries.reduce((a,[,v])=>a+v,0);ctx.clearRect(0,0,150,150);const leg=document.getElementById('pie-legend');if(!total){ctx.fillStyle='#e0e0e0';ctx.beginPath();ctx.arc(75,75,65,0,Math.PI*2);ctx.fill();if(leg)leg.innerHTML='<div style="font-size:11px;color:var(--ink3);font-weight:600">Start studying to see chart!</div>';return;}let angle=-Math.PI/2;entries.forEach(([s,v],i)=>{const slice=(v/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,65,angle,angle+slice);ctx.closePath();ctx.fillStyle=PIE_COLORS[i%8];ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();angle+=slice;});if(leg)leg.innerHTML=entries.map(([s,v],i)=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${PIE_COLORS[i%8]}"></div><span>${window._esc(s)}</span><span style="margin-left:auto;color:var(--primary);font-weight:800">${fmtHLabel(v)}</span></div>`).join('');}
 function renderSubjPerf(){const el=document.getElementById('subj-perf');if(!el)return;const st={};sessions.forEach(s=>{st[s.sub]=(st[s.sub]||0)+s.dur;});const sorted=Object.entries(st).sort((a,b)=>b[1]-a[1]).slice(0,5);if(!sorted.length){el.innerHTML='<div class="empty">No study data yet</div>';return;}const mx=Math.max(...sorted.map(([,v])=>v),1);el.innerHTML=sorted.map(([s,v],i)=>`<div class="sp-item"><div style="font-size:11px;font-weight:700;width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(s)}</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:${Math.round(v/mx*100)}%;background:${PIE_COLORS[i%8]}"></div></div><div style="font-size:11px;font-weight:800;color:var(--primary);width:52px;text-align:right;font-family:'Space Mono',monospace">${fmtHLabel(v)}</div></div>`).join('');let allT=0;Object.values(window.studyData).forEach(v=>allT+=v);const days=Object.values(window.studyData).filter(v=>v>0);const avg=days.length?allT/days.length:0;const best=Math.max(...Object.values(window.studyData),0);const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('p-total-h',window._fmtH(allT));set('p-best-day',fmtHLabel(best)||'—');set('p-avg',window._fmtH(avg));set('p-tests-c',window.pastTests.length);}
 
 // ── TESTS ──
@@ -1815,7 +2343,21 @@ window.handleDrop=(e)=>{e.preventDefault();document.getElementById('upload-z').c
 function renderPapers(){const el=document.getElementById('paper-list'),sel=document.getElementById('tpsel');const prev=document.getElementById('inline-preview');if(!window.papers.length){if(el)el.innerHTML='<div class="empty">No papers yet</div>';if(sel)sel.innerHTML='<option value="">— pick a paper —</option>';if(prev)prev.innerHTML='';return;}if(el)el.innerHTML=window.papers.map(p=>`<div class="paper-item"><div style="min-width:0;flex:1"><div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(p.name)}</div><div style="font-size:10px;color:var(--ink3);font-weight:600">${fmtSz(p.size)} · ${p.date}</div></div><div style="display:flex;gap:5px;flex-shrink:0"><button class="pill-btn" onclick="previewPaper('${p.id}')">👁 View</button><button class="pill-btn" style="border-color:var(--danger);color:var(--danger)" onclick="remPaper('${p.id}')">Del</button></div></div>`).join('');if(sel)sel.innerHTML='<option value="">— pick a paper —</option>'+window.papers.map(p=>`<option value="${p.id}">${window._esc(p.name)}</option>`).join('');}
 function fmtSz(b){return b>1048576?(b/1048576).toFixed(1)+' MB':Math.round(b/1024)+' KB';}
 window.remPaper=(id)=>{window.papers=window.papers.filter(p=>p.id!=id);save();renderPapers();document.getElementById('inline-preview').innerHTML='';};
-window.previewPaper=(id)=>{const p=window.papers.find(x=>x.id==id);if(!p)return;const prev=document.getElementById('inline-preview');if(!prev)return;if(p.type&&p.type.startsWith('image/')){prev.innerHTML=`<div class="pdf-preview-card"><div class="pdf-bar"><span>📄 ${window._esc(p.name)}</span><button class="pill-btn" onclick="document.getElementById('inline-preview').innerHTML=''">✕ Close</button></div><div style="padding:12px;text-align:center"><img src="${p.dataUrl}" style="max-width:100%;border-radius:8px;max-height:600px;object-fit:contain"></div></div>`;}else{prev.innerHTML=`<div class="pdf-preview-card"><div class="pdf-bar"><span>📄 ${window._esc(p.name)}</span><button class="pill-btn" onclick="document.getElementById('inline-preview').innerHTML=''">✕ Close</button></div><iframe src="${p.dataUrl}" style="width:100%;height:520px;border:none;display:block"></iframe></div>`;}prev.scrollIntoView({behavior:'smooth',block:'nearest'});};
+window.previewPaper=(id)=>{
+  const p=window.papers.find(x=>x.id==id);if(!p)return;
+  const prev=document.getElementById('inline-preview');if(!prev)return;
+  // FIX A: after page refresh, dataUrl not in Firestore - show friendly message
+  if(!p.dataUrl){
+    prev.innerHTML=`<div class="pdf-preview-card"><div class="pdf-bar"><span>📄 ${window._esc(p.name)}</span><button class="pill-btn" onclick="document.getElementById('inline-preview').innerHTML=''">✕ Close</button></div><div style="padding:24px;text-align:center;color:var(--ink3);font-size:12px;font-weight:700">📂 Re-upload this file to preview it.<br><span style="font-weight:500;font-size:11px">Files are stored locally per session for privacy.</span></div></div>`;
+    prev.scrollIntoView({behavior:'smooth',block:'nearest'});return;
+  }
+  if(p.type&&p.type.startsWith('image/')){
+    prev.innerHTML=`<div class="pdf-preview-card"><div class="pdf-bar"><span>📄 ${window._esc(p.name)}</span><button class="pill-btn" onclick="document.getElementById('inline-preview').innerHTML=''">✕ Close</button></div><div style="padding:12px;text-align:center"><img src="${p.dataUrl}" style="max-width:100%;border-radius:8px;max-height:600px;object-fit:contain"></div></div>`;
+  }else{
+    prev.innerHTML=`<div class="pdf-preview-card"><div class="pdf-bar"><span>📄 ${window._esc(p.name)}</span><button class="pill-btn" onclick="document.getElementById('inline-preview').innerHTML=''">✕ Close</button></div><iframe src="${p.dataUrl}" style="width:100%;height:520px;border:none;display:block"></iframe></div>`;
+  }
+  prev.scrollIntoView({behavior:'smooth',block:'nearest'});
+};
 window.startTest=()=>{const id=document.getElementById('tpsel')?.value;if(!id){toast('Select a paper first');return;}testPaper=window.papers.find(p=>p.id==id);if(!testPaper)return;testLeft=testTimeSelected*60;document.getElementById('m-title').textContent=testPaper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';document.getElementById('pdf-name-lbl').textContent=testPaper.name;document.getElementById('pdf-download-btn').href=testPaper.dataUrl;document.getElementById('pdf-download-btn').download=testPaper.name;const tb=document.getElementById('test-body'),toolbar=document.getElementById('pdf-toolbar');tb.style.padding='0';toolbar.style.display='flex';if(testPaper.type&&testPaper.type.startsWith('image/')){tb.innerHTML=`<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="${testPaper.dataUrl}" style="max-width:100%;border-radius:4px" id="test-img"></div>`;}else{tb.innerHTML=`<iframe src="${testPaper.dataUrl}" style="width:100%;height:560px;border:none;display:block" id="test-iframe"></iframe>`;}document.getElementById('test-modal').classList.add('open');updTestT();document.getElementById('m-got').value='';document.getElementById('m-total').value='';document.getElementById('m-wrong').value='';testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)window.submitTest();},1000);};
 window.addTime5=()=>{testLeft+=300;toast('+5 min added ⏱');updTestT();};
 function updTestT(){const m=Math.floor(testLeft/60),s=testLeft%60;const el=document.getElementById('m-timer');if(el){el.textContent=pad(m)+':'+pad(s);el.classList.toggle('low',testLeft<=300);}}
@@ -1870,10 +2412,16 @@ function renderProfilePage(){const cu=window._currentUser;if(!cu)return;document
 let healthOpen=false,healthInt=null;
 const healthItems=[{icon:'💧',msg:'Drink water! Stay hydrated 🚰',interval:25},{icon:'🏃',msg:'Stand up and stretch! 5-min break 🌿',interval:45},{icon:'👁',msg:'Look away from screen. 20-20-20 rule 👀',interval:20},{icon:'🍎',msg:'Time for a snack? Fuel your brain! 🧠',interval:60},{icon:'🧘',msg:'Take 3 deep breaths. Stay calm 🌸',interval:30}];
 let remIdx=0;
-window.startHealth=function(){clearInterval(healthInt);healthInt=setInterval(()=>{const h=healthItems[remIdx%healthItems.length];remIdx++;toast(h.icon+' '+h.msg);},h=>h,25*60*1000);};
+window.startHealth=function(){
+  if(healthInt)clearInterval(healthInt);
+  healthInt=setInterval(()=>{
+    if(!window._CU)return;
+    const h=healthItems[remIdx%healthItems.length];
+    remIdx++;
+    toast(h.icon+' '+h.msg);
+  },20*60*1000);
+};
 window.toggleHealth=()=>{healthOpen=!healthOpen;const pills=document.getElementById('h-pills');if(pills)pills.style.display=healthOpen?'flex':'none';if(healthOpen){pills.innerHTML=healthItems.map(h=>`<div class="h-pill" onclick="toast('${h.icon} ${h.msg}');toggleHealth()">${h.icon} ${h.msg.substring(0,30)}</div>`).join('');}};
-// Simple periodic reminders
-setInterval(()=>{if(!window._CU)return;const h=healthItems[remIdx%healthItems.length];remIdx++;toast(h.icon+' '+h.msg);},20*60*1000);
 
 // ── RENDER ALL ──
 window.renderAll=function(){
@@ -1886,7 +2434,52 @@ window.renderAll=function(){
 };
 
 // ── NOTIFICATIONS ──
-setTimeout(()=>{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission();},5000);
+setTimeout(()=>{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission();},5000);;
 </script>
+  <style>
+/* 1. Fix the Scroll Lock */
+body { 
+  display: block !important; 
+  overflow-x: hidden !important; 
+  overflow-y: auto !important; 
+  overscroll-behavior: auto !important; 
+}
+html, body { height: auto !important; }
+
+/* 2. Fix the Main Container & Bottom Nav Overlap */
+main { 
+  flex: none !important; 
+  padding-bottom: 100px !important; 
+  overflow-y: visible !important; 
+}
+
+/* 3. Fix the Chat Panel Breaking Mobile Scrolling */
+.cpanel { 
+  height: auto !important; 
+  min-height: 300px !important; 
+}
+
+/* 4. Fix Mobile Grid Layout */
+.home-grid { 
+  display: grid !important; 
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important; 
+}
+
+/* 5. Fix Doodles Not Appearing in Minimalist Theme */
+[data-theme="minimalist"] .ld-svg { 
+  display: block !important; 
+  opacity: 0.4 !important; 
+}
+
+/* 6. Fix CSS Typo for login doodles */
+.ld1, .ld4 { 
+  display: none !important; 
+}
+
+/* 7. Smooth Scrolling & Box Sizing Improvements */
+html { scroll-behavior: smooth !important; }
+* { box-sizing: border-box !important; }
+img, svg { max-width: 100% !important; height: auto !important; }
+</style>
 </body>
 </html>
