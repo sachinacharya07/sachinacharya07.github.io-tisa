@@ -18,6 +18,44 @@
 [data-theme="sakura"]{--bg:#fdf0f5;--bg2:#fae0ea;--bg3:#f5cede;--surface:#fff8fb;--surface2:#fdeef5;--primary:#c8527a;--pd:#a03560;--pl:#f0a0be;--pglow:rgba(200,82,122,.15);--ink:#2a0e1a;--ink2:#6a3048;--ink3:#a87090;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(200,82,122,.22);--border2:rgba(200,82,122,.1);--sh:0 2px 14px rgba(200,82,122,.1);--shl:0 8px 32px rgba(200,82,122,.14);}
 [data-theme="ocean"]{--bg:#edf4fa;--bg2:#d8ecf7;--bg3:#c2e0f0;--surface:#f8fcff;--surface2:#eef6fc;--primary:#1a6fa8;--pd:#0e4e7a;--pl:#7ab8dc;--pglow:rgba(26,111,168,.15);--ink:#091828;--ink2:#2a4a62;--ink3:#6a8aa0;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(26,111,168,.22);--border2:rgba(26,111,168,.1);--sh:0 2px 14px rgba(26,111,168,.1);--shl:0 8px 32px rgba(26,111,168,.14);}
 [data-theme="sunset"]{--bg:#fdf4ea;--bg2:#fae6cc;--bg3:#f5d4aa;--surface:#fffaf4;--surface2:#fdf0e0;--primary:#c8682a;--pd:#a04a18;--pl:#f0b080;--pglow:rgba(200,104,42,.15);--ink:#2a1200;--ink2:#6a3a18;--ink3:#a07848;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(200,104,42,.22);--border2:rgba(200,104,42,.1);--sh:0 2px 14px rgba(200,104,42,.1);--shl:0 8px 32px rgba(200,104,42,.14);}
+[data-theme="minimalist"]{
+  --primary:#2d2d2d;
+  --pl:#555555;
+  --bg:#fafafa;
+  --bg2:#f0f0f0;
+  --bg3:#e8e8e8;
+  --card:#ffffff;
+  --border:#e0e0e0;
+  --border2:#d0d0d0;
+  --ink:#1a1a1a;
+  --ink2:#3a3a3a;
+  --ink3:#7a7a7a;
+  --success:#2d7a2d;
+  --danger:#a02020;
+  --warn:#7a5500;
+  --font:'Inter','Helvetica Neue',Arial,sans-serif;
+}
+[data-theme="minimalist"] .tisa-logo{font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-weight:300;letter-spacing:8px;font-size:28px}
+[data-theme="minimalist"] .card{border-radius:6px;border:1px solid var(--border);box-shadow:none}
+[data-theme="minimalist"] .btn{border-radius:4px}
+[data-theme="minimalist"] .tisa-inp{border-radius:4px}
+[data-theme="minimalist"] .pill-btn{border-radius:4px}
+[data-theme="minimalist"] .badge{border-radius:4px}
+[data-theme="minimalist"] .nav-bubble{border-radius:4px}
+[data-theme="minimalist"] header{border-bottom:1px solid var(--border);box-shadow:none}
+[data-theme="minimalist"] nav{border-top:1px solid var(--border);box-shadow:none}
+[data-theme="minimalist"] .qbanner{display:none}
+[data-theme="minimalist"] .ct-ic{display:none}
+[data-theme="minimalist"] .login-blob{display:none}
+
+[data-theme="minimalist"] .timer-ring svg circle.t-prog{stroke-linecap:square}
+[data-theme="minimalist"] .pomo-dots .dot{border-radius:2px}
+[data-theme="minimalist"] .xp-chip{border-radius:4px}
+[data-theme="minimalist"] *{font-family:'Inter','Helvetica Neue',Arial,sans-serif !important}
+[data-theme="minimalist"] .t-digits{font-family:'Courier New',monospace !important;font-weight:300}
+[data-theme="minimalist"] .login-card{border:1px solid var(--border);box-shadow:none;border-radius:8px}
+[data-theme="minimalist"] .tisa-tagline{display:none}
+[data-theme="minimalist"] .welcome-note{font-size:11px;color:var(--ink3)}
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;font-size:14px}
@@ -48,6 +86,13 @@ input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 #login-screen{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:1000;overflow:hidden}
 #login-screen.show{display:flex}
 .login-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.ld-svg{position:absolute;pointer-events:none}
+.ld1{width:110px;height:110px;top:5%;right:6%;opacity:.85}
+.ld2{width:130px;height:130px;bottom:8%;left:4%;opacity:.8}
+.ld3{width:36px;height:100px;top:18%;left:8%;opacity:.85}
+.ld4{width:70px;height:70px;bottom:22%;right:10%;opacity:.75}
+[data-theme="dark"] .ld-svg{opacity:.25}
+[data-theme="minimalist"] .ld-svg{display:none}
 .login-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.12}
 .lb1{width:600px;height:600px;background:var(--primary);top:-150px;right:-150px;animation:blobf 9s ease-in-out infinite}
 .lb2{width:400px;height:400px;background:var(--pl);bottom:-100px;left:-100px;animation:blobf 12s ease-in-out infinite reverse}
@@ -156,12 +201,12 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 .forum-grid{display:grid;grid-template-columns:1fr 240px;gap:14px}
 
 /* TIMER */
-.timer-ring{position:relative;width:150px;height:150px;margin:8px auto}
-.tsvg{width:150px;height:150px;transform:rotate(-90deg)}
+.timer-ring{position:relative;width:200px;height:200px;margin:10px auto}
+.tsvg{width:200px;height:200px;transform:rotate(-90deg)}
 .t-track{fill:none;stroke:var(--bg3);stroke-width:9}
 .t-prog{fill:none;stroke:var(--primary);stroke-width:9;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset .6s ease}
 .t-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.t-digits{font-family:'Space Mono',monospace!important;font-size:30px;font-weight:700;color:var(--primary);letter-spacing:2px;line-height:1}
+.t-digits{font-family:'Space Mono',monospace!important;font-size:38px;font-weight:700;color:var(--primary);letter-spacing:2px;line-height:1}
 .t-mode{font-size:10px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-top:3px;font-weight:700}
 .t-btns{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}
 .subj-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
@@ -195,7 +240,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 .fbtn:hover:not(.active){border-color:var(--primary);color:var(--primary)}
 .todo-pb-w{height:5px;background:var(--bg2);border-radius:10px;margin-bottom:9px;overflow:hidden}
 .todo-pb{height:100%;background:linear-gradient(90deg,var(--primary),var(--pl));border-radius:10px;transition:width .5s}
-.todo-list{display:flex;flex-direction:column;gap:5px;max-height:280px;overflow-y:auto}
+.todo-list{display:flex;flex-direction:column;gap:5px;max-height:200px;overflow-y:auto}
 .todo-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1.5px solid var(--border2);border-radius:10px;background:var(--bg);transition:all .2s}
 .todo-item:hover{border-color:var(--border)}
 .todo-item.done{opacity:.42}
@@ -395,8 +440,64 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 /* RESPONSIVE */
 @media(max-width:1100px){.home-grid{grid-template-columns:1fr 1fr}.perf-grid{grid-template-columns:1fr}.conn-grid,.jgrid,.forum-grid{grid-template-columns:1fr}.test-grid{grid-template-columns:1fr}}
-@media(max-width:760px){.home-grid{grid-template-columns:1fr}.myspace-grid{grid-template-columns:1fr}main{padding:10px 10px 80px}header{padding:0 10px;height:52px}nav{display:none}#mobile-nav{display:block}#health-bubble{bottom:72px}#toast{bottom:80px}.prof-stats{grid-template-columns:repeat(2,1fr)}.theme-grid{grid-template-columns:repeat(2,1fr)}.focus-t{font-size:52px}.hdr-btn{display:none}.xp-chip span:last-child{display:none}.logo-sub{display:none}.perf-grid{grid-template-columns:1fr}.tt-grid{font-size:9px;grid-template-columns:40px repeat(7,1fr)}.jgrid{grid-template-columns:1fr}.conn-grid{grid-template-columns:1fr}.forum-grid{grid-template-columns:1fr}}
-@media(max-width:600px){.tt-grid{overflow-x:auto;min-width:500px}.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}}
+@media(max-width:760px){
+  .home-grid{grid-template-columns:1fr}
+  .myspace-grid{grid-template-columns:1fr}
+  main{padding:10px 10px 80px}
+  header{padding:0 10px;height:52px}
+  nav{display:none}
+  #mobile-nav{display:block}
+  #health-bubble{bottom:72px}
+  #toast{bottom:80px;left:12px;right:12px;text-align:center}
+  .prof-stats{grid-template-columns:repeat(2,1fr)}
+  .theme-grid{grid-template-columns:repeat(2,1fr)}
+  .focus-t{font-size:52px}
+  .hdr-btn{display:none}
+  .xp-chip span:last-child{display:none}
+  .logo-sub{display:none}
+  .perf-grid{grid-template-columns:1fr}
+  .tt-grid{font-size:9px;grid-template-columns:40px repeat(7,1fr)}
+  .jgrid{grid-template-columns:1fr}
+  .conn-grid{grid-template-columns:1fr}
+  .forum-grid{grid-template-columns:1fr}
+  /* Timer: slightly smaller on mobile */
+  .timer-ring{width:160px;height:160px}
+  .tsvg{width:160px;height:160px}
+  .t-digits{font-size:28px}
+  /* Todo toolbar wraps on mobile */
+  .todo-toolbar{flex-wrap:wrap;gap:6px}
+  .todo-toolbar input{min-width:0;flex:1 1 100%}
+  /* Chat panel on mobile */
+  .chat-layout{flex-direction:column;height:auto}
+  .users-list{width:100%;max-height:180px;border-right:none;border-bottom:1px solid var(--border)}
+  .cpanel{height:calc(100vh - 320px);min-height:300px}
+  /* Connect page */
+  .connect-layout{flex-direction:column}
+  /* Cards full width */
+  .card{padding:14px 12px}
+  /* Login doodles smaller on mobile */
+  .ld1{width:70px;height:70px;top:3%;right:3%}
+  .ld2{width:80px;height:80px;bottom:4%;left:2%}
+  .ld3{width:24px;height:68px;top:12%;left:5%}
+  .ld4{width:50px;height:50px;bottom:14%;right:6%}
+}
+@media(max-width:600px){.tt-grid{overflow-x:auto;min-width:500px}}
+@media(max-width:480px){
+  .home-grid{grid-template-columns:1fr;gap:10px}
+  .timer-ring{width:140px;height:140px;margin:6px auto}
+  .tsvg{width:140px;height:140px}
+  .t-digits{font-size:24px;letter-spacing:1px}
+  .prof-stats{grid-template-columns:1fr 1fr}
+  .theme-grid{grid-template-columns:repeat(2,1fr)}
+  .card{padding:12px 10px}
+  .ct{font-size:12px}
+  main{padding:8px 8px 76px}
+  .login-card{padding:28px 18px;margin:10px}
+  .ld1,.ld2,.ld4{display:none}
+  .ld3{width:20px;height:56px}
+  header .logo-text{font-size:16px}
+  .xp-chip{font-size:10px;padding:3px 8px}
+}.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}}
 </style>
 <!--
   ══════════════════════════════════════════════════════════════
@@ -453,7 +554,57 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 <!-- LOGIN -->
 <div id="login-screen">
-<div class="login-deco"><div class="login-blob lb1"></div><div class="login-blob lb2"></div></div>
+<div class="login-deco">
+  <div class="login-blob lb1"></div>
+  <div class="login-blob lb2"></div>
+  <!-- Sakura / book / pencil doodles restored -->
+  <svg class="ld-svg ld1 sakura-float" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Sakura flower -->
+    <g opacity=".55">
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(0 40 40)"/>
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(72 40 40)"/>
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(144 40 40)"/>
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(216 40 40)"/>
+      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(288 40 40)"/>
+      <circle cx="40" cy="40" r="8" fill="#fce4ee"/>
+      <circle cx="40" cy="40" r="4" fill="#f48fb1"/>
+    </g>
+  </svg>
+  <svg class="ld-svg ld2 sakura-sway" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Open book -->
+    <g opacity=".5">
+      <path d="M10 25 Q45 18 45 18 Q45 18 80 25 L80 68 Q45 60 45 60 Q45 60 10 68 Z" fill="var(--primary)" opacity=".35"/>
+      <path d="M45 18 L45 60" stroke="var(--primary)" stroke-width="2.5" opacity=".5"/>
+      <line x1="18" y1="34" x2="42" y2="30" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="18" y1="41" x2="42" y2="37" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="18" y1="48" x2="42" y2="44" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="52" y1="30" x2="76" y2="34" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="52" y1="37" x2="76" y2="41" stroke="white" stroke-width="1.5" opacity=".6"/>
+      <line x1="52" y1="44" x2="76" y2="48" stroke="white" stroke-width="1.5" opacity=".6"/>
+    </g>
+  </svg>
+  <svg class="ld-svg ld3 t-anim" viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Pencil -->
+    <g opacity=".45">
+      <rect x="10" y="10" width="20" height="85" rx="3" fill="var(--primary)" opacity=".6"/>
+      <polygon points="10,95 30,95 20,115" fill="#f9c784"/>
+      <polygon points="14,108 26,108 20,115" fill="#333" opacity=".4"/>
+      <rect x="10" y="10" width="20" height="10" rx="3" fill="#ccc" opacity=".7"/>
+      <rect x="12" y="22" width="16" height="60" fill="var(--pl)" opacity=".3"/>
+    </g>
+  </svg>
+  <svg class="ld-svg ld4 sakura-float" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Small sakura petal -->
+    <g opacity=".4">
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(0 30 30)"/>
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(72 30 30)"/>
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(144 30 30)"/>
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(216 30 30)"/>
+      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(288 30 30)"/>
+      <circle cx="30" cy="30" r="6" fill="#fce4ee"/>
+    </g>
+  </svg>
+</div>
 <div class="login-card">
   <div class="tisa-logo">TISA</div>
   <div class="tisa-tagline">study companion</div>
@@ -471,6 +622,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <div class="lt-dot" style="background:#d4688a" onclick="setTheme('sakura')" title="Sakura"></div>
     <div class="lt-dot" style="background:#2a7fa8" onclick="setTheme('ocean')" title="Ocean"></div>
     <div class="lt-dot" style="background:#d4783a" onclick="setTheme('sunset')" title="Sunset"></div>
+    <div class="lt-dot" style="background:#2d2d2d;border:2px solid #aaa" onclick="setTheme('minimalist')" title="Minimalist"></div>
   </div>
 </div>
 </div>
@@ -921,8 +1073,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
         <div style="font-size:13px;color:var(--ink);line-height:1.8;white-space:pre-wrap;font-weight:500" id="pv-body"></div>
         <div id="pv-attachment" style="margin-top:12px"></div>
         <div style="display:flex;gap:8px;margin-top:12px">
-          <button class="vbtn" onclick="voteP(true)">▲ <span id="pv-ups">0</span></button>
-          <button class="vbtn" onclick="voteP(false)">▼ <span id="pv-dns">0</span></button>
+          <button id="pv-up-btn" class="vbtn" onclick="voteP(true)">▲ <span id="pv-ups">0</span></button>
+          <button id="pv-dn-btn" class="vbtn" onclick="voteP(false)">▼ <span id="pv-dns">0</span></button>
         </div>
       </div>
       <div class="card">
@@ -1131,6 +1283,8 @@ window.doSignOut=async()=>{
   if(window._progressUnsub)window._progressUnsub();
   if(window._progressUnsub2)window._progressUnsub2();
   if(window._progressMyPoll)clearInterval(window._progressMyPoll);
+  if(window._goalsUnsub){window._goalsUnsub();window._goalsUnsub=null;}
+  if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}
   await fbOut(auth);
   window._CU=null; window._currentUser=null;
   document.getElementById('login-screen').classList.add('show');
@@ -1273,7 +1427,7 @@ window.checkUname=async(val)=>{
 window.confirmUname=async()=>{
   if(!_uVld)return;
   const un=document.getElementById('uname-inp').value.trim().toLowerCase();
-  await setDoc(doc(db,'users',window._CU.uid),{username:un,usernameSet:true},{merge:true});
+  await setDoc(doc(db,'users',window._CU.uid),{username:un,usernameSet:true,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG2 FIX: save uid so self-search check works
   window._uname=un;
   document.getElementById('uname-modal').classList.remove('open');
   document.getElementById('user-dname').textContent='@'+un;
@@ -1299,7 +1453,7 @@ window.saveNewUsername=async()=>{
   fb.textContent='Checking...';fb.style.color='var(--ink3)';
   const snap=await getDocs(query(collection(db,'users'),where('username','==',val)));
   if(snap.docs.some(d=>d.id!==window._CU.uid)){fb.textContent='@'+val+' is taken';fb.style.color='var(--danger)';return;}
-  await setDoc(doc(db,'users',window._CU.uid),{username:val},{merge:true});
+  await setDoc(doc(db,'users',window._CU.uid),{username:val,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG9 FIX: keep uid in sync when username changes
   window._uname=val;
   document.getElementById('prof-uname').textContent='@'+val;
   document.getElementById('user-dname').textContent='@'+val;
@@ -1433,8 +1587,18 @@ window.openPost=async(pid)=>{
       attEl.innerHTML=`<div style="border:1.5px solid var(--border);border-radius:12px;overflow:hidden"><div style="padding:6px 10px;background:var(--bg);font-size:10px;font-weight:700;color:var(--ink3);display:flex;justify-content:space-between;align-items:center">📄 ${window._esc(a.name||'PDF')} <a href="${a.data}" target="_blank" rel="noopener" style="color:var(--primary);font-size:10px;font-weight:700">Open ↗</a></div><iframe src="${a.data}" style="width:100%;height:450px;border:none;display:block"></iframe></div>`;
     }
   }else attEl.innerHTML='';
+  // BUG8 FIX: clean up old comment listener before creating new one
+  if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}
+  // Show already-voted state
+  const myVote=(p.voters||{})[window._CU?.uid];
+  const upBtn=document.getElementById('pv-up-btn');
+  const dnBtn=document.getElementById('pv-dn-btn');
+  if(upBtn)upBtn.style.opacity=myVote?'0.45':'1';
+  if(dnBtn)dnBtn.style.opacity=myVote?'0.45':'1';
+  if(upBtn)upBtn.title=myVote?'Already voted':'Upvote';
+  if(dnBtn)dnBtn.title=myVote?'Already voted':'Downvote';
   // Live comments
-  onSnapshot(query(collection(db,'posts',pid,'comments'),orderBy('ts','asc'),limit(100)),cSnap=>{
+  window._cmtUnsub=onSnapshot(query(collection(db,'posts',pid,'comments'),orderBy('ts','asc'),limit(100)),cSnap=>{
     const el=document.getElementById('cmt-list');
     document.getElementById('cmt-cnt').textContent='('+cSnap.size+')';
     if(cSnap.empty){el.innerHTML='<div class="empty">No comments yet — be first!</div>';return;}
@@ -1447,8 +1611,26 @@ window.openPost=async(pid)=>{
   });
 };
 
-window.backForum=()=>{document.getElementById('forum-list-v').style.display='block';document.getElementById('write-sec').style.display='block';document.getElementById('post-view').style.display='none';curPostId=null;};
-window.voteP=async(up)=>{if(!curPostId)return;const ref=doc(db,'posts',curPostId);const snap=await getDoc(ref);const d=snap.data();if(up){await updateDoc(ref,{ups:(d.ups||0)+1});document.getElementById('pv-ups').textContent=(d.ups||0)+1;}else{await updateDoc(ref,{downs:(d.downs||0)+1});document.getElementById('pv-dns').textContent=(d.downs||0)+1;}};
+window.backForum=()=>{if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}document.getElementById('forum-list-v').style.display='block';document.getElementById('write-sec').style.display='block';document.getElementById('post-view').style.display='none';curPostId=null;}; // BUG8 FIX: clean comment listener on back
+window.voteP=async(up)=>{
+  if(!curPostId||!window._CU)return;
+  const uid=window._CU.uid;
+  const ref=doc(db,'posts',curPostId);
+  const snap=await getDoc(ref);
+  const d=snap.data()||{};
+  const voters=d.voters||{};
+  // BUG4 FIX: prevent spam voting - each user gets one vote total
+  if(voters[uid]){window.toast('You already voted on this post');return;}
+  voters[uid]=up?'up':'down';
+  const newUps=up?(d.ups||0)+1:(d.ups||0);
+  const newDns=up?(d.downs||0):(d.downs||0)+1;
+  await updateDoc(ref,{ups:newUps,downs:newDns,voters});
+  const uEl=document.getElementById('pv-ups');
+  const dEl=document.getElementById('pv-dns');
+  if(uEl)uEl.textContent=newUps;
+  if(dEl)dEl.textContent=newDns;
+  window.toast(up?'👍 Upvoted!':'👎 Downvoted!');
+};
 window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt)return;inp.value='';const alias=getCommentAlias(curPostId);await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});const ref=doc(db,'posts',curPostId);const s=await getDoc(ref);if(s.exists())await updateDoc(ref,{commentCount:(s.data().commentCount||0)+1});};
 
 // ── CHAT (FULLY FIXED) ──
@@ -1463,7 +1645,7 @@ window.searchUser=async()=>{
   const snap=await getDocs(query(collection(db,'users'),where('username','==',q)));
   if(snap.empty){el.innerHTML='<div style="font-size:11px;color:var(--danger);padding:4px;font-weight:700">@'+window._esc(q)+' not found</div>';return;}
   const f=snap.docs[0].data();
-  if(f.uid===window._CU.uid){el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px">That\'s you!</div>';return;}
+  if(snap.docs[0].id===window._CU.uid||f.uid===window._CU.uid){el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px">That\'s you! 🐼</div>';return;} // BUG2 FIX: check by doc ID (reliable) and uid field
   el.innerHTML=`<div style="padding:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:8px">
     <div><div style="font-size:12px;font-weight:800">@${window._esc(f.username||f.name)}</div><div style="font-size:10px;color:var(--ink3);font-weight:600">${window._esc(f.name||'')}</div></div>
     <button class="pill-btn" onclick="startChat('${f.uid}','${window._esc(f.name||'')}','${window._esc(f.username||'')}')">Chat →</button>
@@ -1583,11 +1765,11 @@ async function compressImage(dataUrl,maxW=600){
 
 window.sendChatFile=async(files)=>{
   if(!files[0]||!aChatId){window.toast('Select a conversation first');return;}
+  if(_sending){window.toast('Please wait...');return;} // BUG1 FIX: prevent duplicate file sends
   const f=files[0];
-  // FIX 1: base64 encoding adds ~33% overhead, so 700KB file → ~933KB base64
-  // Use 600KB for files and compress images harder to stay under Firestore 1MB doc limit
   if(f.size>600*1024){window.toast('File too large. Max 600KB 📎');document.getElementById('chat-attach').value='';return;}
   const r=new FileReader();
+  _sending=true;
   r.onload=async(e)=>{
     const ck=cKey(window._CU.uid,aOtherUid);
     const isImg=f.type.startsWith('image/');
@@ -1606,6 +1788,8 @@ window.sendChatFile=async(files)=>{
     }catch(err){
       window.toast('File too large for storage. Try a smaller file.');
       document.getElementById('chat-attach').value='';
+    }finally{
+      _sending=false; // BUG3 FIX: always release lock after file upload
     }
   };
   r.readAsDataURL(f);
@@ -1616,6 +1800,11 @@ window.switchTab=(tab,btn)=>{
   if(tab!=='progress'&&window._progressMyPoll){
     clearInterval(window._progressMyPoll);
     window._progressMyPoll=null;
+  }
+  // BUG2 FIX: clean up goals listener when leaving goals tab
+  if(tab!=='goals'&&window._goalsUnsub){
+    window._goalsUnsub();
+    window._goalsUnsub=null;
   }
   document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
@@ -1807,7 +1996,9 @@ window.remMutTodo=async(chatId,uid,i)=>{
 // ── GOALS ──
 function loadGoals(chatId){
   const el=document.getElementById('goals-view');if(!el)return;
-  onSnapshot(doc(db,'chats',chatId),snap=>{
+  // BUG1 FIX: clean up old goals listener before creating a new one
+  if(window._goalsUnsub){window._goalsUnsub();window._goalsUnsub=null;}
+  window._goalsUnsub=onSnapshot(doc(db,'chats',chatId),snap=>{
     if(!snap.exists())return;
     const goals=snap.data().goals||[];
     const chk=`<svg width="9" height="9" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`;
@@ -1956,7 +2147,7 @@ window.showPage=(name,btn)=>{
   if(btn)btn.classList.add('active');
   else{const nb=document.querySelector(`nav button[onclick*="'${name}'"]`);if(nb)nb.classList.add('active');}
   if(name==='connect'){window._loadMyChats&&window._loadMyChats();}
-  if(name==='community'){window.initCommunityAlias&&window.initCommunityAlias();}
+  if(name==='community'){window.initCommunityAlias&&window.initCommunityAlias();window._loadForum&&window._loadForum();} // BUG3 FIX: reload forum when navigating to community page
   if(name==='performance'){renderBigChart();renderPieChart();renderSubjPerf();renderXP();renderCal();}
   if(name==='profile'){renderProfilePage();}
 };
@@ -1968,7 +2159,7 @@ document.addEventListener('click',e=>{if(moreOpen&&!e.target.closest('#more-menu
 window.addEventListener('resize',()=>{const mn=document.getElementById('mobile-nav');if(!mn)return;const appVisible=document.getElementById('app-main')?.style.display!=='none';mn.style.display=(appVisible&&window.innerWidth<=760)?'block':'none';});
 
 // ── THEME ──
-const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'}};
+const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimalist',p:'#2d2d2d',b:'#fafafa',s:'#ffffff'}};
 function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);localStorage.setItem('tisa-theme',name);document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();}
 window.setTheme=setTheme;
 window.toggleDark=()=>{const c=document.documentElement.getAttribute('data-theme');setTheme(c==='dark'?'light':'dark');};
@@ -1978,7 +2169,58 @@ window.renderThemeGrid=function(){const el=document.getElementById('theme-grid-e
 try{setTheme(localStorage.getItem('tisa-theme')||'light');}catch(e){setTheme('light');}
 
 // ── QUOTES ──
-const QS=[{t:"The secret of getting ahead is getting started.",a:"Mark Twain"},{t:"It always seems impossible until it's done.",a:"Nelson Mandela"},{t:"Success is the sum of small efforts repeated day in and day out.",a:"Robert Collier"},{t:"Don't watch the clock; do what it does. Keep going.",a:"Sam Levenson"},{t:"The expert in anything was once a beginner.",a:"Helen Hayes"},{t:"An investment in knowledge pays the best interest.",a:"Benjamin Franklin"},{t:"The beautiful thing about learning is nobody can take it away from you.",a:"B.B. King"},{t:"Hard work beats talent when talent doesn't work hard.",a:"Tim Notke"},{t:"Education is not the filling of a pail, but the lighting of a fire.",a:"W.B. Yeats"},{t:"Push yourself, because no one else is going to do it for you.",a:"Unknown"},{t:"Your limitation—it's only your imagination.",a:"Unknown"}];
+const QS=[
+{t:"The secret of getting ahead is getting started.",a:"Mark Twain"},
+{t:"It always seems impossible until it's done.",a:"Nelson Mandela"},
+{t:"Success is the sum of small efforts repeated day in and day out.",a:"Robert Collier"},
+{t:"Don't watch the clock; do what it does. Keep going.",a:"Sam Levenson"},
+{t:"The expert in anything was once a beginner.",a:"Helen Hayes"},
+{t:"An investment in knowledge pays the best interest.",a:"Benjamin Franklin"},
+{t:"The beautiful thing about learning is nobody can take it away from you.",a:"B.B. King"},
+{t:"Hard work beats talent when talent doesn't work hard.",a:"Tim Notke"},
+{t:"Education is not the filling of a pail, but the lighting of a fire.",a:"W.B. Yeats"},
+{t:"Push yourself, because no one else is going to do it for you.",a:"Unknown"},
+{t:"Your limitation—it's only your imagination.",a:"Unknown"},
+{t:"Great things never come from comfort zones.",a:"Unknown"},
+{t:"Dream it. Wish it. Do it.",a:"Unknown"},
+{t:"Success doesn't just find you. You have to go out and get it.",a:"Unknown"},
+{t:"The harder you work for something, the greater you'll feel when you achieve it.",a:"Unknown"},
+{t:"Don't stop when you're tired. Stop when you're done.",a:"Unknown"},
+{t:"Wake up with determination. Go to bed with satisfaction.",a:"Unknown"},
+{t:"Do something today that your future self will thank you for.",a:"Sean Patrick Flanery"},
+{t:"Little things make big days.",a:"Unknown"},
+{t:"It's going to be hard, but hard does not mean impossible.",a:"Unknown"},
+{t:"Don't wait for opportunity. Create it.",a:"Unknown"},
+{t:"Sometimes we're tested not to show our weaknesses, but to discover our strengths.",a:"Unknown"},
+{t:"The key to success is to focus on goals, not obstacles.",a:"Unknown"},
+{t:"Dream bigger. Do bigger.",a:"Unknown"},
+{t:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},
+{t:"Act as if what you do makes a difference. It does.",a:"William James"},
+{t:"Success is not final, failure is not fatal: it is the courage to continue that counts.",a:"Winston Churchill"},
+{t:"Believe you can and you're halfway there.",a:"Theodore Roosevelt"},
+{t:"You are never too old to set another goal or to dream a new dream.",a:"C.S. Lewis"},
+{t:"To know how much there is to know is the beginning of learning to live.",a:"Dorothy West"},
+{t:"Study while others are sleeping; work while others are loafing; prepare while others are playing.",a:"William A. Ward"},
+{t:"The mind is not a vessel to be filled, but a fire to be kindled.",a:"Plutarch"},
+{t:"Learning is a treasure that will follow its owner everywhere.",a:"Chinese Proverb"},
+{t:"Education is the passport to the future.",a:"Malcolm X"},
+{t:"Develop a passion for learning. If you do, you will never cease to grow.",a:"Anthony J. D'Angelo"},
+{t:"Commitment is an act, not a word.",a:"Jean-Paul Sartre"},
+{t:"A year from now you may wish you had started today.",a:"Karen Lamb"},
+{t:"You don't need to see the whole staircase. Just take the first step.",a:"Martin Luther King Jr."},
+{t:"The only way to do great work is to love what you do.",a:"Steve Jobs"},
+{t:"Opportunities don't happen, you create them.",a:"Chris Grosser"},
+{t:"Don't limit your challenges. Challenge your limits.",a:"Unknown"},
+{t:"Every accomplishment starts with the decision to try.",a:"Unknown"},
+{t:"You will never always be motivated. You have to learn to be disciplined.",a:"Unknown"},
+{t:"Discipline is choosing between what you want now and what you want most.",a:"Abraham Lincoln"},
+{t:"Small daily improvements are the key to staggering long-term results.",a:"Unknown"},
+{t:"The secret to getting ahead is getting started.",a:"Agatha Christie"},
+{t:"You don't get what you wish for. You get what you work for.",a:"Unknown"},
+{t:"There are no shortcuts to any place worth going.",a:"Beverly Sills"},
+{t:"Stay focused and never give up.",a:"Unknown"},
+{t:"The future belongs to those who believe in the beauty of their dreams.",a:"Eleanor Roosevelt"}
+];
 let qI=Math.floor(Math.random()*QS.length);
 window.nextQ=function(){qI=(qI+1)%QS.length;const q=QS[qI];const qt=document.getElementById('qt');const qa=document.getElementById('qa');const lq=document.getElementById('lq');if(qt)qt.textContent='"'+q.t+'"';if(qa)qa.textContent='— '+q.a;if(lq)lq.textContent='"'+q.t+'"';};
 nextQ();
@@ -1995,7 +2237,8 @@ window.focusSubjSync=function(){const el=document.getElementById('focus-subj');i
 
 // ── TIMER ──
 window.toggleTimer=()=>tRun?pauseT():startT();
-function startT(){tRun=true;document.getElementById('t-btn').textContent='Pause';document.getElementById('t-mode').textContent=pomoMode?(pomoState==='work'?'🍅 focus':'☕ break'):'studying ✏';tInt=setInterval(()=>{tSecs++;updTD();updTRing();if(tSecs%60===0&&pomoState==='work')saveSecs(60);if(pomoMode){const dur=pomoState==='work'?pomoDur*60:brkDur*60;if(tSecs>=dur)pomoCycle();}},1000);}
+function startT(){if(tInt)clearInterval(tInt); // BUG6 FIX: always clear before starting
+  tRun=true;document.getElementById('t-btn').textContent='Pause';document.getElementById('t-mode').textContent=pomoMode?(pomoState==='work'?'🍅 focus':'☕ break'):'studying ✏';tInt=setInterval(()=>{tSecs++;updTD();updTRing();if(tSecs%60===0&&pomoState==='work')saveSecs(60);if(pomoMode){const dur=pomoState==='work'?pomoDur*60:brkDur*60;if(tSecs>=dur)pomoCycle();}},1000);}
 function pauseT(){tRun=false;clearInterval(tInt);document.getElementById('t-btn').textContent='Continue';document.getElementById('t-mode').textContent='paused';if(tSecs>10&&pomoState==='work')logSess();}
 window.resetTimer=()=>{if(tRun){clearInterval(tInt);tRun=false;}if(tSecs>10)logSess();tSecs=0;updTD();updTRing();document.getElementById('t-btn').textContent='Start';document.getElementById('t-mode').textContent='ready';};
 function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){saveSecs(pomoDur*60);pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){pomoCount=0;toast('🎉 4 Pomodoros done!');pomoState='work';tSecs=0;}else{pomoState='break';tSecs=0;toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';tSecs=0;toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}updTD();}
@@ -2055,7 +2298,8 @@ function renderTodos(){const el=document.getElementById('todo-list');if(!el)retu
 // ── CHARTS ──
 const PIE_COLORS=['#5c7a3e','#7db356','#d4688a','#2a7fa8','#d4783a','#8b6fd4','#c8941a','#2d7a3a'];
 function renderBigChart(){const el=document.getElementById('big-chart');if(!el)return;const vals=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];vals.push({l:d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:(window.studyData[ds]||0)/3600,s:window.studyData[ds]||0,isT:ds===window._today});}const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map(v=>`<div class="bc-bar-wrap"><div class="bc-bar" style="height:${Math.round(v.v/mx*150)+4}px;min-width:22px"><div class="bc-bar-tip">${fmtHLabel(v.s)}</div></div><div class="bc-lbl">${v.isT?'Today':v.l}</div></div>`).join('');let tw=0,lw=0;for(let i=0;i<7;i++)tw+=(window.studyData[window._dStr(i)]||0);for(let i=7;i<14;i++)lw+=(window.studyData[window._dStr(i)]||0);const pte=document.getElementById('pw-this'),ple=document.getElementById('pw-last'),pd=document.getElementById('pw-diff');if(pte)pte.textContent=window._fmtH(tw);if(ple)ple.textContent=window._fmtH(lw);if(pd){const diff=tw-lw;pd.textContent=diff>=0?'↑ +'+fmtHLabel(diff)+' vs last week':'↓ '+fmtHLabel(Math.abs(diff))+' vs last week';pd.style.color=diff>=0?'var(--success)':'var(--danger)';}}
-function renderPieChart(){const canvas=document.getElementById('pie-canvas');if(!canvas)return;const ctx=canvas.getContext('2d');const subTotals={};sessions.forEach(s=>{subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const entries=Object.entries(subTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,7);const total=entries.reduce((a,[,v])=>a+v,0);ctx.clearRect(0,0,150,150);const leg=document.getElementById('pie-legend');if(!total){ctx.fillStyle='#e0e0e0';ctx.beginPath();ctx.arc(75,75,65,0,Math.PI*2);ctx.fill();if(leg)leg.innerHTML='<div style="font-size:11px;color:var(--ink3);font-weight:600">Start studying to see chart!</div>';return;}let angle=-Math.PI/2;entries.forEach(([s,v],i)=>{const slice=(v/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,65,angle,angle+slice);ctx.closePath();ctx.fillStyle=PIE_COLORS[i%8];ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();angle+=slice;});if(leg)leg.innerHTML=entries.map(([s,v],i)=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${PIE_COLORS[i%8]}"></div><span>${window._esc(s)}</span><span style="margin-left:auto;color:var(--primary);font-weight:800">${fmtHLabel(v)}</span></div>`).join('');}
+function renderPieChart(){const canvas=document.getElementById('pie-canvas');if(!canvas)return;const ctx=canvas.getContext('2d');const subTotals={};(sessions||[]).forEach(s=>{ // guard undefined sessions
+  subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const entries=Object.entries(subTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,7);const total=entries.reduce((a,[,v])=>a+v,0);ctx.clearRect(0,0,150,150);const leg=document.getElementById('pie-legend');if(!total){ctx.fillStyle='#e0e0e0';ctx.beginPath();ctx.arc(75,75,65,0,Math.PI*2);ctx.fill();if(leg)leg.innerHTML='<div style="font-size:11px;color:var(--ink3);font-weight:600">Start studying to see chart!</div>';return;}let angle=-Math.PI/2;entries.forEach(([s,v],i)=>{const slice=(v/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,65,angle,angle+slice);ctx.closePath();ctx.fillStyle=PIE_COLORS[i%8];ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();angle+=slice;});if(leg)leg.innerHTML=entries.map(([s,v],i)=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${PIE_COLORS[i%8]}"></div><span>${window._esc(s)}</span><span style="margin-left:auto;color:var(--primary);font-weight:800">${fmtHLabel(v)}</span></div>`).join('');}
 function renderSubjPerf(){const el=document.getElementById('subj-perf');if(!el)return;const st={};sessions.forEach(s=>{st[s.sub]=(st[s.sub]||0)+s.dur;});const sorted=Object.entries(st).sort((a,b)=>b[1]-a[1]).slice(0,5);if(!sorted.length){el.innerHTML='<div class="empty">No study data yet</div>';return;}const mx=Math.max(...sorted.map(([,v])=>v),1);el.innerHTML=sorted.map(([s,v],i)=>`<div class="sp-item"><div style="font-size:11px;font-weight:700;width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(s)}</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:${Math.round(v/mx*100)}%;background:${PIE_COLORS[i%8]}"></div></div><div style="font-size:11px;font-weight:800;color:var(--primary);width:52px;text-align:right;font-family:'Space Mono',monospace">${fmtHLabel(v)}</div></div>`).join('');let allT=0;Object.values(window.studyData).forEach(v=>allT+=v);const days=Object.values(window.studyData).filter(v=>v>0);const avg=days.length?allT/days.length:0;const best=Math.max(...Object.values(window.studyData),0);const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('p-total-h',window._fmtH(allT));set('p-best-day',fmtHLabel(best)||'—');set('p-avg',window._fmtH(avg));set('p-tests-c',window.pastTests.length);}
 
 // ── TESTS ──
@@ -2156,7 +2400,7 @@ window.renderAll=function(){
 };
 
 // ── NOTIFICATIONS ──
-setTimeout(()=>{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission();},5000);
+setTimeout(()=>{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission();},5000);;
 </script>
 </body>
 </html>
