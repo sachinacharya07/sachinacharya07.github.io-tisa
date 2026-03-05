@@ -13,26 +13,33 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+html{overflow-x:hidden}
 :root,[data-theme="light"]{--bg:#f8f6f0;--bg2:#f0ede4;--bg3:#e8e3d8;--surface:#ffffff;--surface2:#faf8f3;--primary:#5c7a3e;--pd:#3d5429;--pl:#b8d090;--pglow:rgba(92,122,62,.15);--ink:#1a1c16;--ink2:#4a5240;--ink3:#8a9280;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(92,122,62,.22);--border2:rgba(92,122,62,.1);--sh:0 2px 14px rgba(92,122,62,.1);--shl:0 8px 32px rgba(92,122,62,.14);}
 [data-theme="dark"]{--bg:#141810;--bg2:#1c2116;--bg3:#232a1c;--surface:#1e2419;--surface2:#252d1f;--primary:#7db356;--pd:#5c9038;--pl:#4a6830;--pglow:rgba(125,179,86,.18);--ink:#e8f0e0;--ink2:#a8b898;--ink3:#6a7a5a;--danger:#e05a4a;--success:#4db360;--warn:#e0a830;--border:rgba(125,179,86,.2);--border2:rgba(125,179,86,.1);--sh:0 2px 14px rgba(0,0,0,.35);--shl:0 8px 32px rgba(0,0,0,.45);}
 [data-theme="sakura"]{--bg:#fdf0f5;--bg2:#fae0ea;--bg3:#f5cede;--surface:#fff8fb;--surface2:#fdeef5;--primary:#c8527a;--pd:#a03560;--pl:#f0a0be;--pglow:rgba(200,82,122,.15);--ink:#2a0e1a;--ink2:#6a3048;--ink3:#a87090;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(200,82,122,.22);--border2:rgba(200,82,122,.1);--sh:0 2px 14px rgba(200,82,122,.1);--shl:0 8px 32px rgba(200,82,122,.14);}
 [data-theme="ocean"]{--bg:#edf4fa;--bg2:#d8ecf7;--bg3:#c2e0f0;--surface:#f8fcff;--surface2:#eef6fc;--primary:#1a6fa8;--pd:#0e4e7a;--pl:#7ab8dc;--pglow:rgba(26,111,168,.15);--ink:#091828;--ink2:#2a4a62;--ink3:#6a8aa0;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(26,111,168,.22);--border2:rgba(26,111,168,.1);--sh:0 2px 14px rgba(26,111,168,.1);--shl:0 8px 32px rgba(26,111,168,.14);}
 [data-theme="sunset"]{--bg:#fdf4ea;--bg2:#fae6cc;--bg3:#f5d4aa;--surface:#fffaf4;--surface2:#fdf0e0;--primary:#c8682a;--pd:#a04a18;--pl:#f0b080;--pglow:rgba(200,104,42,.15);--ink:#2a1200;--ink2:#6a3a18;--ink3:#a07848;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(200,104,42,.22);--border2:rgba(200,104,42,.1);--sh:0 2px 14px rgba(200,104,42,.1);--shl:0 8px 32px rgba(200,104,42,.14);}
 [data-theme="minimalist"]{
-  --primary:#2d2d2d;
-  --pl:#555555;
-  --bg:#fafafa;
-  --bg2:#f0f0f0;
-  --bg3:#e8e8e8;
+  --primary:#4a5e2a;
+  --pd:#3a4d1f;
+  --pl:#8aab54;
+  --pglow:rgba(74,94,42,.12);
+  --bg:#f7f9f4;
+  --bg2:#edf0e8;
+  --bg3:#e2e7d8;
+  --surface:#ffffff;
+  --surface2:#f4f6f0;
   --card:#ffffff;
-  --border:#e0e0e0;
-  --border2:#d0d0d0;
-  --ink:#1a1a1a;
-  --ink2:#3a3a3a;
-  --ink3:#7a7a7a;
+  --border:#d4dcc8;
+  --border2:#c4cfb5;
+  --shl:0 1px 4px rgba(74,94,42,.08);
+  --ink:#1e2416;
+  --ink2:#3a4530;
+  --ink3:#7a8a6a;
   --success:#2d7a2d;
   --danger:#a02020;
   --warn:#7a5500;
+  --sh:0 2px 8px rgba(74,94,42,.10);
   --font:'Inter','Helvetica Neue',Arial,sans-serif;
 }
 [data-theme="minimalist"] .tisa-logo{font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-weight:300;letter-spacing:8px;font-size:28px}
@@ -59,7 +66,7 @@
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;font-size:14px}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;transition:background .35s,color .35s;overscroll-behavior:none}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;transition:background .35s,color .35s;overscroll-behavior:none;overflow-x:hidden}
 input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
@@ -85,12 +92,12 @@ input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 /* LOGIN */
 #login-screen{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:1000;overflow:hidden}
 #login-screen.show{display:flex}
-.login-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.login-deco{position:absolute;inset:0;pointer-events:none}
 .ld-svg{position:absolute;pointer-events:none}
-.ld1{width:110px;height:110px;top:5%;right:6%;opacity:.85}
-.ld2{width:130px;height:130px;bottom:8%;left:4%;opacity:.8}
-.ld3{width:36px;height:100px;top:18%;left:8%;opacity:.85}
-.ld4{width:70px;height:70px;bottom:22%;right:10%;opacity:.75}
+.ld1{width:110px;height:110px;top:5%;right:6%;opacity:1}
+.ld2{width:130px;height:130px;bottom:8%;left:4%;opacity:1}
+.ld3{width:36px;height:100px;top:18%;left:8%;opacity:1}
+.ld4{width:70px;height:70px;bottom:22%;right:10%;opacity:.9}
 [data-theme="dark"] .ld-svg{opacity:.25}
 [data-theme="minimalist"] .ld-svg{display:none}
 .login-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.12}
@@ -162,7 +169,7 @@ html[data-theme="dark"] .dark-toggle::after{transform:translateX(16px);backgroun
 .more-btn.active .mbl{color:var(--primary)}
 
 /* LAYOUT */
-main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-bottom:24px}
+main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-bottom:24px;overflow-x:hidden}
 .page{display:none}.page.active{display:block}
 .card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:16px;transition:box-shadow .2s;position:relative;overflow:hidden}
 .card:hover{box-shadow:var(--sh)}
@@ -192,7 +199,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;flex:1;padding-botto
 .qrefresh:hover{color:var(--primary);transform:rotate(90deg)}
 
 /* GRIDS */
-.home-grid{display:grid;grid-template-columns:290px 290px 1fr;gap:14px;align-items:start}
+.home-grid{display:grid;grid-template-columns:min(290px,100%) min(290px,100%) 1fr;gap:14px;align-items:start}
 .myspace-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .test-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -441,41 +448,48 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 /* RESPONSIVE */
 @media(max-width:1100px){.home-grid{grid-template-columns:1fr 1fr}.perf-grid{grid-template-columns:1fr}.conn-grid,.jgrid,.forum-grid{grid-template-columns:1fr}.test-grid{grid-template-columns:1fr}}
 @media(max-width:760px){
+  /* All multi-column grids collapse to single column */
   .home-grid{grid-template-columns:1fr}
+  .home-grid>*{grid-column:1 !important}
   .myspace-grid{grid-template-columns:1fr}
-  main{padding:10px 10px 80px}
+  .perf-grid{grid-template-columns:1fr}
+  .test-grid{grid-template-columns:1fr}
+  .jgrid{grid-template-columns:1fr}
+  .conn-grid{grid-template-columns:1fr}
+  .forum-grid{grid-template-columns:1fr}
+  .prof-stats{grid-template-columns:repeat(2,1fr)}
+  .theme-grid{grid-template-columns:repeat(2,1fr)}
+  .more-grid{grid-template-columns:repeat(2,1fr)}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  /* Layout */
+  main{padding:10px 10px 80px;width:100%;overflow-x:hidden}
   header{padding:0 10px;height:52px}
   nav{display:none}
   #mobile-nav{display:block}
   #health-bubble{bottom:72px}
   #toast{bottom:80px;left:12px;right:12px;text-align:center}
-  .prof-stats{grid-template-columns:repeat(2,1fr)}
-  .theme-grid{grid-template-columns:repeat(2,1fr)}
   .focus-t{font-size:52px}
   .hdr-btn{display:none}
   .xp-chip span:last-child{display:none}
   .logo-sub{display:none}
-  .perf-grid{grid-template-columns:1fr}
+  /* Timetable - horizontal scroll */
   .tt-grid{font-size:9px;grid-template-columns:40px repeat(7,1fr)}
-  .jgrid{grid-template-columns:1fr}
-  .conn-grid{grid-template-columns:1fr}
-  .forum-grid{grid-template-columns:1fr}
-  /* Timer: slightly smaller on mobile */
+  .tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  /* Timer */
   .timer-ring{width:160px;height:160px}
   .tsvg{width:160px;height:160px}
   .t-digits{font-size:28px}
-  /* Todo toolbar wraps on mobile */
+  /* Todo */
   .todo-toolbar{flex-wrap:wrap;gap:6px}
   .todo-toolbar input{min-width:0;flex:1 1 100%}
-  /* Chat panel on mobile */
+  /* Chat */
   .chat-layout{flex-direction:column;height:auto}
   .users-list{width:100%;max-height:180px;border-right:none;border-bottom:1px solid var(--border)}
   .cpanel{height:calc(100vh - 320px);min-height:300px}
-  /* Connect page */
   .connect-layout{flex-direction:column}
-  /* Cards full width */
-  .card{padding:14px 12px}
-  /* Login doodles smaller on mobile */
+  /* Cards */
+  .card{padding:14px 12px;width:100%;box-sizing:border-box}
+  /* Login doodles */
   .ld1{width:70px;height:70px;top:3%;right:3%}
   .ld2{width:80px;height:80px;bottom:4%;left:2%}
   .ld3{width:24px;height:68px;top:12%;left:5%}
@@ -484,6 +498,19 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 @media(max-width:600px){.tt-grid{overflow-x:auto;min-width:500px}}
 @media(max-width:480px){
   .home-grid{grid-template-columns:1fr;gap:10px}
+  .home-grid>*{grid-column:1 !important}
+  .myspace-grid{grid-template-columns:1fr}
+  .perf-grid{grid-template-columns:1fr}
+  .timer-ring{width:140px;height:140px;margin:6px auto}
+  .tsvg{width:140px;height:140px}
+  .t-digits{font-size:24px;letter-spacing:1px}
+  .more-grid{grid-template-columns:repeat(2,1fr)}
+  main{padding:8px 8px 80px}
+  .card{padding:12px 10px;width:100%;box-sizing:border-box}
+  .ld1,.ld4{display:none}
+  .ld2{width:60px;height:60px}
+  .ld3{width:20px;height:56px}
+}
   .timer-ring{width:140px;height:140px;margin:6px auto}
   .tsvg{width:140px;height:140px}
   .t-digits{font-size:24px;letter-spacing:1px}
@@ -497,7 +524,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .ld3{width:20px;height:56px}
   header .logo-text{font-size:16px}
   .xp-chip{font-size:10px;padding:3px 8px}
-}.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}}
+}.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%}}
 </style>
 <!--
   ══════════════════════════════════════════════════════════════
@@ -560,7 +587,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <!-- Sakura / book / pencil doodles restored -->
   <svg class="ld-svg ld1 sakura-float" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Sakura flower -->
-    <g opacity=".55">
+    <g opacity=".85">
       <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(0 40 40)"/>
       <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(72 40 40)"/>
       <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(144 40 40)"/>
@@ -572,7 +599,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   </svg>
   <svg class="ld-svg ld2 sakura-sway" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Open book -->
-    <g opacity=".5">
+    <g opacity=".75">
       <path d="M10 25 Q45 18 45 18 Q45 18 80 25 L80 68 Q45 60 45 60 Q45 60 10 68 Z" fill="var(--primary)" opacity=".35"/>
       <path d="M45 18 L45 60" stroke="var(--primary)" stroke-width="2.5" opacity=".5"/>
       <line x1="18" y1="34" x2="42" y2="30" stroke="white" stroke-width="1.5" opacity=".6"/>
@@ -585,7 +612,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   </svg>
   <svg class="ld-svg ld3 t-anim" viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Pencil -->
-    <g opacity=".45">
+    <g opacity=".75">
       <rect x="10" y="10" width="20" height="85" rx="3" fill="var(--primary)" opacity=".6"/>
       <polygon points="10,95 30,95 20,115" fill="#f9c784"/>
       <polygon points="14,108 26,108 20,115" fill="#333" opacity=".4"/>
@@ -595,7 +622,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   </svg>
   <svg class="ld-svg ld4 sakura-float" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Small sakura petal -->
-    <g opacity=".4">
+    <g opacity=".7">
       <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(0 30 30)"/>
       <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(72 30 30)"/>
       <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(144 30 30)"/>
@@ -622,7 +649,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <div class="lt-dot" style="background:#d4688a" onclick="setTheme('sakura')" title="Sakura"></div>
     <div class="lt-dot" style="background:#2a7fa8" onclick="setTheme('ocean')" title="Ocean"></div>
     <div class="lt-dot" style="background:#d4783a" onclick="setTheme('sunset')" title="Sunset"></div>
-    <div class="lt-dot" style="background:#2d2d2d;border:2px solid #aaa" onclick="setTheme('minimalist')" title="Minimalist"></div>
+    <div class="lt-dot" style="background:#4a5e2a;border:2px solid #8aab54" onclick="setTheme('minimalist')" title="Minimalist"></div>
   </div>
 </div>
 </div>
@@ -755,7 +782,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div class="card">
   <div class="ct"><div class="ct-ic">✅</div>To-Do List</div>
   <div class="todo-toolbar">
-    <input type="text" class="tisa-inp" id="todo-inp" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()" style="flex:2;min-width:100px;padding:9px 12px;font-size:13px">
+    <input type="text" class="tisa-inp" id="todo-inp" placeholder="Add a task..." maxlength="200" onkeydown="if(event.key==='Enter')addTodo()" style="flex:2;min-width:100px;padding:9px 12px;font-size:13px" maxlength="200">
     <select class="tisa-inp" id="todo-pri" style="padding:9px 10px;font-size:12px"><option value="normal">Normal</option><option value="high">🔴 High</option><option value="low">🟢 Low</option></select>
     <select class="tisa-inp" id="todo-subj-sel" style="padding:9px 10px;font-size:12px"></select>
     <input type="date" class="tisa-inp" id="todo-due" style="padding:9px 10px;font-size:12px">
@@ -794,7 +821,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div class="card">
     <div class="ct"><div class="ct-ic">📅</div>Countdowns</div>
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
-      <input type="text" class="tisa-inp" id="cd-name" placeholder="Exam / event..." style="flex:2;padding:8px 10px;font-size:12px">
+      <input type="text" class="tisa-inp" id="cd-name" placeholder="Exam / event..." style="flex:2;padding:8px 10px;font-size:12px" maxlength="80">
       <input type="date" class="tisa-inp" id="cd-date" style="padding:8px 10px;font-size:12px">
       <button class="btn btn-sm btn-p" onclick="addCD()">+</button>
     </div>
@@ -925,9 +952,9 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div style="margin-top:14px"><div class="card">
   <div class="ct"><div class="ct-ic">📒</div>Assignments & Grades</div>
   <div style="display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap">
-    <input type="text" class="tisa-inp" id="asgn-name" placeholder="Assignment name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px">
+    <input type="text" class="tisa-inp" id="asgn-name" placeholder="Assignment name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px" maxlength="150">
     <select class="tisa-inp" id="asgn-subj" style="padding:8px 10px;font-size:12px"></select>
-    <input type="text" class="tisa-inp" id="asgn-marks" placeholder="e.g. 45/50" style="width:100px;padding:8px 10px;font-size:12px">
+    <input type="text" class="tisa-inp" id="asgn-marks" placeholder="e.g. 45/50" style="width:100px;padding:8px 10px;font-size:12px" maxlength="20">
     <input type="date" class="tisa-inp" id="asgn-due" style="padding:8px 10px;font-size:12px">
     <button class="btn btn-sm btn-p" onclick="addAssign()">+ Add</button>
   </div>
@@ -963,15 +990,15 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <div><div class="snum" id="j-tdone" style="font-size:22px">0</div><div class="slbl">Tasks Done</div></div>
       <div><div class="snum" id="j-ttot" style="font-size:22px">0</div><div class="slbl">Total Tasks</div></div>
     </div>
-    <div><div class="jlbl">✍ What did I study today?</div><textarea class="jtarea" id="j-what" placeholder="Covered wave optics..."></textarea></div>
+    <div><div class="jlbl">✍ What did I study today?</div><textarea class="jtarea" id="j-what" placeholder="Covered wave optics..." maxlength="2000"></textarea></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
-      <div><div class="jlbl">💡 What went well?</div><textarea class="jtarea sm" id="j-well" placeholder="Focused for 2 hours..."></textarea></div>
-      <div><div class="jlbl">🔧 Improve tomorrow?</div><textarea class="jtarea sm" id="j-improve" placeholder="Start earlier..."></textarea></div>
+      <div><div class="jlbl">💡 What went well?</div><textarea class="jtarea sm" id="j-well" placeholder="Focused for 2 hours..." maxlength="1000"></textarea></div>
+      <div><div class="jlbl">🔧 Improve tomorrow?</div><textarea class="jtarea sm" id="j-improve" placeholder="Start earlier..." maxlength="1000"></textarea></div>
     </div>
-    <div><div class="jlbl">🌱 Thoughts & reflections</div><textarea class="jtarea" id="j-thoughts" placeholder="How are you feeling..."></textarea></div>
+    <div><div class="jlbl">🌱 Thoughts & reflections</div><textarea class="jtarea" id="j-thoughts" placeholder="How are you feeling..." maxlength="2000"></textarea></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
       <div><div class="jlbl">⭐ Productivity</div><div style="display:flex;gap:4px;align-items:center;margin-top:5px"><span class="rstar" onclick="setRating(1)">★</span><span class="rstar" onclick="setRating(2)">★</span><span class="rstar" onclick="setRating(3)">★</span><span class="rstar" onclick="setRating(4)">★</span><span class="rstar" onclick="setRating(5)">★</span><span style="font-size:11px;color:var(--ink3);margin-left:6px;font-weight:700" id="r-lbl">tap to rate</span></div></div>
-      <div><div class="jlbl">🏷 Tags</div><input type="text" class="tisa-inp" id="j-tags" placeholder="revision, focused..." style="margin-top:5px;padding:8px 10px;font-size:12px"></div>
+      <div><div class="jlbl">🏷 Tags</div><input type="text" class="tisa-inp" id="j-tags" placeholder="revision, focused..." style="margin-top:5px;padding:8px 10px;font-size:12px" maxlength="100"></div>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center;flex-wrap:wrap">
       <span class="saved-msg" id="j-saved">✓ Saved!</span>
@@ -1014,7 +1041,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <div style="padding:4px 12px;background:var(--bg);font-size:10px;color:var(--ink3);font-weight:700;border-top:1px solid var(--border2);flex-shrink:0">🔒 End-to-end encrypted</div>
       <div class="chat-inp-row" style="flex-shrink:0">
         <label style="padding:12px 10px;cursor:pointer;color:var(--ink3);font-size:16px;border-right:1px solid var(--border2);display:flex;align-items:center" title="Attach file">📎<input type="file" id="chat-attach" accept="image/*,.pdf" style="display:none" onchange="sendChatFile(this.files)"></label>
-        <input type="text" id="chat-inp" placeholder="Message..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <input type="text" id="chat-inp" placeholder="Message..." onkeydown="if(event.key==='Enter')sendMsg()" maxlength="1000">
         <button class="csend" onclick="sendMsg()">Send</button>
       </div>
     </div>
@@ -1045,8 +1072,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <select class="tisa-inp" id="post-cat" style="width:100%;margin-bottom:8px;padding:8px 10px;font-size:12px">
         <option value="Question">❓ Question</option><option value="Discussion">💬 Discussion</option><option value="Article">📝 Article</option><option value="Tip">💡 Tip</option><option value="Help">🆘 Help</option>
       </select>
-      <input type="text" class="tisa-inp" id="post-title" placeholder="Title your post..." style="width:100%;margin-bottom:8px">
-      <textarea class="jtarea" id="post-body" placeholder="Share your thoughts, questions, or doubts..." style="min-height:75px;margin-bottom:8px"></textarea>
+      <input type="text" class="tisa-inp" id="post-title" placeholder="Title your post..." style="width:100%;margin-bottom:8px" maxlength="150">
+      <textarea class="jtarea" id="post-body" placeholder="Share your thoughts, questions, or doubts..." style="min-height:75px;margin-bottom:8px" maxlength="2000"></textarea>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
         <label style="display:flex;align-items:center;gap:6px;padding:7px 12px;border:1.5px dashed var(--border);border-radius:9px;cursor:pointer;font-size:11px;font-weight:700;color:var(--ink3);transition:all .2s" id="post-attach-lbl">📎 Attach image/PDF<input type="file" id="post-attach" accept="image/*,.pdf" style="display:none" onchange="handlePostAttach(this.files)"></label>
         <div id="post-attach-preview" style="font-size:11px;color:var(--primary);font-weight:700"></div>
@@ -1081,7 +1108,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
         <div class="ct"><div class="ct-ic">💬</div>Comments <span style="font-size:12px;font-weight:500;color:var(--ink3)" id="cmt-cnt"></span></div>
         <div id="cmt-list"><div class="empty">No comments yet</div></div>
         <div style="display:flex;gap:7px;margin-top:9px">
-          <input type="text" class="tisa-inp" id="cmt-inp" placeholder="Add a comment (random alias)..." style="flex:1;padding:9px 12px;font-size:12px" onkeydown="if(event.key==='Enter')submitCmt()">
+          <input type="text" class="tisa-inp" id="cmt-inp" placeholder="Add a comment (random alias)..." style="flex:1;padding:9px 12px;font-size:12px" onkeydown="if(event.key==='Enter')submitCmt()" maxlength="500">
           <button class="btn btn-sm btn-p" onclick="submitCmt()">Post</button>
         </div>
       </div>
@@ -1164,8 +1191,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div class="card">
     <div class="ct"><div class="ct-ic">🔗</div>Resources</div>
     <div style="display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap">
-      <input type="text" class="tisa-inp" id="res-title" placeholder="Name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px">
-      <input type="text" class="tisa-inp" id="res-url" placeholder="URL..." style="flex:3;min-width:100px;padding:8px 10px;font-size:12px">
+      <input type="text" class="tisa-inp" id="res-title" placeholder="Name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px" maxlength="150">
+      <input type="text" class="tisa-inp" id="res-url" placeholder="URL..." style="flex:3;min-width:100px;padding:8px 10px;font-size:12px" maxlength="500">
       <select class="tisa-inp" id="res-type" style="padding:8px 10px;font-size:12px"><option value="📄">📄 PDF</option><option value="🔗">🔗 Link</option><option value="📹">📹 Video</option><option value="📝">📝 Note</option></select>
       <button class="btn btn-sm btn-p" onclick="addResource()">+ Add</button>
     </div>
@@ -1213,7 +1240,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div class="modal-box" style="max-width:320px">
   <div class="modal-title">Add Class</div>
   <div class="modal-sub" id="tt-lbl2">Select slot</div>
-  <input type="text" class="tisa-inp" id="tt-inp" placeholder="Subject / Class..." style="margin-bottom:10px">
+  <input type="text" class="tisa-inp" id="tt-inp" placeholder="Subject / Class..." style="margin-bottom:10px" maxlength="60">
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="btn btn-p" style="flex:1" onclick="saveTT()">Save</button>
     <button class="btn btn-d" style="flex:1" onclick="clearTT()">Clear</button>
@@ -1227,7 +1254,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import{getFirestore,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import{getFirestore,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
 const app=initializeApp(FC);
@@ -1277,6 +1304,10 @@ window.handleSignIn=async(btn)=>{
 };
 
 window.doSignOut=async()=>{
+  // FIX 2: stop all timers before signing out
+  if(typeof tRun!=='undefined'&&tRun){clearInterval(tInt);tRun=false;}
+  if(typeof focusRun!=='undefined'&&focusRun){clearInterval(focusInt);focusRun=false;}
+  if(typeof testInt!=='undefined'&&testInt){clearInterval(testInt);testInt=null;}
   if(window._chatUnsub)window._chatUnsub();
   if(window._forumUnsub)window._forumUnsub();
   if(window._chatListUnsub)window._chatListUnsub();
@@ -1549,6 +1580,8 @@ window.submitPost=async()=>{
   const body=document.getElementById('post-body').value.trim();
   const cat=document.getElementById('post-cat').value;
   if(!title||!body){window.toast('Add title and content');return;}
+  if(title.length>150){window.toast('Title too long (max 150 chars)');return;}
+  if(body.length>2000){window.toast('Post too long (max 2000 chars)');return;}
   const alias=getPostAlias();
   const obj={title,body,category:cat,alias,ts:serverTimestamp(),ups:0,downs:0,commentCount:0,hasAttachment:!!postAttachData};
   if(postAttachData) obj.attachment={data:postAttachData,type:postAttachType,name:postAttachName};
@@ -1631,7 +1664,7 @@ window.voteP=async(up)=>{
   if(dEl)dEl.textContent=newDns;
   window.toast(up?'👍 Upvoted!':'👎 Downvoted!');
 };
-window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt)return;inp.value='';const alias=getCommentAlias(curPostId);await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});const ref=doc(db,'posts',curPostId);const s=await getDoc(ref);if(s.exists())await updateDoc(ref,{commentCount:(s.data().commentCount||0)+1});};
+window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt||txt.length>500)return;inp.value='';const alias=getCommentAlias(curPostId);await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});await updateDoc(doc(db,'posts',curPostId),{commentCount:increment(1)});};
 
 // ── CHAT (FULLY FIXED) ──
 let aChatId=null,aOtherUid=null,aOtherUname='',aOtherName='';
@@ -1729,6 +1762,7 @@ window.sendMsg=async()=>{
   if(_sending)return; // FIX 3: prevent duplicate sends on rapid Enter
   const inp=document.getElementById('chat-inp');
   const txt=inp.value.trim(); if(!txt)return;
+  if(txt.length>1000){window.toast('Message too long (max 1000 chars)');return;}
   inp.value=''; _sending=true;
   try{
     const ck=cKey(window._CU.uid,aOtherUid);
@@ -2159,7 +2193,7 @@ document.addEventListener('click',e=>{if(moreOpen&&!e.target.closest('#more-menu
 window.addEventListener('resize',()=>{const mn=document.getElementById('mobile-nav');if(!mn)return;const appVisible=document.getElementById('app-main')?.style.display!=='none';mn.style.display=(appVisible&&window.innerWidth<=760)?'block':'none';});
 
 // ── THEME ──
-const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimalist',p:'#2d2d2d',b:'#fafafa',s:'#ffffff'}};
+const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimalist',p:'#4a5e2a',b:'#f7f9f4',s:'#ffffff'}};
 function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);localStorage.setItem('tisa-theme',name);document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();}
 window.setTheme=setTheme;
 window.toggleDark=()=>{const c=document.documentElement.getAttribute('data-theme');setTheme(c==='dark'?'light':'dark');};
@@ -2262,7 +2296,7 @@ function calcPomoTotal(){const t=pomoDur*4+brkDur*3;return t>=60?Math.floor(t/60
 
 // ── FOCUS ──
 window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
-window.toggleFocusTimer=()=>{if(focusRun){focusRun=false;clearInterval(focusInt);document.getElementById('focus-btn').textContent='Continue';document.getElementById('focus-lbl').textContent='paused';}else{focusRun=true;document.getElementById('focus-btn').textContent='Pause';document.getElementById('focus-lbl').textContent='deep focus 🎯';focusInt=setInterval(()=>{focusSecs++;const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);},1000);}};
+window.toggleFocusTimer=()=>{if(focusRun){focusRun=false;clearInterval(focusInt);document.getElementById('focus-btn').textContent='Continue';document.getElementById('focus-lbl').textContent='paused';}else{focusRun=true;if(focusInt)clearInterval(focusInt);document.getElementById('focus-btn').textContent='Pause';document.getElementById('focus-lbl').textContent='deep focus 🎯';focusInt=setInterval(()=>{focusSecs++;const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);},1000);}};
 window.resetFocusTimer=()=>{if(focusRun){clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
 
 // ── XP ──
