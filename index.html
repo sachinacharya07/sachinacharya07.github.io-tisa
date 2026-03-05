@@ -12,7 +12,50 @@
 <meta name="apple-mobile-web-app-title" content="TISA">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<style>
+<style>/* --- SLEEK & MINIMAL OVERHAUL --- */
+  :root {
+    --font-main: 'Inter', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  /* 1. Classy, Thin Typography */
+  body, button, input, select { 
+    font-family: var(--font-main) !important; 
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 2. Sleek Numbers (Very Thin & Minimal) */
+  .t-digits, .snum, .calc-num, .cd-t, .test-big-t {
+    font-family: var(--font-mono) !important;
+    font-weight: 300 !important; 
+    letter-spacing: -2px !important;
+    color: var(--ink) !important;
+  }
+
+  /* 3. Stop Shaking (Disable jumpy transitions on mobile) */
+  * { 
+    transition: none !important; 
+    transform: none !important; 
+  }
+  .card:hover { transform: none !important; box-shadow: var(--sh) !important; }
+
+  /* 4. Fixed Mobile Layout (Single Column, No Overlap) */
+  @media (max-width: 760px) {
+    .home-grid, .myspace-grid, .perf-grid, .test-grid {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+    }
+    .card {
+      width: 100% !important;
+      grid-column: span 1 !important;
+      border: 1px solid var(--border2) !important;
+      border-radius: 8px !important;
+    }
+  }
+
+  /* 5. Keep Pomodoro Hidden */
+  .home-grid > .card:nth-child(2) { display: none !important; }
 html{overflow-x:hidden}
 :root,[data-theme="light"]{--bg:#f8f6f0;--bg2:#f0ede4;--bg3:#e8e3d8;--surface:#ffffff;--surface2:#faf8f3;--primary:#5c7a3e;--pd:#3d5429;--pl:#b8d090;--pglow:rgba(92,122,62,.15);--ink:#1a1c16;--ink2:#4a5240;--ink3:#8a9280;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(92,122,62,.22);--border2:rgba(92,122,62,.1);--sh:0 2px 14px rgba(92,122,62,.1);--shl:0 8px 32px rgba(92,122,62,.14);}
 [data-theme="dark"]{--bg:#141810;--bg2:#1c2116;--bg3:#232a1c;--surface:#1e2419;--surface2:#252d1f;--primary:#7db356;--pd:#5c9038;--pl:#4a6830;--pglow:rgba(125,179,86,.18);--ink:#e8f0e0;--ink2:#a8b898;--ink3:#6a7a5a;--danger:#e05a4a;--success:#4db360;--warn:#e0a830;--border:rgba(125,179,86,.2);--border2:rgba(125,179,86,.1);--sh:0 2px 14px rgba(0,0,0,.35);--shl:0 8px 32px rgba(0,0,0,.45);}
@@ -569,7 +612,6 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   }
   ══════════════════════════════════════════════════════════════
 -->
-<style>   /* --- AESTHETIC OVERHAUL --- */      /* 1. Clean, Classy Typography */   :root {     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;     --font-serif: 'Playfair Display', serif;     --font-mono: 'Space Mono', monospace;   }    body {      font-family: var(--font-main) !important;      letter-spacing: -0.01em;     -webkit-font-smoothing: antialiased;   }    /* Elegant Serif Titles */   .logo-tisa, .modal-title, .prof-name, .ft, #j-date-d, .ls-logo {     font-family: var(--font-serif) !important;     font-weight: 700 !important;     letter-spacing: 1px !important;   }    /* Soothing Numericals (Timer, Stats, Calculator) */   .t-digits, .snum, .calc-num, .test-big-t, .cd-t {     font-family: var(--font-mono) !important;     font-weight: 400 !important;     letter-spacing: -2px !important;     font-variant-numeric: tabular-nums;   }    /* 2. Soft, Professional UI Elements */   .card {     border-radius: 12px !important;     border: 1px solid var(--border2) !important;     box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;     transition: transform 0.2s ease, box-shadow 0.2s ease !important;   }    .card:hover {     transform: translateY(-2px);     box-shadow: 0 8px 30px rgba(0,0,0,0.06) !important;   }    /* 3. Hide the redundant Pomodoro card */   .home-grid > .card:nth-child(2) { display: none !important; }    /* 4. Layout Fixes */   @media(min-width: 761px) {     .home-grid { grid-template-columns: 1.6fr 1fr !important; gap: 24px !important; }   }    .timer-ring { width: 340px !important; height: 340px !important; margin: 40px auto !important; }   .tsvg { width: 340px !important; height: 340px !important; }   .t-digits { font-size: 64px !important; color: var(--ink) !important; }    /* 5. Mobile Fixes */   @media (max-width: 760px) {     .home-grid, .myspace-grid, .perf-grid { grid-template-columns: 1fr !important; }     .home-grid > * { grid-column: 1 !important; width: 100% !important; }     .t-digits { font-size: 48px !important; }     .timer-ring { width: 260px !important; height: 260px !important; }     .tsvg { width: 260px !important; height: 260px !important; }   } </style>   .home-grid > .card:nth-child(2) { display: none !important; }      /* 2. Desktop Layout: Timer Big (1.4fr), To-Do Small (1fr) */   @media(min-width: 761px) {     .home-grid { grid-template-columns: 1.4fr 1fr !important; }   }      /* 3. Make the Timer Circle MASSIVE and increase text size */   .timer-ring { width: 340px !important; height: 340px !important; margin-top: 30px !important; margin-bottom: 20px !important; }   .tsvg { width: 340px !important; height: 340px !important; }   .t-digits { font-size: 56px !important; }   .t-mode { font-size: 14px !important; margin-top: 8px !important; }      /* 4. Make the To-Do List taller to fit more tasks */   .todo-list { max-height: 400px !important; }    /* 5. FIX MOBILE OVERLAPS (Forces 1 column on phones) */   @media (max-width: 760px) {     .myspace-grid > *, .perf-grid > *, .home-grid > *, .test-grid > *, .conn-grid > *, .jgrid > *, .forum-grid > * {        grid-column: 1 !important;        width: 100% !important;     }   } </style> </head>
 <body>
 
 <!-- LOADING -->
