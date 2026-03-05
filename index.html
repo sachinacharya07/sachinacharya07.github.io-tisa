@@ -658,25 +658,32 @@ Continue with Google</button>
 window.handleSignIn = function(btn) {
   btn.disabled = true;
   btn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2.5px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px"></span>Redirecting to Google…';
+  document.getElementById('login-err').style.display='none';
 
   var attempts = 0;
   function trySignIn() {
     if (typeof window.signInWithGoogle === 'function') {
       window.signInWithGoogle();
-      // Page will redirect — no catch needed here, errors shown by module
     } else {
       attempts++;
-      if (attempts < 100) {
+      if (attempts < 120) {
         setTimeout(trySignIn, 100);
       } else {
         btn.disabled = false;
         btn.textContent = 'Continue with Google';
-        var errEl = document.getElementById('login-err');
-        if(errEl){ errEl.innerHTML = '❌ Firebase failed to load. Check your internet and refresh.'; errEl.style.display='block'; }
+        showLoginErr('Firebase scripts failed to load.<br>Please check your internet and hard-refresh (Ctrl+Shift+R).');
       }
     }
   }
   trySignIn();
+};
+
+window.showLoginErr = function(msg) {
+  var el = document.getElementById('login-err');
+  el.innerHTML = msg;
+  el.style.display = 'block';
+  var btn = document.getElementById('google-btn');
+  if(btn){ btn.disabled=false; btn.textContent='Continue with Google'; }
 };
 </script>
 <div id="login-err" style="display:none;margin-top:12px;padding:12px 14px;background:#fff0f0;border:1.5px solid #e88;border-radius:12px;font-size:12px;color:#c00;line-height:1.7;text-align:left;font-weight:500"></div>
@@ -1314,7 +1321,7 @@ import{getFirestore,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,o
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
 const app=initializeApp(FC),auth=getAuth(app),db=getFirestore(app);
 window._db=db;window._sTs=serverTimestamp;
-let CU=null,aChatId=null,aOtherUid=null,chatUnsub=null,forumUnsub=null,curPostId=null,fFilter='all';
+let CU=null,aChatId=null,aOtherUid=null,aOtherName='',chatUnsub=null,forumUnsub=null,curPostId=null,fFilter='all';
 function xE(t,k){let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(unescape(encodeURIComponent(r)));}
 function xD(e,k){try{const t=decodeURIComponent(escape(atob(e)));let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return r;}catch{return'[encrypted]';}}
 function cKey(a,b){return[a,b].sort().join('');}
@@ -1326,24 +1333,31 @@ getRedirectResult(auth).then(result=>{
   }
 }).catch(e=>{
   console.warn('TISA redirect result error:',e.code, e.message);
-  const errEl=document.getElementById('login-err');
-  if(errEl&&e.code!=='auth/no-current-user'){
-    errEl.innerHTML='❌ <b>'+e.code+'</b><br>'+e.message;
-    errEl.style.display='block';
+  if(e.code&&e.code!=='auth/no-current-user'&&e.code!=='auth/null-user'){
+    const msgs={
+      'auth/unauthorized-domain':'❌ <b>Domain not authorized.</b><br>Go to Firebase Console → Authentication → Settings → Authorized Domains → Add: <code>sachinacharya07.github.io</code>',
+      'auth/operation-not-allowed':'❌ <b>Google sign-in is not enabled.</b><br>Go to Firebase Console → Authentication → Sign-in method → Enable Google.',
+      'auth/invalid-api-key':'❌ <b>Invalid Firebase API key.</b> Check your Firebase config.',
+      'auth/network-request-failed':'❌ <b>Network error.</b> Check internet connection.',
+    };
+    const msg=msgs[e.code]||('❌ <b>'+e.code+'</b><br><small>'+e.message+'</small>');
+    if(window.showLoginErr) window.showLoginErr(msg);
+    else setTimeout(()=>window.showLoginErr&&window.showLoginErr(msg),1000);
   }
 });
 
 window.signInWithGoogle=async()=>{
-  // Use redirect — works on ALL domains including GitHub Pages
-  // No popup needed, no domain whitelist issues with redirect flow
   try{
     await signInWithRedirect(auth, new GoogleAuthProvider());
   }catch(e){
-    const btn=document.getElementById('google-btn');
-    if(btn){btn.disabled=false;btn.textContent='Continue with Google';}
-    const errEl=document.getElementById('login-err');
-    if(errEl){errEl.innerHTML='❌ <b>'+e.code+'</b><br>'+e.message;errEl.style.display='block';}
-    console.error('TISA sign-in error:',e);
+    const msgs={
+      'auth/unauthorized-domain':'❌ <b>Domain not authorized.</b><br>Add <code>sachinacharya07.github.io</code> to Firebase → Authentication → Settings → Authorized Domains.',
+      'auth/operation-not-allowed':'❌ <b>Google sign-in is disabled.</b><br>Enable it in Firebase → Authentication → Sign-in method → Google.',
+      'auth/network-request-failed':'❌ <b>Network error.</b> Check your connection.',
+    };
+    const msg=msgs[e.code]||('❌ <b>'+e.code+'</b><br><small>'+e.message+'</small>');
+    if(window.showLoginErr) window.showLoginErr(msg);
+    console.error('TISA sign-in error:',e.code, e.message);
   }
 };
 window.doSignOut=async()=>{if(chatUnsub)chatUnsub();if(forumUnsub)forumUnsub();await fbOut(auth);location.reload()};
@@ -1367,7 +1381,7 @@ async function showApp(user){
   window._uname=uData.username||'';
   if(!uData.username)setTimeout(()=>document.getElementById('uname-modal').classList.add('open'),1000);
   else{document.getElementById('user-dname').textContent='@'+uData.username;document.getElementById('prof-uname').textContent='@'+uData.username;}
-  await loadUD();startHealth();nextQ();loadForum();renderThemeGrid();
+  await loadUD();startHealth();nextQ();loadForum();renderThemeGrid();loadMyChats();
 }
 async function loadUD(){
   const snap=await getDoc(doc(db,'userData',CU.uid));
@@ -1411,7 +1425,14 @@ function loadGoals(chatId){const el=document.getElementById('goals-view');onSnap
 window.addGoal=async(chatId)=>{const inp=document.getElementById('gi-'+chatId);const txt=inp.value.trim();if(!txt)return;inp.value='';const snap=await getDoc(doc(db,'chats',chatId));const goals=snap.exists()?(snap.data().goals||[]):[];goals.push({text:txt,done:false,by:'@'+(window._uname||'')});await updateDoc(doc(db,'chats',chatId),{goals});};
 window.tGoal=async(chatId,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const goals=snap.data().goals||[];goals[i].done=!goals[i].done;await updateDoc(doc(db,'chats',chatId),{goals});};
 window.rmGoal=async(chatId,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const goals=snap.data().goals||[];goals.splice(i,1);await updateDoc(doc(db,'chats',chatId),{goals});};
-window.switchTab=(tab,btn)=>{document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById('cpanel-'+tab).classList.add('active');if(tab==='progress'&&aChatId)loadProgress(aChatId,aOtherUid,document.getElementById('chat-name').textContent.replace('@',''));if(tab==='goals'&&aChatId)loadGoals(aChatId);};
+window.switchTab=(tab,btn)=>{
+  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('cpanel-'+tab).classList.add('active');
+  if(tab==='progress'&&aChatId&&aOtherUid) loadProgress(aChatId,aOtherUid,aOtherName||'');
+  if(tab==='goals'&&aChatId) loadGoals(aChatId);
+};
 
 // ── COMMUNITY POST ATTACHMENT ──
 let postAttachData=null,postAttachType=null,postAttachName='';
@@ -1482,9 +1503,38 @@ window.addMutualTodo=async(chatId,who)=>{const inp=document.getElementById('mut-
 window.toggleMutualTodo=async(chatId,uid,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const cd=snap.data();const mt={...(cd.mutualTodos||{})};mt[uid]=[...mt[uid]];mt[uid][i]={...mt[uid][i],done:!mt[uid][i].done};await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});};
 window.removeMutualTodo=async(chatId,uid,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const cd=snap.data();const mt={...(cd.mutualTodos||{})};mt[uid]=[...mt[uid]];mt[uid].splice(i,1);await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});};
 
-// Patch openChat to use new renderer
-window.openChat=(chatId,oUid,oName,oUname)=>{aChatId=chatId;aOtherUid=oUid;document.getElementById('chat-av').textContent=(oName||'?')[0];document.getElementById('chat-name').textContent='@'+(oUname||oName);document.getElementById('chat-sub').textContent='@'+oUname+' · 🔒 encrypted';document.querySelectorAll('.uitem').forEach(i=>i.classList.remove('sel'));const sel=document.getElementById('ci-'+chatId);if(sel)sel.classList.add('sel');if(chatUnsub)chatUnsub();const ck=cKey(CU.uid,oUid);
-chatUnsub=onSnapshot(query(collection(db,'chats',chatId,'messages'),orderBy('ts','asc'),limit(200)),snap=>{const el=document.getElementById('chat-msgs');if(snap.empty){el.innerHTML='<div class="empty">No messages yet. Say hello! 🐼</div>';return;}el.innerHTML=snap.docs.map(d=>{const m=d.data();const me=m.sender===CU.uid;return renderChatMsg(m,ck,me);}).join('');el.scrollTop=el.scrollHeight;});loadProgress(chatId,oUid,oName);loadGoals(chatId);};
+// ── OPEN CHAT ──
+window.openChat=(chatId,oUid,oName,oUname)=>{
+  aChatId=chatId; aOtherUid=oUid; aOtherName=oUname||oName;
+  // Header
+  document.getElementById('chat-av').textContent=(oUname||oName||'?')[0].toUpperCase();
+  document.getElementById('chat-name').textContent='@'+(oUname||oName);
+  document.getElementById('chat-sub').textContent=(oUname?'@'+oUname+' · ':'')+'🔒 encrypted';
+  // Highlight sidebar item
+  document.querySelectorAll('.uitem').forEach(i=>i.classList.remove('sel'));
+  const sel=document.getElementById('ci-'+chatId);
+  if(sel)sel.classList.add('sel');
+  // Switch to chat tab
+  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
+  document.querySelector('.ctab')?.classList.add('active');
+  document.getElementById('cpanel-messages')?.classList.add('active');
+  // Live messages
+  if(chatUnsub)chatUnsub();
+  const ck=cKey(CU.uid,oUid);
+  chatUnsub=onSnapshot(
+    query(collection(db,'chats',chatId,'messages'),orderBy('ts','asc'),limit(200)),
+    snap=>{
+      const el=document.getElementById('chat-msgs');
+      if(snap.empty){el.innerHTML='<div class="empty">Say hello! 🐼</div>';return;}
+      el.innerHTML=snap.docs.map(d=>renderChatMsg(d.data(),ck,d.data().sender===CU.uid)).join('');
+      el.scrollTop=el.scrollHeight;
+    }
+  );
+  // Pre-load progress data so it's ready when tab is clicked
+  loadProgress(chatId,oUid,aOtherName);
+  loadGoals(chatId);
+};
 
 // ── PDF TEST VIEWER ──
 let pdfZoom=1,pdfRotate=0,curTestPaperData=null,curTestPaperType=null;
@@ -1727,12 +1777,45 @@ document.querySelectorAll('.mnb').forEach(b=>{b.classList.toggle('active',b.data
 if(name==='home'){renderWkChart();}
 if(name==='myspace'){renderStats();renderWkChart();renderTT();renderSubjListMS();}
 if(name==='performance'){renderBigChart();renderPieChart();renderSubjPerf();renderXP();renderCal();}
-if(name==='connect'){loadMyChats();}
+if(name==='connect'){if(window._loadMyChats)window._loadMyChats();}
 if(name==='journal'){renderJSidebar();openTodayJ();}
 if(name==='community')loadForum();
 if(name==='profile'){renderProfilePage();renderBadges();}
 if(name==='settings'){renderThemeGrid();renderSubjList();renderTT();renderResources();}};
-function loadMyChats(){if(window._db&&window._CU){onSnapshot(query(collection(window._db,'chats'),where('members','array-contains',window._CU.uid)),snap=>{const el=document.getElementById('users-panel');if(snap.empty){el.innerHTML='<div class="empty">No conversations yet</div>';return;}el.innerHTML=snap.docs.sort((a,b)=>(b.data().updatedAt?.seconds||0)-(a.data().updatedAt?.seconds||0)).map(d=>{const ch=d.data();const oId=ch.members.find(i=>i!==window._CU.uid);const oN=ch.memberNames?ch.memberNames[oId]||'Unknown':'Unknown';const oU=ch.memberUsernames?ch.memberUsernames[oId]||'':'';const dispN=oU||oN;return`<div class="uitem ${d.id===aChatId?'sel':''}" id="ci-${d.id}" onclick="openChat('${d.id}','${oId}','${esc(oN)}','${esc(oU.replace('@',''))}')"><div class="av">${(dispN||'?')[0].toUpperCase()}</div><div style="min-width:0"><div style="font-size:12px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(dispN)}</div><div style="font-size:10px;color:var(--ink3);font-weight:600">${oU?esc(oU):''}</div></div></div>`;}).join('');});}}
+// ── CHATS SIDEBAR ──
+let chatListUnsub=null;
+function loadMyChats(){
+  if(!db||!CU)return;
+  if(chatListUnsub)chatListUnsub();
+  chatListUnsub=onSnapshot(
+    query(collection(db,'chats'),where('members','array-contains',CU.uid)),
+    snap=>{
+      const el=document.getElementById('users-panel');
+      if(!el)return;
+      if(snap.empty){el.innerHTML='<div class="empty">No conversations yet</div>';return;}
+      el.innerHTML=snap.docs
+        .sort((a,b)=>(b.data().updatedAt?.seconds||0)-(a.data().updatedAt?.seconds||0))
+        .map(d=>{
+          const ch=d.data();
+          const oId=ch.members.find(i=>i!==CU.uid);
+          const oN=ch.memberNames?ch.memberNames[oId]||'Unknown':'Unknown';
+          const rawU=ch.memberUsernames?ch.memberUsernames[oId]||'':'';
+          const oU=rawU.replace(/^@/,'');
+          const dispN=oU?('@'+oU):oN;
+          const lastMsg=ch.lastMsg||'';
+          return`<div class="uitem ${d.id===aChatId?'sel':''}" id="ci-${d.id}" 
+            onclick="openChat('${d.id}','${oId}','${esc(oN)}','${esc(oU)}')">
+            <div class="av" style="background:var(--primary);color:white;font-weight:800">${(oU||oN||'?')[0].toUpperCase()}</div>
+            <div style="min-width:0;flex:1">
+              <div style="font-size:12px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)">${esc(dispN)}</div>
+              <div style="font-size:10px;color:var(--ink3);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${lastMsg?esc(lastMsg):'🔒 encrypted'}</div>
+            </div>
+          </div>`;
+        }).join('');
+    }
+  );
+}
+window._loadMyChats=loadMyChats;
 // Notifications
 function reqNotif(){if('Notification' in window&&Notification.permission==='default'){Notification.requestPermission().then(p=>{if(p==='granted'){toast('🔔 Notifications on!');setInterval(()=>new Notification('TISA 🐼',{body:"Take a break! You've been studying for a while."}),90*60*1000);}});}}
 setTimeout(reqNotif,5000);
