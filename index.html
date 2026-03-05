@@ -2436,5 +2436,50 @@ window.renderAll=function(){
 // ── NOTIFICATIONS ──
 setTimeout(()=>{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission();},5000);;
 </script>
+  <style>
+/* 1. Fix the Scroll Lock */
+body { 
+  display: block !important; 
+  overflow-x: hidden !important; 
+  overflow-y: auto !important; 
+  overscroll-behavior: auto !important; 
+}
+html, body { height: auto !important; }
+
+/* 2. Fix the Main Container & Bottom Nav Overlap */
+main { 
+  flex: none !important; 
+  padding-bottom: 100px !important; 
+  overflow-y: visible !important; 
+}
+
+/* 3. Fix the Chat Panel Breaking Mobile Scrolling */
+.cpanel { 
+  height: auto !important; 
+  min-height: 300px !important; 
+}
+
+/* 4. Fix Mobile Grid Layout */
+.home-grid { 
+  display: grid !important; 
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important; 
+}
+
+/* 5. Fix Doodles Not Appearing in Minimalist Theme */
+[data-theme="minimalist"] .ld-svg { 
+  display: block !important; 
+  opacity: 0.4 !important; 
+}
+
+/* 6. Fix CSS Typo for login doodles */
+.ld1, .ld4 { 
+  display: none !important; 
+}
+
+/* 7. Smooth Scrolling & Box Sizing Improvements */
+html { scroll-behavior: smooth !important; }
+* { box-sizing: border-box !important; }
+img, svg { max-width: 100% !important; height: auto !important; }
+</style>
 </body>
 </html>
