@@ -136,7 +136,7 @@ input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
 header{background:var(--surface);border-bottom:1.5px solid var(--border);padding:0 16px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:8px;box-shadow:var(--sh)}
 .logo-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .logo-icon-svg{width:36px;height:36px;flex-shrink:0}
-.logo-tisa{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--primary);line-height:1;letter-spacing:8px;text-transform:uppercase;text-indent:8px}
+.logo-tisa{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:300;color:var(--primary);line-height:1;letter-spacing:12px;text-transform:uppercase;text-indent:12px}
 .logo-sub{font-size:9px;color:var(--ink3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:-2px}
 
 /* Desktop nav */
@@ -714,6 +714,11 @@ footer span{color:var(--ink3)}
 </svg>
 
 <!-- LOGIN -->
+<div id="loading-screen" style="position:fixed;inset:0;background:var(--bg);z-index:2000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity .4s">
+  <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--primary);letter-spacing:6px">TISA</div>
+  <div style="width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite"></div>
+</div>
+<style>#loading-screen.hide{opacity:0;pointer-events:none}</style>
 <div id="login-screen">
 <div class="login-deco"><div class="login-blob lb1"></div><div class="login-blob lb2"></div></div>
 <svg class="panda-deco sakura-sway" style="bottom:30px;left:20px;width:110px;height:90px;opacity:.55"><use href="#sakura-branch"/></svg>
@@ -1360,8 +1365,15 @@ Continue with Google</button>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import{getFirestore,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,limit,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import{getFirestore,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,deleteDoc,limit,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
+const today=new Date().toISOString().split('T')[0];
+// Shared mutable state (read-only refs — writes go through window._save)
+const getStudyData=()=>window._studyData||{};
+// Utility functions (mirrors of main-script versions, safe to redeclare in module scope)
+const esc=(s)=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const dStr=(d=0)=>{const dt=new Date();dt.setDate(dt.getDate()-d);return dt.toISOString().split('T')[0];};
+const fmtHFull=(s)=>{if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;return`${h}:${String(m).padStart(2,'0')}:${String(sc).padStart(2,'0')}`;};
 const app=initializeApp(FC);
 const auth=getAuth(app);
 const db=getFirestore(app);
@@ -1502,9 +1514,40 @@ window.saveNewUsername=async()=>{
 window.searchUser=async()=>{const q=document.getElementById('srch-inp').value.trim().toLowerCase().replace('@','');if(!q)return;const el=document.getElementById('srch-res');el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">Searching...</div>';const snap=await getDocs(query(collection(db,'users'),where('username','==',q)));if(snap.empty){el.innerHTML='<div style="font-size:11px;color:var(--danger);padding:4px;font-weight:700">User not found</div>';return;}const f=snap.docs[0].data();if(f.uid===CU.uid){el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">That\'s you!</div>';return;}el.innerHTML=`<div style="padding:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:8px"><div><div style="font-size:12px;font-weight:800">${esc(f.username||f.name)}</div><div style="font-size:10px;color:var(--ink3);font-weight:600">@${esc(f.username||'')}</div></div><button class="pill-btn" onclick="startChat('${f.uid}','${esc(f.name||f.username)}','${esc(f.username||'')}')">Chat →</button></div>`;};
 window.startChat=async(oUid,oName,oUname)=>{document.getElementById('srch-res').innerHTML='';document.getElementById('srch-inp').value='';const chatId=[CU.uid,oUid].sort().join('_');const myUname=window._uname||'';await setDoc(doc(db,'chats',chatId),{members:[CU.uid,oUid],memberNames:{[CU.uid]:CU.displayName,[oUid]:oName},memberUsernames:{[CU.uid]:'@'+myUname,[oUid]:'@'+oUname},updatedAt:serverTimestamp()},{merge:true});openChat(chatId,oUid,oName,oUname);loadMyChats();};
 function loadGoals(chatId){const el=document.getElementById('goals-view');onSnapshot(doc(db,'chats',chatId),snap=>{const data=snap.exists()?snap.data():{};const goals=data.goals||[];el.innerHTML=`<div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px">Shared Goals</div>${goals.length?goals.map((g,i)=>`<div class="gitem"><div class="gcheck ${g.done?'done':''}" onclick="tGoal('${chatId}',${i})">${g.done?'<svg width="9" height="9" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div style="flex:1;${g.done?'text-decoration:line-through;opacity:.5':''}">${esc(g.text)}</div><div style="font-size:10px;color:var(--ink3);font-weight:600">${esc(g.by||'')}</div><button class="ic-btn" onclick="rmGoal('${chatId}',${i})" style="font-size:14px">×</button></div>`).join(''):'<div class="empty" style="padding:8px">No goals yet</div>'}<div style="display:flex;gap:7px;margin-top:8px"><input type="text" class="tisa-inp" id="gi-${chatId}" placeholder="Add goal..." style="flex:1;padding:7px 10px;font-size:12px" onkeydown="if(event.key==='Enter')addGoal('${chatId}')"><button class="btn btn-sm btn-p" onclick="addGoal('${chatId}')">Add</button></div>`;});}
-window.addGoal=async(chatId)=>{const inp=document.getElementById('gi-'+chatId);const txt=inp.value.trim();if(!txt)return;inp.value='';const snap=await getDoc(doc(db,'chats',chatId));const goals=snap.exists()?(snap.data().goals||[]):[];goals.push({text:txt,done:false,by:'@'+(window._uname||'')});await updateDoc(doc(db,'chats',chatId),{goals});};
-window.tGoal=async(chatId,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const goals=snap.data().goals||[];goals[i].done=!goals[i].done;await updateDoc(doc(db,'chats',chatId),{goals});};
-window.rmGoal=async(chatId,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const goals=snap.data().goals||[];goals.splice(i,1);await updateDoc(doc(db,'chats',chatId),{goals});};
+window.addGoal=async(cId)=>{
+  const inp=document.getElementById('gi-'+cId);
+  const txt=inp?.value.trim();if(!txt)return;inp.value='';
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',cId);const snap=await tx.get(ref);
+      const goals=[...(snap.exists()?(snap.data().goals||[]):[])];
+      goals.push({text:txt,done:false,by:'@'+(window._uname||'')});
+      tx.update(ref,{goals});
+    });
+  }catch(e){toast('Failed to add goal');inp.value=txt;}
+};
+window.tGoal=async(cId,i)=>{
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',cId);const snap=await tx.get(ref);
+      if(!snap.exists())return;
+      const goals=[...snap.data().goals];
+      goals[i]={...goals[i],done:!goals[i].done};
+      tx.update(ref,{goals});
+    });
+  }catch(e){toast('Failed to update goal');}
+};
+window.rmGoal=async(cId,i)=>{
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',cId);const snap=await tx.get(ref);
+      if(!snap.exists())return;
+      const goals=[...snap.data().goals];
+      goals.splice(i,1);
+      tx.update(ref,{goals});
+    });
+  }catch(e){toast('Failed to remove goal');}
+};
 window.switchTab=(tab,btn)=>{
   document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
@@ -1536,56 +1579,223 @@ window.voteP=async(up)=>{if(!curPostId)return;const ref=doc(db,'posts',curPostId
 let cmtAttachData=null,cmtAttachType=null,cmtAttachName='';
 window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt&&!cmtAttachData)return;inp.value='';const obj={text:txt||'',alias:genAlias(CU.uid+curPostId),ts:serverTimestamp()};if(cmtAttachData)obj.attachment={data:cmtAttachData,type:cmtAttachType,name:cmtAttachName};await addDoc(collection(db,'posts',curPostId,'comments'),obj);cmtAttachData=null;cmtAttachType=null;};
 
+// ── SEND TEXT MESSAGE ──
+let _sending=false;
+window.sendMsg=async()=>{
+  if(!aChatId){toast('Select a conversation first');return;}
+  if(_sending)return;
+  const inp=document.getElementById('chat-inp');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';_sending=true;
+  try{
+    const ck=cKey(CU.uid,aOtherUid);
+    await addDoc(collection(db,'chats',aChatId,'messages'),{
+      text:xE(txt,ck),encrypted:true,
+      sender:CU.uid,sName:CU.displayName,suname:window._uname||'',
+      ts:serverTimestamp()
+    });
+    await updateDoc(doc(db,'chats',aChatId),{updatedAt:serverTimestamp(),lastMsg:'[encrypted]'});
+  }catch(e){
+    toast('Failed to send. Check connection.');
+    inp.value=txt;
+  }finally{_sending=false;}
+};
+
 // ── CHAT FILE SEND ──
-window.sendChatFile=async(files)=>{if(!files[0]||!aChatId){toast('Select a conversation first');return;}const f=files[0];const r=new FileReader();r.onload=async(e)=>{const ck=cKey(CU.uid,aOtherUid);const isImg=f.type.startsWith('image/');const msgObj={text:xE(isImg?'[image]':'[pdf: '+f.name+']',ck),encrypted:true,sender:CU.uid,sName:CU.displayName,suname:window._uname||'',ts:serverTimestamp(),fileType:f.type,fileName:f.name,fileData:e.target.result};await addDoc(collection(db,'chats',aChatId,'messages'),msgObj);document.getElementById('chat-attach').value='';toast('File sent! 📎');};r.readAsDataURL(f);};
+async function compressImage(dataUrl,maxW=600){
+  return new Promise(res=>{
+    const img=new Image();
+    img.onload=()=>{
+      const scale=Math.min(1,maxW/Math.max(img.width,img.height));
+      const canvas=document.createElement('canvas');
+      canvas.width=Math.round(img.width*scale);
+      canvas.height=Math.round(img.height*scale);
+      canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+      res(canvas.toDataURL('image/jpeg',0.6));
+    };
+    img.onerror=()=>res(dataUrl);
+    img.src=dataUrl;
+  });
+}
+window.sendChatFile=async(files)=>{
+  if(!files[0]||!aChatId){toast('Select a conversation first');return;}
+  const f=files[0];
+  if(f.size>600*1024){toast('File too large. Max 600KB 📎');document.getElementById('chat-attach').value='';return;}
+  const r=new FileReader();
+  r.onload=async(e)=>{
+    const ck=cKey(CU.uid,aOtherUid);
+    const isImg=f.type.startsWith('image/');
+    const fileData=isImg?await compressImage(e.target.result):e.target.result;
+    try{
+      await addDoc(collection(db,'chats',aChatId,'messages'),{
+        text:xE(isImg?'[image]':'[file: '+f.name+']',ck),encrypted:true,
+        sender:CU.uid,sName:CU.displayName,suname:window._uname||'',
+        ts:serverTimestamp(),
+        fileType:f.type,fileName:f.name,originalFileName:f.name,fileData
+      });
+      document.getElementById('chat-attach').value='';
+      await updateDoc(doc(db,'chats',aChatId),{updatedAt:serverTimestamp()});
+      toast('File sent! 📎');
+    }catch(err){toast('File too large for storage. Try a smaller file.');document.getElementById('chat-attach').value='';}
+  };
+  r.readAsDataURL(f);
+};
 
 // Patch chat renderer to show images/PDFs
-function renderChatMsg(m,ck,me){const txt=m.encrypted?xD(m.text,ck):m.text;const t=m.ts?new Date(m.ts.toDate()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';let content='';if(m.fileData){if(m.fileType&&m.fileType.startsWith('image/')){content=`<img src="${m.fileData}" style="max-width:180px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px;cursor:pointer" onclick="window.open(this.src)">`;}else{content=`<a href="${m.fileData}" target="_blank" style="display:flex;align-items:center;gap:5px;color:${me?'white':'var(--primary)'};font-size:11px;font-weight:700;text-decoration:none">📄 ${esc(m.fileName||'File')}</a>`;}}else{content=esc(txt);}return`<div class="msg ${me?'me':'them'}">${content}<div class="msg-t">${t}${!me?' · @'+esc(m.suname||m.sName||''):''}${me?' 🔒':''}</div></div>`;}
+function renderChatMsg(m,ck,me){const txt=m.encrypted?xD(m.text,ck):m.text;const t=m.ts?new Date(m.ts.toDate()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';let content='';if(m.fileData){if(m.fileType&&m.fileType.startsWith('image/')){content=`<img src="${m.fileData}" style="max-width:180px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px;cursor:pointer" onclick="window.open(this.src)">`;}else{content=`<a href="${m.fileData}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:5px;color:${me?'white':'var(--primary)'};font-size:11px;font-weight:700;text-decoration:none">📄 ${esc(m.originalFileName||m.fileName||'File')}</a>`;}}else{content=esc(txt);}return`<div class="msg ${me?'me':'them'}">${content}<div class="msg-t">${t}${!me?' · @'+esc(m.suname||m.sName||''):''}${me?' 🔒':''}</div></div>`;}
 
 // Mutual progress/todos in progress tab
-function loadProgress(chatId,oUid,oName){const el=document.getElementById('progress-view');el.style.padding='14px';
-const myH=studyData[today]||0,goal=8*3600,myP=Math.min(100,Math.round(myH/goal*100));
-getDoc(doc(db,'userData',oUid)).then(snap=>{const od=snap.exists()?snap.data():{};const oSD=od.studyData||{};const oH=oSD[today]||0;const oP=Math.min(100,Math.round(oH/goal*100));let wM=0,wO=0;for(let i=0;i<7;i++){wM+=(studyData[dStr(i)]||0);wO+=(oSD[dStr(i)]||0);}const myUname='@'+(window._uname||'You');const oUname='@'+oName;
-el.innerHTML=`
-<div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">📊 Today's Study Progress</div>
+function loadProgress(chatId,oUid,oName){
+  const el=document.getElementById('progress-view');if(!el)return;
+  if(window._progressUnsub){window._progressUnsub();window._progressUnsub=null;}
+  if(window._progressUnsub2){window._progressUnsub2();window._progressUnsub2=null;}
+  if(window._progressMyPoll){clearInterval(window._progressMyPoll);window._progressMyPoll=null;}
+  const myUname='@'+(window._uname||'You');
+  const oUname='@'+(aOtherUname||oName||'Buddy');
+  const goal=8*3600;
+  const chk='<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>';
+  el.style.padding='14px';
+  el.innerHTML=`
+<div style="font-size:11px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">📊 Today's Study Progress</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
   <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center">
-    <div style="font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:6px">${esc(myUname)}</div>
-    <div class="snum" style="font-size:20px">${fmtH(myH)}</div>
-    <div class="pt-bar-w"><div class="pt-bar" style="width:${myP}%"></div></div>
-    <div style="font-size:10px;color:var(--ink3);font-weight:700">${myP}% of daily goal</div>
+    <div style="font-size:11px;font-weight:800;color:var(--primary);margin-bottom:6px">${esc(myUname)}</div>
+    <div class="snum" style="font-size:20px" id="prog-my-h">--</div>
+    <div class="pt-bar-w"><div class="pt-bar" id="prog-my-bar" style="width:0%"></div></div>
+    <div style="font-size:10px;color:var(--ink3);font-weight:700" id="prog-my-pct">0% of 8h goal</div>
   </div>
   <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center">
-    <div style="font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:6px">${esc(oUname)}</div>
-    <div class="snum" style="font-size:20px">${fmtH(oH)}</div>
-    <div class="pt-bar-w"><div class="pt-bar" style="width:${oP}%;opacity:.7"></div></div>
-    <div style="font-size:10px;color:var(--ink3);font-weight:700">${oP}% of daily goal</div>
+    <div style="font-size:11px;font-weight:800;color:var(--ink3);margin-bottom:6px">${esc(oUname)}</div>
+    <div class="snum" style="font-size:20px" id="prog-o-h">Loading...</div>
+    <div class="pt-bar-w"><div class="pt-bar" id="prog-o-bar" style="width:0%;opacity:.7"></div></div>
+    <div style="font-size:10px;color:var(--ink3);font-weight:700" id="prog-o-pct">—</div>
+  </div>
+</div>
+<div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📈 This Week</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+  <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px;text-align:center">
+    <div style="font-size:11px;font-weight:700;color:var(--primary)">${esc(myUname)}</div>
+    <div class="snum" style="font-size:18px" id="prog-my-wk">--</div>
+  </div>
+  <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px;text-align:center">
+    <div style="font-size:11px;font-weight:700;color:var(--ink3)">${esc(oUname)}</div>
+    <div class="snum" style="font-size:18px" id="prog-o-wk">Loading...</div>
   </div>
 </div>
 <div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📋 Mutual Task Tracker</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
   <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px">
     <div style="font-size:11px;font-weight:800;color:var(--primary);margin-bottom:6px">${esc(myUname)} Tasks</div>
-    <div id="mutual-my-todos" style="max-height:140px;overflow-y:auto;margin-bottom:7px"></div>
-    <div style="display:flex;gap:5px"><input type="text" class="tisa-inp" id="mut-my-inp" placeholder="Add task..." style="flex:1;padding:6px 8px;font-size:11px" onkeydown="if(event.key==='Enter')addMutualTodo('${chatId}','my')"><button class="btn btn-sm btn-p" style="padding:6px 9px;font-size:11px" onclick="addMutualTodo('${chatId}','my')">+</button></div>
+    <div id="mut-my" style="max-height:160px;overflow-y:auto;margin-bottom:7px"></div>
+    <div style="display:flex;gap:5px">
+      <input type="text" class="tisa-inp" id="mut-my-inp" placeholder="Add your task..." style="flex:1;padding:6px 8px;font-size:11px" onkeydown="if(event.key==='Enter')addMutTodo('${chatId}')">
+      <button class="btn btn-sm btn-p" style="padding:6px 10px" onclick="addMutTodo('${chatId}')">+</button>
+    </div>
   </div>
   <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:10px">
     <div style="font-size:11px;font-weight:800;color:var(--ink3);margin-bottom:6px">${esc(oUname)} Tasks</div>
-    <div id="mutual-o-todos" style="max-height:140px;overflow-y:auto"></div>
+    <div id="mut-o" style="max-height:160px;overflow-y:auto"></div>
   </div>
 </div>`;
-// Live mutual todos
-onSnapshot(doc(db,'chats',chatId),cSnap=>{if(!cSnap.exists())return;const cd=cSnap.data();const myTd=(cd.mutualTodos||{})[CU.uid]||[];const oTd=(cd.mutualTodos||{})[oUid]||[];const myEl=document.getElementById('mutual-my-todos');const oEl=document.getElementById('mutual-o-todos');if(myEl)myEl.innerHTML=myTd.length?myTd.map((t,i)=>`<div style="display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:1px dashed var(--border2);font-size:11px"><div style="width:14px;height:14px;border:1.5px solid var(--primary);border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;${t.done?'background:var(--primary)':''}" onclick="toggleMutualTodo('${chatId}','${CU.uid}',${i})">${t.done?'✓':''}</div><span style="${t.done?'text-decoration:line-through;opacity:.4':''};flex:1">${esc(t.text)}</span><button style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--ink3)" onclick="removeMutualTodo('${chatId}','${CU.uid}',${i})">×</button></div>`).join(''):'<div style="font-size:11px;color:var(--ink3);padding:4px">No tasks yet</div>';
-if(oEl)oEl.innerHTML=oTd.length?oTd.map((t,i)=>`<div style="display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:1px dashed var(--border2);font-size:11px"><div style="width:14px;height:14px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;${t.done?'background:var(--success);border-color:var(--success)':''}">${t.done?'<span style="color:white;font-size:9px">✓</span>':''}</div><span style="${t.done?'text-decoration:line-through;opacity:.4':''};flex:1">${esc(t.text)}</span></div>`).join(''):'<div style="font-size:11px;color:var(--ink3);padding:4px">No tasks yet</div>';});});
+
+  // Live MY data — poll every 10s (timer updates studyData directly)
+  function updateMyProgress(){
+    const myH=getStudyData()[today]||0;
+    const myP=Math.min(100,Math.round(myH/goal*100));
+    let wM=0; for(let i=0;i<7;i++) wM+=(getStudyData()[dStr(i)]||0);
+    const e1=document.getElementById('prog-my-h'),e2=document.getElementById('prog-my-bar'),
+          e3=document.getElementById('prog-my-pct'),e4=document.getElementById('prog-my-wk');
+    if(e1)e1.textContent=fmtHFull(myH);
+    if(e2)e2.style.width=myP+'%';
+    if(e3)e3.textContent=myP+'% of 8h goal';
+    if(e4)e4.textContent=fmtHFull(wM);
+  }
+  updateMyProgress();
+  window._progressMyPoll=setInterval(updateMyProgress,10000);
+
+  // Live BUDDY data from publicStats (readable by any logged-in user)
+  window._progressUnsub2=onSnapshot(doc(db,'publicStats',oUid),snap=>{
+    const od=snap.exists()?snap.data():{};
+    const oSD=od.studyData||{};
+    const oH=oSD[today]||0;
+    const oP=Math.min(100,Math.round(oH/goal*100));
+    let wO=0; for(let i=0;i<7;i++) wO+=(oSD[dStr(i)]||0);
+    const e1=document.getElementById('prog-o-h'),e2=document.getElementById('prog-o-bar'),
+          e3=document.getElementById('prog-o-pct'),e4=document.getElementById('prog-o-wk');
+    if(e1)e1.textContent=fmtHFull(oH);
+    if(e2)e2.style.width=oP+'%';
+    if(e3)e3.textContent=oP+'% of 8h goal';
+    if(e4)e4.textContent=fmtHFull(wO);
+  });
+
+  // Live mutual todos
+  window._progressUnsub=onSnapshot(doc(db,'chats',chatId),cs=>{
+    if(!cs.exists())return;
+    const cd=cs.data();
+    const myTd=((cd.mutualTodos||{})[CU.uid])||[];
+    const oTd=((cd.mutualTodos||{})[oUid])||[];
+    const myEl=document.getElementById('mut-my'), oEl=document.getElementById('mut-o');
+    if(myEl) myEl.innerHTML=myTd.length?myTd.map((t,i)=>
+      '<div class="mutual-todo-item">'+
+      '<div class="mut-check '+(t.done?'done':'')+'" onclick="togMutTodo(\''+ chatId +'\',\''+ CU.uid +'\','+i+')">'+(t.done?chk:'')+'</div>'+
+      '<span style="'+(t.done?'text-decoration:line-through;opacity:.4;':'')+'flex:1;font-size:11px">'+ esc(t.text) +'</span>'+
+      '<button style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--ink3);padding:0 2px" onclick="remMutTodo(\''+ chatId +'\',\''+ CU.uid +'\','+i+')">×</button>'+
+      '</div>'
+    ).join(''): '<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">No tasks yet</div>';
+    if(oEl) oEl.innerHTML=oTd.length?oTd.map(t=>
+      '<div class="mutual-todo-item">'+
+      '<div class="mut-check '+(t.done?'done':'')+'" style="pointer-events:none;border-color:var(--border)">'+(t.done?chk:'')+'</div>'+
+      '<span style="'+(t.done?'text-decoration:line-through;opacity:.4;':'')+'flex:1;font-size:11px">'+ esc(t.text) +'</span>'+
+      '</div>'
+    ).join(''): '<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">No tasks yet</div>';
+  });
 }
 
-window.addMutualTodo=async(chatId,who)=>{const inp=document.getElementById('mut-my-inp');const txt=inp.value.trim();if(!txt)return;inp.value='';const snap=await getDoc(doc(db,'chats',chatId));const cd=snap.exists()?snap.data():{};const mt={...(cd.mutualTodos||{})};const uid=CU.uid;mt[uid]=[...(mt[uid]||[]),{text:txt,done:false}];await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});};
-window.toggleMutualTodo=async(chatId,uid,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const cd=snap.data();const mt={...(cd.mutualTodos||{})};mt[uid]=[...mt[uid]];mt[uid][i]={...mt[uid][i],done:!mt[uid][i].done};await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});};
-window.removeMutualTodo=async(chatId,uid,i)=>{const snap=await getDoc(doc(db,'chats',chatId));const cd=snap.data();const mt={...(cd.mutualTodos||{})};mt[uid]=[...mt[uid]];mt[uid].splice(i,1);await updateDoc(doc(db,'chats',chatId),{mutualTodos:mt});};
+// Mutual todo mutations use runTransaction for atomic safety
+window.addMutTodo=async(chatId)=>{
+  const inp=document.getElementById('mut-my-inp');
+  const txt=inp?.value.trim(); if(!txt)return; inp.value='';
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',chatId);
+      const snap=await tx.get(ref);
+      const mt={...((snap.exists()?snap.data().mutualTodos:{})||{})};
+      mt[CU.uid]=[...(mt[CU.uid]||[]),{text:txt,done:false}];
+      tx.update(ref,{mutualTodos:mt});
+    });
+  }catch(e){toast('Failed to add task');inp.value=txt;}
+};
+window.togMutTodo=async(chatId,uid,i)=>{
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',chatId);
+      const snap=await tx.get(ref);
+      if(!snap.exists())return;
+      const mt={...snap.data().mutualTodos};
+      mt[uid]=[...mt[uid]];
+      mt[uid][i]={...mt[uid][i],done:!mt[uid][i].done};
+      tx.update(ref,{mutualTodos:mt});
+    });
+  }catch(e){toast('Failed to update');}
+};
+window.remMutTodo=async(chatId,uid,i)=>{
+  try{
+    await runTransaction(db,async tx=>{
+      const ref=doc(db,'chats',chatId);
+      const snap=await tx.get(ref);
+      if(!snap.exists())return;
+      const mt={...snap.data().mutualTodos};
+      mt[uid]=[...mt[uid]];
+      mt[uid].splice(i,1);
+      tx.update(ref,{mutualTodos:mt});
+    });
+  }catch(e){toast('Failed to remove');}
+};
 
 // ── OPEN CHAT ──
 window.openChat=(chatId,oUid,oName,oUname)=>{
-  aChatId=chatId; aOtherUid=oUid; aOtherName=oUname||oName;
+  aChatId=chatId; aOtherUid=oUid; aOtherName=oUname||oName; aOtherUname=oUname||'';
+  try{sessionStorage.setItem('tisa_last_chat',chatId);}catch(e){}
   // Header
   document.getElementById('chat-av').textContent=(oUname||oName||'?')[0].toUpperCase();
   document.getElementById('chat-name').textContent='@'+(oUname||oName);
@@ -1655,6 +1865,11 @@ let calcSt={n1:'',n2:'',op:null,fresh:true};
 let focusRun=false,focusSecs=0,focusInt=null;
 const today=new Date().toISOString().split('T')[0];
 function save(){if(window._save)window._save();}
+// ── STATE BRIDGE: expose mutable state to ES module ──
+window._getState=()=>({studyData,xp,coins,todos,assignments,pastTests,
+  journals,timetable,subjects,sessions,papers,countdowns,resources,today,
+  todoFilter,curJDate,curRating,curMood});
+// _setState removed (eval is unsafe)
 function pad(n){return String(n).padStart(2,'0');}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function fmtH(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;return`${h}:${pad(m)}:${pad(sc)}`;}
@@ -1662,7 +1877,19 @@ function fmtHShort(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.fl
 function fmtHLabel(s){if(!s)return'0h';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);if(h>0)return m>0?`${h}h ${m}m`:`${h}h`;if(m>0)return`${m}m`;return`<1m`;}
 function fmtHMS(s){return`${pad(Math.floor(s/3600))}:${pad(Math.floor((s%3600)/60))}:${pad(s%60)}`;}
 function dStr(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];}
+function fmtHFull(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=Math.floor(s%60);return h+':'+pad(m)+':'+pad(sc);}
 function fmtDate(d){return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
+// ── Expose utilities to ES module via window ──
+window.dStr=dStr; window.fmtH=fmtH; window.fmtHFull=fmtHFull; window.fmtDate=fmtDate;
+window.esc=esc; // xE/xD/cKey live in module scope only
+window.addXP=addXP; window.checkXP=checkXP; window.save=save;
+window.toast=toast; window.renderAll=renderAll; window.renderBadges=renderBadges;
+window.renderXP=renderXP; window.renderTodos=renderTodos;
+// Expose mutable state getters
+Object.defineProperty(window,'_studyData',{get:()=>studyData,set:v=>{studyData=v}});
+Object.defineProperty(window,'_xp',{get:()=>xp,set:v=>{xp=v}});
+Object.defineProperty(window,'_coins',{get:()=>coins,set:v=>{coins=v}});
+Object.defineProperty(window,'_today',{get:()=>today});
 window.renderAll=function renderAll(){renderSubjSels();renderTodos();renderCDs();renderStats();renderWkChart();renderPapers();renderPastTests();renderJSidebar();openTodayJ();renderXP();renderCal();renderBadges();renderAssignments();renderResources();renderSubjList();renderTT();renderProfilePage();renderBigChart();renderPieChart();renderSubjPerf();renderSubjListMS();}
 
 // ══ MOBILE NAV ══
@@ -1772,7 +1999,7 @@ window.deleteTodo=(id)=>{todos=todos.filter(t=>t.id!=id);save();renderTodos();};
 window.clearDone=()=>{todos=todos.filter(t=>!t.done);save();renderTodos();toast('Done!');};
 window.setF=(f,btn)=>{todoFilter=f;document.querySelectorAll('.f-row .fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTodos();};
 function isOD(t){return t.due&&!t.done&&t.due<today;}
-function renderTodos(){const el=document.getElementById('todo-list');const dn=todos.filter(t=>t.done).length;document.getElementById('ts-tot').textContent=todos.length;document.getElementById('ts-dn').textContent=dn;document.getElementById('ts-hi').textContent=todos.filter(t=>t.priority==='high'&&!t.done).length;document.getElementById('ts-od').textContent=todos.filter(isOD).length;document.getElementById('todo-pb').style.width=(todos.length?Math.round(dn/todos.length*100):0)+'%';let fl=[...todos];if(todoFilter==='active')fl=fl.filter(t=>!t.done);else if(todoFilter==='done')fl=fl.filter(t=>t.done);else if(todoFilter==='high')fl=fl.filter(t=>t.priority==='high');else if(todoFilter==='overdue')fl=fl.filter(isOD);fl.sort((a,b)=>{if(!a.done&&b.done)return-1;if(a.done&&!b.done)return 1;const p={high:0,normal:1,low:2};return(p[a.priority]||1)-(p[b.priority]||1);});if(!fl.length){el.innerHTML=`<div class="empty">${todoFilter==='all'?'All clear! 🐼':'Nothing here'}</div>`;return;}el.innerHTML=fl.map(t=>{const od=isOD(t);const dl=t.due?(od?`<div class="tmeta ol">⚠ overdue · ${fmtDate(t.due)}</div>`:t.due===today?`<div class="tmeta" style="color:var(--primary);font-weight:800">Due today!</div>`:`<div class="tmeta">Due ${fmtDate(t.due)}</div>`):'';const pt=t.priority==='high'?`<span class="tag" style="background:#fdd;color:#922;font-size:9px">HIGH</span>`:t.priority==='low'?`<span class="tag" style="background:#dfd;color:#292;font-size:9px">LOW</span>`:'';return`<div class="todo-item ${t.done?'done':''} ${od?'overdue':''}"><div class="tcheck" onclick="toggleTodo(${t.id})">${t.done?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div class="ttw"><div class="ttext">${esc(t.text)}</div>${dl}</div><span class="tag" style="font-size:9px">${esc(t.subject||'')}</span>${pt}<button class="ic-btn" onclick="deleteTodo(${t.id})" style="font-size:14px">×</button></div>`;}).join('');}
+function renderTodos(){const el=document.getElementById('todo-list');if(!el)return;const dn=todos.filter(t=>t.done).length;document.getElementById('ts-tot').textContent=todos.length;document.getElementById('ts-dn').textContent=dn;document.getElementById('ts-hi').textContent=todos.filter(t=>t.priority==='high'&&!t.done).length;document.getElementById('ts-od').textContent=todos.filter(isOD).length;document.getElementById('todo-pb').style.width=(todos.length?Math.round(dn/todos.length*100):0)+'%';let fl=[...todos];if(todoFilter==='active')fl=fl.filter(t=>!t.done);else if(todoFilter==='done')fl=fl.filter(t=>t.done);else if(todoFilter==='high')fl=fl.filter(t=>t.priority==='high');else if(todoFilter==='overdue')fl=fl.filter(isOD);fl.sort((a,b)=>{if(!a.done&&b.done)return-1;if(a.done&&!b.done)return 1;const p={high:0,normal:1,low:2};return(p[a.priority]||1)-(p[b.priority]||1);});if(!fl.length){el.innerHTML=`<div class="empty">${todoFilter==='all'?'All clear! 🐼':'Nothing here'}</div>`;return;}el.innerHTML=fl.map(t=>{const od=isOD(t);const dl=t.due?(od?`<div class="tmeta ol">⚠ overdue · ${fmtDate(t.due)}</div>`:t.due===today?`<div class="tmeta" style="color:var(--primary);font-weight:800">Due today!</div>`:`<div class="tmeta">Due ${fmtDate(t.due)}</div>`):'';const pt=t.priority==='high'?`<span class="tag" style="background:#fdd;color:#922;font-size:9px">HIGH</span>`:t.priority==='low'?`<span class="tag" style="background:#dfd;color:#292;font-size:9px">LOW</span>`:'';return`<div class="todo-item ${t.done?'done':''} ${od?'overdue':''}"><div class="tcheck" onclick="toggleTodo(${t.id})">${t.done?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div class="ttw"><div class="ttext">${esc(t.text)}</div>${dl}</div><span class="tag" style="font-size:9px">${esc(t.subject||'')}</span>${pt}<button class="ic-btn" onclick="deleteTodo(${t.id})" style="font-size:14px">×</button></div>`;}).join('');}
 
 // ══ PERFORMANCE CHARTS ══
 const PIE_COLORS=['#5c7a3e','#7db356','#d4688a','#2a7fa8','#d4783a','#8b6fd4','#c8941a','#2d7a3a'];
@@ -1893,6 +2120,22 @@ function loadMyChats(){
             </div>
           </div>`;
         }).join('');
+      // Auto-reopen last active chat after list loads
+      if(!aChatId){
+        try{
+          const lastId=sessionStorage.getItem('tisa_last_chat');
+          if(lastId){
+            const lastDoc=sorted.find(d=>d.id===lastId);
+            if(lastDoc){
+              const ch=lastDoc.data();
+              const oId=ch.members.find(i=>i!==CU.uid);
+              const oU=(ch.memberUsernames||{})[oId]||'';
+              const oN=(ch.memberNames||{})[oId]||'Unknown';
+              window.openChat(lastId,oId,oN,oU);
+            }
+          }
+        }catch(e){}
+      }
     }
   );
 }
