@@ -1272,6 +1272,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn btn-sm btn-o" onclick="document.getElementById('privacy-modal').classList.add('open')">📄 Privacy Policy</button>
+      <button class="btn btn-sm btn-o" onclick="document.getElementById('tos-modal').classList.add('open')">📋 Terms of Service</button>
       <button class="btn btn-sm btn-o" onclick="document.getElementById('delete-modal').classList.add('open')">🗑️ Delete My Data</button>
     </div>
   </div>
@@ -1307,6 +1308,55 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     
     <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">Contact</div>
     <p>For any privacy concerns, email us at <strong><span style="color:var(--primary)">tisa.helpdesk&#64;gmail&#46;com</span></strong> or reach out via the TISA community forum.</p>
+  </div>
+</div>
+</div>
+
+<!-- TERMS OF SERVICE MODAL -->
+<div id="tos-modal" class="modal-overlay">
+<div class="modal-box" style="max-width:480px;max-height:80vh;overflow-y:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--primary)">📋 Terms of Service</div>
+    <button class="pill-btn" onclick="document.getElementById('tos-modal').classList.remove('open')">✕ Close</button>
+  </div>
+  <div style="font-size:12px;color:var(--ink2);line-height:1.9">
+    <div style="font-weight:800;color:var(--ink);margin-bottom:4px;font-size:13px">Effective: 7 March 2026</div>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">1. Acceptance</div>
+    <p>By using TISA you agree to these Terms. If you do not agree, please do not use the app.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">2. Age Requirement</div>
+    <p>You must be at least <strong>16 years old</strong> to use TISA. Accounts found to belong to users under 16 will be terminated and their data deleted.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">3. Your Account</div>
+    <p>You sign in via Google. You are responsible for your account activity. Usernames must not impersonate others, use reserved names (admin, tisa, support), or contain offensive language.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">4. Prohibited Content</div>
+    <p>You must not post content that is unlawful, harmful, harassing, defamatory, sexually explicit, violent, promotes self-harm, contains spam, or infringes on anyone's rights. Violations will result in removal and may result in a ban.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">5. Community Standards</div>
+    <p>TISA is a study-focused community. Treat others with respect. Do not share other people's personal information. Use the report feature for content that violates these Terms.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">6. Moderation</div>
+    <p>We may remove content and suspend or ban accounts that violate these Terms, at our sole discretion. To appeal a decision, email <strong style="color:var(--primary)">tisa.helpdesk&#64;gmail&#46;com</strong>.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">7. Privacy</div>
+    <p>Your use of TISA is also governed by our Privacy Policy. You may delete your account and all data at any time from Settings.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">8. Intellectual Property</div>
+    <p>All app content, design, and code (excluding your User Content) belongs to TISA. You may not copy or redistribute any part of the app without permission.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">9. Disclaimers</div>
+    <p>TISA is provided "as is" without warranties. We are not responsible for any data loss, academic outcomes, or harm resulting from use of the app or content posted by other users.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">10. Changes to Terms</div>
+    <p>We may update these Terms at any time. Continued use of the app after changes constitutes acceptance of the updated Terms.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">11. Governing Law</div>
+    <p>These Terms are governed by the laws of India. Any disputes shall be subject to the jurisdiction of Indian courts.</p>
+
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">Contact</div>
+    <p>Questions? Email us at <strong><span style="color:var(--primary)">tisa.helpdesk&#64;gmail&#46;com</span></strong></p>
   </div>
 </div>
 </div>
@@ -1427,7 +1477,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 </div>
 
 <div id="toast"></div>
-<footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>TISA</strong>&nbsp; · &nbsp;Created by Sachin&nbsp; · &nbsp;All Copyrights Reserved</footer>
+<footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>TISA</strong>&nbsp; · &nbsp;Created by Sachin&nbsp; · &nbsp;<span style="cursor:pointer;text-decoration:underline" onclick="document.getElementById('tos-modal').classList.add('open')">Terms of Service</span>&nbsp; · &nbsp;<span style="cursor:pointer;text-decoration:underline" onclick="document.getElementById('privacy-modal').classList.add('open')">Privacy Policy</span></footer>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
