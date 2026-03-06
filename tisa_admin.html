@@ -11,22 +11,20 @@
   --bg:#0e1012;--bg2:#141618;--bg3:#1a1d20;
   --surface:#1e2124;--surface2:#242729;
   --primary:#5c7a3e;--pl:#7db356;--pglow:rgba(92,122,62,.2);
-  --danger:#e05a4a;--warn:#e0a830;--success:#4db360;
+  --danger:#e05a4a;--warn:#e0a830;--success:#4db360;--info:#4a9ed4;
   --ink:#e8ede0;--ink2:#a8b090;--ink3:#6a7060;
   --border:rgba(92,122,62,.2);--border2:rgba(255,255,255,.06);
 }
 body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-height:100vh}
 
 /* LOGIN */
-#login-wrap{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:24px}
+#login-wrap{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
 .login-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:40px;width:340px;text-align:center}
-.login-logo{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--pl);letter-spacing:2px;margin-bottom:4px}
-.login-sub{font-size:12px;color:var(--ink3);font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px}
-.login-inp{width:100%;background:var(--bg2);border:1.5px solid var(--border2);border-radius:10px;padding:12px 16px;color:var(--ink);font-size:14px;font-family:'Nunito',sans-serif;font-weight:600;outline:none;margin-bottom:12px;transition:border-color .2s}
-.login-inp:focus{border-color:var(--primary)}
-.login-btn{width:100%;background:var(--primary);color:white;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:background .2s;margin-top:4px}
+.login-logo{font-family:'Space Mono',monospace;font-size:32px;font-weight:700;color:var(--pl);letter-spacing:2px;margin-bottom:4px}
+.login-sub{font-size:11px;color:var(--ink3);font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px}
+.login-btn{width:100%;background:var(--primary);color:white;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:10px}
 .login-btn:hover{background:var(--pl)}
-.login-err{font-size:12px;color:var(--danger);font-weight:700;margin-top:8px;min-height:16px}
+.login-err{font-size:12px;color:var(--danger);font-weight:700;margin-top:10px;min-height:16px}
 
 /* LAYOUT */
 #app{display:none}
@@ -35,88 +33,136 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
 .hdr-sub{font-size:10px;color:var(--ink3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:1px}
 .hdr-right{display:flex;align-items:center;gap:12px}
 .hdr-uid{font-size:11px;color:var(--ink3);font-family:'Space Mono',monospace}
+.hdr-refresh{background:rgba(92,122,62,.15);border:none;border-radius:8px;padding:6px 14px;color:var(--pl);font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
 .logout-btn{background:none;border:1.5px solid var(--border2);border-radius:8px;padding:6px 14px;color:var(--ink3);font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
 .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+.main{max-width:1140px;margin:0 auto;padding:24px 20px}
 
-.main{max-width:1100px;margin:0 auto;padding:24px 20px}
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px}
+.stat-card{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:14px;text-align:center;cursor:default}
+.stat-card.clickable{cursor:pointer;transition:border-color .2s}
+.stat-card.clickable:hover{border-color:var(--primary)}
+.stat-num{font-size:26px;font-weight:900;color:var(--pl);font-family:'Space Mono',monospace}
+.stat-lbl{font-size:10px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+
+/* MINI CHART */
+.chart-bar{display:flex;align-items:flex-end;gap:3px;height:40px;margin-top:6px}
+.chart-bar span{flex:1;background:var(--primary);border-radius:3px 3px 0 0;min-height:2px;opacity:.7;transition:opacity .2s}
+.chart-bar span:hover{opacity:1}
 
 /* TABS */
-.tabs{display:flex;gap:4px;margin-bottom:24px;background:var(--surface);border-radius:12px;padding:4px;border:1px solid var(--border2)}
-.tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:700;border-radius:9px;cursor:pointer;color:var(--ink3);transition:all .2s;border:none;background:none;font-family:'Nunito',sans-serif}
+.tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--surface);border-radius:12px;padding:4px;border:1px solid var(--border2)}
+.tab{flex:1;padding:9px 6px;text-align:center;font-size:12px;font-weight:700;border-radius:9px;cursor:pointer;color:var(--ink3);transition:all .2s;border:none;background:none;font-family:'Nunito',sans-serif;white-space:nowrap}
 .tab.active{background:var(--primary);color:white}
 
-/* STATS BAR */
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-.stat-card{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:16px;text-align:center}
-.stat-num{font-size:28px;font-weight:900;color:var(--pl);font-family:'Space Mono',monospace}
-.stat-lbl{font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
-
 /* SECTION */
-.section{display:none}
-.section.active{display:block}
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section{display:none}.section.active{display:block}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
 .sec-title{font-size:16px;font-weight:800;color:var(--ink)}
 .sec-count{font-size:12px;color:var(--ink3);font-weight:700;background:var(--surface2);padding:4px 10px;border-radius:20px}
 
 /* CARDS */
 .item-card{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:16px;margin-bottom:10px;transition:border-color .2s}
 .item-card:hover{border-color:var(--border)}
-.item-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
-.item-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
-.badge{font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+.item-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.item-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:5px}
+.badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
 .badge-warn{background:rgba(224,168,48,.15);color:var(--warn)}
 .badge-danger{background:rgba(224,90,74,.15);color:var(--danger)}
 .badge-ok{background:rgba(77,179,96,.15);color:var(--success)}
 .badge-info{background:rgba(92,122,62,.15);color:var(--pl)}
-.item-title{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px;line-height:1.4}
-.item-body{font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:8px}
+.badge-blue{background:rgba(74,158,212,.15);color:var(--info)}
+.item-title{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:3px;line-height:1.4}
+.item-body{font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:6px}
 .item-uid{font-size:10px;color:var(--ink3);font-family:'Space Mono',monospace}
-.item-actions{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
-.act-btn{border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:opacity .2s}
-.act-btn:hover{opacity:.8}
+.item-actions{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;align-items:flex-start}
+.act-btn{border:none;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:opacity .2s;white-space:nowrap}
+.act-btn:hover{opacity:.75}
 .btn-del{background:rgba(224,90,74,.15);color:var(--danger)}
 .btn-ban{background:rgba(224,168,48,.15);color:var(--warn)}
 .btn-unban{background:rgba(77,179,96,.15);color:var(--success)}
 .btn-dismiss{background:var(--surface2);color:var(--ink3)}
 .btn-view{background:rgba(92,122,62,.15);color:var(--pl)}
+.btn-blue{background:rgba(74,158,212,.15);color:var(--info)}
 
-/* EMPTY */
+/* COMMENTS EXPAND */
+.comments-section{margin-top:12px;border-top:1px solid var(--border2);padding-top:12px;display:none}
+.comments-section.open{display:block}
+.cmt-item{background:var(--bg2);border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.cmt-body{font-size:12px;color:var(--ink2);line-height:1.5;flex:1}
+.cmt-meta{font-size:10px;color:var(--ink3);font-family:'Space Mono',monospace;margin-top:3px}
+
+/* USER DETAIL */
+.user-detail{margin-top:10px;display:none;background:var(--bg2);border-radius:10px;padding:12px}
+.user-detail.open{display:block}
+.user-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.u-stat{text-align:center;background:var(--surface);border-radius:8px;padding:8px}
+.u-stat-num{font-size:18px;font-weight:900;color:var(--pl);font-family:'Space Mono',monospace}
+.u-stat-lbl{font-size:10px;color:var(--ink3);font-weight:700;text-transform:uppercase}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.search-inp{flex:1;min-width:180px;background:var(--surface);border:1.5px solid var(--border2);border-radius:10px;padding:9px 14px;color:var(--ink);font-size:13px;font-family:'Nunito',sans-serif;font-weight:600;outline:none}
+.search-inp:focus{border-color:var(--primary)}
+.filter-sel{background:var(--surface);border:1.5px solid var(--border2);border-radius:10px;padding:9px 12px;color:var(--ink2);font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;outline:none}
+
+/* BAN REASON INPUT */
+.ban-reason-wrap{margin-top:10px}
+.ban-reason-inp{width:100%;background:var(--bg2);border:1.5px solid var(--border2);border-radius:8px;padding:8px 12px;color:var(--ink);font-size:13px;font-family:'Nunito',sans-serif;outline:none;resize:none}
+.ban-reason-inp:focus{border-color:var(--primary)}
+
+/* BULK SELECT */
+.bulk-bar{background:var(--surface);border:1px solid var(--primary);border-radius:10px;padding:10px 16px;margin-bottom:12px;display:none;align-items:center;justify-content:space-between;gap:10px}
+.bulk-bar.show{display:flex}
+.bulk-info{font-size:13px;font-weight:700;color:var(--pl)}
+.bulk-actions{display:flex;gap:8px}
+.post-checkbox{width:16px;height:16px;cursor:pointer;margin-right:8px;accent-color:var(--primary)}
+
+/* EMPTY / LOADING */
 .empty-state{text-align:center;padding:60px 20px;color:var(--ink3)}
 .empty-icon{font-size:48px;margin-bottom:12px}
 .empty-text{font-size:14px;font-weight:700}
-
-/* LOADING */
 .loading{text-align:center;padding:40px;color:var(--ink3);font-size:13px;font-weight:700}
-.spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--border2);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;margin-right:8px;vertical-align:middle}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;margin-right:8px;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* SEARCH + FILTER */
-.toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.search-inp{flex:1;min-width:200px;background:var(--surface);border:1.5px solid var(--border2);border-radius:10px;padding:9px 14px;color:var(--ink);font-size:13px;font-family:'Nunito',sans-serif;font-weight:600;outline:none}
-.search-inp:focus{border-color:var(--primary)}
-.filter-btn{background:var(--surface);border:1.5px solid var(--border2);border-radius:10px;padding:9px 16px;color:var(--ink3);font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
-.filter-btn.active{border-color:var(--primary);color:var(--pl)}
-
 /* TOAST */
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 24px;font-size:13px;font-weight:700;color:var(--ink);box-shadow:0 8px 32px rgba(0,0,0,.4);transition:transform .3s ease;z-index:9999;white-space:nowrap}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 24px;font-size:13px;font-weight:700;color:var(--ink);box-shadow:0 8px 32px rgba(0,0,0,.4);transition:transform .3s;z-index:9999;white-space:nowrap}
 #toast.show{transform:translateX(-50%) translateY(0)}
 
-/* CONFIRM MODAL */
-#confirm-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:9998}
-#confirm-modal.open{display:flex}
-.confirm-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;max-width:340px;width:90%;text-align:center}
-.confirm-title{font-size:16px;font-weight:800;margin-bottom:8px;color:var(--ink)}
-.confirm-msg{font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6}
-.confirm-btns{display:flex;gap:10px}
-.confirm-btns button{flex:1;padding:10px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;border:none;font-family:'Nunito',sans-serif}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:9000}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px;max-width:400px;width:92%}
+.modal-title{font-size:16px;font-weight:800;margin-bottom:8px;color:var(--ink)}
+.modal-msg{font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6}
+.modal-btns{display:flex;gap:10px}
+.modal-btns button{flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;border:none;font-family:'Nunito',sans-serif}
 #confirm-yes{background:var(--danger);color:white}
 #confirm-no{background:var(--surface2);color:var(--ink3)}
 
-@media(max-width:600px){
-  .stats-bar{grid-template-columns:1fr 1fr}
+/* NOTIFICATION BADGE */
+.notif-dot{display:inline-block;width:8px;height:8px;background:var(--danger);border-radius:50%;margin-left:4px;vertical-align:middle;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ANALYTICS TAB */
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.chart-card{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:16px}
+.chart-title{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:12px}
+.bar-chart{display:flex;align-items:flex-end;gap:4px;height:80px}
+.bar-chart-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar-chart-col .bar{width:100%;background:var(--primary);border-radius:4px 4px 0 0;min-height:2px;transition:height .3s;opacity:.8}
+.bar-chart-col .bar:hover{opacity:1}
+.bar-chart-col .lbl{font-size:9px;color:var(--ink3);font-weight:700}
+
+@media(max-width:700px){
+  .stats-bar{grid-template-columns:repeat(3,1fr)}
   .hdr-uid{display:none}
-  .tabs{gap:2px}
-  .tab{font-size:11px;padding:8px 4px}
+  .tabs{gap:2px}.tab{font-size:10px;padding:8px 2px}
+  .analytics-grid{grid-template-columns:1fr}
+  .item-top{flex-direction:column}
+  .item-actions{width:100%;justify-content:flex-end}
 }
 </style>
 </head>
@@ -127,7 +173,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
   <div class="login-box">
     <div class="login-logo">TISA</div>
     <div class="login-sub">Admin Panel</div>
-    <button class="login-btn" onclick="doLogin()" id="google-btn" style="display:flex;align-items:center;justify-content:center;gap:10px">
+    <button class="login-btn" onclick="doLogin()">
       <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Sign in with Google
     </button>
@@ -144,25 +190,42 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
     </div>
     <div class="hdr-right">
       <div class="hdr-uid" id="admin-uid"></div>
+      <button class="hdr-refresh" onclick="refreshAll()">↻ Refresh</button>
       <button class="logout-btn" onclick="doLogout()">Sign Out</button>
     </div>
   </div>
 
   <div class="main">
-    <!-- STATS -->
+    <!-- STATS BAR -->
     <div class="stats-bar">
-      <div class="stat-card"><div class="stat-num" id="s-reports">—</div><div class="stat-lbl">Reports</div></div>
-      <div class="stat-card"><div class="stat-num" id="s-posts">—</div><div class="stat-lbl">Posts</div></div>
-      <div class="stat-card"><div class="stat-num" id="s-users">—</div><div class="stat-lbl">Users</div></div>
-      <div class="stat-card"><div class="stat-num" id="s-banned">—</div><div class="stat-lbl">Banned</div></div>
+      <div class="stat-card clickable" onclick="switchTab('reports',document.querySelectorAll('.tab')[0])">
+        <div class="stat-num" id="s-reports">—</div>
+        <div class="stat-lbl">Reports<span id="report-dot" class="notif-dot" style="display:none"></span></div>
+      </div>
+      <div class="stat-card clickable" onclick="switchTab('posts',document.querySelectorAll('.tab')[1])">
+        <div class="stat-num" id="s-posts">—</div><div class="stat-lbl">Posts</div>
+      </div>
+      <div class="stat-card clickable" onclick="switchTab('users',document.querySelectorAll('.tab')[2])">
+        <div class="stat-num" id="s-users">—</div><div class="stat-lbl">Users</div>
+      </div>
+      <div class="stat-card clickable" onclick="switchTab('banned',document.querySelectorAll('.tab')[3])">
+        <div class="stat-num" id="s-banned">—</div><div class="stat-lbl">Banned</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="s-comments">—</div><div class="stat-lbl">Comments</div>
+      </div>
+      <div class="stat-card clickable" onclick="switchTab('analytics',document.querySelectorAll('.tab')[4])">
+        <div class="stat-num" id="s-today">—</div><div class="stat-lbl">Today</div>
+      </div>
     </div>
 
     <!-- TABS -->
     <div class="tabs">
       <button class="tab active" onclick="switchTab('reports',this)">🚩 Reports</button>
-      <button class="tab" onclick="switchTab('posts',this)">📝 All Posts</button>
+      <button class="tab" onclick="switchTab('posts',this)">📝 Posts</button>
       <button class="tab" onclick="switchTab('users',this)">👥 Users</button>
       <button class="tab" onclick="switchTab('banned',this)">🚫 Banned</button>
+      <button class="tab" onclick="switchTab('analytics',this)">📊 Analytics</button>
     </div>
 
     <!-- REPORTS TAB -->
@@ -171,7 +234,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
         <div class="sec-title">Reported Content</div>
         <div class="sec-count" id="report-count">Loading...</div>
       </div>
-      <div id="reports-list"><div class="loading"><span class="spinner"></span>Loading reports...</div></div>
+      <div id="reports-list"><div class="loading"><span class="spinner"></span>Loading...</div></div>
     </div>
 
     <!-- POSTS TAB -->
@@ -182,8 +245,22 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
       </div>
       <div class="toolbar">
         <input class="search-inp" id="post-search" placeholder="Search posts..." oninput="filterPosts()">
+        <select class="filter-sel" id="post-filter" onchange="filterPosts()">
+          <option value="">All categories</option>
+          <option value="Discussion">Discussion</option>
+          <option value="Question">Question</option>
+          <option value="Resource">Resource</option>
+          <option value="Motivation">Motivation</option>
+        </select>
       </div>
-      <div id="posts-list"><div class="loading"><span class="spinner"></span>Loading posts...</div></div>
+      <div class="bulk-bar" id="bulk-bar">
+        <div class="bulk-info" id="bulk-info">0 selected</div>
+        <div class="bulk-actions">
+          <button class="act-btn btn-del" onclick="bulkDelete()">🗑 Delete Selected</button>
+          <button class="act-btn btn-dismiss" onclick="clearBulk()">✕ Cancel</button>
+        </div>
+      </div>
+      <div id="posts-list"><div class="loading"><span class="spinner"></span>Loading...</div></div>
     </div>
 
     <!-- USERS TAB -->
@@ -193,9 +270,9 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
         <div class="sec-count" id="users-count">Loading...</div>
       </div>
       <div class="toolbar">
-        <input class="search-inp" id="user-search" placeholder="Search by username or UID..." oninput="filterUsers()">
+        <input class="search-inp" id="user-search" placeholder="Search by username, name or UID..." oninput="filterUsers()">
       </div>
-      <div id="users-list"><div class="loading"><span class="spinner"></span>Loading users...</div></div>
+      <div id="users-list"><div class="loading"><span class="spinner"></span>Loading...</div></div>
     </div>
 
     <!-- BANNED TAB -->
@@ -206,15 +283,43 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
       </div>
       <div id="banned-list"><div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">No banned users</div></div></div>
     </div>
+
+    <!-- ANALYTICS TAB -->
+    <div class="section" id="tab-analytics">
+      <div class="sec-hdr"><div class="sec-title">Community Analytics</div></div>
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <div class="chart-title">📝 Posts — Last 7 Days</div>
+          <div class="bar-chart" id="chart-posts"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">👥 New Users — Last 7 Days</div>
+          <div class="bar-chart" id="chart-users"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">🚩 Reports — Last 7 Days</div>
+          <div class="bar-chart" id="chart-reports"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">📊 Post Categories</div>
+          <div id="chart-cats" style="margin-top:8px"></div>
+        </div>
+      </div>
+      <div class="chart-card" style="margin-bottom:16px">
+        <div class="chart-title">🏆 Most Active Users (by posts)</div>
+        <div id="chart-topusers" style="margin-top:8px"></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- CONFIRM MODAL -->
-<div id="confirm-modal">
-  <div class="confirm-box">
-    <div class="confirm-title" id="confirm-title">Are you sure?</div>
-    <div class="confirm-msg" id="confirm-msg">This action cannot be undone.</div>
-    <div class="confirm-btns">
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal-box">
+    <div class="modal-title" id="confirm-title">Are you sure?</div>
+    <div class="modal-msg" id="confirm-msg">This cannot be undone.</div>
+    <div id="confirm-extra"></div>
+    <div class="modal-btns" style="margin-top:16px">
       <button id="confirm-no" onclick="closeConfirm()">Cancel</button>
       <button id="confirm-yes" onclick="runConfirm()">Confirm</button>
     </div>
@@ -226,71 +331,73 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import{getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import{getFirestore,collection,doc,getDocs,getDoc,deleteDoc,setDoc,updateDoc,query,orderBy,limit,where}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import{getFirestore,collection,doc,getDocs,getDoc,deleteDoc,setDoc,query,orderBy,limit,where,Timestamp}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// ── FIREBASE CONFIG (same as TISA app) ──
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
 const app=initializeApp(FC);
 const auth=getAuth(app);
 const db=getFirestore(app);
 
-// ── ADMIN UIDs — add your Firebase UID here ──
-// To find your UID: sign into TISA, open browser console, type: firebase.auth().currentUser.uid
-// Or check Firebase Console → Authentication → Users
 const ADMIN_UIDS=['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2'];
 
-let _reports=[],_posts=[],_users=[],_banned=[];
+let _reports=[],_posts=[],_users=[],_banned=[],_allComments={};
+let _selectedPosts=new Set();
+let _lastReportCount=0;
+let _banReason='';
 
 // ── AUTH ──
-onAuthStateChanged(auth,async(user)=>{
+onAuthStateChanged(auth,async user=>{
   if(user&&ADMIN_UIDS.includes(user.uid)){
     document.getElementById('login-wrap').style.display='none';
     document.getElementById('app').style.display='block';
     document.getElementById('admin-uid').textContent=user.email;
     loadAll();
+    // Poll for new reports every 60s
+    setInterval(pollReports,60000);
   }else if(user){
-    // Signed in but not admin
     await signOut(auth);
-    showErr('Access denied. Not an admin account.');
+    showErr('Access denied.');
   }
 });
 
 window.doLogin=async()=>{
-  try{
-    const provider=new GoogleAuthProvider();
-    await signInWithPopup(auth,provider);
-  }catch(e){
-    if(e.code!=='auth/popup-closed-by-user'){
-      showErr('Sign in failed. Try again.');
-    }
-  }
+  try{await signInWithPopup(auth,new GoogleAuthProvider());}
+  catch(e){if(e.code!=='auth/popup-closed-by-user')showErr('Sign in failed.');}
 };
-
 window.doLogout=async()=>{
   await signOut(auth);
   document.getElementById('login-wrap').style.display='flex';
   document.getElementById('app').style.display='none';
 };
+function showErr(m){const el=document.getElementById('login-err');el.textContent=m;setTimeout(()=>el.textContent='',4000);}
 
-function showErr(msg){const el=document.getElementById('login-err');el.textContent=msg;setTimeout(()=>el.textContent='',4000);}
-
-// ── LOAD ALL DATA ──
+// ── LOAD ──
 async function loadAll(){
   await Promise.all([loadReports(),loadPosts(),loadUsers(),loadBanned()]);
   updateStats();
+  buildAnalytics();
 }
+window.refreshAll=()=>{
+  document.getElementById('reports-list').innerHTML='<div class="loading"><span class="spinner"></span>Refreshing...</div>';
+  loadAll().then(()=>toast('✅ Refreshed'));
+};
 
 async function loadReports(){
   try{
     const snap=await getDocs(query(collection(db,'reports'),orderBy('ts','desc')));
     _reports=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(_reports.length>_lastReportCount&&_lastReportCount>0){
+      toast('🚩 New report received!');
+    }
+    _lastReportCount=_reports.length;
+    document.getElementById('report-dot').style.display=_reports.length?'inline-block':'none';
     renderReports();
-  }catch(e){document.getElementById('reports-list').innerHTML='<div class="loading">Failed to load reports. Check Firestore rules.</div>';}
+  }catch(e){document.getElementById('reports-list').innerHTML='<div class="loading">Failed. Check Firestore rules.</div>';}
 }
 
 async function loadPosts(){
   try{
-    const snap=await getDocs(query(collection(db,'posts'),orderBy('ts','desc'),limit(100)));
+    const snap=await getDocs(query(collection(db,'posts'),orderBy('ts','desc'),limit(200)));
     _posts=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderPosts();
   }catch(e){document.getElementById('posts-list').innerHTML='<div class="loading">Failed to load posts.</div>';}
@@ -312,11 +419,36 @@ async function loadBanned(){
   }catch(e){_banned=[];renderBanned();}
 }
 
+async function pollReports(){
+  try{
+    const snap=await getDocs(query(collection(db,'reports'),orderBy('ts','desc')));
+    const fresh=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(fresh.length>_reports.length){
+      _reports=fresh;
+      document.getElementById('report-dot').style.display='inline-block';
+      document.getElementById('s-reports').textContent=_reports.length;
+      document.getElementById('report-count').textContent=_reports.length+' total';
+      toast('🚩 New report received!');
+      renderReports();
+    }
+  }catch(e){}
+}
+
 function updateStats(){
   document.getElementById('s-reports').textContent=_reports.length;
   document.getElementById('s-posts').textContent=_posts.length;
   document.getElementById('s-users').textContent=_users.length;
   document.getElementById('s-banned').textContent=_banned.length;
+  // count total comments across posts
+  const totalCmts=_posts.reduce((a,p)=>a+(p.commentCount||0),0);
+  document.getElementById('s-comments').textContent=totalCmts;
+  // today's posts
+  const today=new Date(); today.setHours(0,0,0,0);
+  const todayPosts=_posts.filter(p=>{
+    const d=p.ts?.toDate?.();
+    return d&&d>=today;
+  }).length;
+  document.getElementById('s-today').textContent=todayPosts;
 }
 
 // ── RENDER REPORTS ──
@@ -325,8 +457,9 @@ function renderReports(){
   document.getElementById('report-count').textContent=_reports.length+' total';
   if(!_reports.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">🎉</div><div class="empty-text">No reports — community is clean!</div></div>';return;}
   el.innerHTML=_reports.map(r=>{
-    const ts=r.ts?.toDate?r.ts.toDate().toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
+    const ts=r.ts?.toDate?r.ts.toDate().toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
     const isBanned=_banned.some(b=>b.id===r.reportedBy);
+    const reporterUser=_users.find(u=>u.id===r.reportedBy);
     return`<div class="item-card" id="rep-${r.id}">
       <div class="item-top">
         <div style="flex:1">
@@ -335,13 +468,17 @@ function renderReports(){
             <span class="badge badge-danger">${esc(r.reason||'Inappropriate')}</span>
             <span style="font-size:11px;color:var(--ink3)">${ts}</span>
           </div>
-          <div class="item-title">${esc(r.targetTitle||'(no title)')}</div>
-          <div class="item-uid">Target ID: ${esc(r.targetId||'—')} · Reported by: ${esc(r.reportedBy||'—')}</div>
+          <div class="item-title">${esc(r.targetTitle||r.targetContent||'(no title)')}</div>
+          <div class="item-uid">
+            Reporter: ${reporterUser?'@'+esc(reporterUser.username||'?'):esc(r.reportedBy||'—')}
+            ${isBanned?' <span class="badge badge-danger" style="font-size:9px">BANNED</span>':''}
+          </div>
+          ${r.targetContent?`<div class="item-body" style="margin-top:6px;font-style:italic">"${esc(r.targetContent.substring(0,150))}"</div>`:''}
         </div>
         <div class="item-actions">
-          ${r.targetType==='forum'?`<button class="act-btn btn-del" onclick="deletePost('${r.targetId}','${r.id}')">🗑 Delete Post</button>`:''}
-          ${r.targetType==='chat'?`<button class="act-btn btn-dismiss" onclick="dismissReport('${r.id}')">Chat msg (manual)</button>`:''}
-          ${isBanned?'':`<button class="act-btn btn-ban" onclick="banUser('${r.reportedBy}','${r.id}')">🚫 Ban Reporter</button>`}
+          ${r.targetType==='forum'||r.targetType==='post'?`<button class="act-btn btn-del" onclick="deletePost('${r.targetId}','${r.id}')">🗑 Delete Post</button>`:''}
+          ${r.targetType==='comment'?`<button class="act-btn btn-del" onclick="deleteComment('${r.targetPostId}','${r.targetId}','${r.id}')">🗑 Delete Comment</button>`:''}
+          ${isBanned?`<span class="badge badge-danger" style="padding:7px 12px">Already Banned</span>`:`<button class="act-btn btn-ban" onclick="banUser('${r.reportedBy}','${r.id}',null)">🚫 Ban Reporter</button>`}
           <button class="act-btn btn-dismiss" onclick="dismissReport('${r.id}')">✓ Dismiss</button>
         </div>
       </div>
@@ -358,8 +495,10 @@ function renderPosts(list){
   el.innerHTML=posts.map(p=>{
     const ts=p.ts?.toDate?p.ts.toDate().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'—';
     const isBanned=_banned.some(b=>b.id===p.uid);
-    return`<div class="item-card">
+    const checked=_selectedPosts.has(p.id);
+    return`<div class="item-card" id="post-card-${p.id}">
       <div class="item-top">
+        <input type="checkbox" class="post-checkbox" ${checked?'checked':''} onchange="toggleSelect('${p.id}',this.checked)" title="Select for bulk action">
         <div style="flex:1">
           <div class="item-meta">
             <span class="badge badge-info">${esc(p.category||'Post')}</span>
@@ -368,21 +507,54 @@ function renderPosts(list){
             <span style="font-size:11px;color:var(--ink3)">👍${p.ups||0} 👎${p.downs||0} 💬${p.commentCount||0}</span>
           </div>
           <div class="item-title">${esc(p.title||'(no title)')}</div>
-          <div class="item-body">${esc((p.body||'').substring(0,200))}${(p.body||'').length>200?'...':''}</div>
-          <div class="item-uid">🎭 ${esc(p.alias||'Anonymous')} · ID: ${esc(p.id)}</div>
+          <div class="item-body">${esc((p.body||'').substring(0,180))}${(p.body||'').length>180?'...':''}</div>
+          <div class="item-uid">🎭 ${esc(p.alias||'Anonymous')} · UID: ${esc(p.uid||'—')}</div>
         </div>
         <div class="item-actions">
+          ${p.commentCount>0?`<button class="act-btn btn-view" onclick="loadComments('${p.id}',this)">💬 Comments (${p.commentCount})</button>`:''}
           <button class="act-btn btn-del" onclick="deletePost('${p.id}',null)">🗑 Delete</button>
         </div>
       </div>
+      <div class="comments-section" id="cmts-${p.id}"></div>
     </div>`;
   }).join('');
 }
 
 window.filterPosts=()=>{
   const q=document.getElementById('post-search').value.toLowerCase();
-  if(!q){renderPosts();return;}
-  renderPosts(_posts.filter(p=>(p.title||'').toLowerCase().includes(q)||(p.body||'').toLowerCase().includes(q)||(p.alias||'').toLowerCase().includes(q)));
+  const cat=document.getElementById('post-filter').value;
+  let filtered=_posts;
+  if(q) filtered=filtered.filter(p=>(p.title||'').toLowerCase().includes(q)||(p.body||'').toLowerCase().includes(q)||(p.alias||'').toLowerCase().includes(q));
+  if(cat) filtered=filtered.filter(p=>p.category===cat);
+  renderPosts(filtered);
+};
+
+// ── LOAD COMMENTS ──
+window.loadComments=async(postId,btn)=>{
+  const el=document.getElementById('cmts-'+postId);
+  if(el.classList.contains('open')){el.classList.remove('open');btn.textContent=btn.textContent.replace('▲','💬').replace('Hide','Comments');return;}
+  btn.textContent='⏳ Loading...';
+  try{
+    const snap=await getDocs(query(collection(db,'posts',postId,'comments'),orderBy('ts','asc')));
+    const cmts=snap.docs.map(d=>({id:d.id,...d.data()}));
+    _allComments[postId]=cmts;
+    if(!cmts.length){el.innerHTML='<div style="font-size:12px;color:var(--ink3);padding:4px 0">No comments yet.</div>';}
+    else{
+      el.innerHTML=cmts.map(c=>{
+        const cts=c.ts?.toDate?c.ts.toDate().toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
+        return`<div class="cmt-item" id="cmt-${c.id}">
+          <div style="flex:1">
+            <div class="cmt-body">${esc(c.body||c.text||'')}</div>
+            <div class="cmt-meta">🎭 ${esc(c.alias||'Anonymous')} · ${cts} · UID: ${esc(c.uid||'—')}</div>
+          </div>
+          <button class="act-btn btn-del" style="padding:5px 10px;font-size:11px" onclick="deleteComment('${postId}','${c.id}',null)">🗑</button>
+        </div>`;
+      }).join('');
+    }
+    el.classList.add('open');
+    const p=_posts.find(x=>x.id===postId);
+    btn.textContent=`▲ Hide Comments (${cmts.length})`;
+  }catch(e){el.innerHTML='<div style="font-size:12px;color:var(--danger)">Failed to load comments.</div>';el.classList.add('open');btn.textContent='❌ Error';}
 };
 
 // ── RENDER USERS ──
@@ -393,25 +565,45 @@ function renderUsers(list){
   if(!users.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">👤</div><div class="empty-text">No users yet</div></div>';return;}
   el.innerHTML=users.map(u=>{
     const isBanned=_banned.some(b=>b.id===u.id);
+    const userPosts=_posts.filter(p=>p.uid===u.id).length;
+    const isAdmin=ADMIN_UIDS.includes(u.id);
     return`<div class="item-card">
       <div class="item-top">
         <div style="flex:1">
           <div class="item-meta">
+            ${isAdmin?'<span class="badge badge-blue">ADMIN</span>':''}
             ${isBanned?'<span class="badge badge-danger">BANNED</span>':'<span class="badge badge-ok">Active</span>'}
           </div>
-          <div class="item-title">@${esc(u.username||'(no username)')}</div>
-          <div class="item-uid">UID: ${esc(u.id)} · ${esc(u.displayName||'No name')}</div>
+          <div class="item-title">@${esc(u.username||'(no username)')} <span style="font-size:12px;font-weight:600;color:var(--ink3)">${esc(u.displayName||'')}</span></div>
+          <div class="item-uid">UID: ${esc(u.id)}</div>
         </div>
         <div class="item-actions">
-          ${isBanned
+          <button class="act-btn btn-view" onclick="toggleUserDetail('${u.id}',this)">👁 Details</button>
+          ${isAdmin?'':(isBanned
             ?`<button class="act-btn btn-unban" onclick="unbanUser('${u.id}')">✅ Unban</button>`
-            :`<button class="act-btn btn-ban" onclick="banUser('${u.id}',null)">🚫 Ban</button>`
-          }
+            :`<button class="act-btn btn-ban" onclick="banUser('${u.id}',null,null)">🚫 Ban</button>`
+          )}
+        </div>
+      </div>
+      <div class="user-detail" id="ud-${u.id}">
+        <div class="user-stats-grid">
+          <div class="u-stat"><div class="u-stat-num">${userPosts}</div><div class="u-stat-lbl">Posts</div></div>
+          <div class="u-stat"><div class="u-stat-num">${u.totalStudyMins?Math.round(u.totalStudyMins/60)+'h':'—'}</div><div class="u-stat-lbl">Study Time</div></div>
+          <div class="u-stat"><div class="u-stat-num">${u.badges?.length||u.badgeCount||'—'}</div><div class="u-stat-lbl">Badges</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--ink3);font-family:'Space Mono',monospace">
+          Full UID: ${esc(u.id)}
         </div>
       </div>
     </div>`;
   }).join('');
 }
+
+window.toggleUserDetail=(uid,btn)=>{
+  const el=document.getElementById('ud-'+uid);
+  const open=el.classList.toggle('open');
+  btn.textContent=open?'▲ Hide':'👁 Details';
+};
 
 window.filterUsers=()=>{
   const q=document.getElementById('user-search').value.toLowerCase();
@@ -429,9 +621,9 @@ function renderBanned(){
     <div class="item-top">
       <div style="flex:1">
         <div class="item-meta"><span class="badge badge-danger">BANNED</span></div>
-        <div class="item-title">${esc(b.username||'Unknown user')}</div>
+        <div class="item-title">@${esc(b.username||'Unknown')}</div>
         <div class="item-uid">UID: ${esc(b.id)} · Banned: ${b.bannedAt?.toDate?.().toLocaleDateString('en-GB')||'—'}</div>
-        ${b.reason?`<div class="item-body" style="margin-top:6px">Reason: ${esc(b.reason)}</div>`:''}
+        ${b.reason?`<div class="item-body" style="margin-top:6px">📋 Reason: ${esc(b.reason)}</div>`:''}
       </div>
       <div class="item-actions">
         <button class="act-btn btn-unban" onclick="unbanUser('${b.id}')">✅ Unban</button>
@@ -440,18 +632,113 @@ function renderBanned(){
   </div>`).join('');
 }
 
+// ── ANALYTICS ──
+function buildAnalytics(){
+  const days=7;
+  const labels=[];
+  const postCounts=new Array(days).fill(0);
+  const userCounts=new Array(days).fill(0);
+  const reportCounts=new Array(days).fill(0);
+  const now=new Date();
+
+  for(let i=days-1;i>=0;i--){
+    const d=new Date(now); d.setDate(d.getDate()-i); d.setHours(0,0,0,0);
+    labels.push(d.toLocaleDateString('en-GB',{weekday:'short'}));
+  }
+
+  _posts.forEach(p=>{
+    const d=p.ts?.toDate?.(); if(!d) return;
+    const diff=Math.floor((now-d)/(86400000));
+    if(diff<days) postCounts[days-1-diff]++;
+  });
+  _users.forEach(u=>{
+    const d=u.createdAt?.toDate?.()|| u.joinedAt?.toDate?.(); if(!d) return;
+    const diff=Math.floor((now-d)/(86400000));
+    if(diff<days) userCounts[days-1-diff]++;
+  });
+  _reports.forEach(r=>{
+    const d=r.ts?.toDate?.(); if(!d) return;
+    const diff=Math.floor((now-d)/(86400000));
+    if(diff<days) reportCounts[days-1-diff]++;
+  });
+
+  renderBarChart('chart-posts',labels,postCounts,'var(--primary)');
+  renderBarChart('chart-users',labels,userCounts,'var(--info)');
+  renderBarChart('chart-reports',labels,reportCounts,'var(--danger)');
+
+  // Category breakdown
+  const cats={};
+  _posts.forEach(p=>{const c=p.category||'Other';cats[c]=(cats[c]||0)+1;});
+  const total=_posts.length||1;
+  document.getElementById('chart-cats').innerHTML=Object.entries(cats)
+    .sort((a,b)=>b[1]-a[1])
+    .map(([cat,count])=>`
+      <div style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:3px">
+          <span>${esc(cat)}</span><span style="color:var(--pl)">${count}</span>
+        </div>
+        <div style="background:var(--bg2);border-radius:4px;height:6px">
+          <div style="background:var(--primary);height:6px;border-radius:4px;width:${Math.round(count/total*100)}%"></div>
+        </div>
+      </div>`).join('');
+
+  // Top users by posts
+  const userPostMap={};
+  _posts.forEach(p=>{if(p.uid)userPostMap[p.uid]=(userPostMap[p.uid]||0)+1;});
+  const topUsers=Object.entries(userPostMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  document.getElementById('chart-topusers').innerHTML=topUsers.map(([uid,cnt],i)=>{
+    const u=_users.find(x=>x.id===uid);
+    return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <span style="font-size:14px;font-weight:900;color:var(--pl);font-family:'Space Mono',monospace;min-width:20px">${i+1}</span>
+      <span style="font-size:13px;font-weight:700;flex:1">@${esc(u?.username||uid.substring(0,8)+'...')}</span>
+      <span style="font-size:12px;color:var(--pl);font-weight:800">${cnt} posts</span>
+    </div>`;
+  }).join('')||'<div style="font-size:12px;color:var(--ink3)">No post data yet</div>';
+}
+
+function renderBarChart(id,labels,data,color){
+  const max=Math.max(...data,1);
+  document.getElementById(id).innerHTML=data.map((v,i)=>`
+    <div class="bar-chart-col">
+      <div class="bar" style="height:${Math.round(v/max*70)+2}px;background:${color}" title="${labels[i]}: ${v}"></div>
+      <div class="lbl">${labels[i]}</div>
+    </div>`).join('');
+}
+
 // ── ACTIONS ──
 window.deletePost=async(postId,reportId)=>{
-  confirm2('Delete Post','This will permanently delete the post and all its comments. Cannot be undone.',async()=>{
+  confirm2('Delete Post','This will permanently delete the post and all its comments.',async()=>{
     try{
+      // delete comments subcollection
+      try{
+        const cSnap=await getDocs(collection(db,'posts',postId,'comments'));
+        await Promise.all(cSnap.docs.map(d=>deleteDoc(d.ref)));
+      }catch(e){}
       await deleteDoc(doc(db,'posts',postId));
-      // also delete the report if came from there
       if(reportId) await deleteDoc(doc(db,'reports',reportId));
       _posts=_posts.filter(p=>p.id!==postId);
       _reports=_reports.filter(r=>r.id!==reportId);
-      renderPosts(); renderReports(); updateStats();
+      _selectedPosts.delete(postId);
+      renderPosts(); renderReports(); updateStats(); buildAnalytics();
       toast('✅ Post deleted');
-    }catch(e){toast('❌ Failed to delete post');}
+    }catch(e){toast('❌ Failed: '+e.message);}
+  });
+};
+
+window.deleteComment=async(postId,commentId,reportId)=>{
+  confirm2('Delete Comment','This will permanently delete this comment.',async()=>{
+    try{
+      await deleteDoc(doc(db,'posts',postId,'comments',commentId));
+      if(reportId) await deleteDoc(doc(db,'reports',reportId));
+      // update UI
+      const el=document.getElementById('cmt-'+commentId);
+      if(el) el.remove();
+      if(reportId){
+        _reports=_reports.filter(r=>r.id!==reportId);
+        renderReports();
+      }
+      toast('✅ Comment deleted');
+    }catch(e){toast('❌ Failed: '+e.message);}
   });
 };
 
@@ -460,31 +747,39 @@ window.dismissReport=async(reportId)=>{
     await deleteDoc(doc(db,'reports',reportId));
     _reports=_reports.filter(r=>r.id!==reportId);
     renderReports(); updateStats();
+    if(!_reports.length) document.getElementById('report-dot').style.display='none';
     toast('✅ Report dismissed');
-  }catch(e){toast('❌ Failed to dismiss');}
+  }catch(e){toast('❌ Failed');}
 };
 
-window.banUser=async(uid,reportId)=>{
-  if(!uid||uid==='undefined'){toast('❌ No UID to ban');return;}
-  confirm2('Ban User','This user will be blocked from posting and commenting. You can unban them later.',async()=>{
-    try{
-      const user=_users.find(u=>u.id===uid);
-      await setDoc(doc(db,'banned',uid),{
-        uid,
-        username:user?.username||'Unknown',
-        displayName:user?.displayName||'',
-        bannedAt:new Date(),
-        reason:'Reported content'
-      });
-      if(reportId){
-        await deleteDoc(doc(db,'reports',reportId));
-        _reports=_reports.filter(r=>r.id!==reportId);
-      }
-      await loadBanned();
-      renderReports(); renderUsers(); updateStats();
-      toast('🚫 User banned');
-    }catch(e){toast('❌ Failed to ban: '+e.message);}
-  });
+window.banUser=async(uid,reportId,_unused)=>{
+  if(!uid||uid==='undefined'){toast('❌ No UID');return;}
+  if(ADMIN_UIDS.includes(uid)){toast('❌ Cannot ban an admin');return;}
+  _banReason='';
+  confirm2('Ban User',
+    'This user will be blocked from posting and commenting. Add a reason (optional):',
+    async()=>{
+      try{
+        const user=_users.find(u=>u.id===uid);
+        await setDoc(doc(db,'banned',uid),{
+          uid,
+          username:user?.username||'Unknown',
+          displayName:user?.displayName||'',
+          bannedAt:new Date(),
+          reason:_banReason||'Violated community guidelines'
+        });
+        if(reportId){
+          await deleteDoc(doc(db,'reports',reportId));
+          _reports=_reports.filter(r=>r.id!==reportId);
+        }
+        await loadBanned();
+        renderReports(); renderUsers(); updateStats();
+        toast('🚫 User banned');
+      }catch(e){toast('❌ Failed: '+e.message);}
+    },
+    // extra HTML — reason input
+    `<textarea class="ban-reason-inp" rows="2" placeholder="Reason for ban (shown to admins)..." oninput="_banReason=this.value" style="margin-top:12px;width:100%;background:var(--bg2);border:1.5px solid var(--border2);border-radius:8px;padding:8px 12px;color:var(--ink);font-size:13px;font-family:'Nunito',sans-serif;outline:none;resize:none"></textarea>`
+  );
 };
 
 window.unbanUser=async(uid)=>{
@@ -493,7 +788,47 @@ window.unbanUser=async(uid)=>{
     _banned=_banned.filter(b=>b.id!==uid);
     renderBanned(); renderUsers(); updateStats();
     toast('✅ User unbanned');
-  }catch(e){toast('❌ Failed to unban');}
+  }catch(e){toast('❌ Failed');}
+};
+
+// ── BULK ACTIONS ──
+window.toggleSelect=(id,checked)=>{
+  if(checked) _selectedPosts.add(id);
+  else _selectedPosts.delete(id);
+  const bar=document.getElementById('bulk-bar');
+  if(_selectedPosts.size>0){
+    bar.classList.add('show');
+    document.getElementById('bulk-info').textContent=_selectedPosts.size+' selected';
+  } else {
+    bar.classList.remove('show');
+  }
+};
+
+window.bulkDelete=async()=>{
+  if(!_selectedPosts.size) return;
+  confirm2('Delete '+_selectedPosts.size+' Posts','This will permanently delete all selected posts and their comments.',async()=>{
+    const ids=[..._selectedPosts];
+    let done=0;
+    for(const id of ids){
+      try{
+        const cSnap=await getDocs(collection(db,'posts',id,'comments'));
+        await Promise.all(cSnap.docs.map(d=>deleteDoc(d.ref)));
+        await deleteDoc(doc(db,'posts',id));
+        done++;
+      }catch(e){}
+    }
+    _posts=_posts.filter(p=>!ids.includes(p.id));
+    _selectedPosts.clear();
+    document.getElementById('bulk-bar').classList.remove('show');
+    renderPosts(); updateStats(); buildAnalytics();
+    toast(`✅ Deleted ${done} posts`);
+  });
+};
+
+window.clearBulk=()=>{
+  _selectedPosts.clear();
+  document.getElementById('bulk-bar').classList.remove('show');
+  document.querySelectorAll('.post-checkbox').forEach(cb=>cb.checked=false);
 };
 
 // ── UI HELPERS ──
@@ -501,15 +836,21 @@ window.switchTab=(name,btn)=>{
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(name==='analytics') buildAnalytics();
 };
 
-function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3000);}
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3000);
+}
 
 let _confirmCb=null;
-function confirm2(title,msg,cb){
+function confirm2(title,msg,cb,extraHtml=''){
   document.getElementById('confirm-title').textContent=title;
   document.getElementById('confirm-msg').textContent=msg;
+  document.getElementById('confirm-extra').innerHTML=extraHtml;
   document.getElementById('confirm-modal').classList.add('open');
   _confirmCb=cb;
 }
