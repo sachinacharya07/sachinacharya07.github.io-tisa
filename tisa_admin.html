@@ -156,6 +156,32 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
 .bar-chart-col .bar:hover{opacity:1}
 .bar-chart-col .lbl{font-size:9px;color:var(--ink3);font-weight:700}
 
+/* MESSAGE MODAL */
+.msg-modal-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px;max-width:440px;width:92%}
+.msg-inp{width:100%;background:var(--bg2);border:1.5px solid var(--border2);border-radius:8px;padding:9px 13px;color:var(--ink);font-size:13px;font-family:'Nunito',sans-serif;outline:none;resize:vertical;min-height:80px}
+.msg-inp:focus{border-color:var(--primary)}
+/* DELETED TAB */
+.restore-btn{background:rgba(74,158,212,.15);color:var(--info);border:none;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif}
+/* REPORT HISTORY BADGE */
+.rep-count-badge{display:inline-block;background:rgba(224,90,74,.15);color:var(--danger);font-size:10px;font-weight:800;padding:2px 7px;border-radius:20px;margin-left:6px}
+/* TRASH BIN TAB */
+.trash-badge{background:rgba(224,168,48,.15);color:var(--warn);font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px;margin-left:4px}
+.trash-countdown{font-size:10px;color:var(--warn);font-weight:700;margin-top:4px}
+/* MESSAGE MODAL */
+#msg-modal .modal-box{max-width:440px}
+.msg-to{font-size:13px;font-weight:700;color:var(--pl);margin-bottom:10px}
+.msg-textarea{width:100%;background:var(--bg2);border:1.5px solid var(--border2);border-radius:10px;padding:10px 14px;color:var(--ink);font-size:13px;font-family:'Nunito',sans-serif;outline:none;resize:vertical;min-height:80px}
+.msg-textarea:focus{border-color:var(--primary)}
+.msg-templates{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.msg-tpl{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;color:var(--ink3);cursor:pointer}
+.msg-tpl:hover{border-color:var(--primary);color:var(--pl)}
+/* REPORT HISTORY */
+.rep-hist-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border2);font-size:12px}
+.rep-hist-row:last-child{border-bottom:none}
+/* EXPORT */
+.export-btn{background:rgba(74,158,212,.15);color:var(--info);border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif}
+.export-btn:hover{opacity:.8}
+
 @media(max-width:700px){
   .stats-bar{grid-template-columns:repeat(3,1fr)}
   .hdr-uid{display:none}
@@ -191,6 +217,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
     <div class="hdr-right">
       <div class="hdr-uid" id="admin-uid"></div>
       <button class="hdr-refresh" onclick="refreshAll()">↻ Refresh</button>
+      <button class="hdr-refresh" onclick="exportCSV()" style="background:rgba(74,158,212,.15);color:var(--info)">⬇ Export</button>
       <button class="logout-btn" onclick="doLogout()">Sign Out</button>
     </div>
   </div>
@@ -225,6 +252,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
       <button class="tab" onclick="switchTab('posts',this)">📝 Posts</button>
       <button class="tab" onclick="switchTab('users',this)">👥 Users</button>
       <button class="tab" onclick="switchTab('banned',this)">🚫 Banned</button>
+      <button class="tab" onclick="switchTab('deleted',this)">🗑 Deleted</button>
       <button class="tab" onclick="switchTab('analytics',this)">📊 Analytics</button>
     </div>
 
@@ -241,7 +269,10 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
     <div class="section" id="tab-posts">
       <div class="sec-hdr">
         <div class="sec-title">All Community Posts</div>
-        <div class="sec-count" id="posts-count">Loading...</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="export-btn" onclick="exportCSV('posts')">⬇ Export CSV</button>
+          <div class="sec-count" id="posts-count">Loading...</div>
+        </div>
       </div>
       <div class="toolbar">
         <input class="search-inp" id="post-search" placeholder="Search posts..." oninput="filterPosts()">
@@ -267,7 +298,10 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
     <div class="section" id="tab-users">
       <div class="sec-hdr">
         <div class="sec-title">Registered Users</div>
-        <div class="sec-count" id="users-count">Loading...</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="export-btn" onclick="exportCSV('users')">⬇ Export CSV</button>
+          <div class="sec-count" id="users-count">Loading...</div>
+        </div>
       </div>
       <div class="toolbar">
         <input class="search-inp" id="user-search" placeholder="Search by username, name or UID..." oninput="filterUsers()">
@@ -282,6 +316,15 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
         <div class="sec-count" id="banned-count">0</div>
       </div>
       <div id="banned-list"><div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">No banned users</div></div></div>
+    </div>
+
+    <!-- DELETED TAB -->
+    <div class="section" id="tab-deleted">
+      <div class="sec-hdr">
+        <div class="sec-title">Recently Deleted <span style="font-size:12px;color:var(--ink3);font-weight:600">(auto-purge after 24h)</span></div>
+        <div class="sec-count" id="deleted-count">0</div>
+      </div>
+      <div id="deleted-list"><div class="empty-state"><div class="empty-icon">🗑</div><div class="empty-text">No recently deleted posts</div></div></div>
     </div>
 
     <!-- ANALYTICS TAB -->
@@ -313,6 +356,59 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
   </div>
 </div>
 
+<!-- MESSAGE USER MODAL -->
+<div class="modal-overlay" id="msg-modal">
+  <div class="msg-modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="font-size:15px;font-weight:800;color:var(--ink)">✉️ Send Warning to <span id="msg-target-name" style="color:var(--pl)"></span></div>
+      <button onclick="closeMsgModal()" style="background:none;border:none;color:var(--ink3);font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div style="font-size:12px;color:var(--ink3);margin-bottom:10px;font-weight:600">This message will appear as a notification in the user's TISA app.</div>
+    <select id="msg-type" style="width:100%;background:var(--bg2);border:1.5px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:13px;font-family:'Nunito',sans-serif;outline:none;margin-bottom:10px">
+      <option value="warning">⚠️ Content Warning</option>
+      <option value="reminder">📋 Community Rules Reminder</option>
+      <option value="final">🚨 Final Warning (next violation = ban)</option>
+      <option value="custom">✏️ Custom Message</option>
+    </select>
+    <textarea class="msg-inp" id="msg-body" placeholder="Write your message... (leave blank to use template)" rows="4"></textarea>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button onclick="closeMsgModal()" style="flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;border:none;background:var(--surface2);color:var(--ink3);font-family:'Nunito',sans-serif">Cancel</button>
+      <button onclick="sendWarning()" style="flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;border:none;background:var(--warn);color:white;font-family:'Nunito',sans-serif">Send Warning</button>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE USER MODAL -->
+<div class="modal-overlay" id="msg-modal">
+  <div class="modal-box" style="max-width:440px">
+    <div class="modal-title">✉️ Send Warning to User</div>
+    <div class="msg-to" id="msg-to">To: @username</div>
+    <div class="msg-templates">
+      <div class="msg-tpl" onclick="setMsgTpl('Your recent post violated our community guidelines. Please review the Terms of Service.')">📋 ToS Violation</div>
+      <div class="msg-tpl" onclick="setMsgTpl('Please keep your language respectful. Further violations may result in a ban.')">⚠️ Be Respectful</div>
+      <div class="msg-tpl" onclick="setMsgTpl('Spam posts are not allowed in the TISA community. This is your final warning before a ban.')">🚫 Spam Warning</div>
+      <div class="msg-tpl" onclick="setMsgTpl('Your account has been flagged for suspicious activity. Please ensure you follow community rules.')">🔍 Flag Warning</div>
+    </div>
+    <textarea class="msg-textarea" id="msg-body" placeholder="Type your warning message..."></textarea>
+    <div class="modal-btns" style="margin-top:12px">
+      <button style="flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;border:none;font-family:'Nunito',sans-serif;background:var(--surface2);color:var(--ink3)" onclick="document.getElementById('msg-modal').classList.remove('open')">Cancel</button>
+      <button style="flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;border:none;font-family:'Nunito',sans-serif;background:var(--primary);color:white" onclick="sendWarning()">Send Warning</button>
+    </div>
+  </div>
+</div>
+
+<!-- REPORT HISTORY MODAL -->
+<div class="modal-overlay" id="rephist-modal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-title">📋 Report History</div>
+    <div id="rephist-username" style="font-size:13px;font-weight:700;color:var(--pl);margin-bottom:12px"></div>
+    <div id="rephist-body"></div>
+    <div class="modal-btns" style="margin-top:16px">
+      <button style="flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;border:none;font-family:'Nunito',sans-serif;background:var(--surface2);color:var(--ink3)" onclick="document.getElementById('rephist-modal').classList.remove('open')">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- CONFIRM MODAL -->
 <div class="modal-overlay" id="confirm-modal">
   <div class="modal-box">
@@ -331,7 +427,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import{getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import{getFirestore,collection,doc,getDocs,getDoc,deleteDoc,setDoc,query,orderBy,limit,where,Timestamp}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import{getFirestore,collection,doc,getDocs,getDoc,deleteDoc,setDoc,addDoc,query,orderBy,limit,where,Timestamp}from'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
 const app=initializeApp(FC);
@@ -573,12 +669,16 @@ function renderUsers(list){
           <div class="item-meta">
             ${isAdmin?'<span class="badge badge-blue">ADMIN</span>':''}
             ${isBanned?'<span class="badge badge-danger">BANNED</span>':'<span class="badge badge-ok">Active</span>'}
+            ${getReportCount(u.id)>0?`<span class="rep-count-badge">🚩 ${getReportCount(u.id)} reports</span>`:''}
           </div>
           <div class="item-title">@${esc(u.username||'(no username)')} <span style="font-size:12px;font-weight:600;color:var(--ink3)">${esc(u.displayName||'')}</span></div>
           <div class="item-uid">UID: ${esc(u.id)}</div>
         </div>
         <div class="item-actions">
           <button class="act-btn btn-view" onclick="toggleUserDetail('${u.id}',this)">👁 Details</button>
+          <button class="act-btn btn-blue" onclick="viewUserPosts('${u.id}','${esc(u.username||'user')}')">📝 Posts</button>
+          <button class="act-btn btn-dismiss" onclick="showReportHistory('${u.id}')">📋 History</button>
+          ${isAdmin?'':`<button class="act-btn btn-dismiss" onclick="openMsgModal('${u.id}','${esc(u.username||'user')}')">✉️ Warn</button>`}
           ${isAdmin?'':(isBanned
             ?`<button class="act-btn btn-unban" onclick="unbanUser('${u.id}')">✅ Unban</button>`
             :`<button class="act-btn btn-ban" onclick="banUser('${u.id}',null,null)">🚫 Ban</button>`
@@ -858,6 +958,241 @@ window.runConfirm=()=>{closeConfirm();if(_confirmCb)_confirmCb();};
 window.closeConfirm=()=>{document.getElementById('confirm-modal').classList.remove('open');_confirmCb=null;};
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ── SOFT DELETE (move to deleted collection) ──
+let _deleted=[];
+async function loadDeleted(){
+  try{
+    const snap=await getDocs(query(collection(db,'deleted'),orderBy('deletedAt','desc')));
+    _deleted=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderDeleted();
+  }catch(e){_deleted=[];}
+}
+
+function renderDeleted(){
+  const el=document.getElementById('deleted-list');
+  document.getElementById('deleted-count').textContent=_deleted.length;
+  if(!_deleted.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">🗑</div><div class="empty-text">No recently deleted posts</div></div>';return;}
+  const now=Date.now();
+  el.innerHTML=_deleted.map(d=>{
+    const deletedAt=d.deletedAt?.toDate?.()?.getTime()||0;
+    const hoursLeft=Math.max(0,Math.ceil((deletedAt+86400000-now)/3600000));
+    const canRestore=hoursLeft>0;
+    return`<div class="item-card">
+      <div class="item-top">
+        <div style="flex:1">
+          <div class="item-meta">
+            <span class="badge badge-danger">DELETED</span>
+            <span style="font-size:11px;color:var(--ink3)">${canRestore?hoursLeft+'h left to restore':'Expired'}</span>
+          </div>
+          <div class="item-title">${esc(d.title||'(no title)')}</div>
+          <div class="item-body">${esc((d.body||'').substring(0,120))}...</div>
+          <div class="item-uid">🎭 ${esc(d.alias||'Anonymous')} · Deleted by admin</div>
+        </div>
+        <div class="item-actions">
+          ${canRestore?`<button class="restore-btn" onclick="restorePost('${d.id}')">↩ Restore</button>`:''}
+          <button class="act-btn btn-del" onclick="purgePost('${d.id}')">💀 Purge</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.restorePost=async(deletedId)=>{
+  confirm2('Restore Post','This will move the post back to the community feed.',async()=>{
+    try{
+      const snap=await getDoc(doc(db,'deleted',deletedId));
+      const data=snap.data();
+      delete data.deletedAt; delete data.deletedBy;
+      const newRef=doc(collection(db,'posts'));
+      await setDoc(newRef,{...data,id:newRef.id});
+      await deleteDoc(doc(db,'deleted',deletedId));
+      _deleted=_deleted.filter(d=>d.id!==deletedId);
+      renderDeleted();
+      toast('✅ Post restored!');
+    }catch(e){toast('❌ Failed to restore');}
+  });
+};
+
+window.purgePost=async(deletedId)=>{
+  confirm2('Permanently Delete','This cannot be undone. The post will be gone forever.',async()=>{
+    try{
+      await deleteDoc(doc(db,'deleted',deletedId));
+      _deleted=_deleted.filter(d=>d.id!==deletedId);
+      renderDeleted();
+      toast('💀 Permanently purged');
+    }catch(e){toast('❌ Failed');}
+  });
+};
+
+// Override deletePost to do soft delete instead
+const _origDeletePost=window.deletePost;
+window.deletePost=async(postId,reportId)=>{
+  confirm2('Delete Post','Post will be moved to the Deleted tab for 24 hours before permanent removal. You can restore it if needed.',async()=>{
+    try{
+      // Get post data first
+      const snap=await getDoc(doc(db,'posts',postId));
+      if(snap.exists()){
+        const data=snap.data();
+        // Move to deleted collection
+        await setDoc(doc(db,'deleted',postId),{...data,deletedAt:new Date(),deletedBy:'admin'});
+      }
+      // Delete comments subcollection
+      try{
+        const cSnap=await getDocs(collection(db,'posts',postId,'comments'));
+        await Promise.all(cSnap.docs.map(d=>deleteDoc(d.ref)));
+      }catch(e){}
+      await deleteDoc(doc(db,'posts',postId));
+      if(reportId) await deleteDoc(doc(db,'reports',reportId));
+      _posts=_posts.filter(p=>p.id!==postId);
+      _reports=_reports.filter(r=>r.id!==reportId);
+      _selectedPosts.delete(postId);
+      renderPosts(); renderReports(); updateStats(); buildAnalytics();
+      await loadDeleted();
+      toast('🗑 Post deleted (restorable for 24h)');
+    }catch(e){toast('❌ Failed: '+e.message);}
+  });
+};
+
+// ── MESSAGE / WARN USER ──
+let _msgTargetUid='',_msgTargetName='';
+window.openMsgModal=(uid,username)=>{
+  _msgTargetUid=uid; _msgTargetName=username;
+  document.getElementById('msg-target-name').textContent='@'+username;
+  document.getElementById('msg-body').value='';
+  document.getElementById('msg-type').value='warning';
+  document.getElementById('msg-modal').classList.add('open');
+};
+window.closeMsgModal=()=>document.getElementById('msg-modal').classList.remove('open');
+
+const MSG_TEMPLATES={
+  warning:'⚠️ Your recent post or comment was flagged for violating TISA community guidelines. Please review the Terms of Service and ensure your future contributions are respectful and study-focused.',
+  reminder:'📋 Reminder: TISA is a study-focused community. Please keep posts relevant, respectful, and helpful. Repeated violations may result in a ban.',
+  final:'🚨 Final Warning: Your account has received multiple violations. The next violation will result in a permanent ban from TISA.',
+  custom:''
+};
+
+window.sendWarning=async()=>{
+  if(!_msgTargetUid){toast('❌ No user selected');return;}
+  const type=document.getElementById('msg-type').value;
+  const customBody=document.getElementById('msg-body').value.trim();
+  const message=customBody||(MSG_TEMPLATES[type]||MSG_TEMPLATES.warning);
+  try{
+    await addDoc(collection(db,'warnings'),{
+      uid:_msgTargetUid,
+      username:_msgTargetName,
+      message,
+      type,
+      sentAt:new Date(),
+      sentBy:'admin',
+      read:false
+    });
+    window.closeMsgModal();
+    toast('✉️ Warning sent to @'+_msgTargetName);
+  }catch(e){toast('❌ Failed to send: '+e.message);}
+};
+
+// ── VIEW USER'S POSTS ──
+window.viewUserPosts=(uid,username)=>{
+  const userPosts=_posts.filter(p=>p.uid===uid);
+  switchTab('posts',document.querySelectorAll('.tab')[1]);
+  document.getElementById('user-search').value='';
+  // Set search to filter by UID
+  const searchInp=document.getElementById('post-search');
+  searchInp.value=''; 
+  // Render filtered
+  document.getElementById('posts-count').textContent=userPosts.length+' posts by @'+username;
+  const el=document.getElementById('posts-list');
+  if(!userPosts.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">@'+esc(username)+' has no posts</div></div>';return;}
+  el.innerHTML=userPosts.map(p=>{
+    const ts=p.ts?.toDate?p.ts.toDate().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'—';
+    return`<div class="item-card">
+      <div class="item-top">
+        <div style="flex:1">
+          <div class="item-meta">
+            <span class="badge badge-info">${esc(p.category||'Post')}</span>
+            <span style="font-size:11px;color:var(--ink3)">${ts}</span>
+            <span style="font-size:11px;color:var(--ink3)">👍${p.ups||0} 👎${p.downs||0} 💬${p.commentCount||0}</span>
+          </div>
+          <div class="item-title">${esc(p.title||'(no title)')}</div>
+          <div class="item-body">${esc((p.body||'').substring(0,180))}${(p.body||'').length>180?'...':''}</div>
+        </div>
+        <div class="item-actions">
+          <button class="act-btn btn-del" onclick="deletePost('${p.id}',null)">🗑 Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+};
+
+// ── REPORT HISTORY COUNT PER USER ──
+function getReportCount(uid){
+  return _reports.filter(r=>r.reportedBy===uid).length;
+}
+
+// ── EXPORT CSV ──
+window.exportCSV=()=>{
+  const lines=[['Type','ID','Title/Username','Date','Extra'].join(',')];
+  _posts.forEach(p=>{
+    const ts=p.ts?.toDate?.()?.toLocaleDateString('en-GB')||'';
+    lines.push([
+      'Post',p.id,
+      `"${(p.title||'').replace(/"/g,'""')}"`,
+      ts,
+      `"ups:${p.ups||0} downs:${p.downs||0} comments:${p.commentCount||0}"`
+    ].join(','));
+  });
+  _users.forEach(u=>{
+    lines.push(['User',u.id,`"@${(u.username||'').replace(/"/g,'""')}"`,'',' '].join(','));
+  });
+  _banned.forEach(b=>{
+    const ts=b.bannedAt?.toDate?.()?.toLocaleDateString('en-GB')||'';
+    lines.push(['Banned',b.id,`"@${(b.username||'').replace(/"/g,'""')}"`,ts,`"${(b.reason||'').replace(/"/g,'""')}"`].join(','));
+  });
+  const blob=new Blob([lines.join('\n')],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`tisa_export_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  toast('⬇ CSV exported!');
+};
+
+// ── REPORT HISTORY MODAL ──
+window.showReportHistory=async(uid)=>{
+  const user=_users.find(u=>u.id===uid);
+  const uname='@'+(user?.username||uid.substring(0,8)+'...');
+  const reportsAbout=_reports.filter(r=>r.targetUid===uid||r.reportedUid===uid);
+  const reportsMade=_reports.filter(r=>r.reportedBy===uid);
+  const banRecord=_banned.find(b=>b.id===uid);
+  const userPosts=_posts.filter(p=>p.uid===uid);
+  confirm2(
+    `📋 Report History — ${uname}`,
+    '',
+    null,
+    `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="u-stat"><div class="u-stat-num" style="font-size:20px">${reportsAbout.length}</div><div class="u-stat-lbl">Reported</div></div>
+      <div class="u-stat"><div class="u-stat-num" style="font-size:20px">${reportsMade.length}</div><div class="u-stat-lbl">Filed</div></div>
+      <div class="u-stat"><div class="u-stat-num" style="font-size:20px">${userPosts.length}</div><div class="u-stat-lbl">Posts</div></div>
+    </div>
+    ${banRecord?`<div style="background:rgba(224,90,74,.1);border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--danger);margin-bottom:10px">🚫 Currently banned · ${esc(banRecord.reason||'No reason')}</div>`:''}
+    ${reportsAbout.length?`<div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px">Reports received:</div>${reportsAbout.slice(0,5).map(r=>`<div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--border2)"><span>${esc(r.reason||'Inappropriate')}</span><span style="color:var(--ink3)">${r.ts?.toDate?.().toLocaleDateString('en-GB')||'—'}</span></div>`).join('')}`:'<div style="font-size:12px;color:var(--ink3)">No reports against this user.</div>'}`
+  );
+  // override confirm button to just close
+  document.getElementById('confirm-yes').style.display='none';
+  document.getElementById('confirm-no').textContent='Close';
+  document.getElementById('confirm-no').style.flex='1';
+};
+
+// alias for purge
+window.purgePermanently=window.purgePost;
+
+// Load deleted posts on startup
+const _origLoadAll=loadAll;
+async function loadAll(){
+  await Promise.all([loadReports(),loadPosts(),loadUsers(),loadBanned(),loadDeleted()]);
+  updateStats();
+  buildAnalytics();
+}
 </script>
 </body>
 </html>
