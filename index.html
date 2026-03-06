@@ -662,6 +662,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   }
   ══════════════════════════════════════════════════════════════
 -->
+</head>
 <body>
 
 <!-- LOADING -->
@@ -1359,7 +1360,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <p>You can delete all your data at any time using the "Delete My Data" button in Settings. You can also sign out and stop using the app at any time.</p>
     
     <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">Contact</div>
-    <p>For any privacy concerns, email us at <strong><a href="/cdn-cgi/l/email-protection#dda9b4aebcf3b5b8b1adb9b8aeb69dbab0bcb4b1f3beb2b0" style="color:var(--primary)"><span class="__cf_email__" data-cfemail="96e2ffe5f7b8fef3fae6f2f3e5fdd6f1fbf7fffab8f5f9fb">[email&#160;protected]</span></a></strong> or reach out via the TISA community forum.</p>
+    <p>For any privacy concerns, email us at <strong><a href="mailto:tisa.helpdesk@gmail.com" style="color:var(--primary)">tisa.helpdesk@gmail.com</a></strong> or reach out via the TISA community forum.</p>
   </div>
 </div>
 </div>
@@ -1481,7 +1482,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 <div id="toast"></div>
 <footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>TISA</strong>&nbsp; · &nbsp;Created by Sachin&nbsp; · &nbsp;All Copyrights Reserved</footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+<script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import{getFirestore,initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -1923,15 +1924,27 @@ window.searchUser=async()=>{
   el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">Searching...</div>';
   const snap=await getDocs(query(collection(db,'users'),where('username','==',q)));
   if(snap.empty){el.innerHTML='<div style="font-size:11px;color:var(--danger);padding:4px;font-weight:700">@'+window._esc(q)+' not found</div>';return;}
-  const f=snap.docs[0].data();
-  if(snap.docs[0].id===window._CU.uid||f.uid===window._CU.uid){el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px">That\'s you! 🐼</div>';return;} // BUG2 FIX: check by doc ID (reliable) and uid field
+  const fDoc=snap.docs[0];
+  const f=fDoc.data();
+  const fUid=f.uid||fDoc.id; // doc ID IS the uid - reliable fallback
+  if(fDoc.id===window._CU.uid||fUid===window._CU.uid){el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px">That\'s you! 🐼</div>';return;}
+  // Store found user data safely - avoids any escaping issues in onclick attributes
+  window._foundUser={uid:fUid, name:f.name||'', uname:f.username||''};
   el.innerHTML=`<div style="padding:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:8px">
     <div><div style="font-size:12px;font-weight:800">@${window._esc(f.username||f.name)}</div><div style="font-size:10px;color:var(--ink3);font-weight:600">${window._esc(f.name||'')}</div></div>
-    <button class="pill-btn" onclick="startChat('${f.uid}','${window._esc(f.name||'')}','${window._esc(f.username||'')}')">Chat →</button>
+    <button class="pill-btn" onclick="window.startFoundUser()">Chat →</button>
   </div>`;
 };
 
+window.startFoundUser=()=>{
+  if(!window._foundUser)return;
+  const {uid,name,uname}=window._foundUser;
+  window._foundUser=null;
+  window.startChat(uid,name,uname);
+};
+
 window.startChat=async(oUid,oName,oUname)=>{
+  if(!window._CU||!oUid){window.toast&&window.toast('Please sign in first');return;}
   document.getElementById('srch-res').innerHTML='';
   document.getElementById('srch-inp').value='';
   const chatId=[window._CU.uid,oUid].sort().join('_');
@@ -1963,6 +1976,13 @@ window.openChat=(chatId,oUid,oName,oUname)=>{
   document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.ctab')[0]?.classList.add('active');
   document.getElementById('cpanel-messages')?.classList.add('active');
+  // Scroll chat panel into view when layout is single column (mobile + small laptop)
+  setTimeout(()=>{
+    const chatPanel = document.querySelector('.conn-grid .sidebar-card:last-child');
+    if(chatPanel && window.innerWidth <= 1100){
+      chatPanel.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }, 100);
   // Unsubscribe old listener
   if(window._chatUnsub){window._chatUnsub();window._chatUnsub=null;}
   // Subscribe to live messages
