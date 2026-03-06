@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>TISA — Study Companion</title>
+<title>TISA — Track. Improve. Study. Ace.</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%235c7a3e'/%3E%3Ctext x='33' y='43' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='22' fill='white'%3ETISA%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#5c7a3e">
-<meta name="description" content="TISA Study Companion — track study time, connect with buddies, earn badges">
+<meta name="description" content="TISA — Track. Improve. Study. Ace. — track study time, connect with buddies, earn badges">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="TISA">
@@ -14,17 +14,31 @@
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%235c7a3e'/%3E%3Ctext x='96' y='96' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='64' fill='white'%3ETISA%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="./manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Josefin+Sans:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>/* PWA Install Banner */
 #pwa-banner{position:fixed;bottom:70px;left:16px;right:16px;z-index:9999;background:#fff;border:2px solid #c0546a;border-radius:20px;box-shadow:0 8px 32px rgba(192,84,106,.25);padding:12px 16px;display:flex;align-items:center;gap:10px;animation:slideUp .4s ease;box-sizing:border-box}
 #pwa-banner.hide{display:none!important}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+/* In-app notification popup */
+#tisa-notif{position:fixed;top:70px;right:16px;z-index:99999;background:var(--surface);border:2px solid var(--primary);border-radius:16px;box-shadow:var(--shl);padding:12px 16px;display:flex;align-items:center;gap:10px;max-width:300px;transform:translateX(120%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+#tisa-notif.show{transform:translateX(0);pointer-events:auto}
+#tisa-notif .notif-icon{font-size:22px;flex-shrink:0}
+#tisa-notif .notif-body{flex:1;min-width:0}
+#tisa-notif .notif-title{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tisa-notif .notif-msg{font-size:11px;color:var(--ink2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tisa-notif .notif-close{background:none;border:none;cursor:pointer;font-size:14px;color:var(--ink3);padding:0;flex-shrink:0}
 #pwa-banner .pwa-icon{width:40px;height:40px;border-radius:10px;background:#c0546a;display:flex;align-items:center;justify-content:center;color:white;font-family:Georgia,serif;font-weight:900;font-size:12px;letter-spacing:1px;flex-shrink:0}
 #pwa-banner .pwa-text{flex:1;min-width:0}
 #pwa-banner .pwa-text strong{display:block;font-size:13px;font-weight:800;color:#222;margin-bottom:1px}
 #pwa-banner .pwa-text span{font-size:11px;color:#888;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 #pwa-banner .pwa-install-btn{background:#c0546a;color:white;border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0}
 #pwa-banner .pwa-close-btn{background:none;border:none;font-size:18px;cursor:pointer;color:#aaa;padding:0;line-height:1;flex-shrink:0}
+/* Pomo setup buttons */
+.pomo-opt-btn,.pomo-brk-btn,.pomo-cyc-btn{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink2);transition:all .2s}
+.pomo-opt-btn.sel,.pomo-brk-btn.sel,.pomo-cyc-btn.sel{background:var(--primary);color:white;border-color:var(--primary)}
+/* Report reason buttons */
+.report-reason-btn{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink2);text-align:left;transition:all .2s}
+.report-reason-btn.sel{background:var(--danger);color:white;border-color:var(--danger)}
 /* --- SLEEK & MINIMAL OVERHAUL --- */
   :root {
     --font-main: 'Inter', sans-serif;
@@ -86,6 +100,12 @@ html{overflow-x:hidden}
 [data-theme="sakura"]{--bg:#fdf0f5;--bg2:#fae0ea;--bg3:#f5cede;--surface:#fff8fb;--surface2:#fdeef5;--primary:#c8527a;--pd:#a03560;--pl:#f0a0be;--pglow:rgba(200,82,122,.15);--ink:#2a0e1a;--ink2:#6a3048;--ink3:#a87090;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(200,82,122,.22);--border2:rgba(200,82,122,.1);--sh:0 2px 14px rgba(200,82,122,.1);--shl:0 8px 32px rgba(200,82,122,.14);}
 [data-theme="ocean"]{--bg:#edf4fa;--bg2:#d8ecf7;--bg3:#c2e0f0;--surface:#f8fcff;--surface2:#eef6fc;--primary:#1a6fa8;--pd:#0e4e7a;--pl:#7ab8dc;--pglow:rgba(26,111,168,.15);--ink:#091828;--ink2:#2a4a62;--ink3:#6a8aa0;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(26,111,168,.22);--border2:rgba(26,111,168,.1);--sh:0 2px 14px rgba(26,111,168,.1);--shl:0 8px 32px rgba(26,111,168,.14);}
 [data-theme="sunset"]{--bg:#fdf4ea;--bg2:#fae6cc;--bg3:#f5d4aa;--surface:#fffaf4;--surface2:#fdf0e0;--primary:#c8682a;--pd:#a04a18;--pl:#f0b080;--pglow:rgba(200,104,42,.15);--ink:#2a1200;--ink2:#6a3a18;--ink3:#a07848;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(200,104,42,.22);--border2:rgba(200,104,42,.1);--sh:0 2px 14px rgba(200,104,42,.1);--shl:0 8px 32px rgba(200,104,42,.14);}
+/* Per-theme font variables */
+[data-theme="light"]{--font-main:'Nunito',sans-serif;--font-head:'Playfair Display',serif;}
+[data-theme="dark"]{--font-main:'DM Sans',sans-serif;--font-head:'Cormorant Garamond',serif;}
+[data-theme="sakura"]{--font-main:'Raleway',sans-serif;--font-head:'Lora',serif;}
+[data-theme="ocean"]{--font-main:'DM Sans',sans-serif;--font-head:'Josefin Sans',sans-serif;}
+[data-theme="sunset"]{--font-main:'Raleway',sans-serif;--font-head:'Cormorant Garamond',serif;}
 [data-theme="minimalist"]{
   --primary:#4a5e2a;
   --pd:#3a4d1f;
@@ -133,8 +153,8 @@ html{overflow-x:hidden}
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;font-size:14px}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;transition:background .35s,color .35s;overflow-x:hidden;overflow-y:auto;}
-input,select,textarea,button{font-family:'Nunito',sans-serif;font-size:14px}
+body{font-family:var(--font-main,'Nunito',sans-serif);background:var(--bg);color:var(--ink);min-height:100vh;transition:background .35s,color .35s;overflow-x:hidden;overflow-y:auto;}
+input,select,textarea,button{font-family:var(--font-main,'Nunito',sans-serif);font-size:14px}
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--primary);border-radius:4px}
@@ -201,7 +221,7 @@ header{background:var(--surface);border-bottom:1.5px solid var(--border);padding
 .logo-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .logo-icon-svg{width:36px;height:36px;flex-shrink:0}
 .logo-tisa{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--primary);line-height:1;letter-spacing:8px;text-transform:uppercase;text-indent:8px}
-.logo-sub{font-size:9px;color:var(--ink3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:-2px}
+.logo-sub{font-size:7.5px;color:var(--ink3);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-top:-2px;white-space:nowrap}
 nav{display:flex;gap:2px}
 nav button{background:none;border:none;padding:6px 10px;font-size:11.5px;font-weight:700;color:var(--ink3);cursor:pointer;border-radius:10px;transition:all .2s;white-space:nowrap;font-family:'Nunito',sans-serif}
 nav button:hover{color:var(--primary);background:var(--pglow)}
@@ -700,7 +720,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 </div>
 <div class="login-card">
   <div class="tisa-logo">TISA</div>
-  <div class="tisa-tagline">study companion</div>
+  <div class="tisa-tagline">Track. Improve. Study. Ace.</div>
   <div class="login-quote-box"><span id="lq">Loading...</span></div>
   <div class="welcome-note">👋 Welcome to TISA! Track study time, connect with peers, earn badges, and grow every day. Sign in to begin your journey. 🌿</div>
   <button class="google-btn" id="google-btn" onclick="handleSignIn(this)">
@@ -739,7 +759,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <header id="app-header" style="display:none">
 <div class="logo-wrap">
   <svg class="logo-icon-svg" viewBox="0 0 36 36"><circle cx="18" cy="18" r="17" fill="none" stroke="var(--primary)" stroke-width="2"/><path d="M10 14 Q18 8 26 14 Q18 20 10 14Z" fill="var(--primary)" opacity=".7"/><path d="M10 20 Q18 14 26 20 Q18 26 10 20Z" fill="var(--primary)"/></svg>
-  <div><div class="logo-tisa">TISA</div><div class="logo-sub">study companion</div></div>
+  <div><div class="logo-tisa">TISA</div><div class="logo-sub">Track. Improve. Study. Ace.</div></div>
 </div>
 <nav>
   <button class="active" onclick="showPage('home',this)">🏠 Home</button>
@@ -820,7 +840,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   </div>
   <div class="t-btns">
     <button class="btn btn-p btn-sm" id="t-btn" onclick="toggleTimer()">Start</button>
-    <button class="btn btn-o btn-sm" id="pomo-tog" onclick="togglePomo()">🍅 Pomo</button>
+    <button class="btn btn-o btn-sm" id="pomo-tog" onclick="showPomoSetup()">🍅 Pomo</button>
     <button class="btn btn-o btn-sm" onclick="resetTimer()">Reset</button>
     <button class="btn btn-o btn-sm" onclick="toggleFocus()">🎯</button>
   </div>
@@ -1309,7 +1329,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <p>You can delete all your data at any time using the "Delete My Data" button in Settings. You can also sign out and stop using the app at any time.</p>
     
     <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">Contact</div>
-    <p>For any privacy concerns, reach out via the TISA community forum or contact the developer directly.</p>
+    <p>For any privacy concerns, email us at <strong><a href="mailto:tisa.helpdesk@gmail.com" style="color:var(--primary)">tisa.helpdesk@gmail.com</a></strong> or reach out via the TISA community forum.</p>
   </div>
 </div>
 </div>
@@ -1322,6 +1342,63 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div style="display:flex;gap:8px">
     <button class="btn btn-sm btn-o" style="flex:1" onclick="document.getElementById('delete-modal').classList.remove('open')">Cancel</button>
     <button class="btn btn-sm btn-d" style="flex:1" onclick="deleteAllMyData()">Delete Everything</button>
+  </div>
+</div>
+</div>
+
+<!-- POMO SETUP MODAL -->
+<div id="pomo-setup-modal" class="modal-overlay">
+<div class="modal-box" style="max-width:340px">
+  <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--primary);margin-bottom:16px">🍅 Pomodoro Setup</div>
+  <div style="margin-bottom:14px">
+    <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:8px">Focus duration</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="pomo-opt-btn sel" onclick="selectPomoDurOpt(25,this)">25 min</button>
+      <button class="pomo-opt-btn" onclick="selectPomoDurOpt(30,this)">30 min</button>
+      <button class="pomo-opt-btn" onclick="selectPomoDurOpt(45,this)">45 min</button>
+      <button class="pomo-opt-btn" onclick="selectPomoDurOpt(50,this)">50 min</button>
+    </div>
+  </div>
+  <div style="margin-bottom:14px">
+    <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:8px">Break duration</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="pomo-brk-btn sel" onclick="selectPomoBreakOpt(5,this)">5 min</button>
+      <button class="pomo-brk-btn" onclick="selectPomoBreakOpt(10,this)">10 min</button>
+      <button class="pomo-brk-btn" onclick="selectPomoBreakOpt(15,this)">15 min</button>
+    </div>
+  </div>
+  <div style="margin-bottom:16px">
+    <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:8px">Cycles</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="pomo-cyc-btn" onclick="selectPomoCycleOpt(2,this)">2 🍅</button>
+      <button class="pomo-cyc-btn" onclick="selectPomoCycleOpt(3,this)">3 🍅</button>
+      <button class="pomo-cyc-btn sel" onclick="selectPomoCycleOpt(4,this)">4 🍅</button>
+      <button class="pomo-cyc-btn" onclick="selectPomoCycleOpt(6,this)">6 🍅</button>
+    </div>
+  </div>
+  <div style="font-size:11px;color:var(--ink3);margin-bottom:14px;font-weight:600" id="pomo-summary-lbl">4 × 25min focus + 5min break = 2h 20m total</div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-sm btn-o" style="flex:1" onclick="document.getElementById('pomo-setup-modal').classList.remove('open')">Cancel</button>
+    <button class="btn btn-sm btn-p" style="flex:1" onclick="startPomoFromSetup()">Start 🍅</button>
+  </div>
+</div>
+</div>
+
+<!-- REPORT MODAL -->
+<div id="report-modal" class="modal-overlay">
+<div class="modal-box" style="max-width:340px">
+  <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--danger);margin-bottom:12px">🚩 Report Content</div>
+  <p style="font-size:12px;color:var(--ink2);margin-bottom:12px">Why are you reporting this?</p>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+    <button class="report-reason-btn sel" onclick="selectReportReason('Inappropriate content',this)">🔞 Inappropriate content</button>
+    <button class="report-reason-btn" onclick="selectReportReason('Spam',this)">📧 Spam</button>
+    <button class="report-reason-btn" onclick="selectReportReason('Harassment or bullying',this)">😡 Harassment or bullying</button>
+    <button class="report-reason-btn" onclick="selectReportReason('Misinformation',this)">❌ Misinformation</button>
+    <button class="report-reason-btn" onclick="selectReportReason('Other',this)">💬 Other</button>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-sm btn-o" style="flex:1" onclick="document.getElementById('report-modal').classList.remove('open')">Cancel</button>
+    <button class="btn btn-sm btn-d" style="flex:1" onclick="submitReport()">Submit Report</button>
   </div>
 </div>
 </div>
@@ -1373,8 +1450,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 </div>
 
 <div id="toast"></div>
-<footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>Sachin</strong>&nbsp; · &nbsp;TISA Study Companion&nbsp; · &nbsp;All Rights Reserved</footer>
-<script type="module">
+<footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>TISA</strong>&nbsp; · &nbsp;Track. Improve. Study. Ace.&nbsp; · &nbsp;All Rights Reserved</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import{getFirestore,initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -1681,6 +1758,7 @@ function loadForum(){
         <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
           <span class="cat-tag">${window._esc(p.category||'Post')}</span>
           ${p.hasAttachment?'<span style="font-size:10px;color:var(--ink3);font-weight:700">📎</span>':''}
+          <button onclick="event.stopPropagation();reportPost('${p.id}','${window._esc(p.title||'').replace(/'/g,"\'")}','forum')" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--ink3);padding:2px 6px;border-radius:6px;font-weight:700" title="Report post">🚩</button>
         </div>
         <div class="ft">${window._esc(p.title||'')}</div>
         <div class="fb2">${window._esc(p.body||'')}</div>
@@ -1865,7 +1943,18 @@ window.openChat=(chatId,oUid,oName,oUname)=>{
       const el=document.getElementById('chat-msgs');
       if(!el)return;
       if(snap.empty){el.innerHTML='<div class="empty">No messages yet. Say hi! 👋</div>';return;}
-      el.innerHTML=snap.docs.map(d=>renderMsg(d.data(),ck)).join('');
+      const msgs=snap.docs.map(d=>d.data());
+      // notify on new message from other person
+      if(msgs.length>0){
+        const last=msgs[msgs.length-1];
+        if(last.sender && last.sender!==window._CU?.uid && last.ts){
+          const msgTime=last.ts.toMillis?last.ts.toMillis():Date.now();
+          if(Date.now()-msgTime<5000){ // only notify if message is recent (within 5 sec)
+            sendNotification('💬 New message from '+window._esc(last.sName||aOtherName),'Tap to read');
+          }
+        }
+      }
+      el.innerHTML=msgs.map(d=>renderMsg(d,ck)).join('');
       requestAnimationFrame(()=>{el.scrollTop=el.scrollHeight;});
     }
   );
@@ -1891,7 +1980,8 @@ function renderMsg(m,ck){
     content=window._esc(txt).replace(/\n/g,'<br>');
   }
   const senderLabel=isMe?'':`<div style="font-size:9px;font-weight:700;opacity:.7;margin-bottom:3px">@${window._esc(m.suname||aOtherUname)}</div>`;
-  return`<div class="msg ${isMe?'me':'them'}">${senderLabel}${content}<div class="msg-t">${t}${isMe?' 🔒':''}</div></div>`;
+  const reportBtn=isMe?'':`<button onclick="reportPost('${m.ts||Date.now()}','${window._esc(txt.substring(0,30))}','chat')" style="background:none;border:none;cursor:pointer;font-size:10px;color:var(--ink3);padding:0 4px;opacity:.5" title="Report message">🚩</button>`;
+  return`<div class="msg ${isMe?'me':'them'}">${senderLabel}${content}<div class="msg-t">${t}${isMe?' 🔒':''}${reportBtn}</div></div>`;
 }
 
 let _sending=false;
@@ -2413,7 +2503,7 @@ function startT(){if(tInt)clearInterval(tInt); // BUG6 FIX: always clear before 
   tRun=true;document.getElementById('t-btn').textContent='Pause';document.getElementById('t-mode').textContent=pomoMode?(pomoState==='work'?'🍅 focus':'☕ break'):'studying ✏';tInt=setInterval(()=>{tSecs++;updTD();updTRing();if(tSecs%60===0&&pomoState==='work')saveSecs(60);if(pomoMode){const dur=pomoState==='work'?pomoDur*60:brkDur*60;if(tSecs>=dur)pomoCycle();}},1000);}
 function pauseT(){tRun=false;clearInterval(tInt);document.getElementById('t-btn').textContent='Continue';document.getElementById('t-mode').textContent='paused';if(tSecs>10&&pomoState==='work')logSess();}
 window.resetTimer=()=>{if(tRun){clearInterval(tInt);tRun=false;}if(tSecs>10)logSess();tSecs=0;updTD();updTRing();document.getElementById('t-btn').textContent='Start';document.getElementById('t-mode').textContent='ready';};
-function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){saveSecs(pomoDur*60);pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){pomoCount=0;toast('🎉 4 Pomodoros done!');pomoState='work';tSecs=0;}else{pomoState='break';tSecs=0;toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';tSecs=0;toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}updTD();}
+function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){saveSecs(pomoDur*60);pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){pomoCount=0;sendNotification('🎉 Pomodoro Complete!','You finished all '+pomoTotal+' cycles. Great work!');toast('🎉 All Pomodoros done!');pomoState='work';tSecs=0;}else{pomoState='break';tSecs=0;sendNotification('☕ Break Time!',brkDur+' min break. You earned it!');toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';tSecs=0;sendNotification('🍅 Back to Focus!','Break over. Time to study!');toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}updTD();}
 window.togglePomo=()=>{pomoMode=!pomoMode;const btn=document.getElementById('pomo-tog');btn.style.background=pomoMode?'var(--primary)':'';btn.style.color=pomoMode?'white':'';pomoState='work';pomoCount=0;tSecs=0;if(tRun){clearInterval(tInt);tRun=false;document.getElementById('t-btn').textContent='Start';}updTD();updTRing();updPomoDots();toast(pomoMode?'🍅 Pomodoro on!':'⏱ Regular mode');};
 function updPomoDots(){['pomo-dots','pomo-info','focus-pomo'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=Array(pomoTotal).fill(0).map((_,i)=>`<div class="pdot ${i<pomoCount?'done':i===pomoCount&&tRun?'cur':''}"></div>`).join('');});}
 function updTD(){const t=fmtHMS(tSecs);const td=document.getElementById('t-digits');const ft=document.getElementById('focus-t');if(td)td.textContent=t;if(ft)ft.textContent=t;}
@@ -2500,7 +2590,7 @@ window.startTest=()=>{const id=document.getElementById('tpsel')?.value;if(!id){t
 window.addTime5=()=>{testLeft+=300;toast('+5 min added ⏱');updTestT();};
 function updTestT(){const m=Math.floor(testLeft/60),s=testLeft%60;const el=document.getElementById('m-timer');if(el){el.textContent=pad(m)+':'+pad(s);el.classList.toggle('low',testLeft<=300);}}
 window.endTest=()=>{clearInterval(testInt);document.getElementById('test-modal').classList.remove('open');};
-window.submitTest=()=>{clearInterval(testInt);const mg=document.getElementById('m-got')?.value,mt=document.getElementById('m-total')?.value,mw=document.getElementById('m-wrong')?.value;window.pastTests.unshift({name:testPaper?.name||'Unknown',dur:window._fmtH((testTimeSelected*60)-testLeft),date:new Date().toLocaleDateString(),id:Date.now(),marksGot:mg||'—',marksTotal:mt||'—',wrong:mw||'—'});save();addXP(30,'test completed');renderPastTests();document.getElementById('test-modal').classList.remove('open');toast('Test submitted! +30 XP 🐼');};
+window.submitTest=()=>{sendNotification('📝 Test Complete!','Your test has ended. Check your results!');clearInterval(testInt);const mg=document.getElementById('m-got')?.value,mt=document.getElementById('m-total')?.value,mw=document.getElementById('m-wrong')?.value;window.pastTests.unshift({name:testPaper?.name||'Unknown',dur:window._fmtH((testTimeSelected*60)-testLeft),date:new Date().toLocaleDateString(),id:Date.now(),marksGot:mg||'—',marksTotal:mt||'—',wrong:mw||'—'});save();addXP(30,'test completed');renderPastTests();document.getElementById('test-modal').classList.remove('open');toast('Test submitted! +30 XP 🐼');};
 window.toggleTestZoom=()=>{const m=document.getElementById('test-modal');const isMax=m.style.padding==='0px';m.style.padding=isMax?'16px':'0px';document.getElementById('zoom-btn').textContent=isMax?'⛶ Expand':'⛶ Shrink';};
 window.rotatePDF=()=>{const el=document.getElementById('test-img')||document.getElementById('test-iframe');if(el){const cur=parseInt(el.dataset.rot||0);el.dataset.rot=cur+90;el.style.transform='rotate('+el.dataset.rot+'deg)';}};
 window.zoomPDFIn=()=>{const el=document.getElementById('test-img');if(el){el.style.maxWidth=(parseFloat(el.style.maxWidth||100)+20)+'%';}};
@@ -2635,6 +2725,161 @@ img, svg { max-width: 100% !important; height: auto !important; }
 </div>
 
 <script>
+// ── REPORT FEATURE ──
+let _reportTarget={id:'',title:'',type:''};
+let _reportReason='Inappropriate content';
+
+window.reportPost=(id,title,type)=>{
+  _reportTarget={id,title,type};
+  _reportReason='Inappropriate content';
+  document.querySelectorAll('.report-reason-btn').forEach((b,i)=>{b.classList.toggle('sel',i===0);});
+  document.getElementById('report-modal').classList.add('open');
+};
+
+window.selectReportReason=(reason,btn)=>{
+  _reportReason=reason;
+  document.querySelectorAll('.report-reason-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+};
+
+window.submitReport=async()=>{
+  if(!window._CU){window.toast('Sign in to report');return;}
+  try{
+    await addDoc(collection(db,'reports'),{
+      reportedBy:window._CU.uid,
+      targetId:_reportTarget.id,
+      targetTitle:_reportTarget.title,
+      targetType:_reportTarget.type,
+      reason:_reportReason,
+      ts:serverTimestamp()
+    });
+    document.getElementById('report-modal').classList.remove('open');
+    window.toast('✅ Report submitted. Thank you!');
+  }catch(e){
+    window.toast('⚠️ Failed to submit report.');
+  }
+};
+
+// ── POMO SETUP ──
+let _pomoSetupDur=25, _pomoSetupBrk=5, _pomoSetupCycles=4;
+
+window.showPomoSetup=()=>{
+  if(pomoMode){
+    // if already on, toggle off
+    togglePomo();
+    return;
+  }
+  _pomoSetupDur=25; _pomoSetupBrk=5; _pomoSetupCycles=4;
+  updatePomoSummary();
+  document.getElementById('pomo-setup-modal').classList.add('open');
+};
+
+window.selectPomoDurOpt=(m,btn)=>{
+  _pomoSetupDur=m;
+  btn.parentElement.querySelectorAll('.pomo-opt-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  updatePomoSummary();
+};
+
+window.selectPomoBreakOpt=(m,btn)=>{
+  _pomoSetupBrk=m;
+  btn.parentElement.querySelectorAll('.pomo-brk-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  updatePomoSummary();
+};
+
+window.selectPomoCycleOpt=(n,btn)=>{
+  _pomoSetupCycles=n;
+  btn.parentElement.querySelectorAll('.pomo-cyc-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  updatePomoSummary();
+};
+
+function updatePomoSummary(){
+  const total=(_pomoSetupDur*_pomoSetupCycles)+(_pomoSetupBrk*(_pomoSetupCycles-1));
+  const h=Math.floor(total/60), m=total%60;
+  const timeStr=h>0?h+'h '+(m>0?m+'m':''):m+'m';
+  const el=document.getElementById('pomo-summary-lbl');
+  if(el) el.textContent=`${_pomoSetupCycles} × ${_pomoSetupDur}min focus + ${_pomoSetupBrk}min break = ${timeStr} total`;
+}
+
+window.startPomoFromSetup=()=>{
+  pomoDur=_pomoSetupDur;
+  brkDur=_pomoSetupBrk;
+  pomoTotal=_pomoSetupCycles;
+  document.getElementById('pomo-setup-modal').classList.remove('open');
+  // activate pomo mode
+  if(!pomoMode) togglePomo();
+  else { pomoState='work'; pomoCount=0; tSecs=0; updTD(); updTRing(); updPomoDots(); }
+  window.toast('🍅 Pomodoro started! '+_pomoSetupCycles+' × '+_pomoSetupDur+'min');
+};
+
+// ── NOTIFICATIONS & ALERT SOUNDS ──
+function playAlertSound(){
+  try{
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const playBeep=(freq,start,dur)=>{
+      const o=ctx.createOscillator();
+      const g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value=freq;
+      o.type='sine';
+      g.gain.setValueAtTime(0,ctx.currentTime+start);
+      g.gain.linearRampToValueAtTime(0.4,ctx.currentTime+start+0.05);
+      g.gain.linearRampToValueAtTime(0,ctx.currentTime+start+dur);
+      o.start(ctx.currentTime+start);
+      o.stop(ctx.currentTime+start+dur+0.1);
+    };
+    playBeep(880,0,0.15);
+    playBeep(1100,0.2,0.15);
+    playBeep(1320,0.4,0.3);
+  }catch(e){}
+}
+
+let _notifTimer=null;
+function closeNotif(){
+  const el=document.getElementById('tisa-notif');
+  if(el)el.classList.remove('show');
+  if(_notifTimer){clearTimeout(_notifTimer);_notifTimer=null;}
+}
+window.closeNotif=closeNotif;
+
+function showInAppNotif(title,body,icon){
+  const el=document.getElementById('tisa-notif');
+  if(!el)return;
+  document.getElementById('notif-title').textContent=title;
+  document.getElementById('notif-msg').textContent=body;
+  document.getElementById('notif-icon').textContent=icon||'🔔';
+  el.classList.add('show');
+  if(_notifTimer)clearTimeout(_notifTimer);
+  _notifTimer=setTimeout(closeNotif,5000);
+}
+
+function sendNotification(title,body){
+  // Determine icon from title
+  const icon=title.includes('🍅')||title.includes('Focus')?'🍅':
+              title.includes('☕')||title.includes('Break')?'☕':
+              title.includes('🎉')||title.includes('Complete')?'🎉':
+              title.includes('📝')||title.includes('Test')?'📝':
+              title.includes('💬')||title.includes('message')?'💬':'🔔';
+  // Show in-app popup
+  showInAppNotif(title,body,icon);
+  // Also send OS notification if permitted
+  if('Notification' in window && Notification.permission==='granted'){
+    new Notification(title,{body,icon:'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 64 64\'%3E%3Crect width=\'64\' height=\'64\' rx=\'10\' fill=\'%235c7a3e\'/%3E%3Ctext x=\'32\' y=\'43\' text-anchor=\'middle\' font-family=\'Arial\' font-weight=\'900\' font-size=\'22\' fill=\'white\'%3ETISA%3C/text%3E%3C/svg%3E'});
+  }
+  playAlertSound();
+}
+
+function requestNotificationPermission(){
+  if('Notification' in window && Notification.permission==='default'){
+    Notification.requestPermission();
+  }
+}
+
+// Request permission on load
+setTimeout(requestNotificationPermission, 3000);
+
 // ── PWA: Manifest loaded from manifest.json ──
 
 // ── PWA: Service Worker ──
@@ -2684,13 +2929,14 @@ closeBtn && closeBtn.addEventListener('click', () => {
   banner.classList.add('hide');
   localStorage.setItem('tisa_pwa_dismissed', '1');
 });
-
-window.addEventListener('appinstalled', () => {
-  banner.classList.add('hide');
-  _deferredPrompt = null;
-  const dBtn = document.getElementById('pwa-desktop-btn');
-  if(dBtn) dBtn.style.display = 'none';
-});
 </script>
+<div id="tisa-notif">
+  <div class="notif-icon" id="notif-icon">🔔</div>
+  <div class="notif-body">
+    <div class="notif-title" id="notif-title">TISA</div>
+    <div class="notif-msg" id="notif-msg"></div>
+  </div>
+  <button class="notif-close" onclick="closeNotif()">✕</button>
+</div>
 </body>
 </html>
