@@ -224,6 +224,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 /* GRIDS */
 .home-grid{display:grid;grid-template-columns:min(290px,100%) min(290px,100%) 1fr;gap:14px;align-items:start}
 .myspace-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tt-full-card{grid-column:span 2}
 .perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .test-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .conn-grid{display:grid;grid-template-columns:240px 1fr;gap:14px;min-height:560px}
@@ -475,6 +476,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .home-grid{grid-template-columns:1fr}
   .home-grid>*{grid-column:1 !important}
   .myspace-grid{grid-template-columns:1fr}
+  .tt-full-card{grid-column:span 1}
   .perf-grid{grid-template-columns:1fr}
   .test-grid{grid-template-columns:1fr}
   .jgrid{grid-template-columns:1fr}
@@ -549,15 +551,6 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .xp-chip{font-size:10px;padding:3px 8px}
 }.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%}}
 
-/* ── PWA INSTALL BANNER ── */
-#pwa-banner{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:var(--surface);border-top:2px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.12);transition:transform .3s ease;transform:translateY(0)}
-#pwa-banner.hide{transform:translateY(110%);pointer-events:none}
-.pwa-icon{width:40px;height:40px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:12px;flex-shrink:0}
-.pwa-text{flex:1;min-width:0}
-.pwa-text strong{display:block;font-size:13px;font-weight:800;color:var(--ink)}
-.pwa-text span{font-size:11px;color:var(--ink3);font-weight:500}
-.pwa-install-btn{background:var(--primary);color:white;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0}
-.pwa-close-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;cursor:pointer;color:var(--ink3);flex-shrink:0}
 </style>
 <!--
   ══════════════════════════════════════════════════════════════
@@ -880,7 +873,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     </div>
     <div id="cd-list"><div class="empty">No upcoming dates</div></div>
   </div>
-  <div class="card" style="grid-column:span 2">
+  <div class="card tt-full-card">
     <div class="ct"><div class="ct-ic">🗓</div>Timetable</div>
     <div class="tt-wrap"><div class="tt-grid" id="tt-grid-ms"></div></div>
     <div style="font-size:11px;color:var(--ink3);margin-top:7px;font-weight:600">Tap any cell to add/edit a class</div>
@@ -959,7 +952,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <div class="pie-legend" id="pie-legend"></div>
     </div>
   </div>
-  <div class="card" style="grid-column:span 2">
+  <div class="card tt-full-card">
     <div class="ct"><div class="ct-ic">🏅</div>Subject Performance</div>
     <div id="subj-perf"></div>
     <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
@@ -2833,16 +2826,7 @@ html { scroll-behavior: smooth !important; }
 img, svg { max-width: 100% !important; height: auto !important; }
 </style>
 
-<!-- PWA Install Banner -->
-<div id="pwa-banner" class="hide">
-  <div class="pwa-icon">TISA</div>
-  <div class="pwa-text">
-    <strong>Install TISA App</strong>
-    <span>Add to home screen for quick access</span>
-  </div>
-  <button class="pwa-install-btn" id="pwa-install-btn">Install</button>
-  <button class="pwa-close-btn" id="pwa-close-btn">✕</button>
-</div>
+
 
 <script>
 // ── REPORT FEATURE ──
@@ -2981,46 +2965,48 @@ if('serviceWorker' in navigator){
 }
 
 // ── PWA: Install Prompt ──
+// Uses browser's native install prompt — no custom banner
 let _deferredPrompt = null;
-const banner = document.getElementById('pwa-banner');
-const installBtn = document.getElementById('pwa-install-btn');
-const closeBtn = document.getElementById('pwa-close-btn');
-const isMobile = () => window.innerWidth <= 760;
 
-async function pwaTriggerInstall() {
-  if(!_deferredPrompt) return;
-  _deferredPrompt.prompt();
-  const {outcome} = await _deferredPrompt.userChoice;
-  _deferredPrompt = null;
-  banner.classList.add('hide');
-  const dBtn = document.getElementById('pwa-desktop-btn');
-  if(dBtn) dBtn.style.display = 'none';
-  if(outcome === 'accepted') {
-    setTimeout(()=>window.toast && window.toast('🎉 TISA installed! Find it on your home screen.'), 500);
-  }
+// PWA install handled entirely by browser natively
+</script>
+
+<!-- PWA Install Banner -->
+<div id="pwa-banner" style="display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:12px 16px;align-items:center;gap:12px;box-shadow:0 4px 24px rgba(0,0,0,.15);min-width:280px;max-width:360px">
+  <div style="width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:11px;flex-shrink:0">TISA</div>
+  <div style="flex:1;min-width:0">
+    <div style="font-size:13px;font-weight:800;color:var(--ink)">Install TISA App</div>
+    <div style="font-size:11px;color:var(--ink3)">Add to home screen</div>
+  </div>
+  <button onclick="pwaTriggerInstall()" style="background:var(--primary);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer">Install</button>
+  <button onclick="dismissPWA()" style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:7px 9px;font-size:13px;cursor:pointer;color:var(--ink3)">&#10005;</button>
+</div>
+
+<script>
+var _dp=null;
+function dismissPWA(){
+  var b=document.getElementById('pwa-banner');
+  if(b)b.style.display='none';
+  try{localStorage.setItem('tisa_pwa_dismissed','1');}catch(e){}
 }
-window.pwaTriggerInstall = pwaTriggerInstall;
-
-window.addEventListener('beforeinstallprompt', e => {
+window.addEventListener('beforeinstallprompt',function(e){
   e.preventDefault();
-  _deferredPrompt = e;
-  setTimeout(() => {
-    if(localStorage.getItem('tisa_pwa_dismissed')) return;
-    if(isMobile()) {
-      banner.classList.remove('hide');
-    } else {
-      // Desktop: show install button in header
-      const dBtn = document.getElementById('pwa-desktop-btn');
-      if(dBtn) dBtn.style.display = 'inline-flex';
-    }
-  }, 2000);
+  _dp=e;
+  try{if(localStorage.getItem('tisa_pwa_dismissed'))return;}catch(e){}
+  var b=document.getElementById('pwa-banner');
+  if(b)b.style.display='flex';
 });
-
-installBtn && installBtn.addEventListener('click', pwaTriggerInstall);
-
-closeBtn && closeBtn.addEventListener('click', () => {
-  banner.classList.add('hide');
-  localStorage.setItem('tisa_pwa_dismissed', '1');
+window.pwaTriggerInstall=async function(){
+  if(!_dp)return;
+  dismissPWA();
+  _dp.prompt();
+  await _dp.userChoice;
+  _dp=null;
+};
+window.addEventListener('appinstalled',function(){
+  _dp=null;
+  var b=document.getElementById('pwa-banner');
+  if(b)b.style.display='none';
 });
 </script>
 </body>
