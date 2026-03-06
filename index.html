@@ -1631,12 +1631,17 @@ window.uploadAvatar=async(files)=>{
 
 // ── USERNAME ──
 let _uVld=false,_uT=null;
+const _RESERVED=['admin','tisa','sachin','support','help','mod','moderator','staff',
+  'official','root','superuser','system','null','undefined','anonymous','guest',
+  'owner','creator','dev','developer','test','bot','api','security','abuse'];
+function isReserved(u){return _RESERVED.includes(u.toLowerCase());}
 window.checkUname=async(val)=>{
   const fb=document.getElementById('uname-fb'),btn=document.getElementById('uname-btn');
   _uVld=false; btn.disabled=true;
   const c=val.toLowerCase().replace(/[^a-z0-9_]/g,'');
   document.getElementById('uname-inp').value=c;
   if(c.length<3){fb.textContent=c.length>0?'Too short (min 3)':'';fb.style.color='var(--danger)';return;}
+  if(isReserved(c)){fb.textContent='@'+c+' is reserved';fb.style.color='var(--danger)';return;}
   fb.textContent='Checking...';fb.style.color='var(--ink3)';
   clearTimeout(_uT);
   _uT=setTimeout(async()=>{
@@ -1673,6 +1678,7 @@ window.saveNewUsername=async()=>{
   const val=document.getElementById('uname-edit-inp').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
   const fb=document.getElementById('uname-edit-fb');
   if(val.length<3){fb.textContent='Min 3 chars';fb.style.color='var(--danger)';return;}
+  if(isReserved(val)){fb.textContent='@'+val+' is reserved';fb.style.color='var(--danger)';return;}
   fb.textContent='Checking...';fb.style.color='var(--ink3)';
   const snap=await getDocs(query(collection(db,'users'),where('username','==',val)));
   if(snap.docs.some(d=>d.id!==window._CU.uid)){fb.textContent='@'+val+' is taken';fb.style.color='var(--danger)';return;}
@@ -1768,7 +1774,13 @@ window.handlePostAttach=(files)=>{
   r.readAsDataURL(f);
 };
 
+let _lastPost=0, _lastCmt=0;
 window.submitPost=async()=>{
+  const now=Date.now();
+  const wait=Math.ceil((30000-(now-_lastPost))/1000);
+  if(now-_lastPost<30000){window.toast('Please wait '+wait+'s before posting again ⏳');return;}
+  // Check if banned
+  if(window._CU){try{const bSnap=await getDoc(doc(db,'banned',window._CU.uid));if(bSnap.exists()){window.toast('⛔ You are banned from posting.');return;}}catch(e){}}
   const title=document.getElementById('post-title').value.trim();
   const body=document.getElementById('post-body').value.trim();
   const cat=document.getElementById('post-cat').value;
@@ -1786,6 +1798,7 @@ window.submitPost=async()=>{
     document.getElementById('post-attach-preview').textContent='';
     document.getElementById('post-attach').value='';
     postAttachData=null; postAttachType=null;
+    _lastPost=Date.now();
     window.toast('Posted as 🎭 '+alias+'!');
     window.initCommunityAlias();
   }catch(e){window.toast('Post failed. Check connection.');}
@@ -1873,7 +1886,10 @@ window.voteP=async(up)=>{
   window.toast(up?'👍 Upvoted!':'👎 Downvoted!');
   }catch(e){window.toast('Vote failed. Try again.');}
 };
-window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt||txt.length>500)return;inp.value='';const alias=getCommentAlias(curPostId);try{await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});await updateDoc(doc(db,'posts',curPostId),{commentCount:increment(1)});}catch(e){window.toast('Comment failed. Try again.');inp.value=txt;}};
+window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt||txt.length>500)return;
+  const _cn=Date.now();const _cw=Math.ceil((10000-(_cn-_lastCmt))/1000);if(_cn-_lastCmt<10000){window.toast('Please wait '+_cw+'s ⏳');return;}
+  if(window._CU){try{const bSnap=await getDoc(doc(db,'banned',window._CU.uid));if(bSnap.exists()){window.toast('⛔ You are banned from commenting.');return;}}catch(e){}}
+  inp.value='';const alias=getCommentAlias(curPostId);try{await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});await updateDoc(doc(db,'posts',curPostId),{commentCount:increment(1)});_lastCmt=Date.now();}catch(e){window.toast('Comment failed. Try again.');inp.value=txt;}};
 
 // ── CHAT (FULLY FIXED) ──
 let aChatId=null,aOtherUid=null,aOtherUname='',aOtherName='';
