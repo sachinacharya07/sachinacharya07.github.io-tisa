@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>TISA — Study Companion</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%235c7a3e'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='900' font-size='28' fill='white' letter-spacing='2'%3ETISA%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%235c7a3e'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='20' fill='white' letter-spacing='0'%3ETISA%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#5c7a3e">
 <meta name="description" content="TISA Study Companion — track study time, connect with buddies, earn badges">
 <meta name="mobile-web-app-capable" content="yes">
@@ -16,15 +16,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>/* PWA Install Banner */
-#pwa-banner{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;background:#fff;border:2px solid #c0546a;border-radius:20px;box-shadow:0 8px 32px rgba(192,84,106,.18);padding:14px 20px;display:flex;align-items:center;gap:14px;max-width:340px;width:90%;animation:slideUp .4s ease}
+#pwa-banner{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);z-index:9999;background:#fff;border:2px solid #c0546a;border-radius:20px;box-shadow:0 8px 32px rgba(192,84,106,.25);padding:12px 16px;display:flex;align-items:center;gap:12px;width:calc(100% - 32px);max-width:380px;animation:slideUp .4s ease;box-sizing:border-box}
 #pwa-banner.hide{display:none!important}
-@keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(30px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-#pwa-banner .pwa-icon{width:44px;height:44px;border-radius:12px;background:#c0546a;display:flex;align-items:center;justify-content:center;color:white;font-family:Georgia,serif;font-weight:900;font-size:13px;letter-spacing:1px;flex-shrink:0}
-#pwa-banner .pwa-text{flex:1}
-#pwa-banner .pwa-text strong{display:block;font-size:13px;font-weight:800;color:#222;margin-bottom:2px}
-#pwa-banner .pwa-text span{font-size:11px;color:#888;font-weight:500}
-#pwa-banner .pwa-install-btn{background:#c0546a;color:white;border:none;border-radius:12px;padding:8px 16px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
-#pwa-banner .pwa-close-btn{background:none;border:none;font-size:18px;cursor:pointer;color:#aaa;padding:0 2px;line-height:1}
+@keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+#pwa-banner .pwa-icon{width:40px;height:40px;border-radius:10px;background:#c0546a;display:flex;align-items:center;justify-content:center;color:white;font-family:Georgia,serif;font-weight:900;font-size:12px;letter-spacing:1px;flex-shrink:0}
+#pwa-banner .pwa-text{flex:1;min-width:0}
+#pwa-banner .pwa-text strong{display:block;font-size:13px;font-weight:800;color:#222;margin-bottom:1px}
+#pwa-banner .pwa-text span{font-size:11px;color:#888;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+#pwa-banner .pwa-install-btn{background:#c0546a;color:white;border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0}
+#pwa-banner .pwa-close-btn{background:none;border:none;font-size:18px;cursor:pointer;color:#aaa;padding:0;line-height:1;flex-shrink:0}
 /* --- SLEEK & MINIMAL OVERHAUL --- */
   :root {
     --font-main: 'Inter', sans-serif;
@@ -759,6 +759,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div class="dark-toggle" id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"></div>
   <button class="hdr-btn" onclick="toggleFocus()">🎯</button>
   <button class="hdr-btn" style="border-color:var(--danger);color:var(--danger)" onclick="doSignOut()">Out</button>
+  <button id="pwa-desktop-btn" class="hdr-btn" title="Install TISA App" style="display:none;border-color:#c0546a;color:#c0546a;font-size:11px" onclick="pwaTriggerInstall()">⬇ Install</button>
 </div>
 </header>
 
@@ -2603,28 +2604,38 @@ let _deferredPrompt = null;
 const banner = document.getElementById('pwa-banner');
 const installBtn = document.getElementById('pwa-install-btn');
 const closeBtn = document.getElementById('pwa-close-btn');
+const isMobile = () => window.innerWidth <= 760;
 
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  _deferredPrompt = e;
-  // Show banner after 3 seconds
-  setTimeout(() => {
-    if(!localStorage.getItem('tisa_pwa_dismissed')) {
-      banner.classList.remove('hide');
-    }
-  }, 3000);
-});
-
-installBtn && installBtn.addEventListener('click', async () => {
+async function pwaTriggerInstall() {
   if(!_deferredPrompt) return;
   _deferredPrompt.prompt();
   const {outcome} = await _deferredPrompt.userChoice;
   _deferredPrompt = null;
   banner.classList.add('hide');
+  const dBtn = document.getElementById('pwa-desktop-btn');
+  if(dBtn) dBtn.style.display = 'none';
   if(outcome === 'accepted') {
     setTimeout(()=>window.toast && window.toast('🎉 TISA installed! Find it on your home screen.'), 500);
   }
+}
+window.pwaTriggerInstall = pwaTriggerInstall;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _deferredPrompt = e;
+  setTimeout(() => {
+    if(localStorage.getItem('tisa_pwa_dismissed')) return;
+    if(isMobile()) {
+      banner.classList.remove('hide');
+    } else {
+      // Desktop: show install button in header
+      const dBtn = document.getElementById('pwa-desktop-btn');
+      if(dBtn) dBtn.style.display = 'inline-flex';
+    }
+  }, 2000);
 });
+
+installBtn && installBtn.addEventListener('click', pwaTriggerInstall);
 
 closeBtn && closeBtn.addEventListener('click', () => {
   banner.classList.add('hide');
@@ -2634,6 +2645,8 @@ closeBtn && closeBtn.addEventListener('click', () => {
 window.addEventListener('appinstalled', () => {
   banner.classList.add('hide');
   _deferredPrompt = null;
+  const dBtn = document.getElementById('pwa-desktop-btn');
+  if(dBtn) dBtn.style.display = 'none';
 });
 </script>
 </body>
