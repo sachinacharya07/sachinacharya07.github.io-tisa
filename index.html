@@ -2862,9 +2862,38 @@ document.addEventListener('visibilitychange',()=>{
   }
 });
 
-window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
-window.toggleFocusTimer=()=>{if(focusRun){focusRun=false;clearInterval(focusInt);document.getElementById('focus-btn').textContent='Continue';document.getElementById('focus-lbl').textContent='paused';}else{focusRun=true;if(focusInt)clearInterval(focusInt);document.getElementById('focus-btn').textContent='Pause';document.getElementById('focus-lbl').textContent='deep focus 🎯';focusInt=setInterval(()=>{focusSecs++;const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);const fd=document.getElementById('focus-t-disp');if(fd)fd.textContent=fmtHMS(focusSecs);},1000);}};
-window.resetFocusTimer=()=>{if(focusRun){clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
+window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
+// Focus timer — Date.now() based, throttle-proof
+let focusSegStart=0, focusSegBase=0;
+window.toggleFocusTimer=()=>{
+  if(focusRun){
+    // PAUSE — capture real elapsed
+    focusRun=false;
+    clearInterval(focusInt);
+    const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);
+    focusSecs=focusSegBase+segElapsed;
+    focusSegBase=focusSecs;
+    document.getElementById('focus-btn').textContent='Continue';
+    document.getElementById('focus-lbl').textContent='paused';
+    const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);
+    const fd=document.getElementById('focus-t-disp');if(fd)fd.textContent=fmtHMS(focusSecs);
+  }else{
+    // START — record wall-clock anchor
+    focusRun=true;
+    focusSegStart=Date.now();
+    if(focusInt)clearInterval(focusInt);
+    document.getElementById('focus-btn').textContent='Pause';
+    document.getElementById('focus-lbl').textContent='deep focus 🎯';
+    focusInt=setInterval(()=>{
+      // Always compute from real wall-clock — immune to tab throttling
+      const realElapsed=Math.floor((Date.now()-focusSegStart)/1000);
+      focusSecs=focusSegBase+realElapsed;
+      const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);
+      const fd=document.getElementById('focus-t-disp');if(fd)fd.textContent=fmtHMS(focusSecs);
+    },500); // 500ms tick so display catches up faster after tab switch
+  }
+};
+window.resetFocusTimer=()=>{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
 
 // ── XP ──
 const lvThresh=[0,100,300,600,1000,1500,2200,3000,4000,5000];
