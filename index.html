@@ -14,19 +14,12 @@
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%235c7a3e'/%3E%3Ctext x='96' y='96' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='64' fill='white'%3ETISA%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="./manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Josefin+Sans:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Josefin+Sans:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>/* PWA Install Banner */
 #pwa-banner{position:fixed;bottom:70px;left:16px;right:16px;z-index:9999;background:#fff;border:2px solid #c0546a;border-radius:20px;box-shadow:0 8px 32px rgba(192,84,106,.25);padding:12px 16px;display:flex;align-items:center;gap:10px;animation:slideUp .4s ease;box-sizing:border-box}
 #pwa-banner.hide{display:none!important}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-/* In-app notification popup */
-#tisa-notif{position:fixed;top:72px;right:12px;z-index:99999;background:var(--surface);border:2px solid var(--primary);border-radius:16px;box-shadow:var(--shl);padding:12px 16px;display:flex;align-items:center;gap:10px;max-width:300px;transform:translateX(120%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
-#tisa-notif.show{transform:translateX(0);pointer-events:auto}
-#tisa-notif .notif-icon{font-size:22px;flex-shrink:0}
-#tisa-notif .notif-body{flex:1;min-width:0}
-#tisa-notif .notif-title{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#tisa-notif .notif-msg{font-size:11px;color:var(--ink2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#tisa-notif .notif-close{background:none;border:none;cursor:pointer;font-size:16px;color:var(--ink2);padding:4px 8px;flex-shrink:0;border-radius:8px;font-weight:700;line-height:1}
+
 #pwa-banner .pwa-icon{width:40px;height:40px;border-radius:10px;background:#c0546a;display:flex;align-items:center;justify-content:center;color:white;font-family:Georgia,serif;font-weight:900;font-size:12px;letter-spacing:1px;flex-shrink:0}
 #pwa-banner .pwa-text{flex:1;min-width:0}
 #pwa-banner .pwa-text strong{display:block;font-size:13px;font-weight:800;color:#222;margin-bottom:1px}
@@ -106,6 +99,19 @@ html{overflow-x:hidden}
 [data-theme="sakura"]{--font-main:'Raleway',sans-serif;--font-head:'Lora',serif;}
 [data-theme="ocean"]{--font-main:'DM Sans',sans-serif;--font-head:'Josefin Sans',sans-serif;}
 [data-theme="sunset"]{--font-main:'Raleway',sans-serif;--font-head:'Cormorant Garamond',serif;}
+[data-theme="matcha"]{--font-main:'Outfit',sans-serif;--font-head:'Playfair Display',serif;}
+[data-theme="lavender"]{--font-main:'Quicksand',sans-serif;--font-head:'Lora',serif;}
+[data-theme="sand"]{--font-main:'Raleway',sans-serif;--font-head:'Cormorant Garamond',serif;}
+[data-theme="slate"]{--font-main:'Figtree',sans-serif;--font-head:'Josefin Sans',sans-serif;}
+[data-theme="rose"]{--font-main:'Quicksand',sans-serif;--font-head:'Lora',serif;}
+[data-theme="midnight"]{--font-main:'DM Sans',sans-serif;--font-head:'Cormorant Garamond',serif;}
+[data-theme="minimalist"]{--font-main:'Inter',sans-serif;--font-head:'Inter',sans-serif;}
+[data-theme="matcha"]{--bg:#f2f5ee;--bg2:#e6ecdf;--bg3:#d8e2cf;--surface:#f9fbf7;--surface2:#f2f5ee;--primary:#4a7c59;--pd:#2e5c3e;--pl:#a8c8b0;--pglow:rgba(74,124,89,.15);--ink:#1a2e20;--ink2:#3d5c45;--ink3:#7a9c82;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(74,124,89,.2);--border2:rgba(74,124,89,.1);--sh:0 2px 14px rgba(74,124,89,.1);--shl:0 8px 32px rgba(74,124,89,.14);}
+[data-theme="lavender"]{--bg:#f5f2fa;--bg2:#ede8f5;--bg3:#e2daf0;--surface:#faf8fd;--surface2:#f5f2fa;--primary:#7c5cbf;--pd:#5a3a9e;--pl:#c0a8e8;--pglow:rgba(124,92,191,.15);--ink:#1e1530;--ink2:#4a3870;--ink3:#8a78a8;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(124,92,191,.2);--border2:rgba(124,92,191,.1);--sh:0 2px 14px rgba(124,92,191,.1);--shl:0 8px 32px rgba(124,92,191,.14);}
+[data-theme="sand"]{--bg:#faf6ef;--bg2:#f2ebe0;--bg3:#e8dece;--surface:#fffdf8;--surface2:#faf6ef;--primary:#a07840;--pd:#7a5820;--pl:#d4b880;--pglow:rgba(160,120,64,.15);--ink:#2a1e0a;--ink2:#5a4020;--ink3:#9a8060;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(160,120,64,.2);--border2:rgba(160,120,64,.1);--sh:0 2px 14px rgba(160,120,64,.1);--shl:0 8px 32px rgba(160,120,64,.14);}
+[data-theme="slate"]{--bg:#f0f4f8;--bg2:#e2eaf2;--bg3:#d0dce8;--surface:#f8fafc;--surface2:#f0f4f8;--primary:#3a6080;--pd:#1e4060;--pl:#90b8d0;--pglow:rgba(58,96,128,.15);--ink:#0e2030;--ink2:#2a4860;--ink3:#6a8898;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(58,96,128,.2);--border2:rgba(58,96,128,.1);--sh:0 2px 14px rgba(58,96,128,.1);--shl:0 8px 32px rgba(58,96,128,.14);}
+[data-theme="rose"]{--bg:#fdf4f4;--bg2:#f8e8e8;--bg3:#f0d8d8;--surface:#fff8f8;--surface2:#fdf4f4;--primary:#b84a5a;--pd:#8e2838;--pl:#e0a0a8;--pglow:rgba(184,74,90,.15);--ink:#2a0e12;--ink2:#602030;--ink3:#a07080;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(184,74,90,.2);--border2:rgba(184,74,90,.1);--sh:0 2px 14px rgba(184,74,90,.1);--shl:0 8px 32px rgba(184,74,90,.14);}
+[data-theme="midnight"]{--bg:#0e1018;--bg2:#161a24;--bg3:#1c2230;--surface:#121620;--surface2:#181e2a;--primary:#6a9fd8;--pd:#4a7fb8;--pl:#2a4f78;--pglow:rgba(106,159,216,.18);--ink:#e0eaf8;--ink2:#a0b8d8;--ink3:#607898;--danger:#e05a4a;--success:#4db360;--warn:#e0a830;--border:rgba(106,159,216,.2);--border2:rgba(106,159,216,.1);--sh:0 2px 14px rgba(0,0,0,.4);--shl:0 8px 32px rgba(0,0,0,.5);}
 [data-theme="minimalist"]{
   --primary:#4a5e2a;
   --pd:#3a4d1f;
@@ -191,15 +197,15 @@ input,select,textarea,button{font-family:var(--font-main,'Nunito',sans-serif);fo
 .lb1{width:600px;height:600px;background:var(--primary);top:-150px;right:-150px;animation:blobf 9s ease-in-out infinite}
 .lb2{width:400px;height:400px;background:var(--pl);bottom:-100px;left:-100px;animation:blobf 12s ease-in-out infinite reverse}
 .login-card{background:var(--surface);border:1.5px solid var(--border);border-radius:28px;padding:52px 44px 40px;text-align:center;max-width:400px;width:92%;position:relative;box-shadow:var(--shl);animation:loginIn .7s cubic-bezier(.34,1.56,.64,1)}
-.tisa-logo{font-family:'Playfair Display',serif;font-size:58px;font-weight:400;color:var(--primary);line-height:1;margin-bottom:4px;letter-spacing:22px;text-transform:uppercase;text-indent:22px}
-.tisa-tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--ink3);letter-spacing:3px;margin-bottom:6px}
+.tisa-logo{font-family:'Playfair Display',serif;font-size:58px;font-weight:400;color:var(--primary);line-height:1;margin-bottom:8px;letter-spacing:22px;text-transform:uppercase;text-indent:22px}
+.tisa-tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--ink3);letter-spacing:2px;margin-bottom:16px;text-align:center}
 .login-quote-box{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--ink2);margin-bottom:22px;line-height:1.7;padding:12px 16px;border-left:3px solid var(--pl);background:var(--bg);border-radius:0 10px 10px 0;text-align:left}
 .welcome-note{background:var(--pglow);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:12px;color:var(--ink2);line-height:1.7;font-weight:500}
 .google-btn{display:flex;align-items:center;gap:12px;justify-content:center;width:100%;padding:14px 24px;background:var(--primary);color:white;border:none;border-radius:14px;cursor:pointer;font-size:13px;font-weight:700;transition:all .25s;box-shadow:0 4px 18px var(--pglow)}
 .google-btn:hover{background:var(--pd);transform:translateY(-2px)}
 .google-btn:disabled{opacity:.7;transform:none;cursor:not-allowed}
-.login-theme-row{display:flex;gap:10px;justify-content:center;margin-top:18px;align-items:center}
-.lt-dot{width:20px;height:20px;border-radius:50%;cursor:pointer;transition:all .2s;border:2.5px solid transparent}
+.login-theme-row{display:flex;gap:8px;justify-content:center;margin-top:18px;align-items:center;flex-wrap:wrap;max-width:280px;margin-left:auto;margin-right:auto}
+.lt-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;transition:all .2s;border:2.5px solid transparent}
 .lt-dot:hover{transform:scale(1.2)}
 .lt-dot.active{border-color:var(--ink);transform:scale(1.15)}
 
@@ -221,9 +227,9 @@ header{background:var(--surface);border-bottom:1.5px solid var(--border);padding
 .logo-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .logo-icon-svg{width:36px;height:36px;flex-shrink:0}
 .logo-tisa{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--primary);line-height:1;letter-spacing:8px;text-transform:uppercase;text-indent:8px}
-.logo-sub{font-size:7.5px;color:var(--ink3);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-top:-2px;white-space:nowrap}
+.logo-sub{font-size:7px;color:var(--ink3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:2px;white-space:nowrap;text-align:center}
 nav{display:flex;gap:2px}
-nav button{background:none;border:none;padding:6px 10px;font-size:11.5px;font-weight:700;color:var(--ink3);cursor:pointer;border-radius:10px;transition:all .2s;white-space:nowrap;font-family:'Nunito',sans-serif}
+nav button{background:none;border:none;padding:7px 12px;font-size:13px;font-weight:700;color:var(--ink3);cursor:pointer;border-radius:10px;transition:all .2s;white-space:nowrap;font-family:'Nunito',sans-serif}
 nav button:hover{color:var(--primary);background:var(--pglow)}
 nav button.active{color:var(--primary);background:var(--pglow);font-weight:800}
 .hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
@@ -295,7 +301,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .forum-grid{display:grid;grid-template-columns:1fr 240px;gap:14px}
 
 /* TIMER */
-.timer-ring{position:relative;width:200px;height:200px;margin:10px auto}
+.timer-ring{position:relative;width:280px;height:280px;margin:10px auto}
 .tsvg{width:200px;height:200px;transform:rotate(-90deg)}
 .t-track{fill:none;stroke:var(--bg3);stroke-width:9}
 .t-prog{fill:none;stroke:var(--primary);stroke-width:9;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset .6s ease}
@@ -558,7 +564,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .focus-t{font-size:52px}
   .hdr-btn{display:none}
   .xp-chip span:last-child{display:none}
-  .logo-sub{display:none}
+  .logo-sub{display:block;font-size:6px}
   /* Timetable - horizontal scroll */
   .tt-grid{font-size:9px;grid-template-columns:40px repeat(7,1fr)}
   .tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -739,6 +745,12 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <div class="lt-dot" style="background:#2a7fa8" onclick="setTheme('ocean')" title="Ocean"></div>
     <div class="lt-dot" style="background:#d4783a" onclick="setTheme('sunset')" title="Sunset"></div>
     <div class="lt-dot" style="background:#4a5e2a;border:2px solid #8aab54" onclick="setTheme('minimalist')" title="Minimalist"></div>
+    <div class="lt-dot" style="background:#4a7c59" onclick="setTheme('matcha')" title="Matcha"></div>
+    <div class="lt-dot" style="background:#7c5cbf" onclick="setTheme('lavender')" title="Lavender"></div>
+    <div class="lt-dot" style="background:#a07840" onclick="setTheme('sand')" title="Sand"></div>
+    <div class="lt-dot" style="background:#3a6080" onclick="setTheme('slate')" title="Slate"></div>
+    <div class="lt-dot" style="background:#b84a5a" onclick="setTheme('rose')" title="Rose"></div>
+    <div class="lt-dot" style="background:#6a9fd8;border:2px solid #0e1018" onclick="setTheme('midnight')" title="Midnight"></div>
   </div>
 </div>
 </div>
@@ -1268,12 +1280,19 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <div style="margin-top:8px">
         <div style="font-size:11px;color:var(--ink3);margin-bottom:5px;font-weight:600">Font Style</div>
         <select id="custom-font" class="tisa-inp" style="width:100%;padding:7px 10px;font-size:12px">
-          <option value="'Nunito',sans-serif">Nunito (Default)</option>
-          <option value="'Raleway',sans-serif">Raleway (Elegant)</option>
-          <option value="'DM Sans',sans-serif">DM Sans (Clean)</option>
-          <option value="'Josefin Sans',sans-serif">Josefin Sans (Minimal)</option>
-          <option value="'Lora',serif">Lora (Serif Classic)</option>
-          <option value="'Cormorant Garamond',serif">Cormorant (Luxury)</option>
+          <option value="'Nunito',sans-serif">Nunito — Friendly</option>
+          <option value="'Poppins',sans-serif">Poppins — Modern</option>
+          <option value="'Inter',sans-serif">Inter — Clean</option>
+          <option value="'Outfit',sans-serif">Outfit — Minimal</option>
+          <option value="'Quicksand',sans-serif">Quicksand — Soft</option>
+          <option value="'Montserrat',sans-serif">Montserrat — Bold</option>
+          <option value="'Figtree',sans-serif">Figtree — Sleek</option>
+          <option value="'Raleway',sans-serif">Raleway — Elegant</option>
+          <option value="'DM Sans',sans-serif">DM Sans — Smooth</option>
+          <option value="'Josefin Sans',sans-serif">Josefin — Minimal</option>
+          <option value="'Lora',serif">Lora — Serif Classic</option>
+          <option value="'Cormorant Garamond',serif">Cormorant — Luxury</option>
+          <option value="'Playfair Display',serif">Playfair — Editorial</option>
         </select>
       </div>
       <button class="btn btn-sm btn-p" style="width:100%;margin-top:8px" onclick="applyCustom()">Apply</button>
@@ -2432,7 +2451,7 @@ document.addEventListener('click',e=>{if(moreOpen&&!e.target.closest('#more-menu
 window.addEventListener('resize',()=>{const mn=document.getElementById('mobile-nav');if(!mn)return;const appVisible=document.getElementById('app-main')?.style.display!=='none';mn.style.display=(appVisible&&window.innerWidth<=760)?'block':'none';});
 
 // ── THEME ──
-const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimalist',p:'#4a5e2a',b:'#f7f9f4',s:'#ffffff'}};
+const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimal',p:'#4a5e2a',b:'#f7f9f4',s:'#ffffff'},matcha:{name:'Matcha',p:'#4a7c59',b:'#f2f5ee',s:'#f9fbf7'},lavender:{name:'Lavender',p:'#7c5cbf',b:'#f5f2fa',s:'#faf8fd'},sand:{name:'Sand',p:'#a07840',b:'#faf6ef',s:'#fffdf8'},slate:{name:'Slate',p:'#3a6080',b:'#f0f4f8',s:'#f8fafc'},rose:{name:'Rose',p:'#b84a5a',b:'#fdf4f4',s:'#fff8f8'},midnight:{name:'Midnight',p:'#6a9fd8',b:'#0e1018',s:'#121620'}};
 function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface','--font-main','--font-head'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);localStorage.setItem('tisa-theme',name);document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();}
 window.setTheme=setTheme;
 window.toggleDark=()=>{const c=document.documentElement.getAttribute('data-theme');setTheme(c==='dark'?'light':'dark');};
@@ -2847,35 +2866,7 @@ function playAlertSound(){
   }catch(e){}
 }
 
-let _notifTimer=null;
-function closeNotif(){
-  const el=document.getElementById('tisa-notif');
-  if(el)el.classList.remove('show');
-  if(_notifTimer){clearTimeout(_notifTimer);_notifTimer=null;}
-}
-window.closeNotif=closeNotif;
-
-function showInAppNotif(title,body,icon){
-  const el=document.getElementById('tisa-notif');
-  if(!el)return;
-  document.getElementById('notif-title').textContent=title;
-  document.getElementById('notif-msg').textContent=body;
-  document.getElementById('notif-icon').textContent=icon||'🔔';
-  el.classList.add('show');
-  if(_notifTimer)clearTimeout(_notifTimer);
-  _notifTimer=setTimeout(closeNotif,5000);
-}
-
 function sendNotification(title,body){
-  // Determine icon from title
-  const icon=title.includes('🍅')||title.includes('Focus')?'🍅':
-              title.includes('☕')||title.includes('Break')?'☕':
-              title.includes('🎉')||title.includes('Complete')?'🎉':
-              title.includes('📝')||title.includes('Test')?'📝':
-              title.includes('💬')||title.includes('message')?'💬':'🔔';
-  // Show in-app popup
-  showInAppNotif(title,body,icon);
-  // Also send OS notification if permitted
   if('Notification' in window && Notification.permission==='granted'){
     new Notification(title,{body,icon:'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 64 64\'%3E%3Crect width=\'64\' height=\'64\' rx=\'10\' fill=\'%235c7a3e\'/%3E%3Ctext x=\'32\' y=\'43\' text-anchor=\'middle\' font-family=\'Arial\' font-weight=\'900\' font-size=\'22\' fill=\'white\'%3ETISA%3C/text%3E%3C/svg%3E'});
   }
@@ -2941,13 +2932,5 @@ closeBtn && closeBtn.addEventListener('click', () => {
   localStorage.setItem('tisa_pwa_dismissed', '1');
 });
 </script>
-<div id="tisa-notif">
-  <div class="notif-icon" id="notif-icon">🔔</div>
-  <div class="notif-body">
-    <div class="notif-title" id="notif-title">TISA</div>
-    <div class="notif-msg" id="notif-msg"></div>
-  </div>
-  <button class="notif-close" onclick="closeNotif()">✕</button>
-</div>
 </body>
 </html>
