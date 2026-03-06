@@ -20,13 +20,13 @@
 #pwa-banner.hide{display:none!important}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 /* In-app notification popup */
-#tisa-notif{position:fixed;top:70px;right:16px;z-index:99999;background:var(--surface);border:2px solid var(--primary);border-radius:16px;box-shadow:var(--shl);padding:12px 16px;display:flex;align-items:center;gap:10px;max-width:300px;transform:translateX(120%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+#tisa-notif{position:fixed;top:72px;right:12px;z-index:99999;background:var(--surface);border:2px solid var(--primary);border-radius:16px;box-shadow:var(--shl);padding:12px 16px;display:flex;align-items:center;gap:10px;max-width:300px;transform:translateX(120%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
 #tisa-notif.show{transform:translateX(0);pointer-events:auto}
 #tisa-notif .notif-icon{font-size:22px;flex-shrink:0}
 #tisa-notif .notif-body{flex:1;min-width:0}
 #tisa-notif .notif-title{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #tisa-notif .notif-msg{font-size:11px;color:var(--ink2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#tisa-notif .notif-close{background:none;border:none;cursor:pointer;font-size:14px;color:var(--ink3);padding:0;flex-shrink:0}
+#tisa-notif .notif-close{background:none;border:none;cursor:pointer;font-size:16px;color:var(--ink2);padding:4px 8px;flex-shrink:0;border-radius:8px;font-weight:700;line-height:1}
 #pwa-banner .pwa-icon{width:40px;height:40px;border-radius:10px;background:#c0546a;display:flex;align-items:center;justify-content:center;color:white;font-family:Georgia,serif;font-weight:900;font-size:12px;letter-spacing:1px;flex-shrink:0}
 #pwa-banner .pwa-text{flex:1;min-width:0}
 #pwa-banner .pwa-text strong{display:block;font-size:13px;font-weight:800;color:#222;margin-bottom:1px}
@@ -728,7 +728,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     Continue with Google
   </button>
   <div style="margin-top: 30px; font-size: 10px; color: var(--ink3); letter-spacing: 1px; font-weight: 600;">
-    © 2026 SACHIN. ALL COPYRIGHTS RESERVED.
+    © 2026 TISA · Created by Sachin · All Copyrights Reserved
     </div>
   <div id="login-err" style="display:none;margin-top:12px;padding:12px 14px;background:#fff0f0;border:1.5px solid #e88;border-radius:12px;font-size:12px;color:#c00;line-height:1.7;text-align:left;font-weight:500"></div>
   <div class="login-theme-row">
@@ -1265,6 +1265,17 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
         <div><div style="font-size:11px;color:var(--ink3);margin-bottom:4px;font-weight:600">Primary color</div><input type="color" id="custom-p" value="#5c7a3e" style="width:100%;height:34px;border:none;border-radius:8px;cursor:pointer;background:none"></div>
         <div><div style="font-size:11px;color:var(--ink3);margin-bottom:4px;font-weight:600">Background</div><input type="color" id="custom-bg" value="#f8f6f0" style="width:100%;height:34px;border:none;border-radius:8px;cursor:pointer;background:none"></div>
       </div>
+      <div style="margin-top:8px">
+        <div style="font-size:11px;color:var(--ink3);margin-bottom:5px;font-weight:600">Font Style</div>
+        <select id="custom-font" class="tisa-inp" style="width:100%;padding:7px 10px;font-size:12px">
+          <option value="'Nunito',sans-serif">Nunito (Default)</option>
+          <option value="'Raleway',sans-serif">Raleway (Elegant)</option>
+          <option value="'DM Sans',sans-serif">DM Sans (Clean)</option>
+          <option value="'Josefin Sans',sans-serif">Josefin Sans (Minimal)</option>
+          <option value="'Lora',serif">Lora (Serif Classic)</option>
+          <option value="'Cormorant Garamond',serif">Cormorant (Luxury)</option>
+        </select>
+      </div>
       <button class="btn btn-sm btn-p" style="width:100%;margin-top:8px" onclick="applyCustom()">Apply</button>
     </div>
   </div>
@@ -1329,7 +1340,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <p>You can delete all your data at any time using the "Delete My Data" button in Settings. You can also sign out and stop using the app at any time.</p>
     
     <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">Contact</div>
-    <p>For any privacy concerns, email us at <strong><a href="mailto:tisa.helpdesk@gmail.com" style="color:var(--primary)">tisa.helpdesk@gmail.com</a></strong> or reach out via the TISA community forum.</p>
+    <p>For any privacy concerns, email us at <strong><a href="/cdn-cgi/l/email-protection#dda9b4aebcf3b5b8b1adb9b8aeb69dbab0bcb4b1f3beb2b0" style="color:var(--primary)"><span class="__cf_email__" data-cfemail="96e2ffe5f7b8fef3fae6f2f3e5fdd6f1fbf7fffab8f5f9fb">[email&#160;protected]</span></a></strong> or reach out via the TISA community forum.</p>
   </div>
 </div>
 </div>
@@ -1450,8 +1461,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 </div>
 
 <div id="toast"></div>
-<footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>TISA</strong>&nbsp; · &nbsp;Track. Improve. Study. Ace.&nbsp; · &nbsp;All Rights Reserved</footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+<footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>TISA</strong>&nbsp; · &nbsp;Created by Sachin&nbsp; · &nbsp;All Copyrights Reserved</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import{getFirestore,initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -2422,10 +2433,10 @@ window.addEventListener('resize',()=>{const mn=document.getElementById('mobile-n
 
 // ── THEME ──
 const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimalist',p:'#4a5e2a',b:'#f7f9f4',s:'#ffffff'}};
-function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);localStorage.setItem('tisa-theme',name);document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();}
+function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface','--font-main','--font-head'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);localStorage.setItem('tisa-theme',name);document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();}
 window.setTheme=setTheme;
 window.toggleDark=()=>{const c=document.documentElement.getAttribute('data-theme');setTheme(c==='dark'?'light':'dark');};
-window.applyCustom=()=>{const p=document.getElementById('custom-p').value,bg=document.getElementById('custom-bg').value;const r=document.documentElement.style;document.documentElement.removeAttribute('data-theme');r.setProperty('--primary',p);r.setProperty('--pd',shade(p,-20));r.setProperty('--pl',shade(p,40));r.setProperty('--pglow',p+'22');r.setProperty('--bg',bg);r.setProperty('--bg2',shade(bg,-4));r.setProperty('--bg3',shade(bg,-8));r.setProperty('--surface',shade(bg,3));r.setProperty('--ink','#1a1c16');r.setProperty('--ink2','#4a5240');r.setProperty('--ink3','#8a9280');r.setProperty('--border',p+'33');r.setProperty('--border2',p+'18');toast('Custom theme applied 🎨');};
+window.applyCustom=()=>{const p=document.getElementById('custom-p').value,bg=document.getElementById('custom-bg').value;const fontVal=document.getElementById('custom-font')?.value||"'Nunito',sans-serif";const r=document.documentElement.style;document.documentElement.removeAttribute('data-theme');r.setProperty('--primary',p);r.setProperty('--pd',shade(p,-20));r.setProperty('--pl',shade(p,40));r.setProperty('--pglow',p+'22');r.setProperty('--bg',bg);r.setProperty('--bg2',shade(bg,-4));r.setProperty('--bg3',shade(bg,-8));r.setProperty('--surface',shade(bg,3));const isDark=(parseInt(bg.slice(1,3),16)+parseInt(bg.slice(3,5),16)+parseInt(bg.slice(5,7),16))<360;r.setProperty('--ink',isDark?'#e8f0e0':'#1a1c16');r.setProperty('--ink2',isDark?'#a8b898':'#4a5240');r.setProperty('--ink3',isDark?'#6a7a5a':'#8a9280');r.setProperty('--border',p+'33');r.setProperty('--border2',p+'18');r.setProperty('--font-main',fontVal);document.body.style.fontFamily=fontVal;toast('Custom theme applied 🎨');};
 function shade(c,p){const n=parseInt(c.slice(1),16),t=p<0?0:255,R=n>>16,G=(n>>8)&0xFF,B=n&0xFF;return'#'+(0x1000000+(Math.round((t-R)*Math.abs(p)/100)+R)*0x10000+(Math.round((t-G)*Math.abs(p)/100)+G)*0x100+(Math.round((t-B)*Math.abs(p)/100)+B)).toString(16).slice(1);}
 window.renderThemeGrid=function(){const el=document.getElementById('theme-grid-el');if(!el)return;const cur=document.documentElement.getAttribute('data-theme');el.innerHTML=Object.entries(THEMES).map(([k,v])=>`<div class="theme-card ${cur===k?'active':''}" onclick="setTheme('${k}')"><div class="tp-row"><div class="tp-b" style="background:${v.p}"></div><div class="tp-b" style="background:${v.b}"></div><div class="tp-b" style="background:${v.s}"></div></div><div class="tnm">${v.name}</div></div>`).join('');};
 try{setTheme(localStorage.getItem('tisa-theme')||'light');}catch(e){setTheme('light');}
