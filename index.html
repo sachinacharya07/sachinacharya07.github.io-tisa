@@ -1268,10 +1268,63 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     </div>
     <div id="res-list-el"><div class="empty">No resources yet</div></div>
   </div>
+  <div class="card" style="grid-column:1/-1">
+    <div class="ct"><div class="ct-ic">🔒</div>Privacy & Legal</div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:12px">
+      TISA is committed to protecting your privacy. We only collect what is necessary to run the app.
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-sm btn-o" onclick="document.getElementById('privacy-modal').classList.add('open')">📄 Privacy Policy</button>
+      <button class="btn btn-sm btn-o" onclick="document.getElementById('delete-modal').classList.add('open')">🗑️ Delete My Data</button>
+    </div>
+  </div>
 </div>
 </div>
 
 </main>
+
+<!-- PRIVACY POLICY MODAL -->
+<div id="privacy-modal" class="modal-overlay">
+<div class="modal-box" style="max-width:480px;max-height:80vh;overflow-y:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--primary)">🔒 Privacy Policy</div>
+    <button class="pill-btn" onclick="document.getElementById('privacy-modal').classList.remove('open')">✕ Close</button>
+  </div>
+  <div style="font-size:12px;color:var(--ink2);line-height:1.9">
+    <div style="font-weight:800;color:var(--ink);margin-bottom:4px;font-size:13px">Last updated: March 2026</div>
+    
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">What we collect</div>
+    <p>When you sign in with Google, we receive your name and profile photo. We store your study data, todos, assignments, journals, timetable, and badge progress in Firebase — a secure Google service.</p>
+    
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">What we don't collect</div>
+    <p>We do not collect your email address for marketing, phone number, location, or any payment information. We do not run ads. We do not sell your data to anyone.</p>
+    
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">How your data is stored</div>
+    <p>All data is stored securely on Google Firebase servers. Your personal study data (todos, journals, assignments) is private and only accessible by you. Public profile info like your username and study hours are visible to other TISA users you connect with.</p>
+    
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">Community features</div>
+    <p>Forum posts and chat messages you send are visible to other logged-in TISA users. Please don't share sensitive personal information in public posts.</p>
+    
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">Your rights</div>
+    <p>You can delete all your data at any time using the "Delete My Data" button in Settings. You can also sign out and stop using the app at any time.</p>
+    
+    <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">Contact</div>
+    <p>For any privacy concerns, reach out via the TISA community forum or contact the developer directly.</p>
+  </div>
+</div>
+</div>
+
+<!-- DELETE DATA MODAL -->
+<div id="delete-modal" class="modal-overlay">
+<div class="modal-box" style="max-width:360px">
+  <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--danger);margin-bottom:12px">🗑️ Delete My Data</div>
+  <p style="font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:16px">This will permanently delete all your study data, todos, assignments, journals, timetable, and profile from TISA. This action <strong>cannot be undone.</strong></p>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-sm btn-o" style="flex:1" onclick="document.getElementById('delete-modal').classList.remove('open')">Cancel</button>
+    <button class="btn btn-sm btn-d" style="flex:1" onclick="deleteAllMyData()">Delete Everything</button>
+  </div>
+</div>
+</div>
 
 <!-- TEST MODAL -->
 <div id="test-modal">
@@ -1394,6 +1447,21 @@ window.doSignOut=async()=>{
   document.getElementById('app-footer').style.display='none';
   document.getElementById('health-bubble').style.display='none';
   document.getElementById('mobile-nav').style.display='none';
+};
+
+// ── DELETE ALL USER DATA ──
+window.deleteAllMyData = async () => {
+  if(!window._CU) return;
+  try {
+    await deleteDoc(doc(db,'userData',window._CU.uid));
+    await deleteDoc(doc(db,'publicStats',window._CU.uid));
+    await deleteDoc(doc(db,'users',window._CU.uid));
+    document.getElementById('delete-modal').classList.remove('open');
+    window.toast && window.toast('✅ All your data has been deleted.');
+    setTimeout(()=>window.doSignOut(), 1500);
+  } catch(e) {
+    window.toast && window.toast('⚠️ Error deleting data. Try again.');
+  }
 };
 
 // ── AUTH STATE (KEY FIX: loading screen prevents login flash) ──
