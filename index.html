@@ -713,7 +713,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <button onclick="showPage('performance',this)">📊 Performance</button>
   <button onclick="showPage('tests',this)">📝 Tests</button>
   <button onclick="showPage('journal',this)">📔 Journal</button>
-  <button onclick="showPage('connect',this)">💬 Connect</button>
+  <button onclick="showPage('connect',this)" style="position:relative">💬 Connect<span id="dm-notif-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:1.5px solid var(--surface)"></span></button>
   <button onclick="showPage('community',this)">🌍 Community</button>
   <button onclick="showPage('profile',this)">👤 Profile</button>
   <button onclick="showPage('settings',this)">⚙️ Settings</button>
@@ -1127,12 +1127,16 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-sm btn-p" onclick="submitPost()">Post →</button></div>
     </div>
     <div id="forum-list-v">
-      <div class="f-row" style="margin-bottom:12px">
+      <div class="f-row" style="margin-bottom:8px">
         <button class="fbtn active" onclick="setFF('all',this)">All</button>
         <button class="fbtn" onclick="setFF('Question',this)">Questions</button>
         <button class="fbtn" onclick="setFF('Discussion',this)">Discussion</button>
         <button class="fbtn" onclick="setFF('Tip',this)">Tips</button>
       </div>
+      <div style="position:relative;margin-bottom:12px">
+        <input type="text" class="tisa-inp" id="forum-search" placeholder="🔍 Search posts..." style="width:100%;padding:9px 12px;font-size:12px" oninput="filterForumSearch()">
+      </div>
+      <div id="pinned-posts"></div>
       <div id="forum-posts"><div class="empty">Loading community posts...</div></div>
     </div>
     <div id="post-view" style="display:none">
@@ -1145,14 +1149,27 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
         </div>
         <div style="font-size:13px;color:var(--ink);line-height:1.8;white-space:pre-wrap;font-weight:500" id="pv-body"></div>
         <div id="pv-attachment" style="margin-top:12px"></div>
-        <div style="display:flex;gap:8px;margin-top:12px">
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
           <button id="pv-up-btn" class="vbtn" onclick="voteP(true)">▲ <span id="pv-ups">0</span></button>
           <button id="pv-dn-btn" class="vbtn" onclick="voteP(false)">▼ <span id="pv-dns">0</span></button>
+          <button id="pv-edit-btn" class="btn btn-sm btn-o" style="display:none;font-size:11px;padding:6px 12px" onclick="startEditPost()">✏️ Edit</button>
+          <button id="pv-del-btn" class="btn btn-sm" style="display:none;font-size:11px;padding:6px 12px;background:rgba(224,90,74,.12);color:var(--danger);border:1.5px solid rgba(224,90,74,.2)" onclick="deleteMyPost()">🗑 Delete</button>
+        </div>
+        <div id="edit-post-form" style="display:none;margin-top:12px">
+          <textarea class="jtarea" id="edit-post-body" style="min-height:80px;margin-bottom:8px;font-size:13px" maxlength="2000"></textarea>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <button class="btn btn-sm btn-o" onclick="cancelEditPost()">Cancel</button>
+            <button class="btn btn-sm btn-p" onclick="saveEditPost()">Save Changes</button>
+          </div>
         </div>
       </div>
       <div class="card">
         <div class="ct"><div class="ct-ic">💬</div>Comments <span style="font-size:12px;font-weight:500;color:var(--ink3)" id="cmt-cnt"></span></div>
         <div id="cmt-list"><div class="empty">No comments yet</div></div>
+        <div id="reply-indicator" style="display:none;background:var(--bg);border-left:3px solid var(--primary);padding:5px 10px;border-radius:6px;margin-top:6px;font-size:11px;font-weight:700;color:var(--ink2);display:none;align-items:center;justify-content:space-between">
+          <span id="reply-label">↩ Replying to...</span>
+          <button onclick="clearReplyTo()" style="background:none;border:none;cursor:pointer;color:var(--ink3);font-size:12px">✕</button>
+        </div>
         <div style="display:flex;gap:7px;margin-top:9px">
           <input type="text" class="tisa-inp" id="cmt-inp" placeholder="Add a comment (random alias)..." style="flex:1;padding:9px 12px;font-size:12px" onkeydown="if(event.key==='Enter')submitCmt()" maxlength="500">
           <button class="btn btn-sm btn-p" onclick="submitCmt()">Post</button>
@@ -1775,6 +1792,25 @@ function getCommentAlias(postId){return _genAliasFromSeed((window._CU?.uid||'')+
 let forumUnsub=null,curPostId=null,fFilter='all';
 let postAttachData=null,postAttachType=null,postAttachName='';
 
+let _allForumPosts=[]; // cache for search
+function _renderFcard(p,pinned=false){
+  return`<div class="fcard${pinned?' pinned-card':''}" onclick="openPost('${p.id}')" style="${pinned?'border-color:var(--primary);background:var(--surface2)':''}">
+    <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
+      ${pinned?'<span style="font-size:10px;font-weight:800;color:var(--primary);background:rgba(92,122,62,.12);padding:2px 7px;border-radius:20px">📌 Pinned</span>':''}
+      <span class="cat-tag">${window._esc(p.category||'Post')}</span>
+      ${p.hasAttachment?'<span style="font-size:10px;color:var(--ink3);font-weight:700">📎</span>':''}
+      <button onclick="event.stopPropagation();window._reportForumPost(this)" data-pid="${p.id}" data-title="${window._esc(p.title||'').substring(0,30)}" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--ink3);padding:2px 6px;border-radius:6px;font-weight:700" title="Report post">🚩</button>
+    </div>
+    <div class="ft">${window._esc(p.title||'')}</div>
+    <div class="fb2">${window._esc(p.body||'')}</div>
+    <div class="fmeta">
+      <div class="anon-badge">🎭 ${window._esc(p.alias||'Anonymous')}</div>
+      <span>▲ ${p.ups||0}</span><span>💬 ${p.commentCount||0}</span>
+      <span>${p.ts?new Date(p.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</span>
+    </div>
+  </div>`;
+}
+
 function loadForum(){
   if(!window._CU)return;
   window.initCommunityAlias();
@@ -1783,27 +1819,38 @@ function loadForum(){
     query(collection(db,'posts'),orderBy('ts','desc'),limit(60)),
     snap=>{
       const el=document.getElementById('forum-posts');
+      const pinnedEl=document.getElementById('pinned-posts');
       if(!el)return;
       let posts=snap.docs.map(d=>({id:d.id,...d.data()}));
+      _allForumPosts=posts;
       if(fFilter!=='all') posts=posts.filter(p=>p.category===fFilter);
-      if(!posts.length){el.innerHTML='<div class="empty">No posts yet. Be first! 🐼</div>';return;}
-      el.innerHTML=posts.map(p=>`<div class="fcard" onclick="openPost('${p.id}')">
-        <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
-          <span class="cat-tag">${window._esc(p.category||'Post')}</span>
-          ${p.hasAttachment?'<span style="font-size:10px;color:var(--ink3);font-weight:700">📎</span>':''}
-          <button onclick="event.stopPropagation();window._reportForumPost(this)" data-pid="${p.id}" data-title="${window._esc(p.title||'').substring(0,30)}" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--ink3);padding:2px 6px;border-radius:6px;font-weight:700" title="Report post">🚩</button>
-        </div>
-        <div class="ft">${window._esc(p.title||'')}</div>
-        <div class="fb2">${window._esc(p.body||'')}</div>
-        <div class="fmeta">
-          <div class="anon-badge">🎭 ${window._esc(p.alias||'Anonymous')}</div>
-          <span>▲ ${p.ups||0}</span><span>💬 ${p.commentCount||0}</span>
-          <span>${p.ts?new Date(p.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</span>
-        </div>
-      </div>`).join('');
+      // Render pinned posts separately at top
+      const pinned=posts.filter(p=>p.pinned);
+      const normal=posts.filter(p=>!p.pinned);
+      if(pinnedEl) pinnedEl.innerHTML=pinned.map(p=>_renderFcard(p,true)).join('');
+      if(!normal.length){el.innerHTML='<div class="empty">No posts yet. Be first! 🐼</div>';return;}
+      el.innerHTML=normal.map(p=>_renderFcard(p,false)).join('');
     }
   );
 }
+
+window.filterForumSearch=()=>{
+  const q=document.getElementById('forum-search').value.trim().toLowerCase();
+  const el=document.getElementById('forum-posts');
+  const pinnedEl=document.getElementById('pinned-posts');
+  if(!q){
+    // restore normal view
+    const pinned=_allForumPosts.filter(p=>p.pinned&&(fFilter==='all'||p.category===fFilter));
+    const normal=_allForumPosts.filter(p=>!p.pinned&&(fFilter==='all'||p.category===fFilter));
+    if(pinnedEl)pinnedEl.innerHTML=pinned.map(p=>_renderFcard(p,true)).join('');
+    el.innerHTML=normal.map(p=>_renderFcard(p,false)).join('');
+    return;
+  }
+  if(pinnedEl)pinnedEl.innerHTML='';
+  const filtered=_allForumPosts.filter(p=>(p.title||'').toLowerCase().includes(q)||(p.body||'').toLowerCase().includes(q));
+  if(!filtered.length){el.innerHTML='<div class="empty">No posts match "'+window._esc(q)+'"</div>';return;}
+  el.innerHTML=filtered.map(p=>_renderFcard(p,false)).join('');
+};
 
 window.setFF=(f,btn)=>{
   fFilter=f;
@@ -1888,21 +1935,93 @@ window.openPost=async(pid)=>{
   if(dnBtn)dnBtn.style.opacity=myVote?'0.45':'1';
   if(upBtn)upBtn.title=myVote?'Already voted':'Upvote';
   if(dnBtn)dnBtn.title=myVote?'Already voted':'Downvote';
+  // Show edit/delete for own posts
+  const editBtn=document.getElementById('pv-edit-btn');
+  const delBtn=document.getElementById('pv-del-btn');
+  const isOwn=window._CU&&(p.uid===window._CU.uid);
+  if(editBtn)editBtn.style.display=isOwn?'inline-block':'none';
+  if(delBtn)delBtn.style.display=isOwn?'inline-block':'none';
+  window._curPostData=p;
   // Live comments
   window._cmtUnsub=onSnapshot(query(collection(db,'posts',pid,'comments'),orderBy('ts','asc'),limit(100)),cSnap=>{
     const el=document.getElementById('cmt-list');
     document.getElementById('cmt-cnt').textContent='('+cSnap.size+')';
     if(cSnap.empty){el.innerHTML='<div class="empty">No comments yet — be first!</div>';return;}
-    el.innerHTML=cSnap.docs.map(d=>{
-      const c=d.data();
+    const cmtDocs=cSnap.docs.map(d=>({id:d.id,...d.data()}));
+    // Group: top-level comments and replies
+    const topCmts=cmtDocs.filter(c=>!c.replyTo);
+    const replies=cmtDocs.filter(c=>!!c.replyTo);
+    el.innerHTML=topCmts.map(c=>{
       let att='';
       if(c.attachment){if(c.attachment.type&&c.attachment.type.startsWith('image/'))att=`<img src="${c.attachment.data}" style="max-width:100%;border-radius:8px;margin-top:6px;display:block">`;else att=`<a href="${c.attachment.data}" target="_blank" rel="noopener" style="font-size:10px;color:var(--primary);font-weight:700">📄 ${window._esc(c.attachment.name)}</a>`;}
-      return`<div style="padding:9px 13px;background:var(--bg);border-radius:9px;border-left:3px solid var(--border);margin-bottom:7px"><div style="font-size:12px;font-weight:600">${window._esc(c.text||'')}</div>${att}<div style="font-size:10px;color:var(--ink3);margin-top:3px;font-weight:600">🎭 ${window._esc(c.alias||'Anonymous')} · ${c.ts?new Date(c.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</div></div>`;
+      const cmtReplies=replies.filter(r=>r.replyTo===c.id);
+      const repliesHtml=cmtReplies.map(r=>`<div style="padding:7px 10px;background:var(--surface);border-radius:7px;border-left:2px solid var(--primary);margin-top:5px"><div style="font-size:11px;font-weight:600">${window._esc(r.text||'')}</div><div style="font-size:10px;color:var(--ink3);margin-top:2px;font-weight:600">↩ 🎭 ${window._esc(r.alias||'Anonymous')} · ${r.ts?new Date(r.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</div></div>`).join('');
+      return`<div style="padding:9px 13px;background:var(--bg);border-radius:9px;border-left:3px solid var(--border);margin-bottom:7px">
+        <div style="font-size:12px;font-weight:600">${window._esc(c.text||'')}</div>${att}
+        <div style="display:flex;align-items:center;gap:8px;margin-top:3px;flex-wrap:wrap">
+          <span style="font-size:10px;color:var(--ink3);font-weight:600">🎭 ${window._esc(c.alias||'Anonymous')} · ${c.ts?new Date(c.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</span>
+          <button onclick="setReplyTo('${c.id}','${window._esc(c.alias||'Anonymous')}')" style="font-size:10px;color:var(--primary);font-weight:700;background:none;border:none;cursor:pointer;padding:0">↩ Reply</button>
+        </div>
+        ${repliesHtml}
+      </div>`;
     }).join('');
   });
 };
 
 window.backForum=()=>{if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}document.getElementById('forum-list-v').style.display='block';document.getElementById('write-sec').style.display='block';document.getElementById('post-view').style.display='none';curPostId=null;}; // BUG8 FIX: clean comment listener on back
+
+// ── POST EDIT / DELETE ──
+window.startEditPost=()=>{
+  const p=window._curPostData;
+  if(!p)return;
+  const form=document.getElementById('edit-post-form');
+  const ta=document.getElementById('edit-post-body');
+  ta.value=p.body||'';
+  form.style.display='block';
+  document.getElementById('pv-edit-btn').style.display='none';
+};
+window.cancelEditPost=()=>{
+  document.getElementById('edit-post-form').style.display='none';
+  document.getElementById('pv-edit-btn').style.display='inline-block';
+};
+window.saveEditPost=async()=>{
+  if(!curPostId)return;
+  const newBody=document.getElementById('edit-post-body').value.trim();
+  if(!newBody){window.toast('Post body cannot be empty');return;}
+  if(newBody.length>2000){window.toast('Post too long (max 2000 chars)');return;}
+  try{
+    await updateDoc(doc(db,'posts',curPostId),{body:newBody,edited:true,editedAt:serverTimestamp()});
+    document.getElementById('pv-body').textContent=newBody;
+    window._curPostData.body=newBody;
+    window.cancelEditPost();
+    window.toast('✅ Post updated!');
+  }catch(e){window.toast('Failed to update post');}
+};
+window.deleteMyPost=async()=>{
+  if(!curPostId)return;
+  if(!confirm('Delete your post? This cannot be undone.'))return;
+  try{
+    await deleteDoc(doc(db,'posts',curPostId));
+    window.toast('🗑 Post deleted');
+    window.backForum();
+  }catch(e){window.toast('Failed to delete post');}
+};
+
+// ── COMMENT REPLIES ──
+let _replyToId=null,_replyToAlias='';
+window.setReplyTo=(cmtId,alias)=>{
+  _replyToId=cmtId;_replyToAlias=alias;
+  const ind=document.getElementById('reply-indicator');
+  const lbl=document.getElementById('reply-label');
+  if(ind){ind.style.display='flex';}
+  if(lbl)lbl.textContent='↩ Replying to 🎭 '+alias;
+  document.getElementById('cmt-inp').focus();
+};
+window.clearReplyTo=()=>{
+  _replyToId=null;_replyToAlias='';
+  const ind=document.getElementById('reply-indicator');
+  if(ind)ind.style.display='none';
+};
 
 // Safe report helpers - avoids onclick string injection
 window._reportForumPost=(btn)=>{
@@ -1936,10 +2055,47 @@ window.voteP=async(up)=>{
   window.toast(up?'👍 Upvoted!':'👎 Downvoted!');
   }catch(e){window.toast('Vote failed. Try again.');}
 };
-window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt||txt.length>500)return;
-  const _cn=Date.now();const _cw=Math.ceil((10000-(_cn-_lastCmt))/1000);if(_cn-_lastCmt<10000){window.toast('Please wait '+_cw+'s ⏳');return;}
+window.submitCmt=async()=>{
+  if(!curPostId)return;
+  const inp=document.getElementById('cmt-inp');
+  const txt=inp.value.trim();
+  if(!txt||txt.length>500)return;
+  const _cn=Date.now();const _cw=Math.ceil((10000-(_cn-_lastCmt))/1000);
+  if(_cn-_lastCmt<10000){window.toast('Please wait '+_cw+'s ⏳');return;}
   if(window._CU){try{const bSnap=await getDoc(doc(db,'banned',window._CU.uid));if(bSnap.exists()){window.toast('⛔ You are banned from commenting.');return;}}catch(e){}}
-  inp.value='';const alias=getCommentAlias(curPostId);try{await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});await updateDoc(doc(db,'posts',curPostId),{commentCount:increment(1)});_lastCmt=Date.now();}catch(e){window.toast('Comment failed. Try again.');inp.value=txt;}};
+  inp.value='';
+  const alias=getCommentAlias(curPostId);
+  const cmtObj={text:txt,alias,ts:serverTimestamp(),uid:window._CU?.uid||null};
+  if(_replyToId){cmtObj.replyTo=_replyToId;cmtObj.replyToAlias=_replyToAlias;}
+  try{
+    await addDoc(collection(db,'posts',curPostId,'comments'),cmtObj);
+    if(!_replyToId) await updateDoc(doc(db,'posts',curPostId),{commentCount:increment(1)});
+    _lastCmt=Date.now();
+    window.clearReplyTo();
+  }catch(e){window.toast('Comment failed. Try again.');inp.value=txt;}
+};
+
+
+// ── DM NOTIFICATIONS ──
+let _dmUnreadCount=0;
+async function checkDMNotifications(){
+  if(!window._CU)return;
+  try{
+    const chatsSnap=await getDocs(query(collection(db,'chats'),where('members','array-contains',window._CU.uid)));
+    let unread=0;
+    for(const chatDoc of chatsSnap.docs){
+      const msgsSnap=await getDocs(query(collection(db,'chats',chatDoc.id,'messages'),orderBy('ts','desc'),limit(10)));
+      for(const m of msgsSnap.docs){
+        const d=m.data();
+        if(d.sender!==window._CU.uid&&(!d.readBy||!d.readBy.includes(window._CU.uid)))unread++;
+      }
+    }
+    _dmUnreadCount=unread;
+    const dot=document.getElementById('dm-notif-dot');
+    if(dot)dot.style.display=unread>0?'block':'none';
+  }catch(e){}
+}
+window._checkDMNotifications=checkDMNotifications;
 
 // ── CHAT (FULLY FIXED) ──
 let aChatId=null,aOtherUid=null,aOtherUname='',aOtherName='';
@@ -2081,7 +2237,7 @@ window.sendMsg=async()=>{
     await addDoc(collection(db,'chats',aChatId,'messages'),{
       text:xE(txt,ck),encrypted:true,
       sender:window._CU.uid,sName:window._CU.displayName,suname:window._uname||'',
-      ts:serverTimestamp()
+      ts:serverTimestamp(),readBy:[window._CU.uid]
     });
     await updateDoc(doc(db,'chats',aChatId),{updatedAt:serverTimestamp(),lastMsg:'[encrypted]'});
   }catch(e){
@@ -2453,6 +2609,9 @@ window._openChatSafe=(chatId)=>{
   window.openChat(chatId,c.oId,c.oName,c.oUname);
 };
 window._loadForum=loadForum;
+window._checkDMNotifications=window._checkDMNotifications||function(){};
+// Check DM notifications every 30s
+setInterval(()=>{if(window._CU)window._checkDMNotifications();},30000);
 </script>
 <script>
 // ══ GLOBAL STATE (protected with || fallbacks) ══
@@ -2504,7 +2663,8 @@ window.showPage=(name,btn)=>{
   if(btn)btn.classList.add('active');
   else{const nb=document.querySelector(`nav button[onclick*="'${name}'"]`);if(nb)nb.classList.add('active');}
   if(name==='connect'){window._loadMyChats&&window._loadMyChats();}
-  if(name==='community'){window.initCommunityAlias&&window.initCommunityAlias();window._loadForum&&window._loadForum();} // BUG3 FIX: reload forum when navigating to community page
+  if(name==='community'){window.initCommunityAlias&&window.initCommunityAlias();window._loadForum&&window._loadForum();}
+  if(name==='connect'){window._checkDMNotifications&&window._checkDMNotifications();} // BUG3 FIX: reload forum when navigating to community page
   if(name==='performance'){renderBigChart();renderPieChart();renderSubjPerf();renderXP();renderCal();}
   if(name==='profile'){renderProfilePage();}
 };
