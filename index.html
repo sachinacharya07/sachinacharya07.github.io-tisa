@@ -15,77 +15,7 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Josefin+Sans:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>/* PWA Install Banner */
-#pwa-banner{position:fixed;bottom:70px;left:16px;right:16px;z-index:9999;background:#fff;border:2px solid #c0546a;border-radius:20px;box-shadow:0 8px 32px rgba(192,84,106,.25);padding:12px 16px;display:flex;align-items:center;gap:10px;animation:slideUp .4s ease;box-sizing:border-box}
-#pwa-banner.hide{display:none!important}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-#pwa-banner .pwa-icon{width:40px;height:40px;border-radius:10px;background:#c0546a;display:flex;align-items:center;justify-content:center;color:white;font-family:Georgia,serif;font-weight:900;font-size:12px;letter-spacing:1px;flex-shrink:0}
-#pwa-banner .pwa-text{flex:1;min-width:0}
-#pwa-banner .pwa-text strong{display:block;font-size:13px;font-weight:800;color:#222;margin-bottom:1px}
-#pwa-banner .pwa-text span{font-size:11px;color:#888;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
-#pwa-banner .pwa-install-btn{background:#c0546a;color:white;border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0}
-#pwa-banner .pwa-close-btn{background:none;border:none;font-size:18px;cursor:pointer;color:#aaa;padding:0;line-height:1;flex-shrink:0}
-/* Pomo setup buttons */
-.pomo-opt-btn,.pomo-brk-btn,.pomo-cyc-btn{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink2);transition:all .2s}
-.pomo-opt-btn.sel,.pomo-brk-btn.sel,.pomo-cyc-btn.sel{background:var(--primary);color:white;border-color:var(--primary)}
-/* Report reason buttons */
-.report-reason-btn{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink2);text-align:left;transition:all .2s}
-.report-reason-btn.sel{background:var(--danger);color:white;border-color:var(--danger)}
-/* --- SLEEK & MINIMAL OVERHAUL --- */
-  :root {
-    --font-main: 'Inter', sans-serif;
-    --font-mono: 'Space Mono', monospace;
-  }
-
-  /* 1. Classy, Thin Typography */
-  body, button, input, select { 
-    font-family: var(--font-main) !important; 
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* 2. Sleek Numbers (Very Thin & Minimal) */
-  .t-digits, .snum, .calc-num, .cd-t, .test-big-t {
-    font-family: var(--font-mono) !important;
-    font-weight: 300 !important; 
-    letter-spacing: -2px !important;
-    color: var(--ink) !important;
-  }
-/* --- DOODLE ACTIVATION --- */
-  .ld-svg { 
-    display: block !important; 
-    opacity: 0.4 !important; 
-    z-index: 0 !important; 
-    pointer-events: none;
-  }
-
-  /* Positions for the main study interface (Home/Space) */
-  #app-main .ld1 { top: 8%; right: 4%; width: 70px; position: fixed; }
-  #app-main .ld2 { bottom: 12%; left: 4%; width: 80px; position: fixed; }
-  #app-main .ld4 { bottom: 5%; right: 5%; width: 45px; position: fixed; }
-  /* 3. Stop Shaking (Disable jumpy transitions on mobile) */
-  * { 
-    transition: none !important; 
-    transform: none !important; 
-  }
-  .card:hover { transform: none !important; box-shadow: var(--sh) !important; }
-
-  /* 4. Fixed Mobile Layout (Single Column, No Overlap) */
-  @media (max-width: 760px) {
-    .home-grid, .myspace-grid, .perf-grid, .test-grid {
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 12px !important;
-    }
-    .card {
-      width: 100% !important;
-      grid-column: span 1 !important;
-      border: 1px solid var(--border2) !important;
-      border-radius: 8px !important;
-    }
-  }
-
-  /* 5. Keep Pomodoro Hidden */
+<style>/* . Keep Pomodoro Hidden */
   .home-grid > .card:nth-child(2) { display: none !important; }
 html{overflow-x:hidden}
 :root,[data-theme="light"]{--bg:#f8f6f0;--bg2:#f0ede4;--bg3:#e8e3d8;--surface:#ffffff;--surface2:#faf8f3;--primary:#5c7a3e;--pd:#3d5429;--pl:#b8d090;--pglow:rgba(92,122,62,.15);--ink:#1a1c16;--ink2:#4a5240;--ink3:#8a9280;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(92,122,62,.22);--border2:rgba(92,122,62,.1);--sh:0 2px 14px rgba(92,122,62,.1);--shl:0 8px 32px rgba(92,122,62,.14);}
@@ -905,6 +835,16 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div class="todo-pb-w"><div class="todo-pb" id="todo-pb" style="width:0%"></div></div>
   <div class="todo-list" id="todo-list"><div class="empty">All clear! Add a task 🐼</div></div>
 </div>
+<div class="card">
+  <div class="ct"><div class="ct-ic">🎯</div>Focus Mode</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:10px 0">
+    <div style="font-size:13px;color:var(--ink2);font-weight:600;text-align:center;line-height:1.6">Deep focus session.<br>Full screen. No distractions.</div>
+    <div id="focus-home-stats" style="display:flex;gap:18px;justify-content:center">
+      <div class="stat-box"><div class="snum" id="focus-t-disp">00:00:00</div><div class="slbl">Time</div></div>
+    </div>
+    <button class="btn btn-p" style="padding:12px 36px;font-size:14px;font-weight:700;letter-spacing:1px" onclick="toggleFocus()">Enter Focus 🎯</button>
+  </div>
+</div>
 </div>
 </div>
 
@@ -1259,6 +1199,9 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <div class="stat-box"><div class="snum" id="p-st">0</div><div class="slbl">🔥 Streak</div></div>
     <div class="stat-box"><div class="snum" id="p-ts">0</div><div class="slbl">Tests</div></div>
   </div>
+  <div style="margin-top:14px">
+    <button class="btn btn-o" style="padding:9px 28px;font-size:13px;font-weight:700;border-color:var(--danger);color:var(--danger)" onclick="doSignOut()">🚪 Sign Out</button>
+  </div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
   <div class="card"><div class="ct"><div class="ct-ic">🏆</div>Badges</div><div class="badge-grid" id="prof-badges"></div></div>
@@ -1360,7 +1303,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <p>You can delete all your data at any time using the "Delete My Data" button in Settings. You can also sign out and stop using the app at any time.</p>
     
     <div style="font-weight:800;color:var(--primary);margin:14px 0 4px">Contact</div>
-    <p>For any privacy concerns, email us at <strong><a href="mailto:tisa.helpdesk@gmail.com" style="color:var(--primary)">tisa.helpdesk@gmail.com</a></strong> or reach out via the TISA community forum.</p>
+    <p>For any privacy concerns, email us at <strong><span style="color:var(--primary)">tisa.helpdesk&#64;gmail&#46;com</span></strong> or reach out via the TISA community forum.</p>
   </div>
 </div>
 </div>
@@ -1491,7 +1434,7 @@ const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudy
 const app=initializeApp(FC);
 const auth=getAuth(app);
 const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
-window._db=db; window._sTs=serverTimestamp;
+window._db=db; window._sTs=serverTimestamp; window._addDoc=addDoc; window._collection=collection;
 
 // ── ENCRYPTION ──
 function xE(t,k){let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(unescape(encodeURIComponent(r)));}
@@ -1789,7 +1732,7 @@ function loadForum(){
         <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
           <span class="cat-tag">${window._esc(p.category||'Post')}</span>
           ${p.hasAttachment?'<span style="font-size:10px;color:var(--ink3);font-weight:700">📎</span>':''}
-          <button onclick="event.stopPropagation();reportPost('${p.id}','${window._esc(p.title||'').replace(/'/g,"\'")}','forum')" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--ink3);padding:2px 6px;border-radius:6px;font-weight:700" title="Report post">🚩</button>
+          <button onclick="event.stopPropagation();window._reportForumPost(this)" data-pid="${p.id}" data-title="${window._esc(p.title||'').substring(0,30)}" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--ink3);padding:2px 6px;border-radius:6px;font-weight:700" title="Report post">🚩</button>
         </div>
         <div class="ft">${window._esc(p.title||'')}</div>
         <div class="fb2">${window._esc(p.body||'')}</div>
@@ -1808,7 +1751,7 @@ window.setFF=(f,btn)=>{
   document.querySelectorAll('#forum-list-v .fbtn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   if(forumUnsub)forumUnsub();
-  loadForum();window._loadForum&&window._loadForum();
+  loadForum();
 };
 
 window.handlePostAttach=(files)=>{
@@ -1832,15 +1775,17 @@ window.submitPost=async()=>{
   const alias=getPostAlias();
   const obj={title,body,category:cat,alias,ts:serverTimestamp(),ups:0,downs:0,commentCount:0,hasAttachment:!!postAttachData};
   if(postAttachData) obj.attachment={data:postAttachData,type:postAttachType,name:postAttachName};
-  await addDoc(collection(db,'posts'),obj);
-  document.getElementById('post-title').value='';
-  document.getElementById('post-body').value='';
-  document.getElementById('custom-alias-inp').value='';
-  document.getElementById('post-attach-preview').textContent='';
-  document.getElementById('post-attach').value='';
-  postAttachData=null; postAttachType=null;
-  window.toast('Posted as 🎭 '+alias+'!');
-  window.initCommunityAlias();
+  try{
+    await addDoc(collection(db,'posts'),obj);
+    document.getElementById('post-title').value='';
+    document.getElementById('post-body').value='';
+    document.getElementById('custom-alias-inp').value='';
+    document.getElementById('post-attach-preview').textContent='';
+    document.getElementById('post-attach').value='';
+    postAttachData=null; postAttachType=null;
+    window.toast('Posted as 🎭 '+alias+'!');
+    window.initCommunityAlias();
+  }catch(e){window.toast('Post failed. Check connection.');}
 };
 
 window.openPost=async(pid)=>{
@@ -1892,9 +1837,22 @@ window.openPost=async(pid)=>{
 };
 
 window.backForum=()=>{if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}document.getElementById('forum-list-v').style.display='block';document.getElementById('write-sec').style.display='block';document.getElementById('post-view').style.display='none';curPostId=null;}; // BUG8 FIX: clean comment listener on back
+
+// Safe report helpers - avoids onclick string injection
+window._reportForumPost=(btn)=>{
+  const pid=btn.dataset.pid;
+  const title=btn.dataset.title||'';
+  if(pid) window.reportPost(pid, title, 'forum');
+};
+window._reportChatMsg=(btn)=>{
+  const ts=btn.dataset.ts||Date.now();
+  const txt=btn.dataset.txt||'';
+  window.reportPost(ts, txt, 'chat');
+};
 window.voteP=async(up)=>{
   if(!curPostId||!window._CU)return;
   const uid=window._CU.uid;
+  try{
   const ref=doc(db,'posts',curPostId);
   const snap=await getDoc(ref);
   const d=snap.data()||{};
@@ -1910,8 +1868,9 @@ window.voteP=async(up)=>{
   if(uEl)uEl.textContent=newUps;
   if(dEl)dEl.textContent=newDns;
   window.toast(up?'👍 Upvoted!':'👎 Downvoted!');
+  }catch(e){window.toast('Vote failed. Try again.');}
 };
-window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt||txt.length>500)return;inp.value='';const alias=getCommentAlias(curPostId);await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});await updateDoc(doc(db,'posts',curPostId),{commentCount:increment(1)});};
+window.submitCmt=async()=>{if(!curPostId)return;const inp=document.getElementById('cmt-inp');const txt=inp.value.trim();if(!txt||txt.length>500)return;inp.value='';const alias=getCommentAlias(curPostId);try{await addDoc(collection(db,'posts',curPostId,'comments'),{text:txt,alias,ts:serverTimestamp()});await updateDoc(doc(db,'posts',curPostId),{commentCount:increment(1)});}catch(e){window.toast('Comment failed. Try again.');inp.value=txt;}};
 
 // ── CHAT (FULLY FIXED) ──
 let aChatId=null,aOtherUid=null,aOtherUname='',aOtherName='';
@@ -1922,7 +1881,8 @@ window.searchUser=async()=>{
   if(!q)return;
   const el=document.getElementById('srch-res');
   el.innerHTML='<div style="font-size:11px;color:var(--ink3);padding:4px;font-weight:600">Searching...</div>';
-  const snap=await getDocs(query(collection(db,'users'),where('username','==',q)));
+  let snap;
+  try{snap=await getDocs(query(collection(db,'users'),where('username','==',q)));}catch(e){el.innerHTML='<div style="font-size:11px;color:var(--danger);padding:4px;font-weight:700">Search failed. Check connection.</div>';return;}
   if(snap.empty){el.innerHTML='<div style="font-size:11px;color:var(--danger);padding:4px;font-weight:700">@'+window._esc(q)+' not found</div>';return;}
   const fDoc=snap.docs[0];
   const f=fDoc.data();
@@ -1948,14 +1908,16 @@ window.startChat=async(oUid,oName,oUname)=>{
   document.getElementById('srch-res').innerHTML='';
   document.getElementById('srch-inp').value='';
   const chatId=[window._CU.uid,oUid].sort().join('_');
-  await setDoc(doc(db,'chats',chatId),{
-    members:[window._CU.uid,oUid],
-    memberNames:{[window._CU.uid]:window._CU.displayName,[oUid]:oName},
-    memberUsernames:{[window._CU.uid]:window._uname||'',[oUid]:oUname},
-    updatedAt:serverTimestamp()
-  },{merge:true});
-  openChat(chatId,oUid,oName,oUname);
-  loadMyChats();
+  try{
+    await setDoc(doc(db,'chats',chatId),{
+      members:[window._CU.uid,oUid],
+      memberNames:{[window._CU.uid]:window._CU.displayName,[oUid]:oName},
+      memberUsernames:{[window._CU.uid]:window._uname||'',[oUid]:oUname},
+      updatedAt:serverTimestamp()
+    },{merge:true});
+    openChat(chatId,oUid,oName,oUname);
+    loadMyChats();
+  }catch(e){window.toast('Could not open chat. Check connection.');}
 };
 
 // CORE FIX: openChat properly sets header and loads live messages
@@ -1971,10 +1933,13 @@ window.openChat=(chatId,oUid,oName,oUname)=>{
   document.querySelectorAll('.uitem').forEach(i=>i.classList.remove('sel'));
   const sel=document.getElementById('ci-'+chatId);
   if(sel)sel.classList.add('sel');
-  // Reset to chat tab
-  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.ctab')[0]?.classList.add('active');
+  // Reset to chat tab - scoped to conn-grid to avoid selecting wrong elements
+  const _cg=document.querySelector('.conn-grid');
+  if(_cg){
+    _cg.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
+    _cg.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
+    _cg.querySelectorAll('.ctab')[0]?.classList.add('active');
+  }
   document.getElementById('cpanel-messages')?.classList.add('active');
   // Scroll chat panel into view when layout is single column (mobile + small laptop)
   setTimeout(()=>{
@@ -2030,7 +1995,7 @@ function renderMsg(m,ck){
     content=window._esc(txt).replace(/\n/g,'<br>');
   }
   const senderLabel=isMe?'':`<div style="font-size:9px;font-weight:700;opacity:.7;margin-bottom:3px">@${window._esc(m.suname||aOtherUname)}</div>`;
-  const reportBtn=isMe?'':`<button onclick="reportPost('${m.ts||Date.now()}','${window._esc(txt.substring(0,30))}','chat')" style="background:none;border:none;cursor:pointer;font-size:10px;color:var(--ink3);padding:0 4px;opacity:.5" title="Report message">🚩</button>`;
+  const reportBtn=isMe?'':`<button onclick="window._reportChatMsg(this)" data-ts="${m.ts?.seconds||Date.now()}" data-txt="${window._esc(txt.substring(0,30))}" style="background:none;border:none;cursor:pointer;font-size:10px;color:var(--ink3);padding:0 4px;opacity:.5" title="Report message">🚩</button>`;
   return`<div class="msg ${isMe?'me':'them'}">${senderLabel}${content}<div class="msg-t">${t}${isMe?' 🔒':''}${reportBtn}</div></div>`;
 }
 
@@ -2118,8 +2083,11 @@ window.switchTab=(tab,btn)=>{
     window._goalsUnsub();
     window._goalsUnsub=null;
   }
-  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
+  const _cg2=document.querySelector('.conn-grid');
+  if(_cg2){
+    _cg2.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));
+    _cg2.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
+  }
   btn.classList.add('active');
   document.getElementById('cpanel-'+tab)?.classList.add('active');
   if(tab==='progress'&&aChatId&&aOtherUid){
@@ -2375,13 +2343,16 @@ function loadMyChats(){
       const el=document.getElementById('users-panel');if(!el)return;
       if(snap.empty){el.innerHTML='<div class="empty">No conversations yet.<br>Search for a buddy! 🐼</div>';return;}
       const sorted=snap.docs.sort((a,b)=>(b.data().updatedAt?.seconds||0)-(a.data().updatedAt?.seconds||0));
+      // Store chat data safely to avoid string injection in onclick
+      window._chatMap={};
       el.innerHTML=sorted.map(d=>{
         const ch=d.data();
         const oId=ch.members.find(i=>i!==window._CU.uid);
         const oUname=(ch.memberUsernames||{})[oId]||'';
         const oName=(ch.memberNames||{})[oId]||'Unknown';
         const dispN=oUname?('@'+oUname):oName;
-        return`<div class="uitem ${d.id===aChatId?'sel':''}" id="ci-${d.id}" onclick="openChat('${d.id}','${oId}','${window._esc(oName)}','${window._esc(oUname)}')">
+        window._chatMap[d.id]={oId,oName,oUname};
+        return`<div class="uitem ${d.id===aChatId?'sel':''}" id="ci-${d.id}" onclick="window._openChatSafe('${d.id}')">
           <div class="av" style="background:var(--primary);color:white;font-weight:800;font-size:15px">${(oUname||oName||'?')[0].toUpperCase()}</div>
           <div style="min-width:0;flex:1">
             <div style="font-size:12px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(dispN)}</div>
@@ -2407,6 +2378,11 @@ function loadMyChats(){
   );
 }
 window._loadMyChats=loadMyChats;
+window._openChatSafe=(chatId)=>{
+  const c=window._chatMap&&window._chatMap[chatId];
+  if(!c)return;
+  window.openChat(chatId,c.oId,c.oName,c.oUname);
+};
 window._loadForum=loadForum;
 </script>
 <script>
@@ -2548,23 +2524,88 @@ window.removeSubj=function(i){window.subjects.splice(i,1);save();window.renderSu
 window.focusSubjSync=function(){const el=document.getElementById('focus-subj');if(el)el.textContent=document.getElementById('subj-sel')?.value||'General';};
 
 // ── TIMER ──
+// Uses Date.now() timestamps — immune to browser tab throttling
+// tTotal = total elapsed seconds for display (never resets on pause)
+// tSaved = seconds already persisted to studyData
+// tSegStart = timestamp when current segment started
+let tTotal=0, tSaved=0, tSegStart=0, tSegBase=0;
 window.toggleTimer=()=>tRun?pauseT():startT();
-function startT(){if(tInt)clearInterval(tInt); // BUG6 FIX: always clear before starting
-  tRun=true;document.getElementById('t-btn').textContent='Pause';document.getElementById('t-mode').textContent=pomoMode?(pomoState==='work'?'🍅 focus':'☕ break'):'studying ✏';tInt=setInterval(()=>{tSecs++;updTD();updTRing();if(tSecs%60===0&&pomoState==='work')saveSecs(60);if(pomoMode){const dur=pomoState==='work'?pomoDur*60:brkDur*60;if(tSecs>=dur)pomoCycle();}},1000);}
-function pauseT(){tRun=false;clearInterval(tInt);document.getElementById('t-btn').textContent='Continue';document.getElementById('t-mode').textContent='paused';if(tSecs>10&&pomoState==='work')logSess();}
-window.resetTimer=()=>{if(tRun){clearInterval(tInt);tRun=false;}if(tSecs>10)logSess();tSecs=0;updTD();updTRing();document.getElementById('t-btn').textContent='Start';document.getElementById('t-mode').textContent='ready';};
-function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){saveSecs(pomoDur*60);pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){pomoCount=0;sendNotification('🎉 Pomodoro Complete!','You finished all '+pomoTotal+' cycles. Great work!');toast('🎉 All Pomodoros done!');pomoState='work';tSecs=0;}else{pomoState='break';tSecs=0;sendNotification('☕ Break Time!',brkDur+' min break. You earned it!');toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';tSecs=0;sendNotification('🍅 Back to Focus!','Break over. Time to study!');toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}updTD();}
-window.togglePomo=()=>{pomoMode=!pomoMode;const btn=document.getElementById('pomo-tog');btn.style.background=pomoMode?'var(--primary)':'';btn.style.color=pomoMode?'white':'';pomoState='work';pomoCount=0;tSecs=0;if(tRun){clearInterval(tInt);tRun=false;document.getElementById('t-btn').textContent='Start';}updTD();updTRing();updPomoDots();toast(pomoMode?'🍅 Pomodoro on!':'⏱ Regular mode');};
+function startT(){
+  if(tInt)clearInterval(tInt);
+  tRun=true;
+  tSegStart=Date.now(); // record real wall-clock start
+  document.getElementById('t-btn').textContent='Pause';
+  document.getElementById('t-mode').textContent=pomoMode?(pomoState==='work'?'🍅 focus':'☕ break'):'studying ✏';
+  tInt=setInterval(()=>{
+    // Calculate real elapsed seconds from wall clock — throttle-proof
+    const now=Date.now();
+    const segElapsed=Math.floor((now-tSegStart)/1000);
+    tSecs=segElapsed;
+    tTotal=tSegBase+segElapsed;
+    updTD(); updTRing();
+    // Save every 60 real seconds
+    const shouldHaveSaved=Math.floor(segElapsed/60)*60;
+    if(shouldHaveSaved>tSaved && pomoState==='work'){
+      saveSecs(shouldHaveSaved-tSaved);
+      tSaved=shouldHaveSaved;
+    }
+    if(pomoMode){
+      const dur=pomoState==='work'?pomoDur*60:brkDur*60;
+      if(tSecs>=dur)pomoCycle();
+    }
+  },1000);
+}
+function pauseT(){
+  tRun=false; clearInterval(tInt);
+  // Capture real elapsed up to this moment
+  const now=Date.now();
+  const segElapsed=Math.floor((now-tSegStart)/1000);
+  tSecs=segElapsed;
+  tTotal=tSegBase+segElapsed;
+  document.getElementById('t-btn').textContent='Continue';
+  document.getElementById('t-mode').textContent='paused';
+  // Save only unsaved seconds
+  const unsaved=tSecs-tSaved;
+  if(unsaved>0 && pomoState==='work') saveSecs(unsaved);
+  tSaved=0; tSecs=0;
+  tSegBase=tTotal; // carry forward total for next segment
+  if(tTotal>10) logSessDisplay();
+  updTD(); updTRing();
+}
+window.resetTimer=()=>{
+  if(tRun){
+    clearInterval(tInt);tRun=false;
+    const now=Date.now();
+    const segElapsed=Math.floor((now-tSegStart)/1000);
+    tSecs=segElapsed; tTotal=tSegBase+segElapsed;
+  }
+  const unsaved=tSecs-tSaved;
+  if(unsaved>0) saveSecs(unsaved);
+  if(tTotal>10) logSessDisplay();
+  tSecs=0; tTotal=0; tSaved=0; tSegBase=0;
+  updTD(); updTRing();
+  document.getElementById('t-btn').textContent='Start';
+  document.getElementById('t-mode').textContent='ready';
+};
+function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){const _pUnsaved=tSecs-tSaved;if(_pUnsaved>0)saveSecs(_pUnsaved);tSaved=0;tTotal=0;pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){pomoCount=0;sendNotification('🎉 Pomodoro Complete!','You finished all '+pomoTotal+' cycles. Great work!');toast('🎉 All Pomodoros done!');pomoState='work';tSecs=0;}else{pomoState='break';tSecs=0;sendNotification('☕ Break Time!',brkDur+' min break. You earned it!');toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';tSecs=0;sendNotification('🍅 Back to Focus!','Break over. Time to study!');toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}updTD();}
+window.togglePomo=()=>{pomoMode=!pomoMode;const btn=document.getElementById('pomo-tog');btn.style.background=pomoMode?'var(--primary)':'';btn.style.color=pomoMode?'white':'';pomoState='work';pomoCount=0;tSecs=0;tTotal=0;tSaved=0;if(tRun){clearInterval(tInt);tRun=false;document.getElementById('t-btn').textContent='Start';}updTD();updTRing();updPomoDots();toast(pomoMode?'🍅 Pomodoro on!':'⏱ Regular mode');};
 function updPomoDots(){['pomo-dots','pomo-info','focus-pomo'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=Array(pomoTotal).fill(0).map((_,i)=>`<div class="pdot ${i<pomoCount?'done':i===pomoCount&&tRun?'cur':''}"></div>`).join('');});}
-function updTD(){const t=fmtHMS(tSecs);const td=document.getElementById('t-digits');const ft=document.getElementById('focus-t');if(td)td.textContent=t;if(ft)ft.textContent=t;}
-function updTRing(){const dur=pomoMode?(pomoState==='work'?pomoDur*60:brkDur*60):3600;const pct=Math.min(1,tSecs/dur);const pr=document.getElementById('t-prog');if(pr)pr.style.strokeDashoffset=408*(1-pct);}
+function updTD(){const t=fmtHMS(tTotal);const td=document.getElementById('t-digits');const ft=document.getElementById('focus-t');if(td)td.textContent=t;if(ft)ft.textContent=t;}
+function updTRing(){const dur=pomoMode?(pomoState==='work'?pomoDur*60:brkDur*60):3600;const elapsed=pomoMode?tSecs:tTotal;const pct=Math.min(1,elapsed/dur);const pr=document.getElementById('t-prog');if(pr)pr.style.strokeDashoffset=408*(1-pct);}
 function saveSecs(s){
   // FIX C: recompute today on every save - handles midnight crossover
   window._today=new Date().toISOString().slice(0,10);
   window.studyData[window._today]=(window.studyData[window._today]||0)+s;
   save();renderStats();renderWkChart();checkXP();
 }
-function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel')?.value||'General',dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});tSecs=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
+function logSessDisplay(){
+  // Log the session for display - uses tTotal for duration shown in session log
+  if(tTotal<5)return;
+  const sub=document.getElementById('subj-sel')?.value||'General';
+  sessions.unshift({sub,dur:tTotal,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  renderSessLog();renderStats();renderSubjPerf();
+}
+function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel')?.value||'General',dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});tSecs=0;tTotal=0;tSaved=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
 function renderSessLog(){const el=document.getElementById('sess-log');if(!el)return;if(!sessions.length){el.innerHTML='';return;}el.innerHTML=sessions.slice(0,4).map(s=>`<div class="sess-item"><span class="tag" style="font-size:10px">${window._esc(s.sub)}</span><span style="font-weight:800;color:var(--primary);font-family:'Space Mono',monospace">${fmtHLabel(s.dur)}</span><span style="color:var(--ink3)">${s.time}</span></div>`).join('');}
 function renderStats(){const ts=window.studyData[window._today]||0;const stdEl=document.getElementById('st-today');if(stdEl)stdEl.textContent=window._fmtH(ts);let ws=0;for(let i=0;i<7;i++)ws+=(window.studyData[window._dStr(i)]||0);const swEl=document.getElementById('st-week');if(swEl)swEl.textContent=window._fmtH(ws);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const ssEl=document.getElementById('st-streak');if(ssEl)ssEl.textContent=st;const seEl=document.getElementById('st-sess');if(seEl)seEl.textContent=sessions.length;}
 function renderWkChart(){const days=['S','M','T','W','T','F','S'],dow=new Date().getDay(),el=document.getElementById('wk-chart');if(!el)return;const vals=[];for(let i=6;i>=0;i--)vals.push({l:days[(dow-i+7)%7],v:window.studyData[window._dStr(i)]||0});const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map((v,i)=>`<div class="wb-wrap"><div class="wb ${i===6?'today':''}" style="height:${Math.round(v.v/mx*48)+3}px" title="${window._fmtH(v.v)}"></div><div class="wb-lbl">${v.l}</div></div>`).join('');}
@@ -2573,8 +2614,27 @@ window.setBreakDur=(m,btn)=>{brkDur=m;btn.parentElement?.querySelectorAll('.time
 function calcPomoTotal(){const t=pomoDur*4+brkDur*3;return t>=60?Math.floor(t/60)+'h '+(t%60>0?t%60+'m':''):t+'m';}
 
 // ── FOCUS ──
+// ── TIMER: TAB VISIBILITY FIX ──
+// When user returns to tab after browser throttled the interval,
+// immediately recalculate the real elapsed time from wall clock
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden && tRun){
+    const now=Date.now();
+    const segElapsed=Math.floor((now-tSegStart)/1000);
+    tSecs=segElapsed;
+    tTotal=tSegBase+segElapsed;
+    updTD(); updTRing();
+    // Save any unsaved seconds that accumulated while tab was hidden
+    const shouldHaveSaved=Math.floor(segElapsed/60)*60;
+    if(shouldHaveSaved>tSaved && pomoState==='work'){
+      saveSecs(shouldHaveSaved-tSaved);
+      tSaved=shouldHaveSaved;
+    }
+  }
+});
+
 window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
-window.toggleFocusTimer=()=>{if(focusRun){focusRun=false;clearInterval(focusInt);document.getElementById('focus-btn').textContent='Continue';document.getElementById('focus-lbl').textContent='paused';}else{focusRun=true;if(focusInt)clearInterval(focusInt);document.getElementById('focus-btn').textContent='Pause';document.getElementById('focus-lbl').textContent='deep focus 🎯';focusInt=setInterval(()=>{focusSecs++;const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);},1000);}};
+window.toggleFocusTimer=()=>{if(focusRun){focusRun=false;clearInterval(focusInt);document.getElementById('focus-btn').textContent='Continue';document.getElementById('focus-lbl').textContent='paused';}else{focusRun=true;if(focusInt)clearInterval(focusInt);document.getElementById('focus-btn').textContent='Pause';document.getElementById('focus-lbl').textContent='deep focus 🎯';focusInt=setInterval(()=>{focusSecs++;const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);const fd=document.getElementById('focus-t-disp');if(fd)fd.textContent=fmtHMS(focusSecs);},1000);}};
 window.resetFocusTimer=()=>{if(focusRun){clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
 
 // ── XP ──
@@ -2732,7 +2792,7 @@ main {
 }
 
 /* 3. Fix the Chat Panel Breaking Mobile Scrolling */
-.cpanel { 
+.cpanel.active { 
   height: auto !important; 
   min-height: 300px !important; 
 }
@@ -2794,14 +2854,15 @@ window.selectReportReason=(reason,btn)=>{
 
 window.submitReport=async()=>{
   if(!window._CU){window.toast('Sign in to report');return;}
+  if(!window._db||!window._addDoc){window.toast('App not ready. Try again.');return;}
   try{
-    await addDoc(collection(db,'reports'),{
+    await window._addDoc(window._collection(window._db,'reports'),{
       reportedBy:window._CU.uid,
       targetId:_reportTarget.id,
       targetTitle:_reportTarget.title,
       targetType:_reportTarget.type,
       reason:_reportReason,
-      ts:serverTimestamp()
+      ts:window._sTs()
     });
     document.getElementById('report-modal').classList.remove('open');
     window.toast('✅ Report submitted. Thank you!');
