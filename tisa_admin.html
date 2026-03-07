@@ -429,31 +429,33 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <script>
+const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
+firebase.initializeApp(FC);
+const db=firebase.firestore();
+
 // Handle returning from Google redirect
-window.addEventListener('load', function(){
-  if(typeof firebase==='undefined') return;
-  auth.getRedirectResult()
-    .then(function(result){
-      // onAuthStateChanged handles the rest
-    })
-    .catch(function(e){
-      if(e && e.code && e.code !== 'auth/no-current-user'){
-        const err=document.getElementById('login-err');
-        const btn=document.getElementById('login-btn');
-        if(err){err.textContent='Sign-in error: '+e.message;err.style.display='block';}
-        if(btn){btn.textContent='Sign in with Google';btn.disabled=false;}
-      }
-    });
+firebase.auth().getRedirectResult().catch(function(e){
+  if(e&&e.code&&e.code!=='auth/no-current-user'){
+    const errEl=document.getElementById('login-err');
+    const btnEl=document.getElementById('login-btn');
+    if(errEl){errEl.textContent='Sign-in error: '+e.message;errEl.style.display='block';}
+    if(btnEl){btnEl.textContent='Sign in with Google';btnEl.disabled=false;}
+  }
 });
 
-if(typeof firebase==='undefined'){
-  document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0e1012;font-family:sans-serif;flex-direction:column;gap:16px"><div style="color:#e05a4a;font-size:18px;font-weight:800">Firebase failed to load</div><div style="color:#6a7060;font-size:13px;text-align:center;max-width:340px">Hard-refresh the page (Ctrl+Shift+R) or try a different browser.</div></div>';
-  throw new Error('Firebase SDK not loaded');
-}
-const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
-const auth=firebase.auth();
-const db=firebase.firestore();
 const ADMIN_UIDS=['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2'];
+
+// Handle returning from Google redirect sign-in
+firebase.auth().getRedirectResult().then(function(result){
+  // onAuthStateChanged will handle the rest
+}).catch(function(e){
+  if(e && e.code && e.code!=='auth/no-current-user'){
+    const err=document.getElementById('login-err');
+    const btn=document.getElementById('login-btn');
+    if(err){err.textContent='Sign-in error: '+e.message;err.style.display='block';}
+    if(btn){btn.textContent='Sign in with Google';btn.disabled=false;}
+  }
+});
 
 let _reports=[],_posts=[],_users=[],_banned=[],_deleted=[],_allComments={};
 let _selectedPosts=new Set();
@@ -461,7 +463,7 @@ let _lastReportCount=0;
 let _banReason2='';
 
 // ── AUTH ──
-auth.onAuthStateChanged(async user=>{
+firebase.auth().onAuthStateChanged(async user=>{
   if(user&&ADMIN_UIDS.includes(user.uid)){
     document.getElementById('login-wrap').style.display='none';
     document.getElementById('app').style.display='block';
@@ -469,7 +471,7 @@ auth.onAuthStateChanged(async user=>{
     loadAll();
     setInterval(pollReports,60000);
   }else if(user){
-    await auth.signOut();
+    await firebase.auth().signOut();
     showErr('Access denied. Not an admin account.');
   }
 });
@@ -478,21 +480,15 @@ auth.onAuthStateChanged(async user=>{
 function doLogin(){
   const btn=document.getElementById('login-btn');
   const err=document.getElementById('login-err');
-  function showErr(msg){
-    if(err){err.textContent=msg;err.style.display='block';}
-    if(btn){btn.textContent='Try Again';btn.disabled=false;}
-  }
-  if(btn){btn.textContent='Opening Google...';btn.disabled=true;}
-  if(err){err.style.display='none';}
-  // Always use redirect — most reliable across all browsers
-  try{
-    auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())
-      .catch(e=>showErr('Redirect error: '+e.code+' — '+e.message));
-  }catch(e){
-    showErr('Fatal: '+e.message);
-  }
+  if(err) err.style.display='none';
+  if(btn){btn.textContent='Signing in...';btn.disabled=true;}
+  firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider())
+    .catch(function(e){
+      if(err){err.textContent='Error: '+e.message;err.style.display='block';}
+      if(btn){btn.textContent='Sign in with Google';btn.disabled=false;}
+    });
 }
-function doLogout(){auth.signOut().then(()=>{document.getElementById('login-wrap').style.display='flex';document.getElementById('app').style.display='none';});}
+function doLogout(){firebase.auth().signOut().then(()=>{document.getElementById('login-wrap').style.display='flex';document.getElementById('app').style.display='none';});}
 
 // Expose non-login functions to window for onclick attributes in dynamic HTML
 window.doLogout=doLogout;
@@ -1000,5 +996,7 @@ function confirm2(title,msg,cb,extraHtml=''){
 }
 function closeConfirm(){document.getElementById('confirm-modal').classList.remove('open');_confirmCb=null;}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+
 </script>
 </html>
