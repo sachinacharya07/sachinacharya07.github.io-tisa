@@ -424,7 +424,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
 
 <div id="toast"></div>
 
-<!-- Firebase compat SDKs (v10.7.1) -->
+<!-- Firebase compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -432,37 +432,14 @@ body{background:var(--bg);color:var(--ink);font-family:'Nunito',sans-serif;min-h
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
 firebase.initializeApp(FC);
 const db=firebase.firestore();
-
-// Handle returning from Google redirect
-firebase.auth().getRedirectResult().catch(function(e){
-  if(e&&e.code&&e.code!=='auth/no-current-user'){
-    const errEl=document.getElementById('login-err');
-    const btnEl=document.getElementById('login-btn');
-    if(errEl){errEl.textContent='Sign-in error: '+e.message;errEl.style.display='block';}
-    if(btnEl){btnEl.textContent='Sign in with Google';btnEl.disabled=false;}
-  }
-});
-
 const ADMIN_UIDS=['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2'];
-
-// Handle returning from Google redirect sign-in
-firebase.auth().getRedirectResult().then(function(result){
-  // onAuthStateChanged will handle the rest
-}).catch(function(e){
-  if(e && e.code && e.code!=='auth/no-current-user'){
-    const err=document.getElementById('login-err');
-    const btn=document.getElementById('login-btn');
-    if(err){err.textContent='Sign-in error: '+e.message;err.style.display='block';}
-    if(btn){btn.textContent='Sign in with Google';btn.disabled=false;}
-  }
-});
 
 let _reports=[],_posts=[],_users=[],_banned=[],_deleted=[],_allComments={};
 let _selectedPosts=new Set();
 let _lastReportCount=0;
 let _banReason2='';
 
-// ── AUTH ──
+// ── AUTH STATE ──
 firebase.auth().onAuthStateChanged(async user=>{
   if(user&&ADMIN_UIDS.includes(user.uid)){
     document.getElementById('login-wrap').style.display='none';
@@ -476,19 +453,51 @@ firebase.auth().onAuthStateChanged(async user=>{
   }
 });
 
-// ── LOGIN — attached via addEventListener inside module (not onclick) ──
+// Handle redirect result when page reloads after Google sign-in
+firebase.auth().getRedirectResult().then(function(result){
+  // onAuthStateChanged fires automatically — nothing needed here
+}).catch(function(e){
+  if(e&&e.code&&e.code!=='auth/no-current-user'){
+    showErr('Sign-in failed: '+e.message);
+    const btn=document.getElementById('login-btn');
+    if(btn){btn.textContent='Sign in with Google';btn.disabled=false;}
+  }
+});
+
+// ── LOGIN ──
 function doLogin(){
   const btn=document.getElementById('login-btn');
-  const err=document.getElementById('login-err');
-  if(err) err.style.display='none';
   if(btn){btn.textContent='Signing in...';btn.disabled=true;}
-  firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider())
-    .catch(function(e){
-      if(err){err.textContent='Error: '+e.message;err.style.display='block';}
-      if(btn){btn.textContent='Sign in with Google';btn.disabled=false;}
+  showErr('');
+  const provider=new firebase.auth.GoogleAuthProvider();
+  // Try popup — works on desktop Chrome/Firefox
+  firebase.auth().signInWithPopup(provider)
+    .then(function(){/* onAuthStateChanged handles it */})
+    .catch(function(popupErr){
+      // Popup was blocked or closed — fall back to redirect
+      if(popupErr.code==='auth/popup-blocked'||
+         popupErr.code==='auth/popup-closed-by-user'||
+         popupErr.code==='auth/cancelled-popup-request'){
+        if(btn)btn.textContent='Redirecting...';
+        firebase.auth().signInWithRedirect(provider)
+          .catch(function(redirErr){
+            showErr('Failed: '+redirErr.message);
+            if(btn){btn.textContent='Sign in with Google';btn.disabled=false;}
+          });
+      } else {
+        showErr('Error ('+popupErr.code+'): '+popupErr.message);
+        if(btn){btn.textContent='Sign in with Google';btn.disabled=false;}
+      }
     });
 }
 function doLogout(){firebase.auth().signOut().then(()=>{document.getElementById('login-wrap').style.display='flex';document.getElementById('app').style.display='none';});}
+function showErr(msg){
+  const el=document.getElementById('login-err');
+  if(!el)return;
+  if(!msg){el.style.display='none';el.textContent='';return;}
+  el.textContent=msg;
+  el.style.display='block';
+}
 
 // Expose non-login functions to window for onclick attributes in dynamic HTML
 window.doLogout=doLogout;
@@ -996,6 +1005,7 @@ function confirm2(title,msg,cb,extraHtml=''){
 }
 function closeConfirm(){document.getElementById('confirm-modal').classList.remove('open');_confirmCb=null;}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
 
 
 </script>
