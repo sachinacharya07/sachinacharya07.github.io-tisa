@@ -949,8 +949,7 @@ function exportCSV(){
   _posts.forEach(p=>{const ts=p.ts?.toDate?.()?.toLocaleDateString('en-GB')||'';lines.push(['Post',p.id,`"${(p.title||'').replace(/"/g,'""')}"`,ts,`"ups:${p.ups||0} comments:${p.commentCount||0}"`].join(','));});
   _users.forEach(u=>lines.push(['User',u.id,`"@${(u.username||'').replace(/"/g,'""')}"`,'',' '].join(',')));
   _banned.forEach(b=>{const ts=b.bannedAt?.toDate?.()?.toLocaleDateString('en-GB')||'';lines.push(['Banned',b.id,`"@${(b.username||'').replace(/"/g,'""')}"`,ts,`"${(b.reason||'').replace(/"/g,'""')}"`].join(','));});
-  const blob=new Blob([lines.join('
-')],{type:'text/csv'});
+  const blob=new Blob([lines.join('\n')],{type:'text/csv'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`tisa_export_${new Date().toISOString().split('T')[0]}.csv`;a.click();
   toast('⬇ CSV exported!');
 }
