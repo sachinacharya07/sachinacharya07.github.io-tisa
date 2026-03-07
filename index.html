@@ -535,6 +535,31 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .ld1,.ld4{display:none}
   .ld2{width:60px;height:60px}
   .ld3{width:20px;height:56px}
+  /* Better touch targets */
+  .btn{min-height:40px;font-size:13px}
+  .btn-sm{min-height:34px;padding:7px 14px}
+  .tisa-inp{min-height:40px;font-size:14px}
+  /* Forum cards on mobile */
+  .fcard{padding:13px 12px}
+  .ft{font-size:14px}
+  .fb2{font-size:12px;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+  .fmeta{font-size:11px;flex-wrap:wrap;gap:5px}
+  /* Post view */
+  #pv-title{font-size:18px!important}
+  #pv-body{font-size:13px!important}
+  /* Settings grid */
+  #page-settings>div{grid-template-columns:1fr!important}
+  /* Forum search */
+  #forum-search{font-size:14px}
+  /* Vbtn */
+  .vbtn{min-height:36px;padding:6px 14px;font-size:13px}
+  /* Chat */
+  .msg-bubble{max-width:88vw;font-size:13px}
+  /* Nav labels */
+  nav button{font-size:11px;padding:6px 8px}
+  /* Stat cards */
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .snum{font-size:22px}
 }
   .timer-ring{width:140px;height:140px;margin:6px auto}
   .tsvg{width:140px;height:140px}
@@ -1263,14 +1288,10 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     </div>
   </div>
   <div class="card">
-    <div class="ct"><div class="ct-ic">📚</div>Subjects</div>
-    <div style="display:flex;gap:7px;margin-bottom:9px"><input type="text" class="tisa-inp" id="new-subj" placeholder="Add subject..." style="flex:1;padding:8px 10px;font-size:12px" onkeydown="if(event.key==='Enter')addSubject()"><button class="btn btn-sm btn-p" onclick="addSubject()">+ Add</button></div>
-    <div id="subj-list-el"></div>
-  </div>
-  <div class="card">
-    <div class="ct"><div class="ct-ic">📅</div>Timetable</div>
-    <div class="tt-wrap"><div class="tt-grid" id="tt-grid"></div></div>
-    <div style="font-size:11px;color:var(--ink3);margin-top:7px;font-weight:600">Click any cell to add a class</div>
+    <div class="ct"><div class="ct-ic">🔔</div>Notifications & Sync</div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:12px">Subjects and Timetable are managed in <strong>My Space</strong>. Your data syncs automatically across all devices when signed in.</div>
+    <button class="btn btn-sm btn-p" onclick="forceSyncNow()" style="margin-bottom:8px;width:100%">🔄 Force Sync Now</button>
+    <div id="sync-status" style="font-size:11px;color:var(--ink3);font-weight:600;text-align:center"></div>
   </div>
   <div class="card">
     <div class="ct"><div class="ct-ic">🔗</div>Resources</div>
@@ -1639,6 +1660,11 @@ async function loadUD(){
   if(snap.exists()){
     const d=snap.data();
     window.studyData=d.studyData||{};
+    // Restore sessions log from Firestore for cross-device sync
+    if(d.sessions&&d.sessions.length){
+      sessions=d.sessions.slice(0,20);
+      renderSessLog();renderStats();
+    }
     window.todos=d.todos||[];
     window.countdowns=d.countdowns||[];
     window.papers=d.papers||[];
@@ -1661,12 +1687,23 @@ async function loadUD(){
   window.renderAll&&window.renderAll();
 }
 
+window.forceSyncNow=async()=>{
+  const el=document.getElementById('sync-status');
+  if(el)el.textContent='⏳ Syncing...';
+  if(!window._CU){if(el)el.textContent='❌ Not signed in';return;}
+  try{
+    await window._save();
+    if(el)el.textContent='✅ Synced at '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    window.toast('✅ Data synced!');
+  }catch(e){if(el)el.textContent='❌ Sync failed';}
+};
 window._save=async()=>{
   if(!window._CU)return;
   try{
     const papersForSave=window.papers.map(p=>({id:p.id,name:p.name,size:p.size,type:p.type,date:p.date}));
     await setDoc(doc(db,'userData',window._CU.uid),{
       studyData:window.studyData,todos:window.todos,countdowns:window.countdowns,
+      sessions:sessions.slice(0,20),
       papers:papersForSave,pastTests:window.pastTests,journals:window.journals,
       assignments:window.assignments,resources:window.resources,timetable:window.timetable,
       xp:window.xp,coins:window.coins,subjects:window.subjects
@@ -1824,12 +1861,14 @@ function loadForum(){
       let posts=snap.docs.map(d=>({id:d.id,...d.data()}));
       _allForumPosts=posts;
       if(fFilter!=='all') posts=posts.filter(p=>p.category===fFilter);
-      // Render pinned posts separately at top
+      // Pinned at top, then top 3 most recent, then rest shuffled
       const pinned=posts.filter(p=>p.pinned);
       const normal=posts.filter(p=>!p.pinned);
       if(pinnedEl) pinnedEl.innerHTML=pinned.map(p=>_renderFcard(p,true)).join('');
       if(!normal.length){el.innerHTML='<div class="empty">No posts yet. Be first! 🐼</div>';return;}
-      el.innerHTML=normal.map(p=>_renderFcard(p,false)).join('');
+      const recent=normal.slice(0,3);
+      const rest=normal.slice(3).sort(()=>Math.random()-0.5);
+      el.innerHTML=[...recent,...rest].map(p=>_renderFcard(p,false)).join('');
     }
   );
 }
@@ -2042,11 +2081,15 @@ window.voteP=async(up)=>{
   const snap=await getDoc(ref);
   const d=snap.data()||{};
   const voters=d.voters||{};
-  // BUG4 FIX: prevent spam voting - each user gets one vote total
-  if(voters[uid]){window.toast('You already voted on this post');return;}
+  const prevVote=voters[uid];
+  let newUps=d.ups||0, newDns=d.downs||0;
+  if(prevVote==='up'&&up){window.toast('Already upvoted — tap ▼ to switch');return;}
+  if(prevVote==='down'&&!up){window.toast('Already downvoted — tap ▲ to switch');return;}
+  // Undo previous vote when switching
+  if(prevVote==='up') newUps=Math.max(0,newUps-1);
+  if(prevVote==='down') newDns=Math.max(0,newDns-1);
   voters[uid]=up?'up':'down';
-  const newUps=up?(d.ups||0)+1:(d.ups||0);
-  const newDns=up?(d.downs||0):(d.downs||0)+1;
+  if(up) newUps++; else newDns++;
   await updateDoc(ref,{ups:newUps,downs:newDns,voters});
   const uEl=document.getElementById('pv-ups');
   const dEl=document.getElementById('pv-dns');
@@ -2209,11 +2252,17 @@ function renderMsg(m,ck){
   let content='';
   if(m.fileData){
     if(m.fileType&&m.fileType.startsWith('image/')){
-      content=`<img src="${m.fileData}" style="max-width:180px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px;cursor:pointer" onclick="window.open(this.src,'_blank')">`;
+      // Create a temporary blob URL so it opens on any device
+      const imgBlob=dataURLtoBlob(m.fileData);
+      const imgUrl=imgBlob?URL.createObjectURL(imgBlob):m.fileData;
+      content=`<div><img src="${imgUrl}" style="max-width:190px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px;cursor:pointer" onclick="openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'image/jpeg')}','${window._esc(m.originalFileName||'image')}')" loading="lazy"><a href="#" onclick="event.preventDefault();openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'image/jpeg')}','${window._esc(m.originalFileName||'image.jpg')}')" style="font-size:10px;color:${isMe?'rgba(255,255,255,.7)':'var(--ink3)'}">⬇ Open/Download</a></div>`;
     }else{
       // FIX: show real filename not UUID
       const fn=m.originalFileName||m.fileName||'File';
-      content=`<a href="${m.fileData}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:5px;color:${isMe?'white':'var(--primary)'};font-size:11px;font-weight:700;text-decoration:none">📄 ${window._esc(fn)}</a>`;
+      content=`<div style="display:flex;flex-direction:column;gap:4px">
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${isMe?'white':'var(--ink)'};">📄 ${window._esc(fn)}</div>
+        <button onclick="openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'application/octet-stream')}','${window._esc(fn)}')" style="background:${isMe?'rgba(255,255,255,.2)':'rgba(92,122,62,.15)'};border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;color:${isMe?'white':'var(--primary)'};text-align:left">⬇ Open / Download</button>
+      </div>`;
     }
     if(txt&&txt!=='[image]'&&!txt.startsWith('[file:')&&txt!=='[message]') content+=`<div style="margin-top:4px">${window._esc(txt)}</div>`;
   }else{
@@ -2249,6 +2298,39 @@ window.sendMsg=async()=>{
 };
 
 // FIX 1: persistent storage — compress images, enforce 700KB limit (Firestore 1MB doc limit)
+// Opens a file from base64 data — works on all devices including mobile
+function dataURLtoBlob(dataUrl){
+  try{
+    const arr=dataUrl.split(',');
+    if(arr.length<2)return null;
+    const mime=arr[0].match(/:(.*?);/)[1];
+    const bstr=atob(arr[1]);
+    let n=bstr.length;
+    const u8arr=new Uint8Array(n);
+    while(n--)u8arr[n]=bstr.charCodeAt(n);
+    return new Blob([u8arr],{type:mime});
+  }catch(e){return null;}
+}
+
+function openFileFromData(encodedData,mimeType,fileName){
+  try{
+    const dataUrl=decodeURIComponent(encodedData);
+    const blob=dataURLtoBlob(dataUrl);
+    if(!blob){window.toast('Cannot open file');return;}
+    const url=URL.createObjectURL(blob);
+    // On mobile: use download link; on desktop: open in new tab
+    const a=document.createElement('a');
+    a.href=url;
+    a.target='_blank';
+    a.rel='noopener';
+    a.download=fileName||'file';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),10000);
+  }catch(e){window.toast('Cannot open file on this device');}
+}
+
 async function compressImage(dataUrl,maxW=600){
   return new Promise(res=>{
     const img=new Image();
@@ -2836,7 +2918,21 @@ function logSessDisplay(){
 }
 function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel')?.value||'General',dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});tSecs=0;tTotal=0;tSaved=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
 function renderSessLog(){const el=document.getElementById('sess-log');if(!el)return;if(!sessions.length){el.innerHTML='';return;}el.innerHTML=sessions.slice(0,4).map(s=>`<div class="sess-item"><span class="tag" style="font-size:10px">${window._esc(s.sub)}</span><span style="font-weight:800;color:var(--primary);font-family:'Space Mono',monospace">${fmtHLabel(s.dur)}</span><span style="color:var(--ink3)">${s.time}</span></div>`).join('');}
-function renderStats(){const ts=window.studyData[window._today]||0;const stdEl=document.getElementById('st-today');if(stdEl)stdEl.textContent=window._fmtH(ts);let ws=0;for(let i=0;i<7;i++)ws+=(window.studyData[window._dStr(i)]||0);const swEl=document.getElementById('st-week');if(swEl)swEl.textContent=window._fmtH(ws);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const ssEl=document.getElementById('st-streak');if(ssEl)ssEl.textContent=st;const seEl=document.getElementById('st-sess');if(seEl)seEl.textContent=sessions.length;}
+function renderStats(){const ts=window.studyData[window._today]||0;const stdEl=document.getElementById('st-today');if(stdEl)stdEl.textContent=window._fmtH(ts);let ws=0;for(let i=0;i<7;i++)ws+=(window.studyData[window._dStr(i)]||0);const swEl=document.getElementById('st-week');if(swEl)swEl.textContent=window._fmtH(ws);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const ssEl=document.getElementById('st-streak');if(ssEl)ssEl.textContent=st;const seEl=document.getElementById('st-sess');if(seEl)seEl.textContent=sessions.length;renderRecentActivity();}
+function renderRecentActivity(){
+  const el=document.getElementById('recent-act');if(!el)return;
+  // Build activity from sessions + studyData
+  const items=[];
+  sessions.slice(0,5).forEach(s=>items.push({icon:'📚',text:'Studied '+fmtHLabel(s.dur)+' · '+window._esc(s.sub),time:s.time}));
+  // Add today's todos done
+  const todayDone=(window.todos||[]).filter(t=>t.done&&t.doneAt===window._today);
+  if(todayDone.length)items.push({icon:'✅',text:todayDone.length+' task'+(todayDone.length>1?'s':'')+' completed today',time:'today'});
+  // Streak
+  let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}
+  if(st>1)items.push({icon:'🔥',text:st+'-day study streak!',time:''});
+  if(!items.length){el.innerHTML='<div class="empty">Start studying to see activity here</div>';return;}
+  el.innerHTML=items.slice(0,6).map(a=>`<div style="display:flex;gap:9px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border2)"><span style="font-size:16px">${a.icon}</span><div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--ink)">${a.text}</div>${a.time?`<div style="font-size:10px;color:var(--ink3);margin-top:1px">${a.time}</div>`:''}</div></div>`).join('');
+}
 function renderWkChart(){const days=['S','M','T','W','T','F','S'],dow=new Date().getDay(),el=document.getElementById('wk-chart');if(!el)return;const vals=[];for(let i=6;i>=0;i--)vals.push({l:days[(dow-i+7)%7],v:window.studyData[window._dStr(i)]||0});const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map((v,i)=>`<div class="wb-wrap"><div class="wb ${i===6?'today':''}" style="height:${Math.round(v.v/mx*48)+3}px" title="${window._fmtH(v.v)}"></div><div class="wb-lbl">${v.l}</div></div>`).join('');}
 window.setPomoDur=(m,btn)=>{pomoDur=m;btn.parentElement?.querySelectorAll('.time-chip').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');const pl=document.getElementById('pomo-dur-lbl');if(pl)pl.textContent=m+'m';const pt=document.getElementById('pomo-total');if(pt)pt.textContent=calcPomoTotal();};
 window.setBreakDur=(m,btn)=>{brkDur=m;btn.parentElement?.querySelectorAll('.time-chip').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');const bl=document.getElementById('brk-dur-lbl');if(bl)bl.textContent=m+'m';const pt=document.getElementById('pomo-total');if(pt)pt.textContent=calcPomoTotal();};
@@ -2862,7 +2958,7 @@ document.addEventListener('visibilitychange',()=>{
   }
 });
 
-window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
+window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){saveSecs(focusSecs);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
 // Focus timer — Date.now() based, throttle-proof
 let focusSegStart=0, focusSegBase=0;
 window.toggleFocusTimer=()=>{
@@ -2893,7 +2989,7 @@ window.toggleFocusTimer=()=>{
     },500); // 500ms tick so display catches up faster after tab switch
   }
 };
-window.resetFocusTimer=()=>{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10)saveSecs(focusSecs);focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
+window.resetFocusTimer=()=>{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){saveSecs(focusSecs);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
 
 // ── XP ──
 const lvThresh=[0,100,300,600,1000,1500,2200,3000,4000,5000];
