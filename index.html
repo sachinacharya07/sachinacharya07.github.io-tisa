@@ -1286,6 +1286,36 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       </div>
       <button class="btn btn-sm btn-p" style="width:100%;margin-top:8px" onclick="applyCustom()">Apply</button>
     </div>
+    <div style="margin-top:12px;background:var(--bg);border-radius:12px;padding:12px;border:1.5px dashed var(--border)">
+      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:9px">✏️ Text & Readability</div>
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;color:var(--ink3);margin-bottom:6px;font-weight:600">Font Size</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-size:11px;color:var(--ink3)">A</span>
+          <input type="range" id="font-size-slider" min="12" max="20" step="1" value="14"
+            oninput="previewFontSize(this.value)"
+            onchange="saveFontSize(this.value)"
+            style="flex:1;accent-color:var(--primary)">
+          <span style="font-size:16px;color:var(--ink3);font-weight:700">A</span>
+          <span id="font-size-val" style="font-size:11px;color:var(--primary);font-weight:800;min-width:28px">14px</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--ink3);margin-bottom:6px;font-weight:600">Text Colour</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input type="color" id="text-color-inp" value="#1a1c16"
+            style="width:36px;height:32px;border:none;border-radius:8px;cursor:pointer;background:none"
+            oninput="previewTextColor(this.value)">
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+            <button onclick="setTextColorPreset('#1a1c16')" style="background:#1a1c16;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Dark"></button>
+            <button onclick="setTextColorPreset('#e8f0e0')" style="background:#e8f0e0;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Light"></button>
+            <button onclick="setTextColorPreset('#3a5a6a')" style="background:#3a5a6a;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Slate"></button>
+            <button onclick="setTextColorPreset('#4a2a3a')" style="background:#4a2a3a;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Plum"></button>
+            <button onclick="resetTextColor()" style="background:var(--bg2);width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer;font-size:10px;font-weight:700;color:var(--ink3)" title="Reset">↺</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="card">
     <div class="ct"><div class="ct-ic">🔔</div>Notifications & Sync</div>
@@ -1676,6 +1706,20 @@ async function loadUD(){
     window.xp=d.xp||0;
     window.coins=d.coins||0;
     window.subjects=d.subjects||[...window.defaultSubjects];
+    // Restore preferences (theme, font size, text colour)
+    if(d.prefs){
+      if(d.prefs.theme&&d.prefs.theme!==localStorage.getItem('tisa-theme')){
+        setTheme(d.prefs.theme);
+      }
+      if(d.prefs.fontSize){
+        localStorage.setItem('tisa-fontsize',d.prefs.fontSize);
+        applyFontSize(d.prefs.fontSize);
+      }
+      if(d.prefs.textColor){
+        localStorage.setItem('tisa-textcolor',d.prefs.textColor);
+        applyTextColor(d.prefs.textColor);
+      }
+    }
     window.customAvatarUrl=d.avatarUrl||'';
     if(window.customAvatarUrl){
       ['user-av','prof-av'].forEach(id=>{
@@ -1706,7 +1750,12 @@ window._save=async()=>{
       sessions:sessions.slice(0,20),
       papers:papersForSave,pastTests:window.pastTests,journals:window.journals,
       assignments:window.assignments,resources:window.resources,timetable:window.timetable,
-      xp:window.xp,coins:window.coins,subjects:window.subjects
+      xp:window.xp,coins:window.coins,subjects:window.subjects,
+      prefs:{
+        theme:localStorage.getItem('tisa-theme')||'light',
+        fontSize:localStorage.getItem('tisa-fontsize')||'14',
+        textColor:localStorage.getItem('tisa-textcolor')||''
+      }
     },{merge:true});
     // LOADING FIX: mirror study hours into publicStats (any auth user can read)
     // userData is owner-private, so buddy's listener was silently failing -> "Loading..."
@@ -2252,19 +2301,35 @@ function renderMsg(m,ck){
   else txt=m.text||'';
   const t=m.ts?new Date(m.ts.toDate()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';
   let content='';
-  if(m.fileData){
+  // Support both new fileURL (Firebase Storage) and old fileData (base64 legacy)
+  const fileUrl=m.fileURL||null;
+  const fileSrc=fileUrl||(m.fileData||null);
+  if(fileSrc){
     if(m.fileType&&m.fileType.startsWith('image/')){
-      // Create a temporary blob URL so it opens on any device
-      const imgBlob=dataURLtoBlob(m.fileData);
-      const imgUrl=imgBlob?URL.createObjectURL(imgBlob):m.fileData;
-      content=`<div><img src="${imgUrl}" style="max-width:190px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px;cursor:pointer" onclick="openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'image/jpeg')}','${window._esc(m.originalFileName||'image')}')" loading="lazy"><a href="#" onclick="event.preventDefault();openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'image/jpeg')}','${window._esc(m.originalFileName||'image.jpg')}')" style="font-size:10px;color:${isMe?'rgba(255,255,255,.7)':'var(--ink3)'}">⬇ Open/Download</a></div>`;
+      if(fileUrl){
+        // New: direct URL — works on all devices instantly
+        content=`<div><img src="${fileUrl}" style="max-width:190px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px;cursor:pointer" onclick="window.open('${fileUrl}','_blank')" loading="lazy"><a href="${fileUrl}" target="_blank" rel="noopener" download style="font-size:10px;color:${isMe?'rgba(255,255,255,.7)':'var(--ink3)'}">⬇ Open/Download</a></div>`;
+      } else {
+        // Legacy base64 fallback
+        const imgBlob=dataURLtoBlob(m.fileData);
+        const imgUrl=imgBlob?URL.createObjectURL(imgBlob):m.fileData;
+        content=`<div><img src="${imgUrl}" style="max-width:190px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px" loading="lazy"><a href="#" onclick="event.preventDefault();openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'image/jpeg')}','${window._esc(m.originalFileName||'image.jpg')}')" style="font-size:10px;color:${isMe?'rgba(255,255,255,.7)':'var(--ink3)'}">⬇ Open/Download</a></div>`;
+      }
     }else{
       // FIX: show real filename not UUID
       const fn=m.originalFileName||m.fileName||'File';
-      content=`<div style="display:flex;flex-direction:column;gap:4px">
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${isMe?'white':'var(--ink)'};">📄 ${window._esc(fn)}</div>
-        <button onclick="openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'application/octet-stream')}','${window._esc(fn)}')" style="background:${isMe?'rgba(255,255,255,.2)':'rgba(92,122,62,.15)'};border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;color:${isMe?'white':'var(--primary)'};text-align:left">⬇ Open / Download</button>
-      </div>`;
+      if(fileUrl){
+        // New: direct download URL
+        content=`<div style="display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${isMe?'white':'var(--ink)'};">📄 ${window._esc(fn)}</div>
+          <a href="${fileUrl}" target="_blank" rel="noopener" download="${window._esc(fn)}" style="background:${isMe?'rgba(255,255,255,.2)':'rgba(92,122,62,.15)'};border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;color:${isMe?'white':'var(--primary)'};text-align:left;text-decoration:none;display:inline-block">⬇ Open / Download</a>
+        </div>`;
+      } else {
+        content=`<div style="display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${isMe?'white':'var(--ink)'};">📄 ${window._esc(fn)}</div>
+          <button onclick="openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'application/octet-stream')}','${window._esc(fn)}')" style="background:${isMe?'rgba(255,255,255,.2)':'rgba(92,122,62,.15)'};border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;color:${isMe?'white':'var(--primary)'};text-align:left">⬇ Open / Download</button>
+        </div>`;
+      }
     }
     if(txt&&txt!=='[image]'&&!txt.startsWith('[file:')&&txt!=='[message]') content+=`<div style="margin-top:4px">${window._esc(txt)}</div>`;
   }else{
@@ -2351,15 +2416,14 @@ async function compressImage(dataUrl,maxW=600){
 
 window.sendChatFile=async(files)=>{
   if(!files[0]||!aChatId){window.toast('Select a conversation first');return;}
-  if(_sending){window.toast('Please wait...');return;} // BUG1 FIX: prevent duplicate file sends
+  if(_sending){window.toast('Please wait...');return;}
   const f=files[0];
-  if(f.size>600*1024){window.toast('File too large. Max 600KB 📎');document.getElementById('chat-attach').value='';return;}
+  if(f.size>800*1024){window.toast('File too large. Max 800KB 📎');document.getElementById('chat-attach').value='';return;}
   const r=new FileReader();
   _sending=true;
   r.onload=async(e)=>{
     const ck=cKey(window._CU.uid,aOtherUid);
     const isImg=f.type.startsWith('image/');
-    // Compress images before storing
     const fileData=isImg?await compressImage(e.target.result):e.target.result;
     try{
       await addDoc(collection(db,'chats',aChatId,'messages'),{
@@ -2372,11 +2436,9 @@ window.sendChatFile=async(files)=>{
       await updateDoc(doc(db,'chats',aChatId),{updatedAt:serverTimestamp()});
       window.toast('File sent! 📎');
     }catch(err){
-      window.toast('File too large for storage. Try a smaller file.');
+      window.toast('File too large for Firestore. Try under 800KB.');
       document.getElementById('chat-attach').value='';
-    }finally{
-      _sending=false; // BUG3 FIX: always release lock after file upload
-    }
+    }finally{_sending=false;}
   };
   r.readAsDataURL(f);
 };
@@ -2764,10 +2826,63 @@ const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{nam
 function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface','--font-main','--font-head'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);localStorage.setItem('tisa-theme',name);document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();}
 window.setTheme=setTheme;
 window.toggleDark=()=>{const c=document.documentElement.getAttribute('data-theme');setTheme(c==='dark'?'light':'dark');};
+// ── FONT SIZE ──
+function applyFontSize(size){
+  size=parseInt(size)||14;
+  document.documentElement.style.setProperty('--font-size-base', size+'px');
+  document.body.style.fontSize=size+'px';
+  const el=document.getElementById('font-size-val');
+  if(el)el.textContent=size+'px';
+  const slider=document.getElementById('font-size-slider');
+  if(slider)slider.value=size;
+}
+function previewFontSize(size){
+  applyFontSize(size);
+}
+function saveFontSize(size){
+  applyFontSize(size);
+  localStorage.setItem('tisa-fontsize',size);
+  window._save&&window._save();
+  window.toast('Font size set to '+size+'px');
+}
+
+// ── TEXT COLOUR ──
+function applyTextColor(color){
+  if(!color)return;
+  document.documentElement.style.setProperty('--ink',color);
+  // Derive ink2/ink3 from the color with opacity
+  document.documentElement.style.setProperty('--ink2',color+'cc');
+  const inp=document.getElementById('text-color-inp');
+  if(inp)inp.value=color;
+}
+function previewTextColor(color){
+  applyTextColor(color);
+}
+function setTextColorPreset(color){
+  applyTextColor(color);
+  localStorage.setItem('tisa-textcolor',color);
+  window._save&&window._save();
+  window.toast('Text colour updated');
+}
+function resetTextColor(){
+  document.documentElement.style.removeProperty('--ink');
+  document.documentElement.style.removeProperty('--ink2');
+  localStorage.removeItem('tisa-textcolor');
+  window._save&&window._save();
+  window.toast('Text colour reset to theme default');
+}
+
 window.applyCustom=()=>{const p=document.getElementById('custom-p').value,bg=document.getElementById('custom-bg').value;const fontVal=document.getElementById('custom-font')?.value||"'Nunito',sans-serif";const r=document.documentElement.style;document.documentElement.removeAttribute('data-theme');r.setProperty('--primary',p);r.setProperty('--pd',shade(p,-20));r.setProperty('--pl',shade(p,40));r.setProperty('--pglow',p+'22');r.setProperty('--bg',bg);r.setProperty('--bg2',shade(bg,-4));r.setProperty('--bg3',shade(bg,-8));r.setProperty('--surface',shade(bg,3));const isDark=(parseInt(bg.slice(1,3),16)+parseInt(bg.slice(3,5),16)+parseInt(bg.slice(5,7),16))<360;r.setProperty('--ink',isDark?'#e8f0e0':'#1a1c16');r.setProperty('--ink2',isDark?'#a8b898':'#4a5240');r.setProperty('--ink3',isDark?'#6a7a5a':'#8a9280');r.setProperty('--border',p+'33');r.setProperty('--border2',p+'18');r.setProperty('--font-main',fontVal);document.body.style.fontFamily=fontVal;toast('Custom theme applied 🎨');};
 function shade(c,p){const n=parseInt(c.slice(1),16),t=p<0?0:255,R=n>>16,G=(n>>8)&0xFF,B=n&0xFF;return'#'+(0x1000000+(Math.round((t-R)*Math.abs(p)/100)+R)*0x10000+(Math.round((t-G)*Math.abs(p)/100)+G)*0x100+(Math.round((t-B)*Math.abs(p)/100)+B)).toString(16).slice(1);}
 window.renderThemeGrid=function(){const el=document.getElementById('theme-grid-el');if(!el)return;const cur=document.documentElement.getAttribute('data-theme');el.innerHTML=Object.entries(THEMES).map(([k,v])=>`<div class="theme-card ${cur===k?'active':''}" onclick="setTheme('${k}')"><div class="tp-row"><div class="tp-b" style="background:${v.p}"></div><div class="tp-b" style="background:${v.b}"></div><div class="tp-b" style="background:${v.s}"></div></div><div class="tnm">${v.name}</div></div>`).join('');};
 try{setTheme(localStorage.getItem('tisa-theme')||'light');}catch(e){setTheme('light');}
+// Restore font size and text colour on load
+try{
+  const savedSize=localStorage.getItem('tisa-fontsize');
+  if(savedSize) applyFontSize(savedSize);
+  const savedColor=localStorage.getItem('tisa-textcolor');
+  if(savedColor) applyTextColor(savedColor);
+}catch(e){}
 
 // ── QUOTES ──
 const QS=[
