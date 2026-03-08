@@ -1133,13 +1133,13 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   </div>
   <div class="t-btns">
     <button class="btn btn-p btn-sm" id="t-btn" onclick="toggleTimer()">Start</button>
-    <button class="btn btn-o btn-sm" id="pomo-tog" onclick="showPomoSetup()">🍅 Pomo</button>
+    <button class="btn btn-o btn-sm" id="pomo-tog" onclick="quickStartPomo()">🍅 Pomo</button>
     <button class="btn btn-o btn-sm" onclick="resetTimer()">Reset</button>
     <button class="btn btn-o btn-sm" onclick="toggleFocus()">🎯</button>
   </div>
   <div class="sess-log" id="sess-log"></div>
 </div>
-<div class="card">
+<div class="card" id="pomo-settings-card" style="display:none">
   <div class="ct"><div class="ct-ic">🍅</div>Pomodoro</div>
   <div style="display:flex;flex-direction:column;gap:10px">
     <div><div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Focus Duration</div>
@@ -1681,7 +1681,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 </div>
 
 <!-- ADMIN PAGE -->
-<div class="page" id="page-admin" style="display:none">
+<div class="page" id="page-admin">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
   <div style="font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:var(--primary)">🛡️ Admin Panel</div>
   <button class="btn btn-sm btn-o" onclick="window._adminRefresh()">🔄 Refresh</button>
@@ -3444,14 +3444,28 @@ function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){const
   const longBreak=brkDur*3;
   sendNotification('🎉 Pomodoro Complete!','You earned a '+longBreak+' min long break!');
   toast('🎉 Long break time! '+longBreak+' min');
-  const tbtn=document.getElementById('t-btn');if(tbtn)tbtn.textContent='Start Long Break';
-  const pstat=document.getElementById('pomo-status');if(pstat)pstat.textContent='Long Break!';
-}else{pomoState='break';sendNotification('☕ Break Time!',brkDur+' min break. You earned it!');toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';sendNotification('🍅 Back to Focus!','Break over. Time to study!');toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}// Reset ALL timer state at end of every cycle
+  const tbtn=document.getElementById('t-btn');if(tbtn)tbtn.textContent='Pause';
+  const pstat=document.getElementById('pomo-status');if(pstat)pstat.textContent='🎉 Long Break';
+  setTimeout(()=>startT(),800);
+}else{pomoState='break';sendNotification('☕ Break Time!',brkDur+' min break. You earned it!');toast('☕ Break time! '+brkDur+' min — starting automatically ☕');document.getElementById('t-btn').textContent='Pause';document.getElementById('pomo-status').textContent='☕ Break';setTimeout(()=>startT(),800);}}else{pomoState='work';sendNotification('🍅 Back to Focus!','Break over. Time to study!');toast('🍅 Back to focus! 25 min — starting 🍅');document.getElementById('t-btn').textContent='Pause';document.getElementById('pomo-status').textContent='🍅 Focus';setTimeout(()=>startT(),800);}// Reset ALL timer state at end of every cycle
 tSecs=0;tTotal=0;tSaved=0;tSegBase=0;
 updTD();}
 window.togglePomo=()=>{pomoMode=!pomoMode;const btn=document.getElementById('pomo-tog');btn.style.background=pomoMode?'var(--primary)':'';btn.style.color=pomoMode?'white':'';pomoState='work';pomoCount=0;tSecs=0;tTotal=0;tSaved=0;if(tRun){clearInterval(tInt);tRun=false;document.getElementById('t-btn').textContent='Start';}updTD();updTRing();updPomoDots();toast(pomoMode?'🍅 Pomodoro on!':'⏱ Regular mode');};
 function updPomoDots(){['pomo-dots','pomo-info','focus-pomo'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=Array(pomoTotal).fill(0).map((_,i)=>`<div class="pdot ${i<pomoCount?'done':i===pomoCount&&tRun?'cur':''}"></div>`).join('');});}
-function updTD(){const t=fmtHMS(tTotal);const td=document.getElementById('t-digits');const ft=document.getElementById('focus-t');if(td)td.textContent=t;if(ft)ft.textContent=t;}
+function updTD(){
+  let t;
+  if(pomoMode){
+    const dur=pomoState==='work'?pomoDur*60:brkDur*60;
+    const remaining=Math.max(0,dur-tSecs);
+    t=fmtHMS(remaining);
+  }else{
+    t=fmtHMS(tTotal);
+  }
+  const td=document.getElementById('t-digits');
+  const ft=document.getElementById('focus-t');
+  if(td)td.textContent=t;
+  if(ft)ft.textContent=t;
+}
 function updTRing(){const dur=pomoMode?(pomoState==='work'?pomoDur*60:brkDur*60):3600;const elapsed=pomoMode?tSecs:tTotal;const pct=Math.min(1,elapsed/dur);const pr=document.getElementById('t-prog');if(pr)pr.style.strokeDashoffset=408*(1-pct);}
 function saveSecs(s,segStartDate){
   // segStartDate = date when the segment STARTED (for midnight split)
@@ -3812,6 +3826,34 @@ window.submitReport=async()=>{
 // ── POMO SETUP ──
 let _pomoSetupDur=25, _pomoSetupBrk=5, _pomoSetupCycles=4;
 
+// Quick-start Pomo: one tap enables 25/5 countdown and starts immediately
+window.quickStartPomo=function(){
+  if(pomoMode&&tRun){
+    // Running → pause
+    pauseT();
+    return;
+  }
+  if(pomoMode&&!tRun&&tSecs>0){
+    // Paused → resume
+    startT();
+    return;
+  }
+  // Fresh start: enable pomo with 25/5 defaults
+  pomoMode=true;
+  pomoState='work';
+  pomoCount=0;
+  pomoDur=25; brkDur=5;
+  tSecs=0; tTotal=0; tSaved=0; tSegBase=0;
+  const btn=document.getElementById('pomo-tog');
+  if(btn){btn.style.background='var(--primary)';btn.style.color='white';}
+  const ps=document.getElementById('pomo-status');
+  if(ps)ps.textContent='🍅 Focus';
+  updPomoDots();
+  updTD(); // show 25:00 immediately
+  startT(); // auto-start countdown
+  toast('🍅 Pomodoro started! 25 min focus 🎯');
+};
+
 window.showPomoSetup=()=>{
   if(pomoMode){
     // if already on, toggle off
@@ -4019,10 +4061,10 @@ async function _admLoad(){
 }
 function _admRender(){const el=document.getElementById('adm-content');if(!el)return;if(_admTab_current==='reports')el.innerHTML=_admRenderReports();else if(_admTab_current==='posts')el.innerHTML=_admRenderPosts();else if(_admTab_current==='users')el.innerHTML=_admRenderUsers();else if(_admTab_current==='banned')el.innerHTML=_admRenderBanned();}
 function _e(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function _admRenderReports(){if(!_admReports.length)return '<div class="empty">No reports</div>';return _admReports.map(r=>'<div class="card" style="margin-bottom:10px;padding:12px"><div style="font-size:12px;font-weight:800;margin-bottom:4px">Reported by: @'+_e(r.reporterAlias||r.reporterUid||'?')+'</div><div style="font-size:12px;color:var(--ink2);margin-bottom:4px">Content by: @'+_e(r.targetAlias||r.targetUid||'?')+'</div><div style="font-size:11px;color:var(--ink3);margin-bottom:8px">'+_e(r.reason||'No reason')+'</div><div style="display:flex;gap:6px"><button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser(''+_e(r.targetUid||'')+'',''+_e(r.targetAlias||r.targetUid||'user')+'')">Ban Author</button><button class="btn btn-sm btn-o" onclick="window._admDeleteReport(''+r.id+'')">Dismiss</button></div></div>').join('');}
-function _admRenderPosts(){if(!_admPosts.length)return '<div class="empty">No posts</div>';return _admPosts.slice(0,100).map(p=>'<div class="card" style="margin-bottom:8px;padding:10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:800;color:var(--primary)">@'+_e(p.alias||p.uname||'?')+'</div><div style="font-size:12px;color:var(--ink2);word-break:break-word">'+_e((p.text||'').slice(0,100))+'</div></div><button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);flex-shrink:0" onclick="window._admDeletePost(''+p.id+'')">Delete</button></div></div>').join('');}
-function _admRenderUsers(){if(!_admUsers.length)return '<div class="empty">No users</div>';return _admUsers.map(u=>{const banned=_admBanned.some(b=>b.id===u.id);return '<div class="card" style="margin-bottom:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-size:12px;font-weight:800">@'+_e(u.username||'?')+(banned?' <span style=\"color:var(--danger)\">BANNED</span>':'')+'</div><div style="font-size:10px;color:var(--ink3)">'+_e(u.id)+'</div></div><div style="display:flex;gap:6px">'+(banned?'<button class="btn btn-sm btn-o" onclick="window._admUnban(''+u.id+'')">Unban</button>':'<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser(''+u.id+'',''+_e(u.username||u.id)+'')">Ban</button>')+'<button class="btn btn-sm btn-o" onclick="window._admWarn(''+u.id+'',''+_e(u.username||'user')+'')">Warn</button></div></div>';}).join('');}
-function _admRenderBanned(){if(!_admBanned.length)return '<div class="empty">No banned users</div>';return _admBanned.map(b=>'<div class="card" style="margin-bottom:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-size:12px;font-weight:800;color:var(--danger)">'+_e(b.alias||b.id)+'</div><div style="font-size:10px;color:var(--ink3)">'+_e(b.reason||'No reason')+'</div></div><button class="btn btn-sm btn-o" onclick="window._admUnban(''+b.id+'')">Unban</button></div>').join('');}
+function _admRenderReports(){if(!_admReports.length)return '<div class="empty">No reports</div>';return _admReports.map(r=>`<div class="card" style="margin-bottom:10px;padding:12px"><div style="font-size:12px;font-weight:800;margin-bottom:4px">Reported by: @${_e(r.reporterAlias||r.reporterUid||'?')}</div><div style="font-size:12px;color:var(--ink2);margin-bottom:4px">Content by: @${_e(r.targetAlias||r.targetUid||'?')}</div><div style="font-size:11px;color:var(--ink3);margin-bottom:8px">${_e(r.reason||'No reason')}</div><div style="display:flex;gap:6px"><button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser('${_e(r.targetUid||'')}','${_e(r.targetAlias||r.targetUid||'user')}')">Ban Author</button><button class="btn btn-sm btn-o" onclick="window._admDeleteReport('${r.id}')">Dismiss</button></div></div>`).join('');}
+function _admRenderPosts(){if(!_admPosts.length)return '<div class="empty">No posts</div>';return _admPosts.slice(0,100).map(p=>`<div class="card" style="margin-bottom:8px;padding:10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:800;color:var(--primary)">@${_e(p.alias||p.uname||'?')}</div><div style="font-size:12px;color:var(--ink2);word-break:break-word">${_e((p.text||'').slice(0,100))}</div></div><button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);flex-shrink:0" onclick="window._admDeletePost('${p.id}')">Delete</button></div></div>`).join('');}
+function _admRenderUsers(){if(!_admUsers.length)return '<div class="empty">No users</div>';return _admUsers.map(u=>{const banned=_admBanned.some(b=>b.id===u.id);return `<div class="card" style="margin-bottom:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-size:12px;font-weight:800">@${_e(u.username||'?')}${banned?' <span style=\"color:var(--danger)\">BANNED</span>':''}</div><div style="font-size:10px;color:var(--ink3)">${_e(u.id)}</div></div><div style="display:flex;gap:6px">${banned?`<button class="btn btn-sm btn-o" onclick="window._admUnban('${u.id}')">Unban</button>`:`<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser('${u.id}','${_e(u.username||u.id)}')">Ban</button>`}<button class="btn btn-sm btn-o" onclick="window._admWarn('${u.id}','${_e(u.username||'user')}')">Warn</button></div></div>`;}).join('');}
+function _admRenderBanned(){if(!_admBanned.length)return '<div class="empty">No banned users</div>';return _admBanned.map(b=>`<div class="card" style="margin-bottom:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-size:12px;font-weight:800;color:var(--danger)">${_e(b.alias||b.id)}</div><div style="font-size:10px;color:var(--ink3)">${_e(b.reason||'No reason')}</div></div><button class="btn btn-sm btn-o" onclick="window._admUnban('${b.id}')">Unban</button></div>`).join('');}
 window._admBanUser=async function(uid,alias){if(!uid||!_isAdmin()){window.toast('No UID');return;}const reason=prompt('Ban reason for @'+alias+'?');if(reason===null)return;try{const _sd=window._setDoc||setDoc,_dc=window._doc||doc,_db2=window._db||db,_st=window._sTs||serverTimestamp;await _sd(_dc(_db2,'banned',uid),{uid,alias,reason:reason||'Violation',bannedAt:_st(),bannedBy:window._CU.uid});window.toast('Banned @'+alias);await _admLoad();}catch(e){window.toast('Failed: '+e.message);}};
 window._admUnban=async function(uid){if(!_isAdmin())return;try{const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;await _dd(_dc(_db2,'banned',uid));window.toast('User unbanned');await _admLoad();}catch(e){window.toast('Failed: '+e.message);}};
 window._admDeletePost=async function(postId){if(!_isAdmin())return;if(!confirm('Delete this post?'))return;try{const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;await _dd(_dc(_db2,'posts',postId));window.toast('Post deleted');_admPosts=_admPosts.filter(p=>p.id!==postId);document.getElementById('adm-post-c').textContent=_admPosts.length;_admRender();}catch(e){window.toast('Failed: '+e.message);}};
@@ -4051,7 +4093,7 @@ function updateGreeting(){
   if(streak>0)sub.textContent='🔥 '+streak+' day streak — keep it going!';
   else if(h<12)sub.textContent='Start strong. Your future self will thank you.';
   else if(h<17)sub.textContent='Halfway through. Stay focused.';
-  else sub.textContent='Evening sessions count too. Let's go.';
+  else sub.textContent='Evening sessions count too. Let us go.';
 }
 
 // ── Collapsible todo input ──
