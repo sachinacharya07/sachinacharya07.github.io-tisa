@@ -15,8 +15,7 @@
 <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIlRJU0EgU3R1ZHkgQ29tcGFuaW9uIiwgInNob3J0X25hbWUiOiAiVElTQSIsICJkZXNjcmlwdGlvbiI6ICJZb3VyIHBlcnNvbmFsIHN0dWR5IGNvbXBhbmlvbiIsICJzdGFydF91cmwiOiAiLi8iLCAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsICJ0aGVtZV9jb2xvciI6ICIjYzA1NDZhIiwgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0LXByaW1hcnkiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxOTIgMTkyJyUzRSUzQ2NpcmNsZSBjeD0nOTYnIGN5PSc5Nicgcj0nOTYnIGZpbGw9JyUyM2MwNTQ2YScvJTNFJTNDdGV4dCB5PScxMzAnIHg9Jzk2JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LXNpemU9JzExMCclM0VcdWQ4M2RcdWRjM2MlM0MvdGV4dCUzRSUzQy9zdmclM0UiLCAic2l6ZXMiOiAiMTkyeDE5MiIsICJ0eXBlIjogImltYWdlL3N2Zyt4bWwifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJyUzRSUzQ2NpcmNsZSBjeD0nMjU2JyBjeT0nMjU2JyByPScyNTYnIGZpbGw9JyUyM2MwNTQ2YScvJTNFJTNDdGV4dCB5PSczNTAnIHg9JzI1NicgdGV4dC1hbmNob3I9J21pZGRsZScgZm9udC1zaXplPSczMDAnJTNFXHVkODNkXHVkYzNjJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dfQ==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Josefin+Sans:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>/* . Keep Pomodoro Hidden */
-  .home-grid > .card:nth-child(2) { display: none !important; }
+<style>
 html{overflow-x:hidden}
 :root,[data-theme="light"]{--bg:#f8f6f0;--bg2:#f0ede4;--bg3:#e8e3d8;--surface:#ffffff;--surface2:#faf8f3;--primary:#5c7a3e;--pd:#3d5429;--pl:#b8d090;--pglow:rgba(92,122,62,.15);--ink:#1a1c16;--ink2:#4a5240;--ink3:#8a9280;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(92,122,62,.22);--border2:rgba(92,122,62,.1);--sh:0 2px 14px rgba(92,122,62,.1);--shl:0 8px 32px rgba(92,122,62,.14);}
 [data-theme="dark"]{--bg:#141810;--bg2:#1c2116;--bg3:#232a1c;--surface:#1e2419;--surface2:#252d1f;--primary:#7db356;--pd:#5c9038;--pl:#4a6830;--pglow:rgba(125,179,86,.18);--ink:#e8f0e0;--ink2:#a8b898;--ink3:#6a7a5a;--danger:#e05a4a;--success:#4db360;--warn:#e0a830;--border:rgba(125,179,86,.2);--border2:rgba(125,179,86,.1);--sh:0 2px 14px rgba(0,0,0,.35);--shl:0 8px 32px rgba(0,0,0,.45);}
@@ -243,7 +242,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .t-track{fill:none;stroke:var(--bg3);stroke-width:9}
 .t-prog{fill:none;stroke:var(--primary);stroke-width:9;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset .6s ease}
 .t-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.t-digits{font-family:'Space Mono',monospace!important;font-size:30px;font-weight:700;color:var(--primary);letter-spacing:2px;line-height:1}
+.t-digits{font-family:'Space Mono',monospace!important;font-size:42px;font-weight:700;color:var(--primary);letter-spacing:2px;line-height:1}
 .t-mode{font-size:10px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-top:3px;font-weight:700}
 .t-btns{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}
 .subj-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
@@ -516,7 +515,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   /* Timer */
   .timer-ring{width:160px;height:160px}
   .tsvg{width:160px;height:160px}
-  .t-digits{font-size:28px}
+  .t-digits{font-size:36px}
   /* Todo */
   .todo-toolbar{flex-wrap:wrap;gap:6px}
   .todo-toolbar input{min-width:0;flex:1 1 100%}
@@ -543,7 +542,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .perf-grid{grid-template-columns:1fr}
   .timer-ring{width:140px;height:140px;margin:6px auto}
   .tsvg{width:140px;height:140px}
-  .t-digits{font-size:24px;letter-spacing:1px}
+  .t-digits{font-size:32px;letter-spacing:1px}
   .more-grid{grid-template-columns:repeat(2,1fr)}
   main{padding:8px 8px 80px}
   .card{padding:12px 10px;width:100%;box-sizing:border-box}
@@ -577,7 +576,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .snum{font-size:22px}
   .timer-ring{width:140px;height:140px;margin:6px auto}
   .tsvg{width:140px;height:140px}
-  .t-digits{font-size:24px;letter-spacing:1px}
+  .t-digits{font-size:32px;letter-spacing:1px}
   .prof-stats{grid-template-columns:1fr 1fr}
   .theme-grid{grid-template-columns:repeat(2,1fr)}
   .card{padding:12px 10px}
@@ -600,6 +599,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 #app-header.hdr-compact .xp-chip{display:none!important;}
 
 /* FAB panda in nav center */
+#nav-panda-btn:hover{opacity:.85;transform:scale(1.05);transition:all .15s}
 #mob-panda-fab{
   width:52px;height:52px;border-radius:50%;
   background:var(--primary);border:3px solid var(--surface);
@@ -616,16 +616,16 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 /* Wellness bottom sheet */
 #wellness-sheet{
-  position:fixed;bottom:-300px;left:0;right:0;z-index:600;
+  position:fixed;bottom:-640px;left:0;right:0;z-index:600;max-height:80vh;overflow-y:auto;
   background:var(--surface);
   border-radius:24px 24px 0 0;
   padding:16px 20px 24px;
   box-shadow:0 -8px 40px rgba(0,0,0,.18);
-  transition:bottom .35s cubic-bezier(.4,0,.2,1);
+  transition:bottom .35s cubic-bezier(.4,0,.2,1), visibility 0s;
   pointer-events:none;
   visibility:hidden;
 }
-#wellness-sheet.open{bottom:0;pointer-events:all;visibility:visible;}
+#wellness-sheet.open{bottom:0;pointer-events:all;visibility:visible;transition:bottom .35s cubic-bezier(.4,0,.2,1),visibility 0s;}
 #wellness-sheet-overlay{
   position:fixed;inset:0;z-index:590;
   background:rgba(0,0,0,.3);
@@ -634,7 +634,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 }
 #wellness-sheet-overlay.open{opacity:1;pointer-events:all;}
 .wellness-handle{width:40px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 16px;}
-.wellness-title{font-size:13px;font-weight:800;color:var(--ink2);text-align:center;margin-bottom:16px;letter-spacing:.5px;text-transform:uppercase;}
+.wellness-title{font-size:15px;font-weight:900;color:var(--ink);text-align:center;margin-bottom:14px;letter-spacing:.3px}
 .wellness-row{display:flex;gap:12px;justify-content:center;}
 .wellness-btn{
   display:flex;flex-direction:column;align-items:center;gap:6px;
@@ -644,6 +644,39 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   min-width:72px;
 }
 .wellness-btn:active{transform:scale(0.94);background:var(--pglow);}
+.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
+.qa-btn{display:flex;flex-direction:column;align-items:center;gap:7px;background:var(--bg2);border:1.5px solid var(--border);border-radius:16px;padding:14px 8px;cursor:pointer;transition:all .18s;width:100%;}.qa-btn:active{transform:scale(0.94);background:var(--pglow);border-color:var(--primary);}.qa-ic{font-size:28px;line-height:1;}.qa-lb{font-size:11px;font-weight:800;color:var(--ink2);text-transform:uppercase;letter-spacing:.5px;text-align:center;}
+/* ── Panda Hub tabs ── */
+.panda-tabs{display:flex;gap:6px;margin-bottom:14px;}
+.ptab{flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:12px;background:var(--bg2);
+  font-size:11px;font-weight:800;color:var(--ink3);cursor:pointer;transition:all .18s;letter-spacing:.3px;}
+.ptab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.panda-panel{animation:fadeIn .2s ease;}
+/* ── Ask Panda chat ── */
+.ask-msgs{max-height:180px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;
+  padding:4px 2px;margin-bottom:10px;scroll-behavior:smooth;}
+.ask-bubble{padding:10px 13px;border-radius:16px;font-size:13px;line-height:1.5;max-width:88%;}
+.ask-panda{background:color-mix(in srgb,var(--primary) 12%,var(--surface));
+  color:var(--ink);border-bottom-left-radius:4px;align-self:flex-start;}
+.ask-user{background:var(--primary);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+.ask-thinking{opacity:.6;font-style:italic;}
+.ask-input-row{display:flex;gap:8px;align-items:center;}
+/* ── Virtual Pet ── */
+.pet-stage{display:flex;flex-direction:column;align-items:center;padding:4px 0 8px;}
+.pet-speech{font-size:12px;color:var(--ink2);text-align:center;min-height:18px;
+  font-style:italic;margin-top:4px;opacity:.85;}
+.pet-bars{display:flex;flex-direction:column;gap:7px;margin:8px 0;}
+.pet-bar-row{display:flex;align-items:center;gap:8px;}
+.pet-bar-lbl{font-size:11px;font-weight:700;color:var(--ink2);width:90px;flex-shrink:0;}
+.pet-bar-track{flex:1;height:8px;background:var(--bg2);border-radius:99px;overflow:hidden;}
+.pet-bar-fill{height:100%;border-radius:99px;background:var(--pglow);transition:width .6s ease;}
+.pet-bar-num{font-size:11px;font-weight:800;color:var(--ink3);width:28px;text-align:right;}
+.pet-actions{display:flex;gap:10px;justify-content:center;margin-top:10px;}
+.pet-act-btn{display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;
+  padding:10px 14px;cursor:pointer;font-size:12px;font-weight:700;color:var(--ink2);
+  transition:all .18s;}
+.pet-act-btn:active{transform:scale(.93);background:var(--pglow);}
 .wellness-btn .wb-ic{font-size:26px;}
 .wellness-btn .wb-lb{font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;}
 
@@ -925,6 +958,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <button onclick="showPage('profile',this)">👤 Profile</button>
   <button onclick="showPage('settings',this)">⚙️ Settings</button>
   <button id="nav-admin-btn" onclick="showPage('admin',this)" style="display:none;color:var(--danger)">🛡️ Admin</button>
+  <button id="nav-panda-btn" onclick="openWellnessSheet()" style="background:var(--primary);color:#fff;border-radius:99px;padding:6px 16px;font-weight:800;letter-spacing:.3px">🐼 Panda</button>
 </nav>
 <div class="hdr-right">
   <div class="xp-chip" onclick="showPage('profile',null)">⚡<span id="hdr-xp">0 XP</span><span id="hdr-lv" style="opacity:.7">Lv.1</span></div>
@@ -1000,23 +1034,70 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div id="wellness-sheet-overlay" onclick="closeWellnessSheet()"></div>
 <div id="wellness-sheet">
   <div class="wellness-handle" onclick="closeWellnessSheet()" style="cursor:pointer;padding:8px 0"></div>
-  <div class="wellness-title">Wellness Check-in 🌿</div>
-  <div class="wellness-row">
-    <button class="wellness-btn" onclick="wellnessAction('water')">
-      <span class="wb-ic">💧</span><span class="wb-lb">Water</span>
-    </button>
-    <button class="wellness-btn" onclick="wellnessAction('stretch')">
-      <span class="wb-ic">🧘</span><span class="wb-lb">Stretch</span>
-    </button>
-    <button class="wellness-btn" onclick="wellnessAction('breathe')">
-      <span class="wb-ic">🌬️</span><span class="wb-lb">Breathe</span>
-    </button>
-    <button class="wellness-btn" onclick="wellnessAction('snack')">
-      <span class="wb-ic">🍎</span><span class="wb-lb">Snack</span>
-    </button>
-    <button class="wellness-btn" onclick="wellnessAction('eyes')">
-      <span class="wb-ic">👁️</span><span class="wb-lb">Eyes</span>
-    </button>
+
+  <!-- Tab bar -->
+  <div class="panda-tabs">
+    <button class="ptab active" id="ptab-actions" onclick="switchPandaTab('actions')">⚡ Actions</button>
+    <button class="ptab" id="ptab-ask" onclick="switchPandaTab('ask')">🐼 Ask Panda</button>
+    <button class="ptab" id="ptab-pet" onclick="switchPandaTab('pet')">🎮 My Panda</button>
+  </div>
+
+  <!-- TAB 1: ACTIONS -->
+  <div id="panda-tab-actions" class="panda-panel">
+    <div class="qa-grid">
+      <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('performance',null):showPageMob('performance',null));toggleFocus()">
+        <span class="qa-ic">⏱️</span><span class="qa-lb">Start Focus</span>
+      </button>
+      <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('home',null):showPageMob('home',null));setTimeout(()=>{const i=document.getElementById('todo-inp');if(i){i.scrollIntoView({behavior:'smooth',block:'center'});i.focus();}},250)">
+        <span class="qa-ic">✅</span><span class="qa-lb">Quick Task</span>
+      </button>
+      <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('journal',null):showPageMob('journal',null));setTimeout(()=>{const i=document.getElementById('j-thoughts');if(i)i.focus();},200)">
+        <span class="qa-ic">📔</span><span class="qa-lb">Quick Log</span>
+      </button>
+      <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('community',null):showPageMob('community',null))">
+        <span class="qa-ic">💬</span><span class="qa-lb">Community</span>
+      </button>
+    </div>
+    <div style="height:1px;background:var(--border);margin:12px 0 10px;opacity:.5"></div>
+    <div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:10px">Wellness</div>
+    <div class="wellness-row">
+      <button class="wellness-btn" onclick="wellnessAction('water')"><span class="wb-ic">💧</span><span class="wb-lb">Water</span></button>
+      <button class="wellness-btn" onclick="wellnessAction('stretch')"><span class="wb-ic">🧘</span><span class="wb-lb">Stretch</span></button>
+      <button class="wellness-btn" onclick="wellnessAction('breathe')"><span class="wb-ic">🌬️</span><span class="wb-lb">Breathe</span></button>
+      <button class="wellness-btn" onclick="wellnessAction('snack')"><span class="wb-ic">🍎</span><span class="wb-lb">Snack</span></button>
+      <button class="wellness-btn" onclick="wellnessAction('eyes')"><span class="wb-ic">👁️</span><span class="wb-lb">Eyes</span></button>
+    </div>
+  </div>
+
+  <!-- TAB 2: ASK PANDA -->
+  <div id="panda-tab-ask" class="panda-panel" style="display:none">
+    <div id="ask-panda-msgs" class="ask-msgs">
+      <div class="ask-bubble ask-panda">Hi! I'm Panda 🐼 Ask me anything — study tips, subject help, motivation, or just chat!</div>
+    </div>
+    <div class="ask-input-row">
+      <input id="ask-panda-inp" class="tisa-inp" placeholder="Ask Panda anything..." style="flex:1;font-size:13px" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();askPanda();}">
+      <button class="btn btn-p btn-sm" onclick="askPanda()" style="flex-shrink:0">Send</button>
+    </div>
+  </div>
+
+  <!-- TAB 3: MY PANDA (Virtual Pet) -->
+  <div id="panda-tab-pet" class="panda-panel" style="display:none">
+    <div class="pet-stage">
+      <div id="pet-emoji" style="font-size:64px;line-height:1;transition:transform .3s">🐼</div>
+      <div id="pet-mood-label" style="font-size:13px;font-weight:800;color:var(--primary);margin-top:6px"></div>
+      <div id="pet-speech" class="pet-speech"></div>
+    </div>
+    <div class="pet-bars">
+      <div class="pet-bar-row"><span class="pet-bar-lbl">🍃 Hunger</span><div class="pet-bar-track"><div class="pet-bar-fill" id="pet-hunger-bar"></div></div><span id="pet-hunger-val" class="pet-bar-num"></span></div>
+      <div class="pet-bar-row"><span class="pet-bar-lbl">😊 Happiness</span><div class="pet-bar-track"><div class="pet-bar-fill" id="pet-happy-bar" style="background:var(--primary)"></div></div><span id="pet-happy-val" class="pet-bar-num"></span></div>
+      <div class="pet-bar-row"><span class="pet-bar-lbl">⚡ Energy</span><div class="pet-bar-track"><div class="pet-bar-fill" id="pet-energy-bar" style="background:#f59e0b"></div></div><span id="pet-energy-val" class="pet-bar-num"></span></div>
+    </div>
+    <div class="pet-actions">
+      <button class="pet-act-btn" onclick="petFeed()"><span style="font-size:18px">🎋</span><span>Feed</span><span style="font-size:10px;color:var(--ink3)">5 🪙</span></button>
+      <button class="pet-act-btn" onclick="petPlay()"><span style="font-size:18px">🎾</span><span>Play</span><span style="font-size:10px;color:var(--ink3)">Free</span></button>
+      <button class="pet-act-btn" onclick="petStudyBonus()"><span style="font-size:18px">📚</span><span>Study</span><span style="font-size:10px;color:var(--ink3)">+mood</span></button>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--ink3);margin-top:8px">You have <span id="pet-coins-display" style="font-weight:800;color:var(--primary)">0</span> 🪙 coins</div>
   </div>
 </div>
 
@@ -2003,6 +2084,7 @@ async function loadUD(){
     window.timetable=d.timetable||{};
     window.xp=d.xp||0;
     window.coins=d.coins||0;
+    window._initPet(d.pandaPet||null);
     window.subjects=d.subjects||[...window.defaultSubjects];
     // Restore preferences (theme, font size, text colour)
     if(d.prefs){
@@ -2051,7 +2133,7 @@ window._save=async()=>{
       sessions:sessions.slice(0,20),
       papers:papersForSave,pastTests:window.pastTests,journals:window.journals,
       assignments:window.assignments,resources:window.resources,timetable:window.timetable,
-      xp:window.xp,coins:window.coins,subjects:window.subjects,
+      xp:window.xp,coins:window.coins,subjects:window.subjects,pandaPet:window._pet,
       prefs:{
         theme:localStorage.getItem('tisa-theme')||'light',
         fontSize:localStorage.getItem('tisa-fontsize')||'14',
@@ -3339,7 +3421,6 @@ function pauseT(){
   if(unsaved>0 && pomoState==='work') saveSecs(unsaved);
   tSaved=0; tSecs=0;
   tSegBase=tTotal; // carry forward total for next segment
-  if(tTotal>10) logSessDisplay();
   updTD(); updTRing();
 }
 window.resetTimer=()=>{
@@ -3357,16 +3438,16 @@ window.resetTimer=()=>{
   document.getElementById('t-btn').textContent='Start';
   document.getElementById('t-mode').textContent='ready';
 };
-function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){const _pUnsaved=tSecs-tSaved;if(_pUnsaved>0)saveSecs(_pUnsaved);tSaved=0;tTotal=0;pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){
+function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){const _pUnsaved=tSecs-tSaved;if(_pUnsaved>0)saveSecs(_pUnsaved);pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){
   pomoCount=0;
   pomoState='break';
-  tSecs=0;
   const longBreak=brkDur*3;
   sendNotification('🎉 Pomodoro Complete!','You earned a '+longBreak+' min long break!');
   toast('🎉 Long break time! '+longBreak+' min');
   const tbtn=document.getElementById('t-btn');if(tbtn)tbtn.textContent='Start Long Break';
   const pstat=document.getElementById('pomo-status');if(pstat)pstat.textContent='Long Break!';
-}else{pomoState='break';tSecs=0;sendNotification('☕ Break Time!',brkDur+' min break. You earned it!');toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';tSecs=0;sendNotification('🍅 Back to Focus!','Break over. Time to study!');toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}tSegBase=0; // reset pause-tracking so next cycle starts clean
+}else{pomoState='break';sendNotification('☕ Break Time!',brkDur+' min break. You earned it!');toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';sendNotification('🍅 Back to Focus!','Break over. Time to study!');toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}// Reset ALL timer state at end of every cycle
+tSecs=0;tTotal=0;tSaved=0;tSegBase=0;
 updTD();}
 window.togglePomo=()=>{pomoMode=!pomoMode;const btn=document.getElementById('pomo-tog');btn.style.background=pomoMode?'var(--primary)':'';btn.style.color=pomoMode?'white':'';pomoState='work';pomoCount=0;tSecs=0;tTotal=0;tSaved=0;if(tRun){clearInterval(tInt);tRun=false;document.getElementById('t-btn').textContent='Start';}updTD();updTRing();updPomoDots();toast(pomoMode?'🍅 Pomodoro on!':'⏱ Regular mode');};
 function updPomoDots(){['pomo-dots','pomo-info','focus-pomo'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=Array(pomoTotal).fill(0).map((_,i)=>`<div class="pdot ${i<pomoCount?'done':i===pomoCount&&tRun?'cur':''}"></div>`).join('');});}
@@ -3387,12 +3468,12 @@ function logSessDisplay(){
   // Log the session for display - uses tTotal for duration shown in session log
   if(tTotal<5)return;
   const sub=document.getElementById('subj-sel')?.value||'General';
-  sessions.unshift({sub,dur:tTotal,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  sessions.unshift({sub,dur:tTotal,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),date:window._today});
   if(sessions.length>100)sessions.length=100;
   renderSessLog();renderStats();renderSubjPerf();
 }
-function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel')?.value||'General',dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});if(sessions.length>100)sessions.length=100;tSecs=0;tTotal=0;tSaved=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
-function renderSessLog(){const el=document.getElementById('sess-log');if(!el)return;if(!sessions.length){el.innerHTML='';return;}el.innerHTML=sessions.slice(0,4).map(s=>`<div class="sess-item"><span class="tag" style="font-size:10px">${window._esc(s.sub)}</span><span style="font-weight:800;color:var(--primary);font-family:'Space Mono',monospace">${fmtHLabel(s.dur)}</span><span style="color:var(--ink3)">${s.time}</span></div>`).join('');}
+function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel')?.value||'General',dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),date:window._today});if(sessions.length>100)sessions.length=100;tSecs=0;tTotal=0;tSaved=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
+function renderSessLog(){const el=document.getElementById('sess-log');if(!el)return;const todayLog=sessions.filter(s=>!s.date||s.date===window._today);if(!todayLog.length){el.innerHTML='';return;}el.innerHTML=todayLog.slice(0,4).map(s=>`<div class="sess-item"><span class="tag" style="font-size:10px">${window._esc(s.sub)}</span><span style="font-weight:800;color:var(--primary);font-family:'Space Mono',monospace">${fmtHLabel(s.dur)}</span><span style="color:var(--ink3)">${s.time}</span></div>`).join('');}
 function renderStats(){const ts=window.studyData[window._today]||0;const stdEl=document.getElementById('st-today');if(stdEl)stdEl.textContent=window._fmtH(ts);let ws=0;for(let i=0;i<7;i++)ws+=(window.studyData[window._dStr(i)]||0);const swEl=document.getElementById('st-week');if(swEl)swEl.textContent=window._fmtH(ws);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const ssEl=document.getElementById('st-streak');if(ssEl)ssEl.textContent=st;const seEl=document.getElementById('st-sess');if(seEl)seEl.textContent=sessions.length;renderRecentActivity();}
 function renderRecentActivity(){
   const el=document.getElementById('recent-act');if(!el)return;
@@ -3454,7 +3535,7 @@ document.addEventListener('visibilitychange',()=>{
   }
 });
 
-window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){const _unsavedFocus=focusSecs-focusSaved;if(_unsavedFocus>0)saveSecs(_unsavedFocus);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});if(sessions.length>100)sessions.length=100;renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;focusSaved=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';
+window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){const _unsavedFocus=focusSecs-focusSaved;if(_unsavedFocus>0)saveSecs(_unsavedFocus);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),date:window._today});if(sessions.length>100)sessions.length=100;renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;focusSaved=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';
 const fd2=document.getElementById('focus-t-disp');if(fd2)fd2.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
 // Focus timer — Date.now() based, throttle-proof
 let focusSegStart=0, focusSegBase=0;
@@ -3486,7 +3567,7 @@ window.toggleFocusTimer=()=>{
     },500); // 500ms tick so display catches up faster after tab switch
   }
 };
-window.resetFocusTimer=()=>{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){const _unsavedFocus=focusSecs-focusSaved;if(_unsavedFocus>0)saveSecs(_unsavedFocus);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});if(sessions.length>100)sessions.length=100;renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;focusSaved=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';
+window.resetFocusTimer=()=>{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){const _unsavedFocus=focusSecs-focusSaved;if(_unsavedFocus>0)saveSecs(_unsavedFocus);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),date:window._today});if(sessions.length>100)sessions.length=100;renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;focusSaved=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';
 const fd2=document.getElementById('focus-t-disp');if(fd2)fd2.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
 
 // ── XP ──
@@ -4021,6 +4102,193 @@ window.closeWellnessSheet=function(){
   const overlay=document.getElementById('wellness-sheet-overlay');
   if(sheet)sheet.classList.remove('open');
   if(overlay)overlay.classList.remove('open');
+};
+
+// ── PANDA HUB: Tab switcher ──
+window.switchPandaTab=function(tab){
+  ['actions','ask','pet'].forEach(t=>{
+    document.getElementById('panda-tab-'+t).style.display=t===tab?'block':'none';
+    document.getElementById('ptab-'+t).classList.toggle('active',t===tab);
+  });
+  if(tab==='pet')renderPet();
+  if(tab==='ask'){
+    setTimeout(()=>{
+      const inp=document.getElementById('ask-panda-inp');
+      if(inp)inp.focus();
+    },100);
+  }
+};
+
+// ── ASK PANDA (AI) ──
+window._askHistory=[];
+window.askPanda=async function(){
+  const inp=document.getElementById('ask-panda-inp');
+  const msgs=document.getElementById('ask-panda-msgs');
+  if(!inp||!msgs)return;
+  const q=inp.value.trim();
+  if(!q)return;
+  inp.value='';
+
+  // Add user bubble
+  const ub=document.createElement('div');
+  ub.className='ask-bubble ask-user';
+  ub.textContent=q;
+  msgs.appendChild(ub);
+
+  // Add thinking bubble
+  const tb=document.createElement('div');
+  tb.className='ask-bubble ask-panda ask-thinking';
+  tb.textContent='Panda is thinking... 🎋';
+  msgs.appendChild(tb);
+  msgs.scrollTop=msgs.scrollHeight;
+
+  // Build context from user's study data
+  const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
+  const hrs=Math.floor(todaySecs/3600);
+  const mins=Math.floor((todaySecs%3600)/60);
+  const userName=window._CU?.displayName||'student';
+  const subjects=(window.subjects||[]).map(s=>s.name||s).join(', ')||'various subjects';
+
+  window._askHistory.push({role:'user',content:q});
+  if(window._askHistory.length>10)window._askHistory=window._askHistory.slice(-10);
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:`You are Panda, TISA's friendly and enthusiastic study companion. TISA stands for Track. Improve. Study. Ace. You are a cheerful, warm, and knowledgeable panda who helps students study better.
+
+Today's context for ${userName}:
+- Studied today: ${hrs}h ${mins}m
+- Subjects: ${subjects}
+- XP: ${window.xp||0} | Coins: ${window.coins||0}
+
+Keep responses SHORT and conversational (2-4 sentences max). Use 1-2 relevant emojis. Be encouraging and practical. If they ask a subject question, give a concise helpful answer. Never say you're an AI — you're Panda! 🐼`,
+        messages:window._askHistory
+      })
+    });
+    const data=await resp.json();
+    const reply=data.content?.map(b=>b.type==='text'?b.text:'').join('')||"Hmm, I couldn't think of anything! Try asking me again 🎋";
+    window._askHistory.push({role:'assistant',content:reply});
+    tb.classList.remove('ask-thinking');
+    tb.textContent=reply;
+  }catch(e){
+    tb.classList.remove('ask-thinking');
+    tb.textContent="Oops! I couldn't connect right now. Check your internet and try again! 🐼";
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+};
+
+// ── VIRTUAL PET ──
+// Pet stats: hunger 0-100, happiness 0-100, energy 0-100
+// Decay: hunger -2/hr, happiness -1/hr, energy -3/hr (restored by studying)
+window._pet={hunger:80,happiness:80,energy:70,lastSaved:Date.now()};
+
+window._initPet=function(saved){
+  if(saved){
+    window._pet=saved;
+    // Apply time-based decay since last save
+    const hoursPassed=Math.min((Date.now()-(_pet.lastSaved||Date.now()))/3600000, 24);
+    _pet.hunger=Math.max(0,Math.round(_pet.hunger-hoursPassed*2));
+    _pet.happiness=Math.max(0,Math.round(_pet.happiness-hoursPassed*1));
+    _pet.energy=Math.max(0,Math.round(_pet.energy-hoursPassed*1.5));
+    _pet.lastSaved=Date.now();
+  }
+  // Boost energy based on today's study time
+  const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
+  const studyBoost=Math.min(30,Math.floor(todaySecs/120)); // 1 energy per 2 mins study, max 30
+  _pet.energy=Math.min(100,_pet.energy+studyBoost);
+};
+
+window._savePet=function(){
+  _pet.lastSaved=Date.now();
+  if(window._save)window._save();
+};
+
+window.renderPet=function(){
+  const h=_pet.hunger,hp=_pet.happiness,e=_pet.energy;
+  const avg=(h+hp+e)/3;
+
+  // Emoji based on mood
+  let emoji,mood,speech;
+  if(avg>=75){emoji='🐼';mood='Thriving! 🌟';speech=_petSpeech('happy');}
+  else if(avg>=50){emoji='🐼';mood='Doing well 😊';speech=_petSpeech('ok');}
+  else if(avg>=30){emoji='😴';mood='Getting tired...';speech=_petSpeech('tired');}
+  else{emoji='😢';mood='Needs attention!';speech=_petSpeech('sad');}
+
+  const eel=document.getElementById('pet-emoji');
+  const mel=document.getElementById('pet-mood-label');
+  const sel=document.getElementById('pet-speech');
+  if(eel)eel.textContent=emoji;
+  if(mel)mel.textContent=mood;
+  if(sel)sel.textContent=speech;
+
+  const setBar=(id,val)=>{
+    const b=document.getElementById(id);
+    if(b)b.style.width=val+'%';
+  };
+  const setNum=(id,val)=>{
+    const n=document.getElementById(id);
+    if(n)n.textContent=val;
+  };
+  setBar('pet-hunger-bar',h);setNum('pet-hunger-val',h);
+  setBar('pet-happy-bar',hp);setNum('pet-happy-val',hp);
+  setBar('pet-energy-bar',e);setNum('pet-energy-val',e);
+
+  const cd=document.getElementById('pet-coins-display');
+  if(cd)cd.textContent=window.coins||0;
+};
+
+window._petSpeech=function(mood){
+  const lines={
+    happy:["Let's study something awesome! 📚","I love bamboo and you! 🎋","Keep going, you're crushing it!","Top of the class, here we come! 🏆"],
+    ok:["I'm doing alright! Feed me soon? 🎋","A little bamboo would be nice...","Let's keep the streak going! 🔥","Study time = happy Panda time!"],
+    tired:["I'm getting a bit tired... 😴","Could use some bamboo energy...","A study session would cheer me up!","Please don't forget about me! 🥺"],
+    sad:["I miss you! Come study! 😢","I'm hungry and sad... 🥺","Feed me bamboo? Please? 🎋","I need attention! Let's study together!"]
+  };
+  const arr=lines[mood]||lines.ok;
+  return arr[Math.floor(Math.random()*arr.length)];
+};
+
+window.petFeed=function(){
+  if((window.coins||0)<5){toast('Not enough coins! 🪙 Study to earn more.');return;}
+  window.coins-=5;
+  _pet.hunger=Math.min(100,_pet.hunger+25);
+  _pet.happiness=Math.min(100,_pet.happiness+5);
+  // Bounce animation
+  const e=document.getElementById('pet-emoji');
+  if(e){e.style.transform='scale(1.4)';setTimeout(()=>e.style.transform='',400);}
+  toast('🎋 Panda munches bamboo happily! (+25 hunger)');
+  renderPet();_savePet();save();
+};
+
+window.petPlay=function(){
+  _pet.happiness=Math.min(100,_pet.happiness+15);
+  _pet.energy=Math.max(0,_pet.energy-10);
+  const e=document.getElementById('pet-emoji');
+  if(e){
+    e.style.transform='rotate(20deg) scale(1.2)';
+    setTimeout(()=>{e.style.transform='rotate(-20deg)';
+      setTimeout(()=>e.style.transform='',200);},200);
+  }
+  toast('🎾 Panda plays and rolls around! (+15 happiness)');
+  renderPet();_savePet();
+};
+
+window.petStudyBonus=function(){
+  const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
+  if(todaySecs<300){toast('Study for at least 5 minutes first! 📚');return;}
+  const boost=Math.min(30,Math.floor(todaySecs/600));
+  _pet.happiness=Math.min(100,_pet.happiness+boost);
+  _pet.energy=Math.min(100,_pet.energy+boost);
+  toast('📚 Panda loves that you studied! (+'+boost+' mood & energy)');
+  renderPet();_savePet();
 };
 window.wellnessAction=function(type){
   const msgs={
