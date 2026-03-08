@@ -176,13 +176,13 @@ html[data-theme="dark"] .dark-toggle::after{transform:translateX(16px);backgroun
 .hdr-btn:hover{border-color:var(--primary);color:var(--primary)}
 
 /* MOBILE NAV */
-#mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--surface);border-top:1.5px solid var(--border);padding:4px 0 env(safe-area-inset-bottom,4px);box-shadow:0 -4px 20px rgba(0,0,0,.08)}
+#mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--surface);border-top:1.5px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,6px);box-shadow:0 -4px 20px rgba(0,0,0,.08)}
 .mob-nav-inner{display:flex;justify-content:space-around;align-items:center}
 .mnb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 8px;background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;border-radius:10px;transition:all .2s;min-width:44px;min-height:44px;justify-content:center}
 .mnb .mni{font-size:20px;line-height:1}
 .mnb .mnl{font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.3px}
 .mnb.active .mnl{color:var(--primary)}
-#more-menu{display:none;position:fixed;bottom:60px;right:0;left:0;z-index:300;background:var(--surface);border-top:1.5px solid var(--border);padding:12px;box-shadow:0 -8px 30px rgba(0,0,0,.15)}
+#more-menu{display:none;position:fixed;bottom:65px;right:0;left:0;z-index:300;background:var(--surface);border-top:1.5px solid var(--border);padding:12px;box-shadow:0 -8px 30px rgba(0,0,0,.15);border-radius:20px 20px 0 0;max-height:75vh;overflow-y:auto}
 #more-menu.open{display:block}
 .more-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .more-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--bg);border:1.5px solid var(--border2);border-radius:12px;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
@@ -248,7 +248,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .pdot.done{background:var(--primary)}.pdot.cur{background:var(--warn)}
 .sess-log{max-height:72px;overflow-y:auto;margin-top:8px;border-top:1px solid var(--border2);padding-top:6px;display:flex;flex-direction:column;gap:3px}
 .sess-item{display:flex;justify-content:space-between;padding:3px 8px;background:var(--bg);border-radius:7px;font-size:11px;font-weight:600}
-.time-chip{padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);font-size:11px;font-weight:700;cursor:pointer;color:var(--ink3);transition:all .2s;font-family:'Nunito',sans-serif;min-height:32px;touch-action:manipulation}
+.time-chip{padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);font-size:11px;font-weight:700;cursor:pointer;color:var(--ink3);transition:all .2s;font-family:'Nunito',sans-serif;min-height:32px;touch-action:manipulation;flex-shrink:0;white-space:nowrap}
 .time-chip:hover,.time-chip.sel{background:var(--primary);color:white;border-color:var(--primary)}
 
 /* STATS */
@@ -472,6 +472,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 /* RESPONSIVE */
 @media(max-width:1100px){.home-grid{grid-template-columns:1fr 1fr}.perf-grid{grid-template-columns:1fr}.conn-grid,.jgrid,.forum-grid{grid-template-columns:1fr}.test-grid{grid-template-columns:1fr}}
 @media(max-width:760px){
+  #mob-greeting{display:block}
+  #todo-add-btn-mob{display:block}
   /* All multi-column grids collapse to single column */
   .home-grid{grid-template-columns:1fr}
   .home-grid>*{grid-column:1 !important}
@@ -522,6 +524,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 }
 @media(max-width:600px){.tt-grid{overflow-x:auto;min-width:500px}}
 @media(max-width:480px){
+  #mob-greeting{display:block}
+  #todo-add-btn-mob{display:block}
   .home-grid{grid-template-columns:1fr;gap:10px}
   .home-grid>*{grid-column:1 !important}
   .myspace-grid{grid-template-columns:1fr}
@@ -560,7 +564,6 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   /* Stat cards */
   .stat-grid{grid-template-columns:1fr 1fr}
   .snum{font-size:22px}
-}
   .timer-ring{width:140px;height:140px;margin:6px auto}
   .tsvg{width:140px;height:140px}
   .t-digits{font-size:24px;letter-spacing:1px}
@@ -574,8 +577,176 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .ld3{width:20px;height:56px}
   header .logo-text{font-size:16px}
   .xp-chip{font-size:10px;padding:3px 8px}
-}.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%}}
+}
+.tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%}
 
+/* ── MOBILE REFACTOR CSS ── */
+
+/* Shrinking header on scroll */
+#app-header{transition:height .3s,padding .3s,box-shadow .3s;}
+#app-header.hdr-compact{height:44px!important;padding:0 10px!important;box-shadow:0 2px 12px rgba(0,0,0,.12)!important;}
+#app-header.hdr-compact .logo-sub{display:none!important;}
+#app-header.hdr-compact .xp-chip{display:none!important;}
+
+/* FAB panda in nav center */
+#mob-panda-fab{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--primary);border:3px solid var(--surface);
+  box-shadow:0 4px 18px var(--pglow);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;cursor:pointer;
+  transform:translateY(-10px);
+  transition:transform .2s,box-shadow .2s;
+  touch-action:manipulation;
+  position:relative;z-index:5;
+  flex-shrink:0;
+}
+#mob-panda-fab:active{transform:translateY(-10px) scale(0.93);}
+
+/* Wellness bottom sheet */
+#wellness-sheet{
+  position:fixed;bottom:-300px;left:0;right:0;z-index:600;
+  background:var(--surface);
+  border-radius:24px 24px 0 0;
+  padding:16px 20px 24px;
+  box-shadow:0 -8px 40px rgba(0,0,0,.18);
+  transition:bottom .35s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+  visibility:hidden;
+}
+#wellness-sheet.open{bottom:0;pointer-events:all;visibility:visible;}
+#wellness-sheet-overlay{
+  position:fixed;inset:0;z-index:590;
+  background:rgba(0,0,0,.3);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s;
+}
+#wellness-sheet-overlay.open{opacity:1;pointer-events:all;}
+.wellness-handle{width:40px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 16px;}
+.wellness-title{font-size:13px;font-weight:800;color:var(--ink2);text-align:center;margin-bottom:16px;letter-spacing:.5px;text-transform:uppercase;}
+.wellness-row{display:flex;gap:12px;justify-content:center;}
+.wellness-btn{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  background:var(--bg2);border:none;border-radius:16px;
+  padding:14px 18px;cursor:pointer;
+  transition:all .2s;touch-action:manipulation;
+  min-width:72px;
+}
+.wellness-btn:active{transform:scale(0.94);background:var(--pglow);}
+.wellness-btn .wb-ic{font-size:26px;}
+.wellness-btn .wb-lb{font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;}
+
+/* Press animation on all buttons */
+.btn:active,.btn-sm:active,.hfab:active,.mnb:active{transform:scale(0.96)!important;}
+
+/* Skeleton shimmer */
+@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:200px 0}}
+.skel{
+  background:linear-gradient(90deg,var(--bg2) 25%,var(--bg3) 50%,var(--bg2) 75%);
+  background-size:400px 100%;
+  animation:shimmer 1.4s infinite linear;
+  border-radius:8px;
+}
+.skel-line{height:12px;margin-bottom:8px;}
+.skel-card{height:80px;margin-bottom:10px;border-radius:16px;}
+
+/* Collapsible todo toolbar */
+#todo-add-wrap{overflow:hidden;max-height:0;opacity:0;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s;}
+#todo-add-wrap.open{max-height:200px;opacity:1;}
+#todo-add-btn-mob{
+  display:block;
+  width:100%;padding:10px;
+  background:var(--bg2);border:1.5px dashed var(--border);
+  border-radius:12px;font-size:13px;font-weight:700;
+  color:var(--primary);cursor:pointer;
+  transition:all .2s;margin-bottom:8px;
+  touch-action:manipulation;
+}
+#todo-add-btn-mob:active{background:var(--pglow);}
+
+/* More menu vertical list refactor */
+#more-menu.list-mode{
+  padding:0;
+  border-radius:20px 20px 0 0;
+  max-height:70vh;overflow-y:auto;
+}
+.more-cat-label{
+  font-size:10px;font-weight:800;color:var(--ink3);
+  text-transform:uppercase;letter-spacing:1.5px;
+  padding:14px 18px 6px;
+}
+.more-list-item{
+  display:flex;align-items:center;gap:14px;
+  padding:13px 18px;
+  background:none;border:none;width:100%;text-align:left;
+  cursor:pointer;font-family:inherit;
+  transition:background .15s;
+  touch-action:manipulation;
+}
+.more-list-item:active{background:var(--bg2);}
+.more-list-ic{font-size:20px;width:32px;text-align:center;}
+.more-list-lb{font-size:14px;font-weight:700;color:var(--ink);flex:1;}
+.more-list-chev{font-size:14px;color:var(--ink3);}
+.more-list-sep{height:1px;background:var(--border2);margin:4px 16px;}
+
+/* Swipe-to-action on todo items */
+.todo-item{position:relative;overflow:hidden;transition:transform .2s;}
+.todo-swipe-actions{
+  position:absolute;right:0;top:0;bottom:0;
+  display:flex;align-items:stretch;
+  transform:translateX(100%);
+  transition:transform .2s;
+}
+.todo-swipe-del{background:var(--danger);color:white;border:none;padding:0 18px;font-size:12px;font-weight:800;cursor:pointer;}
+.todo-swipe-done{background:var(--success);color:white;border:none;padding:0 18px;font-size:12px;font-weight:800;cursor:pointer;}
+
+/* Card elevation levels */
+.card{border-radius:20px!important;}
+.card.elevated{box-shadow:0 8px 32px var(--pglow)!important;border-width:2px!important;}
+
+/* Typography improvements */
+.card p,.fb2,.journal-body,.post-body{line-height:1.6!important;letter-spacing:.2px!important;}
+
+/* Notification badge on More button */
+#mob-more-badge{
+  position:absolute;top:2px;right:2px;
+  background:var(--danger);color:white;
+  font-size:9px;font-weight:900;
+  min-width:16px;height:16px;border-radius:8px;
+  display:none;align-items:center;justify-content:center;
+  padding:0 3px;
+}
+
+/* Home greeting */
+#mob-greeting{
+  display:none;
+  padding:14px 4px 4px;
+  font-size:18px;font-weight:800;color:var(--ink);
+  line-height:1.3;
+}
+#mob-greeting .greet-sub{font-size:12px;font-weight:600;color:var(--ink3);margin-top:2px;}
+
+/* Horizontal carousel for time chips */
+.time-chips-scroll{
+  display:flex;gap:8px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;padding-bottom:2px;
+}
+.time-chips-scroll::-webkit-scrollbar{display:none;}
+
+/* Badge carousel */
+.badge-scroll{
+  display:flex;gap:10px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding:4px 0 8px;
+}
+.badge-scroll::-webkit-scrollbar{display:none;}
+.badge-scroll>*{flex-shrink:0;}
+
+@media(min-width:761px){#todo-add-btn-mob{display:none!important;}#mob-greeting{display:none!important;}}
 </style>
 <!--
   ══════════════════════════════════════════════════════════════
@@ -757,32 +928,85 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 <!-- MOBILE NAV -->
 <div id="mobile-nav">
-<div class="mob-nav-inner">
+<div class="mob-nav-inner" style="display:flex;align-items:center;justify-content:space-around;padding:4px 8px;">
   <button class="mnb active" data-page="home" onclick="showPageMob('home',this)"><span class="mni">🏠</span><span class="mnl">Home</span></button>
   <button class="mnb" data-page="myspace" onclick="showPageMob('myspace',this)"><span class="mni">🗂️</span><span class="mnl">Space</span></button>
+  <button id="mob-panda-fab" onclick="openWellnessSheet()" title="Wellness">🐼</button>
   <button class="mnb" data-page="performance" onclick="showPageMob('performance',this)"><span class="mni">📊</span><span class="mnl">Stats</span></button>
-  <button class="mnb" data-page="tests" onclick="showPageMob('tests',this)"><span class="mni">📝</span><span class="mnl">Tests</span></button>
-  <button class="mnb" onclick="toggleMoreMenu()"><span class="mni">⋯</span><span class="mnl">More</span></button>
+  <button class="mnb" onclick="toggleMoreMenu()" style="position:relative">
+    <span class="mni">⋯</span><span class="mnl">More</span>
+    <span id="mob-more-badge"></span>
+  </button>
 </div>
 </div>
-<div id="more-menu">
-<div class="more-grid">
-  <button class="more-btn" data-page="journal" onclick="showPageMob('journal',null);closeMoreMenu()"><span class="mbi">📔</span><span class="mbl">Journal</span></button>
-  <button class="more-btn" data-page="connect" onclick="showPageMob('connect',null);closeMoreMenu()"><span class="mbi">💬</span><span class="mbl">Connect</span></button>
-  <button class="more-btn" data-page="community" onclick="showPageMob('community',null);closeMoreMenu()"><span class="mbi">🌍</span><span class="mbl">Community</span></button>
-  <button class="more-btn" data-page="profile" onclick="showPageMob('profile',null);closeMoreMenu()"><span class="mbi">👤</span><span class="mbl">Profile</span></button>
-  <button class="more-btn" data-page="settings" onclick="showPageMob('settings',null);closeMoreMenu()"><span class="mbi">⚙️</span><span class="mbl">Settings</span></button>
-  <button id="mob-admin-btn" class="more-btn" data-page="admin" onclick="showPageMob('admin',null);closeMoreMenu()" style="display:none"><span class="mbi">🛡️</span><span class="mbl" style="color:var(--danger)">Admin</span></button>
-  <button class="more-btn" onclick="toggleFocus();closeMoreMenu()"><span class="mbi">🎯</span><span class="mbl">Focus</span></button>
-  <button class="more-btn" onclick="toggleDark();closeMoreMenu()"><span class="mbi">🌙</span><span class="mbl">Theme</span></button>
-  <button class="more-btn" onclick="doSignOut()"><span class="mbi">🚪</span><span class="mbl">Sign Out</span></button>
-</div>
+<div id="more-menu" class="list-mode">
+  <div style="width:40px;height:4px;background:var(--border);border-radius:4px;margin:12px auto 4px;"></div>
+  <div class="more-cat-label">Personal</div>
+  <button class="more-list-item" data-page="journal" onclick="showPageMob('journal',null);closeMoreMenu()">
+    <span class="more-list-ic">📔</span><span class="more-list-lb">Journal</span><span class="more-list-chev">›</span>
+  </button>
+  <button class="more-list-item" data-page="tests" onclick="showPageMob('tests',null);closeMoreMenu()">
+    <span class="more-list-ic">📝</span><span class="more-list-lb">Tests</span><span class="more-list-chev">›</span>
+  </button>
+  <button class="more-list-item" onclick="toggleFocus();closeMoreMenu()">
+    <span class="more-list-ic">🎯</span><span class="more-list-lb">Focus Mode</span><span class="more-list-chev">›</span>
+  </button>
+  <div class="more-list-sep"></div>
+  <div class="more-cat-label">Social</div>
+  <button class="more-list-item" data-page="connect" onclick="showPageMob('connect',null);closeMoreMenu()">
+    <span class="more-list-ic">💬</span><span class="more-list-lb">Connect & Chat</span><span class="more-list-chev">›</span>
+  </button>
+  <button class="more-list-item" data-page="community" onclick="showPageMob('community',null);closeMoreMenu()">
+    <span class="more-list-ic">🌍</span><span class="more-list-lb">Community</span><span class="more-list-chev">›</span>
+  </button>
+  <div class="more-list-sep"></div>
+  <div class="more-cat-label">System</div>
+  <button class="more-list-item" data-page="profile" onclick="showPageMob('profile',null);closeMoreMenu()">
+    <span class="more-list-ic">👤</span><span class="more-list-lb">Profile</span><span class="more-list-chev">›</span>
+  </button>
+  <button class="more-list-item" data-page="settings" onclick="showPageMob('settings',null);closeMoreMenu()">
+    <span class="more-list-ic">⚙️</span><span class="more-list-lb">Settings</span><span class="more-list-chev">›</span>
+  </button>
+  <button class="more-list-item" onclick="toggleDark();closeMoreMenu()">
+    <span class="more-list-ic">🌙</span><span class="more-list-lb">Toggle Theme</span><span class="more-list-chev">›</span>
+  </button>
+  <button id="mob-admin-btn" class="more-list-item" data-page="admin" onclick="showPageMob('admin',null);closeMoreMenu()" style="display:none">
+    <span class="more-list-ic">🛡️</span><span class="more-list-lb" style="color:var(--danger)">Admin Panel</span><span class="more-list-chev">›</span>
+  </button>
+  <button class="more-list-item" onclick="doSignOut()" style="margin-bottom:8px">
+    <span class="more-list-ic">🚪</span><span class="more-list-lb" style="color:var(--danger)">Sign Out</span><span class="more-list-chev">›</span>
+  </button>
 </div>
 
 <!-- HEALTH BUBBLE -->
-<div id="health-bubble">
+<!-- Old health bubble hidden - panda moved to nav FAB -->
+<div id="health-bubble" style="display:none!important">
   <div class="h-pills" id="h-pills"></div>
   <button class="hfab" onclick="toggleHealth()">🐼</button>
+</div>
+
+<!-- Wellness bottom sheet -->
+<div id="wellness-sheet-overlay" onclick="closeWellnessSheet()"></div>
+<div id="wellness-sheet">
+  <div class="wellness-handle" onclick="closeWellnessSheet()" style="cursor:pointer;padding:8px 0"></div>
+  <div class="wellness-title">Wellness Check-in 🌿</div>
+  <div class="wellness-row">
+    <button class="wellness-btn" onclick="wellnessAction('water')">
+      <span class="wb-ic">💧</span><span class="wb-lb">Water</span>
+    </button>
+    <button class="wellness-btn" onclick="wellnessAction('stretch')">
+      <span class="wb-ic">🧘</span><span class="wb-lb">Stretch</span>
+    </button>
+    <button class="wellness-btn" onclick="wellnessAction('breathe')">
+      <span class="wb-ic">🌬️</span><span class="wb-lb">Breathe</span>
+    </button>
+    <button class="wellness-btn" onclick="wellnessAction('snack')">
+      <span class="wb-ic">🍎</span><span class="wb-lb">Snack</span>
+    </button>
+    <button class="wellness-btn" onclick="wellnessAction('eyes')">
+      <span class="wb-ic">👁️</span><span class="wb-lb">Eyes</span>
+    </button>
+  </div>
 </div>
 
 <!-- FOCUS MODE -->
@@ -801,9 +1025,13 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <main id="app-main" style="display:none">
 <!-- HOME PAGE -->
 <div class="page active" id="page-home">
+<div id="mob-greeting">
+  <div id="greet-text">Good morning 👋</div>
+  <div class="greet-sub" id="greet-sub">Ready to make today count?</div>
+</div>
 <div id="qbanner"><div class="qt" id="qt">...</div><div class="qa" id="qa">...</div><button class="qrefresh" onclick="nextQ()">↻</button></div>
 <div class="home-grid">
-<div class="card">
+<div class="card elevated" id="timer-card-main">
   <div class="ct"><div class="ct-ic">⏱</div>Study Timer</div>
   <div class="pomo-dots" id="pomo-dots"></div>
   <div class="subj-row"><select id="subj-sel" onchange="focusSubjSync()"></select><button class="btn btn-sm btn-o" onclick="addSubjectPrompt()">+</button></div>
@@ -823,17 +1051,20 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div class="ct"><div class="ct-ic">🍅</div>Pomodoro</div>
   <div style="display:flex;flex-direction:column;gap:10px">
     <div><div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Focus Duration</div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap">
+    <div class="time-chips-scroll">
       <button class="time-chip sel" onclick="setPomoDur(25,this)">25m</button>
       <button class="time-chip" onclick="setPomoDur(30,this)">30m</button>
       <button class="time-chip" onclick="setPomoDur(45,this)">45m</button>
       <button class="time-chip" onclick="setPomoDur(50,this)">50m</button>
+      <button class="time-chip" onclick="setPomoDur(60,this)">60m</button>
+      <button class="time-chip" onclick="setPomoDur(90,this)">90m</button>
     </div></div>
     <div><div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Break Duration</div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap">
+    <div class="time-chips-scroll">
       <button class="time-chip sel" onclick="setBreakDur(5,this)">5m</button>
       <button class="time-chip" onclick="setBreakDur(10,this)">10m</button>
       <button class="time-chip" onclick="setBreakDur(15,this)">15m</button>
+      <button class="time-chip" onclick="setBreakDur(20,this)">20m</button>
     </div></div>
     <div style="background:var(--bg);border-radius:10px;padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink2);line-height:1.7">
       🍅 4 × <b id="pomo-dur-lbl">25m</b> focus + <b id="brk-dur-lbl">5m</b> breaks = <b id="pomo-total">2h 20m</b><br>
@@ -844,12 +1075,18 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 </div>
 <div class="card">
   <div class="ct"><div class="ct-ic">✅</div>To-Do List</div>
-  <div class="todo-toolbar">
-    <input type="text" class="tisa-inp" id="todo-inp" placeholder="Add a task..." maxlength="200" onkeydown="if(event.key==='Enter')addTodo()" style="flex:2;min-width:100px;padding:9px 12px;font-size:13px" maxlength="200">
-    <select class="tisa-inp" id="todo-pri" style="padding:9px 10px;font-size:12px"><option value="normal">Normal</option><option value="high">🔴 High</option><option value="low">🟢 Low</option></select>
-    <select class="tisa-inp" id="todo-subj-sel" style="padding:9px 10px;font-size:12px"></select>
-    <input type="date" class="tisa-inp" id="todo-due" style="padding:9px 10px;font-size:12px">
-    <button class="btn btn-sm btn-p" onclick="addTodo()">+ Add</button>
+  <button id="todo-add-btn-mob" onclick="toggleTodoInput()">+ Add New Task</button>
+  <div id="todo-add-wrap">
+    <div class="todo-toolbar">
+      <input type="text" class="tisa-inp" id="todo-inp" placeholder="Add a task..." maxlength="200" onkeydown="if(event.key==='Enter')addTodo()" style="flex:2;min-width:100px;padding:9px 12px;font-size:13px">
+      <select class="tisa-inp" id="todo-pri" style="padding:9px 10px;font-size:12px"><option value="normal">Normal</option><option value="high">🔴 High</option><option value="low">🟢 Low</option></select>
+      <select class="tisa-inp" id="todo-subj-sel" style="padding:9px 10px;font-size:12px"></select>
+      <input type="date" class="tisa-inp" id="todo-due" style="padding:9px 10px;font-size:12px">
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-sm btn-p" onclick="addTodo()">+ Add</button>
+        <button class="btn btn-sm btn-o" onclick="toggleTodoInput()">Cancel</button>
+      </div>
+    </div>
   </div>
   <div class="f-row">
     <button class="fbtn active" onclick="setF('all',this)">All</button>
@@ -909,6 +1146,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <div class="ct"><div class="ct-ic">📚</div>Subjects</div>
     <div style="display:flex;gap:7px;margin-bottom:9px"><input type="text" class="tisa-inp" id="new-subj-ms" placeholder="Add subject..." style="flex:1;padding:8px 10px;font-size:12px" onkeydown="if(event.key==='Enter')addSubjectMS()"><button class="btn btn-sm btn-p" onclick="addSubjectMS()">+ Add</button></div>
     <div id="subj-list-ms"></div>
+    <div id="subj-list-el" style="display:none"></div>
   </div>
   <div class="card">
     <div class="ct"><div class="ct-ic">🧮</div>Calculator</div>
@@ -1251,7 +1489,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   </div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-  <div class="card"><div class="ct"><div class="ct-ic">🏆</div>Badges</div><div class="badge-grid" id="prof-badges"></div></div>
+  <div class="card"><div class="ct"><div class="ct-ic">🏆</div>Badges</div><div class="badge-scroll" id="prof-badges"></div></div>
   <div class="card"><div class="ct"><div class="ct-ic">📋</div>Recent Activity</div><div id="recent-act"><div class="empty">No activity yet</div></div></div>
 </div>
 </div>
@@ -1598,6 +1836,8 @@ const app=initializeApp(FC);
 const auth=getAuth(app);
 const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
 window._db=db; window._sTs=serverTimestamp; window._addDoc=addDoc; window._collection=collection;
+window._getDocs=getDocs; window._query=query; window._orderBy=orderBy; window._limit=limit;
+window._setDoc=setDoc; window._doc=doc; window._deleteDoc=deleteDoc; window._where=where;
 
 // ── ENCRYPTION ──
 function xE(t,k){let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(unescape(encodeURIComponent(r)));}
@@ -1686,6 +1926,8 @@ onAuthStateChanged(auth,async(user)=>{
   if(user){
     window._currentUser=user; window._CU=user;
     await setDoc(doc(db,'users',user.uid),{uid:user.uid,name:user.displayName,email:user.email,photo:user.photoURL,lastSeen:serverTimestamp()},{merge:true});
+    // Initialize publicStats so buddies never see 'Loading...' forever
+    await setDoc(doc(db,'publicStats',user.uid),{username:window._uname||'',updatedAt:serverTimestamp()},{merge:true});
     await showApp(user);
   }else{
     document.getElementById('login-screen').classList.add('show');
@@ -1697,6 +1939,7 @@ async function showApp(user){
   document.getElementById('app-header').style.display='flex';
   document.getElementById('app-main').style.display='block';
   document.getElementById('app-footer').style.display='block';
+  window._initHeaderShrink&&window._initHeaderShrink();
   document.getElementById('health-bubble').style.display='flex';
   if(window.innerWidth<=760) document.getElementById('mobile-nav').style.display='block';
 
@@ -1772,6 +2015,8 @@ async function loadUD(){
   }
   window.renderAll&&window.renderAll();
   window._showAdminButtons&&window._showAdminButtons();
+  applyMobileUI&&applyMobileUI();
+  setTimeout(()=>{window.updateMoreBadge&&window.updateMoreBadge();},1000);
 }
 
 window.forceSyncNow=async()=>{
@@ -1943,6 +2188,8 @@ function _renderFcard(p,pinned=false){
 function loadForum(){
   if(!window._CU)return;
   window.initCommunityAlias();
+  const _flEl=document.getElementById('forum-list-v');
+  if(_flEl&&window.innerWidth<=760){_flEl.innerHTML=Array(3).fill('<div class="skel" style="height:90px;border-radius:16px;margin-bottom:10px"></div>').join('');}
   if(forumUnsub)forumUnsub();
   window._forumUnsub=forumUnsub=onSnapshot(
     query(collection(db,'posts'),orderBy('ts','desc'),limit(60)),
@@ -1995,7 +2242,7 @@ window.handlePostAttach=(files)=>{
   if(!files[0])return;
   const f=files[0];
   // FIX B: enforce size limit so forum post doesn't exceed Firestore 1MB doc limit
-  if(f.size>700*1024){window.toast('File too large. Max 700KB 📎');document.getElementById('post-attach').value='';return;}
+  if(f.size>500*1024){window.toast('File too large. Max 500KB 📎');document.getElementById('post-attach').value='';return;}
   postAttachName=f.name;
   const r=new FileReader();
   r.onload=e=>{postAttachData=e.target.result;postAttachType=f.type;document.getElementById('post-attach-preview').textContent='📎 '+f.name.substring(0,26)+(f.name.length>26?'…':'');};
@@ -2284,6 +2531,8 @@ window.startChat=async(oUid,oName,oUname)=>{
 
 // CORE FIX: openChat properly sets header and loads live messages
 window.openChat=(chatId,oUid,oName,oUname)=>{
+  // Clean up previous chat listener before opening new one
+  if(window._chatUnsub){window._chatUnsub();window._chatUnsub=null;}
   aChatId=chatId; aOtherUid=oUid; aOtherName=oName||''; aOtherUname=oUname||oName||'';
   // FIX 2: persist last open chat so it reopens after page refresh
   try{sessionStorage.setItem('tisa_last_chat',chatId);}catch(e){}
@@ -2461,7 +2710,7 @@ window.sendChatFile=async(files)=>{
   if(!files[0]||!aChatId){window.toast('Select a conversation first');return;}
   if(_sending){window.toast('Please wait...');return;}
   const f=files[0];
-  if(f.size>800*1024){window.toast('File too large. Max 800KB 📎');document.getElementById('chat-attach').value='';return;}
+  if(f.size>600*1024){window.toast('File too large. Max 600KB 📎');document.getElementById('chat-attach').value='';return;}
   const r=new FileReader();
   _sending=true;
   r.onload=async(e)=>{
@@ -2479,7 +2728,7 @@ window.sendChatFile=async(files)=>{
       await updateDoc(doc(db,'chats',aChatId),{updatedAt:serverTimestamp()});
       window.toast('File sent! 📎');
     }catch(err){
-      window.toast('File too large for Firestore. Try under 800KB.');
+      window.toast('File too large for Firestore. Try under 600KB.');
       document.getElementById('chat-attach').value='';
     }finally{_sending=false;}
   };
@@ -2825,7 +3074,7 @@ let calY=new Date().getFullYear(),calM=new Date().getMonth();
 let activeTT=null;
 let calcSt={n1:'',n2:'',op:null,fresh:true};
 let focusRun=false,focusSecs=0,focusInt=null;
-window._today=new Date().toISOString().split('T')[0];
+Object.defineProperty(window,'_today',{get:()=>new Date().toISOString().split('T')[0]});
 
 // ── UTILS ──
 let _saveTimer=null;
@@ -3014,7 +3263,7 @@ nextQ();
 // ── SUBJECTS ──
 window.renderSubjSels=function(){['subj-sel','todo-subj-sel','asgn-subj'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const cur=el.value;el.innerHTML=window.subjects.map(s=>`<option value="${s}">${s}</option>`).join('');if(window.subjects.includes(cur))el.value=cur;});};
 window.addSubjectPrompt=function(){const n=prompt('New subject name:');if(n&&n.trim()&&!window.subjects.includes(n.trim())){window.subjects.push(n.trim());save();window.renderSubjSels();renderSubjList();renderSubjListMS();}};
-window.addSubject=function(){const inp=document.getElementById('new-subj');const n=(inp?.value||'').trim();if(!n||window.subjects.includes(n)){toast('Enter a unique subject name');return;}window.subjects.push(n);inp.value='';save();window.renderSubjSels();renderSubjList();renderSubjListMS();toast('Subject added: '+n);};
+window.addSubject=function(){const inp=document.getElementById('new-subj-ms');const n=(inp?.value||'').trim();if(!n||window.subjects.includes(n)){toast('Enter a unique subject name');return;}window.subjects.push(n);inp.value='';save();window.renderSubjSels();renderSubjList();renderSubjListMS();toast('Subject added: '+n);};
 window.addSubjectMS=function(){const inp=document.getElementById('new-subj-ms');const n=(inp?.value||'').trim();if(!n||window.subjects.includes(n)){toast('Enter a unique subject name');return;}window.subjects.push(n);inp.value='';save();window.renderSubjSels();renderSubjList();renderSubjListMS();toast('Subject added: '+n);};
 function renderSubjList(){const el=document.getElementById('subj-list-el');if(!el)return;el.innerHTML=window.subjects.map((s,i)=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--bg);border-radius:9px;margin-bottom:5px;font-size:12px;font-weight:700"><span>${window._esc(s)}</span>${i>=window.defaultSubjects.length?`<button class="ic-btn" onclick="removeSubj(${i})" style="font-size:14px">×</button>`:''}</div>`).join('');}
 function renderSubjListMS(){const el=document.getElementById('subj-list-ms');if(!el)return;el.innerHTML=window.subjects.map((s,i)=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--bg);border-radius:9px;margin-bottom:5px;font-size:12px;font-weight:700"><span>${window._esc(s)}</span>${i>=window.defaultSubjects.length?`<button class="ic-btn" onclick="removeSubj(${i})" style="font-size:14px">×</button>`:''}</div>`).join('');}
@@ -3085,15 +3334,29 @@ window.resetTimer=()=>{
   document.getElementById('t-btn').textContent='Start';
   document.getElementById('t-mode').textContent='ready';
 };
-function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){const _pUnsaved=tSecs-tSaved;if(_pUnsaved>0)saveSecs(_pUnsaved);tSaved=0;tTotal=0;pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){pomoCount=0;sendNotification('🎉 Pomodoro Complete!','You finished all '+pomoTotal+' cycles. Great work!');toast('🎉 All Pomodoros done!');pomoState='work';tSecs=0;}else{pomoState='break';tSecs=0;sendNotification('☕ Break Time!',brkDur+' min break. You earned it!');toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';tSecs=0;sendNotification('🍅 Back to Focus!','Break over. Time to study!');toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}updTD();}
+function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){const _pUnsaved=tSecs-tSaved;if(_pUnsaved>0)saveSecs(_pUnsaved);tSaved=0;tTotal=0;pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){
+  pomoCount=0;
+  pomoState='break';
+  tSecs=0;
+  const longBreak=brkDur*3;
+  sendNotification('🎉 Pomodoro Complete!','You earned a '+longBreak+' min long break!');
+  toast('🎉 Long break time! '+longBreak+' min');
+  const tbtn=document.getElementById('t-btn');if(tbtn)tbtn.textContent='Start Long Break';
+  const pstat=document.getElementById('pomo-status');if(pstat)pstat.textContent='Long Break!';
+}else{pomoState='break';tSecs=0;sendNotification('☕ Break Time!',brkDur+' min break. You earned it!');toast('☕ Break time! '+brkDur+' min');document.getElementById('t-btn').textContent='Start Break';document.getElementById('pomo-status').textContent='Break time!';}}else{pomoState='work';tSecs=0;sendNotification('🍅 Back to Focus!','Break over. Time to study!');toast('🍅 Back to focus!');document.getElementById('t-btn').textContent='Start';document.getElementById('pomo-status').textContent='Ready';}updTD();}
 window.togglePomo=()=>{pomoMode=!pomoMode;const btn=document.getElementById('pomo-tog');btn.style.background=pomoMode?'var(--primary)':'';btn.style.color=pomoMode?'white':'';pomoState='work';pomoCount=0;tSecs=0;tTotal=0;tSaved=0;if(tRun){clearInterval(tInt);tRun=false;document.getElementById('t-btn').textContent='Start';}updTD();updTRing();updPomoDots();toast(pomoMode?'🍅 Pomodoro on!':'⏱ Regular mode');};
 function updPomoDots(){['pomo-dots','pomo-info','focus-pomo'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=Array(pomoTotal).fill(0).map((_,i)=>`<div class="pdot ${i<pomoCount?'done':i===pomoCount&&tRun?'cur':''}"></div>`).join('');});}
 function updTD(){const t=fmtHMS(tTotal);const td=document.getElementById('t-digits');const ft=document.getElementById('focus-t');if(td)td.textContent=t;if(ft)ft.textContent=t;}
 function updTRing(){const dur=pomoMode?(pomoState==='work'?pomoDur*60:brkDur*60):3600;const elapsed=pomoMode?tSecs:tTotal;const pct=Math.min(1,elapsed/dur);const pr=document.getElementById('t-prog');if(pr)pr.style.strokeDashoffset=408*(1-pct);}
-function saveSecs(s){
-  // FIX C: recompute today on every save - handles midnight crossover
-  window._today=new Date().toISOString().slice(0,10);
-  window.studyData[window._today]=(window.studyData[window._today]||0)+s;
+function saveSecs(s,segStartDate){
+  // segStartDate = date when the segment STARTED (for midnight split)
+  const today=window._today;
+  if(segStartDate && segStartDate!==today){
+    // Session crossed midnight — split: give remaining seconds of old day to old day
+    // (simplified: attribute all to today since we can't know exact split without more tracking)
+    // At minimum, don't let old day bleed into today — just use today
+  }
+  window.studyData[today]=(window.studyData[today]||0)+s;
   save();renderStats();renderWkChart();checkXP();
 }
 function logSessDisplay(){
@@ -3101,9 +3364,10 @@ function logSessDisplay(){
   if(tTotal<5)return;
   const sub=document.getElementById('subj-sel')?.value||'General';
   sessions.unshift({sub,dur:tTotal,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  if(sessions.length>100)sessions.length=100;
   renderSessLog();renderStats();renderSubjPerf();
 }
-function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel')?.value||'General',dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});tSecs=0;tTotal=0;tSaved=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
+function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel')?.value||'General',dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});if(sessions.length>100)sessions.length=100;tSecs=0;tTotal=0;tSaved=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
 function renderSessLog(){const el=document.getElementById('sess-log');if(!el)return;if(!sessions.length){el.innerHTML='';return;}el.innerHTML=sessions.slice(0,4).map(s=>`<div class="sess-item"><span class="tag" style="font-size:10px">${window._esc(s.sub)}</span><span style="font-weight:800;color:var(--primary);font-family:'Space Mono',monospace">${fmtHLabel(s.dur)}</span><span style="color:var(--ink3)">${s.time}</span></div>`).join('');}
 function renderStats(){const ts=window.studyData[window._today]||0;const stdEl=document.getElementById('st-today');if(stdEl)stdEl.textContent=window._fmtH(ts);let ws=0;for(let i=0;i<7;i++)ws+=(window.studyData[window._dStr(i)]||0);const swEl=document.getElementById('st-week');if(swEl)swEl.textContent=window._fmtH(ws);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const ssEl=document.getElementById('st-streak');if(ssEl)ssEl.textContent=st;const seEl=document.getElementById('st-sess');if(seEl)seEl.textContent=sessions.length;renderRecentActivity();}
 function renderRecentActivity(){
@@ -3130,22 +3394,42 @@ function calcPomoTotal(){const t=pomoDur*4+brkDur*3;return t>=60?Math.floor(t/60
 // When user returns to tab after browser throttled the interval,
 // immediately recalculate the real elapsed time from wall clock
 document.addEventListener('visibilitychange',()=>{
-  if(!document.hidden && tRun){
-    const now=Date.now();
-    const segElapsed=Math.floor((now-tSegStart)/1000);
-    tSecs=segElapsed;
-    tTotal=tSegBase+segElapsed;
-    updTD(); updTRing();
-    // Save any unsaved seconds that accumulated while tab was hidden
-    const shouldHaveSaved=Math.floor(segElapsed/60)*60;
-    if(shouldHaveSaved>tSaved && pomoState==='work'){
-      saveSecs(shouldHaveSaved-tSaved);
-      tSaved=shouldHaveSaved;
+  if(document.hidden){
+    // Tab hidden — save any unsaved seconds immediately so nothing is lost
+    if(tRun && pomoState==='work'){
+      const segElapsed=Math.floor((Date.now()-tSegStart)/1000);
+      const shouldHaveSaved=Math.floor(segElapsed/60)*60;
+      if(shouldHaveSaved>tSaved){saveSecs(shouldHaveSaved-tSaved);tSaved=shouldHaveSaved;}
+    }
+    if(focusRun&&focusSecs>10){
+      const realElapsed=Math.floor((Date.now()-focusSegStart)/1000);
+      const toSave=focusSegBase+realElapsed-focusSecs;
+      if(toSave>0)saveSecs(toSave);
+    }
+  } else {
+    // Tab visible — sync timers to real elapsed time
+    if(tRun){
+      const now=Date.now();
+      const segElapsed=Math.floor((now-tSegStart)/1000);
+      tSecs=segElapsed;
+      tTotal=tSegBase+segElapsed;
+      updTD(); updTRing();
+      const shouldHaveSaved=Math.floor(segElapsed/60)*60;
+      if(shouldHaveSaved>tSaved && pomoState==='work'){
+        saveSecs(shouldHaveSaved-tSaved);
+        tSaved=shouldHaveSaved;
+      }
+    }
+    if(focusRun){
+      const realElapsed=Math.floor((Date.now()-focusSegStart)/1000);
+      focusSecs=focusSegBase+realElapsed;
+      const ft=document.getElementById('focus-t');if(ft)ft.textContent=fmtHMS(focusSecs);
+      const fd=document.getElementById('focus-t-disp');if(fd)fd.textContent=fmtHMS(focusSecs);
     }
   }
 });
 
-window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){saveSecs(focusSecs);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
+window.toggleFocus=()=>{const fm=document.getElementById('focus-mode');const on=fm.classList.toggle('active');if(on){const fs=document.getElementById('focus-subj');if(fs)fs.textContent=document.getElementById('subj-sel')?.value||'General';}else{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){saveSecs(focusSecs);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});if(sessions.length>100)sessions.length=100;renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';}};
 // Focus timer — Date.now() based, throttle-proof
 let focusSegStart=0, focusSegBase=0;
 window.toggleFocusTimer=()=>{
@@ -3176,7 +3460,7 @@ window.toggleFocusTimer=()=>{
     },500); // 500ms tick so display catches up faster after tab switch
   }
 };
-window.resetFocusTimer=()=>{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){saveSecs(focusSecs);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
+window.resetFocusTimer=()=>{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){saveSecs(focusSecs);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});if(sessions.length>100)sessions.length=100;renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
 
 // ── XP ──
 const lvThresh=[0,100,300,600,1000,1500,2200,3000,4000,5000];
@@ -3206,7 +3490,7 @@ window.deleteTodo=(id)=>{window.todos=window.todos.filter(t=>t.id!=id);save();re
 window.clearDone=()=>{window.todos=window.todos.filter(t=>!t.done);save();renderTodos();toast('Done tasks cleared');};
 window.setF=(f,btn)=>{todoFilter=f;document.querySelectorAll('.f-row .fbtn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderTodos();};
 function isOD(t){return t.due&&!t.done&&t.due<window._today;}
-function renderTodos(){const el=document.getElementById('todo-list');if(!el)return;const dn=window.todos.filter(t=>t.done).length;const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('ts-tot',window.todos.length);set('ts-dn',dn);set('ts-hi',window.todos.filter(t=>t.priority==='high'&&!t.done).length);set('ts-od',window.todos.filter(isOD).length);const pb=document.getElementById('todo-pb');if(pb)pb.style.width=(window.todos.length?Math.round(dn/window.todos.length*100):0)+'%';let fl=[...window.todos];if(todoFilter==='active')fl=fl.filter(t=>!t.done);else if(todoFilter==='done')fl=fl.filter(t=>t.done);else if(todoFilter==='high')fl=fl.filter(t=>t.priority==='high');else if(todoFilter==='overdue')fl=fl.filter(isOD);fl.sort((a,b)=>{if(!a.done&&b.done)return-1;if(a.done&&!b.done)return 1;return({high:0,normal:1,low:2}[a.priority]||1)-({high:0,normal:1,low:2}[b.priority]||1);});if(!fl.length){el.innerHTML=`<div class="empty">${todoFilter==='all'?'All clear! 🐼':'Nothing here'}</div>`;return;}el.innerHTML=fl.map(t=>{const od=isOD(t);const dl=t.due?(od?`<div class="tmeta ol">⚠ overdue · ${fmtDate(t.due)}</div>`:t.due===window._today?`<div class="tmeta" style="color:var(--primary);font-weight:800">Due today!</div>`:`<div class="tmeta">Due ${fmtDate(t.due)}</div>`):'';const pt=t.priority==='high'?`<span class="tag" style="background:#fdd;color:#922;font-size:9px">HIGH</span>`:t.priority==='low'?`<span class="tag" style="background:#dfd;color:#292;font-size:9px">LOW</span>`:'';return`<div class="todo-item ${t.done?'done':''} ${od?'overdue':''}"><div class="tcheck" onclick="toggleTodo(${t.id})">${t.done?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div class="ttw"><div class="ttext">${window._esc(t.text)}</div>${dl}</div><span class="tag" style="font-size:9px">${window._esc(t.subject||'')}</span>${pt}<button class="ic-btn" onclick="deleteTodo(${t.id})" style="font-size:14px">×</button></div>`;}).join('');}
+function renderTodos(){const el=document.getElementById('todo-list');if(!el)return;const dn=window.todos.filter(t=>t.done).length;const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('ts-tot',window.todos.length);set('ts-dn',dn);set('ts-hi',window.todos.filter(t=>t.priority==='high'&&!t.done).length);set('ts-od',window.todos.filter(isOD).length);const pb=document.getElementById('todo-pb');if(pb)pb.style.width=(window.todos.length?Math.round(dn/window.todos.length*100):0)+'%';let fl=[...window.todos];if(todoFilter==='active')fl=fl.filter(t=>!t.done);else if(todoFilter==='done')fl=fl.filter(t=>t.done);else if(todoFilter==='high')fl=fl.filter(t=>t.priority==='high');else if(todoFilter==='overdue')fl=fl.filter(isOD);fl.sort((a,b)=>{if(!a.done&&b.done)return-1;if(a.done&&!b.done)return 1;return({high:0,normal:1,low:2}[a.priority]||1)-({high:0,normal:1,low:2}[b.priority]||1);});if(!fl.length){el.innerHTML=`<div class="empty">${todoFilter==='all'?'All clear! 🐼':'Nothing here'}</div>`;return;}el.innerHTML=fl.map(t=>{const od=isOD(t);const dl=t.due?(od?`<div class="tmeta ol">⚠ overdue · ${fmtDate(t.due)}</div>`:t.due===window._today?`<div class="tmeta" style="color:var(--primary);font-weight:800">Due today!</div>`:`<div class="tmeta">Due ${fmtDate(t.due)}</div>`):'';const pt=t.priority==='high'?`<span class="tag" style="background:#fdd;color:#922;font-size:9px">HIGH</span>`:t.priority==='low'?`<span class="tag" style="background:#dfd;color:#292;font-size:9px">LOW</span>`:'';return`<div class="todo-item ${t.done?'done':''} ${od?'overdue':''}" data-id="${t.id}"><div class="tcheck" onclick="toggleTodo(${t.id})">${t.done?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div class="ttw"><div class="ttext">${window._esc(t.text)}</div>${dl}</div><span class="tag" style="font-size:9px">${window._esc(t.subject||'')}</span>${pt}<button class="ic-btn" onclick="deleteTodo(${t.id})" style="font-size:14px">×</button></div>`;}).join('');}
 
 // ── CHARTS ──
 const PIE_COLORS=['#5c7a3e','#7db356','#d4688a','#2a7fa8','#d4783a','#8b6fd4','#c8941a','#2d7a3a'];
@@ -3237,7 +3521,7 @@ window.previewPaper=(id)=>{
   }
   prev.scrollIntoView({behavior:'smooth',block:'nearest'});
 };
-window.startTest=()=>{const id=document.getElementById('tpsel')?.value;if(!id){toast('Select a paper first');return;}testPaper=window.papers.find(p=>p.id==id);if(!testPaper)return;testLeft=testTimeSelected*60;document.getElementById('m-title').textContent=testPaper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';document.getElementById('pdf-name-lbl').textContent=testPaper.name;document.getElementById('pdf-download-btn').href=testPaper.dataUrl;document.getElementById('pdf-download-btn').download=testPaper.name;const tb=document.getElementById('test-body'),toolbar=document.getElementById('pdf-toolbar');tb.style.padding='0';toolbar.style.display='flex';if(testPaper.type&&testPaper.type.startsWith('image/')){tb.innerHTML=`<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="${testPaper.dataUrl}" style="max-width:100%;border-radius:4px" id="test-img"></div>`;}else{tb.innerHTML=`<iframe src="${testPaper.dataUrl}" style="width:100%;height:560px;border:none;display:block" id="test-iframe"></iframe>`;}document.getElementById('test-modal').classList.add('open');updTestT();document.getElementById('m-got').value='';document.getElementById('m-total').value='';document.getElementById('m-wrong').value='';testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)window.submitTest();},1000);};
+window.startTest=()=>{const id=document.getElementById('tpsel')?.value;if(!id){toast('Select a paper first');return;}testPaper=window.papers.find(p=>p.id==id);if(!testPaper)return;if(!testPaper.dataUrl){window.toast('Please re-upload this paper to take the test');return;}testLeft=testTimeSelected*60;document.getElementById('m-title').textContent=testPaper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';document.getElementById('pdf-name-lbl').textContent=testPaper.name;document.getElementById('pdf-download-btn').href=testPaper.dataUrl;document.getElementById('pdf-download-btn').download=testPaper.name;const tb=document.getElementById('test-body'),toolbar=document.getElementById('pdf-toolbar');tb.style.padding='0';toolbar.style.display='flex';if(testPaper.type&&testPaper.type.startsWith('image/')){tb.innerHTML=`<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="${testPaper.dataUrl}" style="max-width:100%;border-radius:4px" id="test-img"></div>`;}else{tb.innerHTML=`<iframe src="${testPaper.dataUrl}" style="width:100%;height:560px;border:none;display:block" id="test-iframe"></iframe>`;}document.getElementById('test-modal').classList.add('open');updTestT();document.getElementById('m-got').value='';document.getElementById('m-total').value='';document.getElementById('m-wrong').value='';testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)window.submitTest();},1000);};
 window.addTime5=()=>{testLeft+=300;toast('+5 min added ⏱');updTestT();};
 function updTestT(){const m=Math.floor(testLeft/60),s=testLeft%60;const el=document.getElementById('m-timer');if(el){el.textContent=pad(m)+':'+pad(s);el.classList.toggle('low',testLeft<=300);}}
 window.endTest=()=>{clearInterval(testInt);document.getElementById('test-modal').classList.remove('open');};
@@ -3516,7 +3800,7 @@ let _deferredPrompt = null;
   <div style="width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:11px;flex-shrink:0">TISA</div>
   <div style="flex:1;min-width:0">
     <div style="font-size:13px;font-weight:800;color:var(--ink)">Install TISA App</div>
-    <div style="font-size:11px;color:var(--ink3)">Add to home screen</div>
+    <div id="pwa-sub" style="font-size:11px;color:var(--ink3)">Add to home screen</div>
   </div>
   <button onclick="pwaTriggerInstall()" style="background:var(--primary);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer">Install</button>
   <button onclick="dismissPWA()" style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:7px 9px;font-size:13px;cursor:pointer;color:var(--ink3)">&#10005;</button>
@@ -3532,10 +3816,32 @@ function dismissPWA(){
 window.addEventListener('beforeinstallprompt',function(e){
   e.preventDefault();
   _dp=e;
+  var desktopBtn=document.getElementById('pwa-desktop-btn');
+  if(desktopBtn)desktopBtn.style.display='inline-block';
   try{if(localStorage.getItem('tisa_pwa_dismissed'))return;}catch(e){}
   var b=document.getElementById('pwa-banner');
   if(b)b.style.display='flex';
 });
+
+// iOS Safari fallback — no beforeinstallprompt support
+(function(){
+  var ua=window.navigator.userAgent.toLowerCase();
+  var isIos=/iphone|ipad|ipod/.test(ua);
+  var isStandalone=('standalone' in window.navigator)&&window.navigator.standalone;
+  if(isIos&&!isStandalone){
+    try{
+      if(localStorage.getItem('tisa_pwa_dismissed'))return;
+      var b=document.getElementById('pwa-banner');
+      var sub=document.getElementById('pwa-sub');
+      if(sub)sub.textContent='Tap 📤 Share → “Add to Home Screen” to install';
+      if(b){
+        var installBtn=b.querySelector('[onclick="pwaTriggerInstall()"]');
+        if(installBtn)installBtn.style.display='none';
+        b.style.display='flex';
+      }
+    }catch(e){}
+  }
+})();
 window.pwaTriggerInstall=async function(){
   if(!_dp)return;
   dismissPWA();
@@ -3561,7 +3867,8 @@ window._adminRefresh=async function(){if(!_isAdmin())return;document.getElementB
 async function _admLoad(){
   if(!_isAdmin())return;
   try{
-    const [rS,pS,uS,bS]=await Promise.all([getDocs(collection(db,'reports')),getDocs(query(collection(db,'posts'),orderBy('ts','desc'),limit(200))),getDocs(collection(db,'users')),getDocs(collection(db,'banned'))]);
+    const _gD=window._getDocs||getDocs,_col=window._collection||collection,_qr=window._query||query,_ob=window._orderBy||orderBy,_lm=window._limit||limit,_db2=window._db||db;
+    const [rS,pS,uS,bS]=await Promise.all([_gD(_col(_db2,'reports')),_gD(_qr(_col(_db2,'posts'),_ob('ts','desc'),_lm(200))),_gD(_col(_db2,'users')),_gD(_col(_db2,'banned'))]);
     _admReports=rS.docs.map(d=>({id:d.id,...d.data()}));
     _admPosts=pS.docs.map(d=>({id:d.id,...d.data()}));
     _admUsers=uS.docs.map(d=>({id:d.id,...d.data()}));
@@ -3579,11 +3886,265 @@ function _admRenderReports(){if(!_admReports.length)return '<div class="empty">N
 function _admRenderPosts(){if(!_admPosts.length)return '<div class="empty">No posts</div>';return _admPosts.slice(0,100).map(p=>'<div class="card" style="margin-bottom:8px;padding:10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:800;color:var(--primary)">@'+_e(p.alias||p.uname||'?')+'</div><div style="font-size:12px;color:var(--ink2);word-break:break-word">'+_e((p.text||'').slice(0,100))+'</div></div><button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);flex-shrink:0" onclick="window._admDeletePost(''+p.id+'')">Delete</button></div></div>').join('');}
 function _admRenderUsers(){if(!_admUsers.length)return '<div class="empty">No users</div>';return _admUsers.map(u=>{const banned=_admBanned.some(b=>b.id===u.id);return '<div class="card" style="margin-bottom:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-size:12px;font-weight:800">@'+_e(u.username||'?')+(banned?' <span style=\"color:var(--danger)\">BANNED</span>':'')+'</div><div style="font-size:10px;color:var(--ink3)">'+_e(u.id)+'</div></div><div style="display:flex;gap:6px">'+(banned?'<button class="btn btn-sm btn-o" onclick="window._admUnban(''+u.id+'')">Unban</button>':'<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser(''+u.id+'',''+_e(u.username||u.id)+'')">Ban</button>')+'<button class="btn btn-sm btn-o" onclick="window._admWarn(''+u.id+'',''+_e(u.username||'user')+'')">Warn</button></div></div>';}).join('');}
 function _admRenderBanned(){if(!_admBanned.length)return '<div class="empty">No banned users</div>';return _admBanned.map(b=>'<div class="card" style="margin-bottom:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-size:12px;font-weight:800;color:var(--danger)">'+_e(b.alias||b.id)+'</div><div style="font-size:10px;color:var(--ink3)">'+_e(b.reason||'No reason')+'</div></div><button class="btn btn-sm btn-o" onclick="window._admUnban(''+b.id+'')">Unban</button></div>').join('');}
-window._admBanUser=async function(uid,alias){if(!uid||!_isAdmin()){window.toast('No UID');return;}const reason=prompt('Ban reason for @'+alias+'?');if(reason===null)return;try{await setDoc(doc(db,'banned',uid),{uid,alias,reason:reason||'Violation',bannedAt:serverTimestamp(),bannedBy:window._CU.uid});window.toast('Banned @'+alias);await _admLoad();}catch(e){window.toast('Failed: '+e.message);}};
-window._admUnban=async function(uid){if(!_isAdmin())return;try{await deleteDoc(doc(db,'banned',uid));window.toast('User unbanned');await _admLoad();}catch(e){window.toast('Failed: '+e.message);}};
-window._admDeletePost=async function(postId){if(!_isAdmin())return;if(!confirm('Delete this post?'))return;try{await deleteDoc(doc(db,'posts',postId));window.toast('Post deleted');_admPosts=_admPosts.filter(p=>p.id!==postId);document.getElementById('adm-post-c').textContent=_admPosts.length;_admRender();}catch(e){window.toast('Failed: '+e.message);}};
-window._admDeleteReport=async function(id){if(!_isAdmin())return;try{await deleteDoc(doc(db,'reports',id));window.toast('Dismissed');_admReports=_admReports.filter(r=>r.id!==id);document.getElementById('adm-rep-c').textContent=_admReports.length;_admRender();}catch(e){window.toast('Failed: '+e.message);}};
-window._admWarn=async function(uid,alias){if(!_isAdmin())return;const msg=prompt('Warning for @'+alias+'?');if(!msg)return;try{await addDoc(collection(db,'warnings'),{uid,alias,message:msg,ts:serverTimestamp(),by:window._CU.uid,read:false});window.toast('Warning sent');}catch(e){window.toast('Failed: '+e.message);}};
+window._admBanUser=async function(uid,alias){if(!uid||!_isAdmin()){window.toast('No UID');return;}const reason=prompt('Ban reason for @'+alias+'?');if(reason===null)return;try{const _sd=window._setDoc||setDoc,_dc=window._doc||doc,_db2=window._db||db,_st=window._sTs||serverTimestamp;await _sd(_dc(_db2,'banned',uid),{uid,alias,reason:reason||'Violation',bannedAt:_st(),bannedBy:window._CU.uid});window.toast('Banned @'+alias);await _admLoad();}catch(e){window.toast('Failed: '+e.message);}};
+window._admUnban=async function(uid){if(!_isAdmin())return;try{const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;await _dd(_dc(_db2,'banned',uid));window.toast('User unbanned');await _admLoad();}catch(e){window.toast('Failed: '+e.message);}};
+window._admDeletePost=async function(postId){if(!_isAdmin())return;if(!confirm('Delete this post?'))return;try{const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;await _dd(_dc(_db2,'posts',postId));window.toast('Post deleted');_admPosts=_admPosts.filter(p=>p.id!==postId);document.getElementById('adm-post-c').textContent=_admPosts.length;_admRender();}catch(e){window.toast('Failed: '+e.message);}};
+window._admDeleteReport=async function(id){if(!_isAdmin())return;try{const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;await _dd(_dc(_db2,'reports',id));window.toast('Dismissed');_admReports=_admReports.filter(r=>r.id!==id);document.getElementById('adm-rep-c').textContent=_admReports.length;_admRender();}catch(e){window.toast('Failed: '+e.message);}};
+window._admWarn=async function(uid,alias){if(!_isAdmin())return;const msg=prompt('Warning for @'+alias+'?');if(!msg)return;try{const _ad=window._addDoc||addDoc,_col=window._collection||collection,_st=window._sTs||serverTimestamp,_db2=window._db||db;await _ad(_col(_db2,'warnings'),{uid,alias,message:msg,ts:_st(),by:window._CU.uid,read:false});window.toast('Warning sent');}catch(e){window.toast('Failed: '+e.message);}};
+
+// ══════════════════════════════════════
+// MOBILE UI REFACTOR JS
+// ══════════════════════════════════════
+
+// ── Greeting ──
+function updateGreeting(){
+  const el=document.getElementById('greet-text');
+  const sub=document.getElementById('greet-sub');
+  if(!el)return;
+  const h=new Date().getHours();
+  const name=window._uname?'@'+window._uname:(window._CU?.displayName?.split(' ')[0]||'');
+  let greet,icon;
+  if(h<12){greet='Good morning';icon='☀️';}
+  else if(h<17){greet='Good afternoon';icon='🌤';}
+  else if(h<21){greet='Good evening';icon='🌙';}
+  else{greet='Study hard';icon='⭐';}
+  el.textContent=greet+(name?' '+name:'')+' '+icon;
+  // Dynamic sub based on streak/time
+  const streak=window.studyData?.streak||0;
+  if(streak>0)sub.textContent='🔥 '+streak+' day streak — keep it going!';
+  else if(h<12)sub.textContent='Start strong. Your future self will thank you.';
+  else if(h<17)sub.textContent='Halfway through. Stay focused.';
+  else sub.textContent='Evening sessions count too. Let's go.';
+}
+
+// ── Collapsible todo input ──
+let _todoInputOpen=false;
+window.toggleTodoInput=function(){
+  _todoInputOpen=!_todoInputOpen;
+  const wrap=document.getElementById('todo-add-wrap');
+  const btn=document.getElementById('todo-add-btn-mob');
+  if(wrap)wrap.classList.toggle('open',_todoInputOpen);
+  if(btn)btn.textContent=_todoInputOpen?'✕ Cancel':'+ Add New Task';
+  if(_todoInputOpen)setTimeout(()=>document.getElementById('todo-inp')?.focus(),200);
+};
+
+// Auto-close todo input after adding
+const _origAddTodo=window.addTodo;
+window.addTodo=function(){
+  if(_origAddTodo)_origAddTodo();
+  // Close on mobile
+  if(window.innerWidth<=760&&_todoInputOpen){
+    _todoInputOpen=false;
+    const wrap=document.getElementById('todo-add-wrap');
+    const btn=document.getElementById('todo-add-btn-mob');
+    if(wrap)wrap.classList.remove('open');
+    if(btn)btn.textContent='+ Add New Task';
+  }
+};
+
+// ── Wellness sheet ──
+window.openWellnessSheet=function(){
+  const sheet=document.getElementById('wellness-sheet');
+  const overlay=document.getElementById('wellness-sheet-overlay');
+  if(sheet){
+    sheet.classList.add('open');
+    // Swipe down to close
+    if(!sheet.dataset.swipeClose){
+      sheet.dataset.swipeClose='1';
+      let _wsY=0;
+      sheet.addEventListener('touchstart',e=>{_wsY=e.touches[0].clientY;},{passive:true});
+      sheet.addEventListener('touchend',e=>{
+        if(e.changedTouches[0].clientY-_wsY>60)window.closeWellnessSheet();
+      },{passive:true});
+    }
+  }
+  if(overlay)overlay.classList.add('open');
+};
+window.closeWellnessSheet=function(){
+  const sheet=document.getElementById('wellness-sheet');
+  const overlay=document.getElementById('wellness-sheet-overlay');
+  if(sheet)sheet.classList.remove('open');
+  if(overlay)overlay.classList.remove('open');
+};
+window.wellnessAction=function(type){
+  const msgs={
+    water:'💧 Drink a full glass of water now! Hydration = focus.',
+    stretch:'🧘 Stand up! Stretch for 2 minutes. Your back thanks you.',
+    breathe:'🌬️ 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s.',
+    snack:'🍎 Grab a healthy snack. Fuel your brain!',
+    eyes:'👁️ Look 20 feet away for 20 seconds. 20-20-20 rule!'
+  };
+  window.toast(msgs[type]||'Take care of yourself!');
+  window.closeWellnessSheet();
+  // XP for wellness
+  if(window.addXP)addXP(1,'wellness');
+};
+
+// Header scroll handled by window listener below
+
+// ── Swipe to action on todo items ──
+function addSwipeToTodo(){
+  if(window.innerWidth>760)return;
+  document.querySelectorAll('.todo-item').forEach(item=>{
+    if(item.dataset.swipeInit)return;
+    item.dataset.swipeInit='1';
+    let startX=0,startY=0,dx=0;
+    item.addEventListener('touchstart',e=>{
+      startX=e.touches[0].clientX;
+      startY=e.touches[0].clientY;
+      dx=0;
+    },{passive:true});
+    item.addEventListener('touchmove',e=>{
+      dx=e.touches[0].clientX-startX;
+      const dy=Math.abs(e.touches[0].clientY-startY);
+      if(dy>Math.abs(dx))return; // vertical scroll wins
+      if(dx<-10&&dx>-90){
+        item.style.transform='translateX('+dx+'px)';
+        e.preventDefault();
+      }
+    },{passive:false});
+    item.addEventListener('touchend',e=>{
+      if(dx<-60){
+        // swipe left = delete
+        item.style.transform='translateX(-100%)';
+        item.style.opacity='0';
+        item.style.transition='transform .3s,opacity .3s';
+        const id=parseInt(item.dataset.id||item.querySelector('[onclick*="deleteTodo"]')?.getAttribute('onclick')?.match(/\d+/)?.[0]);
+        if(id)setTimeout(()=>window.deleteTodo(id),300);
+      } else {
+        item.style.transform='';
+      }
+      dx=0;
+    },{passive:true});
+  });
+}
+
+// ── Swipe between pages ──
+let _swipeStartX=0,_swipeStartY=0;
+const _pages=['home','myspace','performance','tests'];
+let _curPageIdx=0;
+document.addEventListener('touchstart',e=>{
+  // Only on main content area, not on inputs
+  if(e.target.closest('input,select,textarea,.todo-item,.chat-layout,.tt-wrap'))return;
+  _swipeStartX=e.touches[0].clientX;
+  _swipeStartY=e.touches[0].clientY;
+},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(window.innerWidth>760)return;
+  const dx=e.changedTouches[0].clientX-_swipeStartX;
+  const dy=Math.abs(e.changedTouches[0].clientY-_swipeStartY);
+  if(Math.abs(dx)<60||dy>Math.abs(dx))return;
+  if(e.target.closest('input,select,textarea,.todo-item,.chat-layout,.tt-wrap,#more-menu,#wellness-sheet,#test-body,.pdf-preview-card,#test-modal'))return;
+  if(dx<-60&&_curPageIdx<_pages.length-1){
+    _curPageIdx++;
+    const p=_pages[_curPageIdx];
+    window.showPageMob(p,null);
+    document.querySelectorAll('.mnb').forEach(b=>b.classList.toggle('active',b.dataset.page===p));
+  } else if(dx>60&&_curPageIdx>0){
+    _curPageIdx--;
+    const p=_pages[_curPageIdx];
+    window.showPageMob(p,null);
+    document.querySelectorAll('.mnb').forEach(b=>b.classList.toggle('active',b.dataset.page===p));
+  }
+},{passive:true});
+
+// Update swipe index when page changes
+const _origShowPageMob=window.showPageMob;
+window.showPageMob=function(name,btn){
+  const idx=_pages.indexOf(name);
+  if(idx>=0)_curPageIdx=idx;
+  if(_origShowPageMob)_origShowPageMob(name,btn);
+  // Update greeting when going to home
+  if(name==='home')updateGreeting();
+  // Re-init swipe on todos after render
+  setTimeout(addSwipeToTodo,300);
+};
+
+// ── Skeleton loading ──
+function showSkeleton(containerId,count){
+  const el=document.getElementById(containerId);
+  if(!el)return;
+  el.innerHTML=Array(count).fill(
+    '<div class="skel skel-card"></div>'
+  ).join('');
+}
+
+// ── Show mobile-only elements on small screens ──
+function applyMobileUI(){
+  if(window.innerWidth>760)return;
+  // Show mobile add button, hide desktop toolbar
+  const addBtn=document.getElementById('todo-add-btn-mob');
+  if(addBtn)addBtn.style.display='block';
+  // Show greeting
+  const greet=document.getElementById('mob-greeting');
+  if(greet)greet.style.display='block';
+  updateGreeting();
+}
+
+// ── Unified notification badge on More button ──
+window.updateMoreBadge=function(){
+  if(window.innerWidth>760)return;
+  const badge=document.getElementById('mob-more-badge');
+  if(!badge)return;
+  // Count DM notifications + warnings
+  const dmDot=document.getElementById('dm-notif-dot');
+  const hasDM=dmDot&&dmDot.style.display!=='none';
+  const count=hasDM?1:0;
+  badge.textContent=count||'';
+  badge.style.display=count>0?'flex':'none';
+};
+
+// ── Long press on todo items ──
+function addLongPressToTodo(){
+  if(window.innerWidth>760)return;
+  document.querySelectorAll('.todo-item').forEach(item=>{
+    if(item.dataset.lpInit)return;
+    item.dataset.lpInit='1';
+    let timer;
+    item.addEventListener('touchstart',()=>{
+      timer=setTimeout(()=>{
+        // Get id
+        const delBtn=item.querySelector('[onclick*="deleteTodo"]');
+        const id=delBtn?.getAttribute('onclick')?.match(/\d+/)?.[0];
+        if(!id)return;
+        const todo=window.todos?.find(t=>t.id==id);
+        if(!todo)return;
+        window.toast(todo.done?'✅ Already done — swipe left to delete':'Swipe left to delete • tap ✓ to complete');
+      },600);
+    },{passive:true});
+    item.addEventListener('touchend',()=>clearTimeout(timer),{passive:true});
+    item.addEventListener('touchmove',()=>clearTimeout(timer),{passive:true});
+  });
+}
+
+// ── Hook into renderTodos to add swipe/longpress ──
+const _origRenderTodos=window.renderTodos||function(){};
+// We patch it after it's defined via MutationObserver on todo-list
+const _todoListObserver=new MutationObserver(()=>{
+  addSwipeToTodo();
+  addLongPressToTodo();
+});
+const _tlEl=document.getElementById('todo-list');
+if(_tlEl)_todoListObserver.observe(_tlEl,{childList:true});
+
+// ── Init on load ──
+document.addEventListener('DOMContentLoaded',function(){
+  applyMobileUI();
+});
+// Header shrink - main element has overflow-y:auto so scroll fires on it, not window
+function _initHeaderShrink(){
+  const mainEl=document.getElementById('app-main');
+  if(!mainEl)return;
+  mainEl.addEventListener('scroll',function(){
+    const hdr=document.getElementById('app-header');
+    if(!hdr||window.innerWidth>760)return;
+    if(this.scrollTop>40)hdr.classList.add('hdr-compact');
+    else hdr.classList.remove('hdr-compact');
+  },{passive:true});
+}
+window._initHeaderShrink=_initHeaderShrink;
+
+// Mobile UI also applied after auth in loadUD
 
 </script>
 </body>
