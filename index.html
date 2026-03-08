@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="TISA">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%235c7a3e'/%3E%3Ctext x='96' y='96' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='64' fill='white'%3ETISA%3C/text%3E%3C/svg%3E">
-<link rel="manifest" href="./manifest.json">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIlRJU0EgU3R1ZHkgQ29tcGFuaW9uIiwgInNob3J0X25hbWUiOiAiVElTQSIsICJkZXNjcmlwdGlvbiI6ICJZb3VyIHBlcnNvbmFsIHN0dWR5IGNvbXBhbmlvbiIsICJzdGFydF91cmwiOiAiLi8iLCAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsICJ0aGVtZV9jb2xvciI6ICIjYzA1NDZhIiwgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0LXByaW1hcnkiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxOTIgMTkyJyUzRSUzQ2NpcmNsZSBjeD0nOTYnIGN5PSc5Nicgcj0nOTYnIGZpbGw9JyUyM2MwNTQ2YScvJTNFJTNDdGV4dCB5PScxMzAnIHg9Jzk2JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LXNpemU9JzExMCclM0VcdWQ4M2RcdWRjM2MlM0MvdGV4dCUzRSUzQy9zdmclM0UiLCAic2l6ZXMiOiAiMTkyeDE5MiIsICJ0eXBlIjogImltYWdlL3N2Zyt4bWwifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJyUzRSUzQ2NpcmNsZSBjeD0nMjU2JyBjeT0nMjU2JyByPScyNTYnIGZpbGw9JyUyM2MwNTQ2YScvJTNFJTNDdGV4dCB5PSczNTAnIHg9JzI1NicgdGV4dC1hbmNob3I9J21pZGRsZScgZm9udC1zaXplPSczMDAnJTNFXHVkODNkXHVkYzNjJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dfQ==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Josefin+Sans:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>/* . Keep Pomodoro Hidden */
@@ -66,7 +66,7 @@ html{overflow-x:hidden}
   --font:'Inter','Helvetica Neue',Arial,sans-serif;
 }
 [data-theme="minimalist"] .tisa-logo{font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-weight:300;letter-spacing:8px;font-size:28px}
-[data-theme="minimalist"] .card{border-radius:6px;border:1px solid var(--border);box-shadow:none}
+[data-theme="minimalist"] [data-theme="minimalist"] .card{border-radius:6px;border:1px solid var(--border);box-shadow:none}
 [data-theme="minimalist"] .btn{border-radius:4px}
 [data-theme="minimalist"] .tisa-inp{border-radius:4px}
 [data-theme="minimalist"] .pill-btn{border-radius:4px}
@@ -153,7 +153,7 @@ input,select,textarea,button{font-family:var(--font-main,'Nunito',sans-serif);fo
 .fb{font-size:11px;margin-bottom:10px;min-height:16px;font-weight:600}
 
 /* HEADER */
-header{background:var(--surface);border-bottom:1.5px solid var(--border);padding:0 16px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:8px;box-shadow:var(--sh)}
+header{background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,0.06);padding:0 16px;height:54px;transition:height .25s,box-shadow .25s;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:8px;box-shadow:var(--sh)}
 .logo-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .logo-icon-svg{width:36px;height:36px;flex-shrink:0}
 .logo-tisa{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--primary);line-height:1;letter-spacing:8px;text-transform:uppercase;text-indent:8px}
@@ -176,9 +176,14 @@ html[data-theme="dark"] .dark-toggle::after{transform:translateX(16px);backgroun
 .hdr-btn:hover{border-color:var(--primary);color:var(--primary)}
 
 /* MOBILE NAV */
-#mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--surface);border-top:1.5px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,6px);box-shadow:0 -4px 20px rgba(0,0,0,.08)}
+#mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid color-mix(in srgb,var(--border) 60%,transparent);padding:4px 0 env(safe-area-inset-bottom,4px);box-shadow:0 -4px 24px rgba(0,0,0,.08)}
 .mob-nav-inner{display:flex;justify-content:space-around;align-items:center}
-.mnb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 8px;background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;border-radius:10px;transition:all .2s;min-width:44px;min-height:44px;justify-content:center}
+.mnb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;border-radius:12px;transition:all .2s;min-width:48px;color:var(--ink3);font-size:10px;font-weight:700;position:relative;flex:1}
+.mnb.active{color:var(--primary)}
+.mnb.active .mni{transform:scale(1.15);filter:drop-shadow(0 0 6px var(--pglow))}
+.mnb:not(.active):hover{color:var(--ink2);background:rgba(var(--primary-rgb,192,84,106),.06)}
+.mni{font-size:20px;line-height:1;transition:transform .2s,filter .2s}
+.mnl{font-size:10px;font-weight:700;letter-spacing:.3px;transition:color .2s}
 .mnb .mni{font-size:20px;line-height:1}
 .mnb .mnl{font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.3px}
 .mnb.active .mnl{color:var(--primary)}
@@ -194,7 +199,8 @@ html[data-theme="dark"] .dark-toggle::after{transform:translateX(16px);backgroun
 /* LAYOUT */
 main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px;overflow-x:hidden;overflow-y:auto;}
 .page{display:none}.page.active{display:block}
-.card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:16px;transition:box-shadow .2s;position:relative;overflow:hidden}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05),0 1px 2px rgba(0,0,0,.04)}
+.card:hover{box-shadow:0 5px 20px rgba(0,0,0,.09),0 2px 5px rgba(0,0,0,.06);transform:translateY(-1px)}
 .card:hover{box-shadow:var(--sh)}
 .ct{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .ct-ic{width:26px;height:26px;border-radius:8px;background:var(--pglow);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
@@ -490,6 +496,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .stat-grid{grid-template-columns:1fr 1fr}
   /* Layout */
   main{padding:10px 10px 80px;width:100%;overflow-x:hidden}
+  .page{padding-bottom:100px}
   header{padding:0 10px;height:52px}
   nav{display:none}
   #mobile-nav{display:block}
@@ -584,7 +591,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 /* Shrinking header on scroll */
 #app-header{transition:height .3s,padding .3s,box-shadow .3s;}
-#app-header.hdr-compact{height:44px!important;padding:0 10px!important;box-shadow:0 2px 12px rgba(0,0,0,.12)!important;}
+#app-header.hdr-compact{height:40px!important;padding:0 10px!important;box-shadow:0 2px 16px rgba(0,0,0,.1)!important;background:color-mix(in srgb,var(--surface) 92%,transparent)!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important;}
 #app-header.hdr-compact .logo-sub{display:none!important;}
 #app-header.hdr-compact .xp-chip{display:none!important;}
 
@@ -1967,6 +1974,8 @@ async function showApp(user){
   loadForum();
   window.renderThemeGrid&&window.renderThemeGrid();
   loadMyChats();
+  // Safety net: ensure admin buttons show for admin users
+  window._showAdminButtons&&window._showAdminButtons();
 }
 
 // ── USER DATA ──
@@ -2204,7 +2213,7 @@ function loadForum(){
       const pinned=posts.filter(p=>p.pinned);
       const normal=posts.filter(p=>!p.pinned);
       if(pinnedEl) pinnedEl.innerHTML=pinned.map(p=>_renderFcard(p,true)).join('');
-      if(!normal.length){el.innerHTML='<div class="empty">No posts yet. Be first! 🐼</div>';return;}
+      if(!normal.length){el.innerHTML=`<div style="text-align:center;padding:48px 24px;"><div style="font-size:52px;margin-bottom:12px;opacity:.9">🐼</div><div style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px">Nothing here yet</div><div style="font-size:12px;color:var(--ink3);margin-bottom:20px">Be the first to post in the community!</div><button class="btn btn-p" onclick="document.getElementById('write-sec')?.scrollIntoView({behavior:'smooth'});document.getElementById('post-title')?.focus()" style="margin:0 auto;display:inline-flex">+ Create First Post</button></div>`;return;}
       const recent=normal.slice(0,3);
       const rest=normal.slice(3).sort(()=>Math.random()-0.5);
       el.innerHTML=[...recent,...rest].map(p=>_renderFcard(p,false)).join('');
@@ -2772,8 +2781,8 @@ function loadProgress(chatId,oUid){
   // Clean up old listeners
   if(window._progressUnsub){window._progressUnsub();window._progressUnsub=null;}
   if(window._progressUnsub2){window._progressUnsub2();window._progressUnsub2=null;}
-  const myUname='@'+(window._uname||'You');
-  const oUname='@'+(aOtherUname||'Buddy');
+  const myUname=window._uname?('@'+window._uname):'You';
+  const oUname=aOtherUname?('@'+aOtherUname):'Buddy';
   const goal=8*3600;
   const chk=`<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`;
 
@@ -3843,10 +3852,21 @@ window.addEventListener('beforeinstallprompt',function(e){
   }
 })();
 window.pwaTriggerInstall=async function(){
-  if(!_dp)return;
+  if(!_dp){
+    var isStandalone=window.navigator.standalone||window.matchMedia('(display-mode: standalone)').matches;
+    if(isStandalone){window.toast&&window.toast('TISA is already installed!');return;}
+    var isIos=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    if(isIos){window.toast&&window.toast('Tap Share then Add to Home Screen');return;}
+    window.toast&&window.toast('Use the banner at the bottom to install');
+    // Show banner again if dismissed
+    var b=document.getElementById('pwa-banner');
+    if(b&&b.style.display==='none')b.style.display='flex';
+    return;
+  }
   dismissPWA();
   _dp.prompt();
-  await _dp.userChoice;
+  const choice=await _dp.userChoice;
+  if(choice.outcome==='accepted'){window.toast&&window.toast('TISA installed!');}
   _dp=null;
 };
 window.addEventListener('appinstalled',function(){
@@ -3861,7 +3881,13 @@ let _admTab_current='reports';
 let _admReports=[],_admPosts=[],_admUsers=[],_admBanned=[];
 function _isAdmin(){return window._CU&&_ADMIN_UIDS.includes(window._CU.uid);}
 window._isAdmin=function(){return window._CU&&_ADMIN_UIDS.includes(window._CU.uid);};
-window._showAdminButtons=function(){const show=window._isAdmin();['nav-admin-btn','mob-admin-btn'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=show?'':'none';});};
+window._showAdminButtons=function(){
+  const show=window._isAdmin();
+  const navBtn=document.getElementById('nav-admin-btn');
+  if(navBtn)navBtn.style.display=show?'inline-flex':'none';
+  const mobBtn=document.getElementById('mob-admin-btn');
+  if(mobBtn)mobBtn.style.display=show?'flex':'none';
+};
 window._admTab=function(tab){_admTab_current=tab;['reports','posts','users','banned'].forEach(t=>{const b=document.getElementById('adm-tab-'+t);if(b)b.className=t===tab?'btn btn-sm btn-p':'btn btn-sm btn-o';});_admRender();};
 window._adminRefresh=async function(){if(!_isAdmin())return;document.getElementById('adm-content').innerHTML='<div class="empty">Loading...</div>';await _admLoad();window.toast('Refreshed');};
 async function _admLoad(){
