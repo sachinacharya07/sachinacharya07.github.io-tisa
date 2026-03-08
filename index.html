@@ -1096,6 +1096,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <button class="pet-act-btn" onclick="petFeed()"><span style="font-size:18px">🎋</span><span>Feed</span><span style="font-size:10px;color:var(--ink3)">5 🪙</span></button>
       <button class="pet-act-btn" onclick="petPlay()"><span style="font-size:18px">🎾</span><span>Play</span><span style="font-size:10px;color:var(--ink3)">Free</span></button>
       <button class="pet-act-btn" onclick="petStudyBonus()"><span style="font-size:18px">📚</span><span>Study</span><span style="font-size:10px;color:var(--ink3)">+mood</span></button>
+      <button class="pet-act-btn" onclick="petCharge()"><span style="font-size:18px">⚡</span><span>Charge</span><span style="font-size:10px;color:var(--ink3)">3 🪙</span></button>
+      <button class="pet-act-btn" onclick="petNap()"><span style="font-size:18px">💤</span><span>Nap</span><span style="font-size:10px;color:var(--ink3)">Free</span></button>
     </div>
     <div style="text-align:center;font-size:11px;color:var(--ink3);margin-top:8px">You have <span id="pet-coins-display" style="font-weight:800;color:var(--primary)">0</span> 🪙 coins</div>
   </div>
@@ -1135,6 +1137,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <button class="btn btn-p btn-sm" id="t-btn" onclick="toggleTimer()">Start</button>
     <button class="btn btn-o btn-sm" id="pomo-tog" onclick="quickStartPomo()">🍅 Pomo</button>
     <button class="btn btn-o btn-sm" onclick="resetTimer()">Reset</button>
+    <button class="btn btn-sm" id="pomo-stop-btn" onclick="stopPomo()" style="display:none;background:#ef4444;color:white;border-color:#ef4444">⏹ Stop Pomo</button>
     <button class="btn btn-o btn-sm" onclick="toggleFocus()">🎯</button>
   </div>
   <div class="sess-log" id="sess-log"></div>
@@ -1676,6 +1679,26 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <button class="btn btn-sm btn-o" onclick="document.getElementById('tos-modal').classList.add('open')">📋 Terms of Service</button>
       <button class="btn btn-sm btn-o" onclick="document.getElementById('delete-modal').classList.add('open')">🗑️ Delete My Data</button>
     </div>
+  </div>
+
+  <!-- Panda AI Key -->
+  <div class="card" style="grid-column:1/-1">
+    <div class="ct"><div class="ct-ic">🐼</div>Ask Panda — AI Key</div>
+    <div style="font-size:12px;color:var(--ink2);margin-bottom:10px;line-height:1.6">
+      Ask Panda uses the Claude API for real answers. Get a free key at <b>console.anthropic.com</b> → API Keys, then paste it below.
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <input type="password" id="panda-key-inp" class="tisa-inp" placeholder="sk-ant-api03-..." style="flex:1;font-family:monospace;font-size:12px">
+      <button class="btn btn-sm" onclick="
+        const k=document.getElementById('panda-key-inp').value.trim();
+        if(!k){window.toast('Paste your API key first');return;}
+        window._PANDA_KEY=k;
+        try{localStorage.setItem('tisa_panda_key',k);}catch(e){}
+        document.getElementById('panda-key-status').textContent='✅ Key saved — Ask Panda is ready!';
+        window.toast('🐼 Panda AI key saved!');
+      ">Save</button>
+    </div>
+    <div id="panda-key-status" style="font-size:11px;color:var(--ink3);margin-top:6px"></div>
   </div>
 </div>
 </div>
@@ -3206,6 +3229,15 @@ window.showPage=(name,btn)=>{
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   else{const nb=document.querySelector(`nav button[onclick*="'${name}'"]`);if(nb)nb.classList.add('active');}
+  if(name==='settings'){
+    // Pre-fill panda key input if saved
+    setTimeout(()=>{
+      const ki=document.getElementById('panda-key-inp');
+      if(ki&&window._PANDA_KEY)ki.value=window._PANDA_KEY;
+      const ks=document.getElementById('panda-key-status');
+      if(ks)ks.textContent=window._PANDA_KEY?'✅ Key loaded — Ask Panda is ready!':'No key set yet.';
+    },50);
+  }
   if(name==='connect'){window._loadMyChats&&window._loadMyChats();}
   if(name==='community'){window.initCommunityAlias&&window.initCommunityAlias();window._loadForum&&window._loadForum();}
   if(name==='connect'){window._checkDMNotifications&&window._checkDMNotifications();} // BUG3 FIX: reload forum when navigating to community page
@@ -3827,15 +3859,34 @@ window.submitReport=async()=>{
 let _pomoSetupDur=25, _pomoSetupBrk=5, _pomoSetupCycles=4;
 
 // Quick-start Pomo: one tap enables 25/5 countdown and starts immediately
+window.stopPomo=function(){
+  if(!pomoMode)return;
+  clearInterval(tInt);tRun=false;
+  pomoMode=false;pomoState='work';pomoCount=0;
+  tSecs=0;tTotal=0;tSaved=0;tSegBase=0;
+  const btn=document.getElementById('pomo-tog');
+  if(btn){btn.style.background='';btn.style.color='';btn.textContent='🍅 Pomo';}
+  const stop=document.getElementById('pomo-stop-btn');
+  if(stop)stop.style.display='none';
+  document.getElementById('t-btn').textContent='Start';
+  document.getElementById('t-mode').textContent='ready';
+  document.getElementById('t-digits').textContent='00:00:00';
+  const fd2=document.getElementById('focus-t-disp');
+  if(fd2)fd2.textContent='00:00:00';
+  updPomoDots();
+  toast('⏹ Pomo stopped — back to normal timer');
+};
+
 window.quickStartPomo=function(){
+  const btn=document.getElementById('pomo-tog');
   if(pomoMode&&tRun){
-    // Running → pause
     pauseT();
+    if(btn)btn.textContent='▶ Resume';
     return;
   }
   if(pomoMode&&!tRun&&tSecs>0){
-    // Paused → resume
     startT();
+    if(btn)btn.textContent='⏸ Pause';
     return;
   }
   // Fresh start: enable pomo with 25/5 defaults
@@ -3844,13 +3895,15 @@ window.quickStartPomo=function(){
   pomoCount=0;
   pomoDur=25; brkDur=5;
   tSecs=0; tTotal=0; tSaved=0; tSegBase=0;
-  const btn=document.getElementById('pomo-tog');
   if(btn){btn.style.background='var(--primary)';btn.style.color='white';}
   const ps=document.getElementById('pomo-status');
   if(ps)ps.textContent='🍅 Focus';
   updPomoDots();
   updTD(); // show 25:00 immediately
+  if(btn)btn.textContent='⏸ Pause';
   startT(); // auto-start countdown
+  const stopBtn=document.getElementById('pomo-stop-btn');
+  if(stopBtn)stopBtn.style.display='inline-flex';
   toast('🍅 Pomodoro started! 25 min focus 🎯');
 };
 
@@ -4163,6 +4216,8 @@ window.switchPandaTab=function(tab){
 
 // ── ASK PANDA (AI) ──
 window._askHistory=[];
+// Load saved Panda API key
+try{const _pk=localStorage.getItem('tisa_panda_key');if(_pk)window._PANDA_KEY=_pk;}catch(e){}
 window.askPanda=async function(){
   const inp=document.getElementById('ask-panda-inp');
   const msgs=document.getElementById('ask-panda-msgs');
@@ -4195,34 +4250,32 @@ window.askPanda=async function(){
   if(window._askHistory.length>10)window._askHistory=window._askHistory.slice(-10);
 
   try{
+    const apiKey=window._PANDA_KEY||'';
+    if(!apiKey){throw new Error('No API key set. Go to Settings → Add Panda API Key 🐼');}
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
+        'x-api-key':apiKey,
+        'anthropic-version':'2023-06-01',
         'anthropic-dangerous-direct-browser-access':'true'
       },
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:`You are Panda, TISA's friendly and enthusiastic study companion. TISA stands for Track. Improve. Study. Ace. You are a cheerful, warm, and knowledgeable panda who helps students study better.
-
-Today's context for ${userName}:
-- Studied today: ${hrs}h ${mins}m
-- Subjects: ${subjects}
-- XP: ${window.xp||0} | Coins: ${window.coins||0}
-
-Keep responses SHORT and conversational (2-4 sentences max). Use 1-2 relevant emojis. Be encouraging and practical. If they ask a subject question, give a concise helpful answer. Never say you're an AI — you're Panda! 🐼`,
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:300,
+        system:`You are Panda, TISA's friendly study companion. Be concise (2-3 sentences), warm, helpful, and encouraging. Use 1-2 emojis. Never say you are an AI — you are Panda! 🐼\nContext: ${userName} studied ${hrs}h ${mins}m today. Subjects: ${subjects}. XP: ${window.xp||0}.`,
         messages:window._askHistory
       })
     });
     const data=await resp.json();
-    const reply=data.content?.map(b=>b.type==='text'?b.text:'').join('')||"Hmm, I couldn't think of anything! Try asking me again 🎋";
+    if(data.error)throw new Error(data.error.message||'API error');
+    const reply=data.content?.map(b=>b.type==='text'?b.text:'').filter(Boolean).join('')||"Hmm, I couldn't think of anything! Try asking me again 🎋";
     window._askHistory.push({role:'assistant',content:reply});
     tb.classList.remove('ask-thinking');
     tb.textContent=reply;
   }catch(e){
     tb.classList.remove('ask-thinking');
-    tb.textContent="Oops! I couldn't connect right now. Check your internet and try again! 🐼";
+    tb.textContent='⚠️ '+e.message;
   }
   msgs.scrollTop=msgs.scrollHeight;
 };
@@ -4257,18 +4310,26 @@ window.renderPet=function(){
   const h=_pet.hunger,hp=_pet.happiness,e=_pet.energy;
   const avg=(h+hp+e)/3;
 
-  // Emoji based on mood
-  let emoji,mood,speech;
-  if(avg>=75){emoji='🐼';mood='Thriving! 🌟';speech=_petSpeech('happy');}
-  else if(avg>=50){emoji='🐼';mood='Doing well 😊';speech=_petSpeech('ok');}
-  else if(avg>=30){emoji='😴';mood='Getting tired...';speech=_petSpeech('tired');}
-  else{emoji='😢';mood='Needs attention!';speech=_petSpeech('sad');}
+  // Rich expressive faces per mood state
+  let emoji,mood,moodColor,speech;
+  if(avg>=85){emoji='🥰';mood='Thriving! 🌟';moodColor='#22c55e';speech=_petSpeech('happy');}
+  else if(avg>=65){emoji='😊';mood='Doing well!';moodColor='var(--primary)';speech=_petSpeech('ok');}
+  else if(avg>=45){emoji='😐';mood='Could be better...';moodColor='#f59e0b';speech=_petSpeech('ok');}
+  else if(avg>=25){emoji='😴';mood='Getting tired...';moodColor='#f97316';speech=_petSpeech('tired');}
+  else if(h<15){emoji='🤤';mood='SO hungry!!';moodColor='#ef4444';speech='Feed me bamboo!! 🎋🎋🎋';}
+  else if(e<10){emoji='💤';mood='Exhausted...';moodColor='#8b5cf6';speech='Need to recharge... 🔋';}
+  else{emoji='😢';mood='Needs attention!';moodColor='#ef4444';speech=_petSpeech('sad');}
 
   const eel=document.getElementById('pet-emoji');
   const mel=document.getElementById('pet-mood-label');
   const sel=document.getElementById('pet-speech');
-  if(eel)eel.textContent=emoji;
-  if(mel)mel.textContent=mood;
+  if(eel){
+    // Animate face change
+    eel.style.transform='scale(1.3)';
+    eel.textContent=emoji;
+    setTimeout(()=>eel.style.transform='scale(1)',300);
+  }
+  if(mel){mel.textContent=mood;mel.style.color=moodColor;}
   if(sel)sel.textContent=speech;
 
   const setBar=(id,val)=>{
@@ -4331,6 +4392,29 @@ window.petStudyBonus=function(){
   _pet.energy=Math.min(100,_pet.energy+boost);
   toast('📚 Panda loves that you studied! (+'+boost+' mood & energy)');
   renderPet();_savePet();
+};
+
+window.petCharge=function(){
+  if(!window._pet)return;
+  if((window.coins||0)<3){window.toast('Need 3 coins to charge! 🪙');return;}
+  window.coins=Math.max(0,(window.coins||0)-3);
+  _pet.energy=Math.min(100,_pet.energy+35);
+  _pet.lastSaved=Date.now();
+  window._savePet();
+  window.renderPet();
+  window.toast('⚡ Charged up! +35 energy');
+  const eel=document.getElementById('pet-emoji');
+  if(eel){eel.style.transform='scale(1.4) rotate(10deg)';setTimeout(()=>eel.style.transform='scale(1)',400);}
+};
+
+window.petNap=function(){
+  if(!window._pet)return;
+  _pet.energy=Math.min(100,_pet.energy+20);
+  _pet.happiness=Math.max(0,_pet.happiness-5); // napping isn't as fun as playing
+  _pet.lastSaved=Date.now();
+  window._savePet();
+  window.renderPet();
+  window.toast('💤 Panda took a nap — +20 energy, -5 happiness');
 };
 window.wellnessAction=function(type){
   const msgs={
