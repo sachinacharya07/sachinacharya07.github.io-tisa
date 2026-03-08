@@ -1959,8 +1959,9 @@ const app=initializeApp(FC);
 const auth=getAuth(app);
 const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
 window._db=db; window._sTs=serverTimestamp; window._addDoc=addDoc; window._collection=collection;
-window._getDocs=getDocs; window._query=query; window._orderBy=orderBy; window._limit=limit;
-window._setDoc=setDoc; window._doc=doc; window._deleteDoc=deleteDoc; window._where=where;
+window._getDocs=getDocs; window._getDoc=getDoc; window._query=query; window._orderBy=orderBy;
+window._limit=limit; window._setDoc=setDoc; window._doc=doc; window._deleteDoc=deleteDoc;
+window._where=where; window._updateDoc=updateDoc;
 
 // ── ENCRYPTION ──
 function xE(t,k){let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(unescape(encodeURIComponent(r)));}
