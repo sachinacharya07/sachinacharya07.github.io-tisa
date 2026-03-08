@@ -1707,41 +1707,49 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div class="page" id="page-admin">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
   <div style="font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:var(--primary)">🛡️ Admin Panel</div>
-  <button class="btn btn-sm btn-o" onclick="window._adminRefresh()">🔄 Refresh</button>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-sm btn-o" onclick="window._admSearch()">🔍 Search User</button>
+    <button class="btn btn-sm btn-o" onclick="window._admAnnounce()">📢 Announce</button>
+    <button class="btn btn-sm btn-o" onclick="window._adminRefresh()">🔄 Refresh</button>
+  </div>
 </div>
-
-<!-- Stats row -->
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
-  <div class="card" style="text-align:center;padding:12px">
-    <div style="font-size:22px;font-weight:900;color:var(--primary)" id="adm-rep-c">0</div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px">
+  <div class="card" style="text-align:center;padding:10px;cursor:pointer" onclick="window._admTab('reports')">
+    <div style="font-size:20px;font-weight:900;color:var(--danger)" id="adm-rep-c">0</div>
     <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Reports</div>
   </div>
-  <div class="card" style="text-align:center;padding:12px">
-    <div style="font-size:22px;font-weight:900;color:var(--primary)" id="adm-post-c">0</div>
+  <div class="card" style="text-align:center;padding:10px;cursor:pointer" onclick="window._admTab('posts')">
+    <div style="font-size:20px;font-weight:900;color:var(--primary)" id="adm-post-c">0</div>
     <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Posts</div>
   </div>
-  <div class="card" style="text-align:center;padding:12px">
-    <div style="font-size:22px;font-weight:900;color:var(--primary)" id="adm-user-c">0</div>
+  <div class="card" style="text-align:center;padding:10px;cursor:pointer" onclick="window._admTab('users')">
+    <div style="font-size:20px;font-weight:900;color:var(--primary)" id="adm-user-c">0</div>
     <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Users</div>
   </div>
-  <div class="card" style="text-align:center;padding:12px">
-    <div style="font-size:22px;font-weight:900;color:var(--primary)" id="adm-ban-c">0</div>
+  <div class="card" style="text-align:center;padding:10px;cursor:pointer" onclick="window._admTab('banned')">
+    <div style="font-size:20px;font-weight:900;color:#f97316" id="adm-ban-c">0</div>
     <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Banned</div>
   </div>
+  <div class="card" style="text-align:center;padding:10px;cursor:pointer" onclick="window._admTab('log')">
+    <div style="font-size:20px;font-weight:900;color:#8b5cf6" id="adm-log-c">0</div>
+    <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Actions</div>
+  </div>
 </div>
-
-<!-- Tabs -->
 <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
-  <button class="btn btn-sm btn-p" onclick="window._admTab('reports',this)" id="adm-tab-reports">🚩 Reports</button>
-  <button class="btn btn-sm btn-o" onclick="window._admTab('posts',this)" id="adm-tab-posts">📝 Posts</button>
-  <button class="btn btn-sm btn-o" onclick="window._admTab('users',this)" id="adm-tab-users">👥 Users</button>
-  <button class="btn btn-sm btn-o" onclick="window._admTab('banned',this)" id="adm-tab-banned">🚫 Banned</button>
+  <button class="btn btn-sm btn-p" onclick="window._admTab('reports')" id="adm-tab-reports">🚩 Reports</button>
+  <button class="btn btn-sm btn-o" onclick="window._admTab('posts')" id="adm-tab-posts">📝 Posts</button>
+  <button class="btn btn-sm btn-o" onclick="window._admTab('users')" id="adm-tab-users">👥 Users</button>
+  <button class="btn btn-sm btn-o" onclick="window._admTab('banned')" id="adm-tab-banned">🚫 Banned</button>
+  <button class="btn btn-sm btn-o" onclick="window._admTab('log')" id="adm-tab-log">📋 Log</button>
 </div>
-
-<!-- Content -->
 <div id="adm-content"><div class="empty">Loading...</div></div>
+<div id="adm-user-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.55);padding:16px;overflow-y:auto" onclick="if(event.target===this)this.style.display='none'">
+  <div class="card" style="max-width:520px;margin:40px auto;padding:20px;position:relative">
+    <button onclick="document.getElementById('adm-user-modal').style.display='none'" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink3)">✕</button>
+    <div id="adm-user-modal-content"></div>
+  </div>
 </div>
-
+</div>
 </main>
 
 <!-- PRIVACY POLICY MODAL -->
@@ -4084,23 +4092,59 @@ window.addEventListener('appinstalled',function(){
 // ── ADMIN PANEL ──
 const _ADMIN_UIDS=['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2'];
 let _admTab_current='reports';
-let _admReports=[],_admPosts=[],_admUsers=[],_admBanned=[];
+let _admReports=[],_admPosts=[],_admUsers=[],_admBanned=[],_admLog=[];
+
 function _isAdmin(){return window._CU&&_ADMIN_UIDS.includes(window._CU.uid);}
 window._isAdmin=function(){return window._CU&&_ADMIN_UIDS.includes(window._CU.uid);};
+
 window._showAdminButtons=function(){
   const show=window._isAdmin();
-  const navBtn=document.getElementById('nav-admin-btn');
-  if(navBtn)navBtn.style.display=show?'inline-flex':'none';
-  const mobBtn=document.getElementById('mob-admin-btn');
-  if(mobBtn)mobBtn.style.display=show?'flex':'none';
+  ['nav-admin-btn','mob-admin-btn'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.style.display=show?(id==='nav-admin-btn'?'inline-flex':'flex'):'none';
+  });
 };
-window._admTab=function(tab){_admTab_current=tab;['reports','posts','users','banned'].forEach(t=>{const b=document.getElementById('adm-tab-'+t);if(b)b.className=t===tab?'btn btn-sm btn-p':'btn btn-sm btn-o';});_admRender();};
-window._adminRefresh=async function(){if(!_isAdmin())return;document.getElementById('adm-content').innerHTML='<div class="empty">Loading...</div>';await _admLoad();window.toast('Refreshed');};
+
+function _e(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function _admFmt(ts){if(!ts)return 'Unknown';const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+
+// ── Admin action log ──
+function _admLogAction(action,detail){
+  _admLog.unshift({action,detail,by:window._uname||window._CU?.email||'admin',ts:new Date().toISOString()});
+  if(_admLog.length>100)_admLog=_admLog.slice(0,100);
+  document.getElementById('adm-log-c').textContent=_admLog.length;
+  try{localStorage.setItem('tisa_adm_log',JSON.stringify(_admLog.slice(0,50)));}catch(e){}
+}
+try{const sl=localStorage.getItem('tisa_adm_log');if(sl)_admLog=JSON.parse(sl);}catch(e){}
+
+window._admTab=function(tab){
+  _admTab_current=tab;
+  ['reports','posts','users','banned','log'].forEach(t=>{
+    const b=document.getElementById('adm-tab-'+t);
+    if(b)b.className=t===tab?'btn btn-sm btn-p':'btn btn-sm btn-o';
+  });
+  _admRender();
+};
+
+window._adminRefresh=async function(){
+  if(!_isAdmin())return;
+  document.getElementById('adm-content').innerHTML='<div class="empty">Loading...</div>';
+  await _admLoad();
+  window.toast('✅ Refreshed');
+};
+
 async function _admLoad(){
   if(!_isAdmin())return;
   try{
-    const _gD=window._getDocs||getDocs,_col=window._collection||collection,_qr=window._query||query,_ob=window._orderBy||orderBy,_lm=window._limit||limit,_db2=window._db||db;
-    const [rS,pS,uS,bS]=await Promise.all([_gD(_col(_db2,'reports')),_gD(_qr(_col(_db2,'posts'),_ob('ts','desc'),_lm(200))),_gD(_col(_db2,'users')),_gD(_col(_db2,'banned'))]);
+    const _gD=window._getDocs||getDocs,_col=window._collection||collection,
+          _qr=window._query||query,_ob=window._orderBy||orderBy,
+          _lm=window._limit||limit,_db2=window._db||db;
+    const [rS,pS,uS,bS]=await Promise.all([
+      _gD(_qr(_col(_db2,'reports'),_ob('ts','desc'))),
+      _gD(_qr(_col(_db2,'posts'),_ob('ts','desc'),_lm(300))),
+      _gD(_col(_db2,'users')),
+      _gD(_col(_db2,'banned'))
+    ]);
     _admReports=rS.docs.map(d=>({id:d.id,...d.data()}));
     _admPosts=pS.docs.map(d=>({id:d.id,...d.data()}));
     _admUsers=uS.docs.map(d=>({id:d.id,...d.data()}));
@@ -4109,21 +4153,374 @@ async function _admLoad(){
     document.getElementById('adm-post-c').textContent=_admPosts.length;
     document.getElementById('adm-user-c').textContent=_admUsers.length;
     document.getElementById('adm-ban-c').textContent=_admBanned.length;
+    document.getElementById('adm-log-c').textContent=_admLog.length;
     _admRender();
-  }catch(e){document.getElementById('adm-content').innerHTML='<div class="empty" style="color:var(--danger)">Failed: '+e.message+'</div>';}
+  }catch(e){
+    document.getElementById('adm-content').innerHTML=`<div class="empty" style="color:var(--danger)">Failed: ${_e(e.message)}</div>`;
+  }
 }
-function _admRender(){const el=document.getElementById('adm-content');if(!el)return;if(_admTab_current==='reports')el.innerHTML=_admRenderReports();else if(_admTab_current==='posts')el.innerHTML=_admRenderPosts();else if(_admTab_current==='users')el.innerHTML=_admRenderUsers();else if(_admTab_current==='banned')el.innerHTML=_admRenderBanned();}
-function _e(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function _admRenderReports(){if(!_admReports.length)return '<div class="empty">No reports</div>';return _admReports.map(r=>`<div class="card" style="margin-bottom:10px;padding:12px"><div style="font-size:12px;font-weight:800;margin-bottom:4px">Reported by: @${_e(r.reporterAlias||r.reporterUid||'?')}</div><div style="font-size:12px;color:var(--ink2);margin-bottom:4px">Content by: @${_e(r.targetAlias||r.targetUid||'?')}</div><div style="font-size:11px;color:var(--ink3);margin-bottom:8px">${_e(r.reason||'No reason')}</div><div style="display:flex;gap:6px"><button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser('${_e(r.targetUid||'')}','${_e(r.targetAlias||r.targetUid||'user')}')">Ban Author</button><button class="btn btn-sm btn-o" onclick="window._admDeleteReport('${r.id}')">Dismiss</button></div></div>`).join('');}
-function _admRenderPosts(){if(!_admPosts.length)return '<div class="empty">No posts</div>';return _admPosts.slice(0,100).map(p=>`<div class="card" style="margin-bottom:8px;padding:10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:800;color:var(--primary)">@${_e(p.alias||p.uname||'?')}</div><div style="font-size:12px;color:var(--ink2);word-break:break-word">${_e((p.text||'').slice(0,100))}</div></div><button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);flex-shrink:0" onclick="window._admDeletePost('${p.id}')">Delete</button></div></div>`).join('');}
-function _admRenderUsers(){if(!_admUsers.length)return '<div class="empty">No users</div>';return _admUsers.map(u=>{const banned=_admBanned.some(b=>b.id===u.id);return `<div class="card" style="margin-bottom:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-size:12px;font-weight:800">@${_e(u.username||'?')}${banned?' <span style=\"color:var(--danger)\">BANNED</span>':''}</div><div style="font-size:10px;color:var(--ink3)">${_e(u.id)}</div></div><div style="display:flex;gap:6px">${banned?`<button class="btn btn-sm btn-o" onclick="window._admUnban('${u.id}')">Unban</button>`:`<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser('${u.id}','${_e(u.username||u.id)}')">Ban</button>`}<button class="btn btn-sm btn-o" onclick="window._admWarn('${u.id}','${_e(u.username||'user')}')">Warn</button></div></div>`;}).join('');}
-function _admRenderBanned(){if(!_admBanned.length)return '<div class="empty">No banned users</div>';return _admBanned.map(b=>`<div class="card" style="margin-bottom:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-size:12px;font-weight:800;color:var(--danger)">${_e(b.alias||b.id)}</div><div style="font-size:10px;color:var(--ink3)">${_e(b.reason||'No reason')}</div></div><button class="btn btn-sm btn-o" onclick="window._admUnban('${b.id}')">Unban</button></div>`).join('');}
-window._admBanUser=async function(uid,alias){if(!uid||!_isAdmin()){window.toast('No UID');return;}const reason=prompt('Ban reason for @'+alias+'?');if(reason===null)return;try{const _sd=window._setDoc||setDoc,_dc=window._doc||doc,_db2=window._db||db,_st=window._sTs||serverTimestamp;await _sd(_dc(_db2,'banned',uid),{uid,alias,reason:reason||'Violation',bannedAt:_st(),bannedBy:window._CU.uid});window.toast('Banned @'+alias);await _admLoad();}catch(e){window.toast('Failed: '+e.message);}};
-window._admUnban=async function(uid){if(!_isAdmin())return;try{const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;await _dd(_dc(_db2,'banned',uid));window.toast('User unbanned');await _admLoad();}catch(e){window.toast('Failed: '+e.message);}};
-window._admDeletePost=async function(postId){if(!_isAdmin())return;if(!confirm('Delete this post?'))return;try{const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;await _dd(_dc(_db2,'posts',postId));window.toast('Post deleted');_admPosts=_admPosts.filter(p=>p.id!==postId);document.getElementById('adm-post-c').textContent=_admPosts.length;_admRender();}catch(e){window.toast('Failed: '+e.message);}};
-window._admDeleteReport=async function(id){if(!_isAdmin())return;try{const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;await _dd(_dc(_db2,'reports',id));window.toast('Dismissed');_admReports=_admReports.filter(r=>r.id!==id);document.getElementById('adm-rep-c').textContent=_admReports.length;_admRender();}catch(e){window.toast('Failed: '+e.message);}};
-window._admWarn=async function(uid,alias){if(!_isAdmin())return;const msg=prompt('Warning for @'+alias+'?');if(!msg)return;try{const _ad=window._addDoc||addDoc,_col=window._collection||collection,_st=window._sTs||serverTimestamp,_db2=window._db||db;await _ad(_col(_db2,'warnings'),{uid,alias,message:msg,ts:_st(),by:window._CU.uid,read:false});window.toast('Warning sent');}catch(e){window.toast('Failed: '+e.message);}};
 
+function _admRender(){
+  const el=document.getElementById('adm-content');
+  if(!el)return;
+  if(_admTab_current==='reports')el.innerHTML=_admRenderReports();
+  else if(_admTab_current==='posts')el.innerHTML=_admRenderPosts();
+  else if(_admTab_current==='users')el.innerHTML=_admRenderUsers();
+  else if(_admTab_current==='banned')el.innerHTML=_admRenderBanned();
+  else if(_admTab_current==='log')el.innerHTML=_admRenderLog();
+}
+
+// ── REPORTS — full detail cards ──
+function _admRenderReports(){
+  if(!_admReports.length)return '<div class="empty">🎉 No reports — all clear!</div>';
+  return _admReports.map(r=>{
+    const targetUser=_admUsers.find(u=>u.id===r.targetUid||u.uid===r.targetUid)||{};
+    const reporterUser=_admUsers.find(u=>u.id===r.reporterUid||u.uid===r.reporterUid)||{};
+    const isBanned=_admBanned.some(b=>b.id===r.targetUid);
+    const postPreview=_admPosts.find(p=>p.id===r.postId);
+    return `<div class="card" style="margin-bottom:14px;padding:14px;border-left:4px solid var(--danger)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:800;color:var(--danger);text-transform:uppercase;letter-spacing:1px">🚩 Report</div>
+        <div style="font-size:10px;color:var(--ink3)">${_admFmt(r.ts)}</div>
+      </div>
+
+      <!-- Reported content -->
+      ${postPreview?`<div style="background:var(--bg);border-radius:10px;padding:10px;margin-bottom:10px;font-size:12px;color:var(--ink2);border:1px solid var(--border)">
+        <div style="font-size:10px;font-weight:700;color:var(--ink3);margin-bottom:4px">REPORTED CONTENT</div>
+        <div style="word-break:break-word">${_e((postPreview.text||'').slice(0,300))}</div>
+        ${postPreview.category?`<div style="margin-top:4px;font-size:10px;color:var(--ink3)">Category: ${_e(postPreview.category)}</div>`:''}
+      </div>`:''}
+
+      <!-- Reason -->
+      <div style="background:#fef2f2;border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:12px;color:#dc2626;font-weight:600">
+        📋 Reason: ${_e(r.reason||'No reason given')}
+      </div>
+
+      <!-- Two columns: reported user + reporter -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="background:var(--bg);border-radius:10px;padding:10px;border:1px solid var(--border)">
+          <div style="font-size:10px;font-weight:700;color:var(--ink3);margin-bottom:6px">REPORTED USER</div>
+          <div style="font-size:13px;font-weight:800;color:var(--ink)">@${_e(r.targetAlias||targetUser.username||r.targetUid||'?')}</div>
+          ${targetUser.name?`<div style="font-size:11px;color:var(--ink2)">${_e(targetUser.name)}</div>`:''}
+          ${targetUser.email?`<div style="font-size:10px;color:var(--ink3)">${_e(targetUser.email)}</div>`:''}
+          <div style="font-size:10px;color:var(--ink3);margin-top:2px">UID: ${_e((r.targetUid||'').slice(0,12))}...</div>
+          ${isBanned?'<div style="margin-top:4px;font-size:10px;font-weight:700;color:var(--danger)">⛔ ALREADY BANNED</div>':''}
+          <button class="btn btn-sm btn-o" style="margin-top:6px;font-size:10px;padding:3px 8px" onclick="window._admViewUser('${_e(r.targetUid||'')}')">View Profile</button>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:10px;border:1px solid var(--border)">
+          <div style="font-size:10px;font-weight:700;color:var(--ink3);margin-bottom:6px">REPORTED BY</div>
+          <div style="font-size:13px;font-weight:800;color:var(--ink)">@${_e(r.reporterAlias||reporterUser.username||r.reporterUid||'?')}</div>
+          ${reporterUser.name?`<div style="font-size:11px;color:var(--ink2)">${_e(reporterUser.name)}</div>`:''}
+          ${reporterUser.email?`<div style="font-size:10px;color:var(--ink3)">${_e(reporterUser.email)}</div>`:''}
+          <button class="btn btn-sm btn-o" style="margin-top:6px;font-size:10px;padding:3px 8px" onclick="window._admViewUser('${_e(r.reporterUid||'')}')">View Profile</button>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${!isBanned?`<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser('${_e(r.targetUid||'')}','${_e(r.targetAlias||r.targetUid||'user')}','${r.id}')">⛔ Ban User</button>`:''}
+        <button class="btn btn-sm btn-o" onclick="window._admWarn('${_e(r.targetUid||'')}','${_e(r.targetAlias||r.targetUid||'user')}')">⚠️ Warn User</button>
+        ${postPreview?`<button class="btn btn-sm btn-o" style="color:var(--danger);border-color:var(--danger)" onclick="window._admDeletePost('${r.postId}','${r.id}')">🗑 Delete Post</button>`:''}
+        <button class="btn btn-sm btn-o" onclick="window._admDeleteReport('${r.id}')">✓ Dismiss</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── POSTS ──
+function _admRenderPosts(){
+  if(!_admPosts.length)return '<div class="empty">No posts</div>';
+  const search=document.getElementById('adm-post-search')?.value?.toLowerCase()||'';
+  const filtered=search?_admPosts.filter(p=>(p.text||'').toLowerCase().includes(search)||(p.alias||'').toLowerCase().includes(search)):_admPosts;
+  return `<div style="margin-bottom:10px"><input id="adm-post-search" class="tisa-inp" placeholder="Search posts..." style="width:100%" oninput="_admRender()"></div>`+
+  (filtered.length?filtered.slice(0,100).map(p=>{
+    const isBanned=_admBanned.some(b=>b.id===p.uid);
+    return `<div class="card" style="margin-bottom:8px;padding:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px">
+        <div>
+          <span style="font-size:12px;font-weight:800;color:var(--primary);cursor:pointer" onclick="window._admViewUser('${_e(p.uid||'')}')">@${_e(p.alias||p.uname||'?')}</span>
+          ${isBanned?'<span style="margin-left:6px;font-size:10px;font-weight:700;color:var(--danger)">BANNED</span>':''}
+          ${p.category?`<span style="margin-left:6px;font-size:10px;background:var(--bg);padding:2px 6px;border-radius:4px;color:var(--ink3)">${_e(p.category)}</span>`:''}
+        </div>
+        <div style="font-size:10px;color:var(--ink3);white-space:nowrap">${_admFmt(p.ts)}</div>
+      </div>
+      <div style="font-size:12px;color:var(--ink2);word-break:break-word;margin-bottom:8px">${_e((p.text||'').slice(0,200))}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);font-size:11px" onclick="window._admDeletePost('${p.id}')">🗑 Delete</button>
+        <button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admWarn('${_e(p.uid||'')}','${_e(p.alias||p.uname||'user')}')">⚠️ Warn</button>
+        ${!isBanned?`<button class="btn btn-sm btn-o" style="font-size:11px;color:var(--danger);border-color:var(--danger)" onclick="window._admBanUser('${_e(p.uid||'')}','${_e(p.alias||p.uname||'user')}')">⛔ Ban</button>`:''}
+        <button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admViewUser('${_e(p.uid||'')}')">👤 Profile</button>
+      </div>
+    </div>`;
+  }).join(''):'<div class="empty">No matching posts</div>');
+}
+
+// ── USERS — rich profiles ──
+function _admRenderUsers(){
+  if(!_admUsers.length)return '<div class="empty">No users</div>';
+  const search=document.getElementById('adm-user-search')?.value?.toLowerCase()||'';
+  const filtered=search?_admUsers.filter(u=>(u.username||'').toLowerCase().includes(search)||(u.name||'').toLowerCase().includes(search)||(u.email||'').toLowerCase().includes(search)):_admUsers;
+  return `<div style="margin-bottom:10px"><input id="adm-user-search" class="tisa-inp" placeholder="Search by username, name or email..." style="width:100%" oninput="_admRender()"></div>`+
+  (filtered.length?filtered.map(u=>{
+    const banned=_admBanned.some(b=>b.id===u.id);
+    const postCount=_admPosts.filter(p=>p.uid===u.id||p.uid===u.uid).length;
+    const reportCount=_admReports.filter(r=>r.targetUid===u.id||r.targetUid===u.uid).length;
+    return `<div class="card" style="margin-bottom:10px;padding:12px${banned?';border-left:4px solid var(--danger)':''}">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;flex-shrink:0">
+          ${u.photo?`<img src="${_e(u.photo)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.parentElement.textContent='${_e((u.name||u.username||'?')[0].toUpperCase())}'">`:_e((u.name||u.username||'?')[0].toUpperCase())}
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:800">@${_e(u.username||'no-username')} ${banned?'<span style="color:var(--danger);font-size:11px">⛔ BANNED</span>':''}</div>
+          <div style="font-size:11px;color:var(--ink2)">${_e(u.name||'No display name')}</div>
+          <div style="font-size:10px;color:var(--ink3)">${_e(u.email||'No email')}</div>
+        </div>
+        <div style="text-align:right;font-size:10px;color:var(--ink3)">
+          <div>${postCount} post${postCount!==1?'s':''}</div>
+          ${reportCount>0?`<div style="color:var(--danger)">${reportCount} report${reportCount!==1?'s':''}</div>`:''}
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admViewUser('${_e(u.id||u.uid||'')}')">👤 Full Profile</button>
+        <button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admWarn('${_e(u.id||u.uid||'')}','${_e(u.username||'user')}')">⚠️ Warn</button>
+        ${banned
+          ?`<button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admUnban('${_e(u.id||u.uid||'')}')">✅ Unban</button>`
+          :`<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);font-size:11px" onclick="window._admBanUser('${_e(u.id||u.uid||'')}','${_e(u.username||'user')}')">⛔ Ban</button>`
+        }
+      </div>
+    </div>`;
+  }).join(''):'<div class="empty">No matching users</div>');
+}
+
+// ── BANNED ──
+function _admRenderBanned(){
+  if(!_admBanned.length)return '<div class="empty">No banned users 🎉</div>';
+  return _admBanned.map(b=>`<div class="card" style="margin-bottom:8px;padding:12px;border-left:4px solid var(--danger)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+      <div>
+        <div style="font-size:13px;font-weight:800;color:var(--danger)">@${_e(b.alias||b.id)}</div>
+        <div style="font-size:11px;color:var(--ink2);margin-top:2px">📋 ${_e(b.reason||'No reason')}</div>
+        <div style="font-size:10px;color:var(--ink3);margin-top:2px">Banned: ${_admFmt(b.bannedAt)}</div>
+        <div style="font-size:10px;color:var(--ink3)">UID: ${_e((b.uid||b.id||'').slice(0,16))}...</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn btn-sm btn-o" onclick="window._admUnban('${_e(b.id||b.uid||'')}')">✅ Unban</button>
+        <button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admViewUser('${_e(b.uid||b.id||'')}')">👤 Profile</button>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+// ── ACTION LOG ──
+function _admRenderLog(){
+  if(!_admLog.length)return '<div class="empty">No actions logged yet</div>';
+  return '<div style="margin-bottom:8px;font-size:11px;color:var(--ink3)">Last 50 admin actions (stored locally)</div>'+
+  _admLog.map(l=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px">
+    <div><span style="font-weight:700">${_e(l.action)}</span><span style="color:var(--ink2);margin-left:6px">${_e(l.detail||'')}</span></div>
+    <div style="font-size:10px;color:var(--ink3);white-space:nowrap">${new Date(l.ts).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})} ${new Date(l.ts).toLocaleDateString('en-IN',{day:'2-digit',month:'short'})}</div>
+  </div>`).join('');
+}
+
+// ── VIEW USER DETAIL MODAL ──
+window._admViewUser=async function(uid){
+  if(!uid||!_isAdmin())return;
+  const modal=document.getElementById('adm-user-modal');
+  const content=document.getElementById('adm-user-modal-content');
+  content.innerHTML='<div class="empty">Loading...</div>';
+  modal.style.display='block';
+  try{
+    const _gD=window._getDocs||getDocs,_gDc=window._getDoc||getDoc,
+          _col=window._collection||collection,_qr=window._query||query,
+          _wh=window._where||where,_ob=window._orderBy||orderBy,
+          _dc=window._doc||doc,_db2=window._db||db;
+    const [uSnap,postsSnap,reportsSnap,warnSnap]=await Promise.all([
+      _gDc(_dc(_db2,'users',uid)),
+      _gD(_qr(_col(_db2,'posts'),_wh('uid','==',uid),_ob('ts','desc'))),
+      _gD(_qr(_col(_db2,'reports'),_wh('targetUid','==',uid))),
+      _gD(_qr(_col(_db2,'warnings'),_wh('uid','==',uid)))
+    ]);
+    const u=uSnap.exists()?{id:uid,...uSnap.data()}:{id:uid,username:'unknown'};
+    const posts=postsSnap.docs.map(d=>({id:d.id,...d.data()}));
+    const reports=reportsSnap.docs.map(d=>({id:d.id,...d.data()}));
+    const warns=warnSnap.docs.map(d=>({id:d.id,...d.data()}));
+    const banned=_admBanned.find(b=>b.id===uid||b.uid===uid);
+    const joinDate=u.createdAt?_admFmt(u.createdAt):(u.lastSeen?'Active: '+_admFmt(u.lastSeen):'Unknown');
+
+    content.innerHTML=`
+      <!-- Profile header -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+        <div style="width:52px;height:52px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:20px;flex-shrink:0;overflow:hidden">
+          ${u.photo?`<img src="${_e(u.photo)}" style="width:100%;height:100%;object-fit:cover">`:_e((u.name||u.username||'?')[0].toUpperCase())}
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:900">@${_e(u.username||'no-username')}</div>
+          <div style="font-size:13px;color:var(--ink2)">${_e(u.name||'No display name')}</div>
+          <div style="font-size:11px;color:var(--ink3)">${_e(u.email||'No email')}</div>
+          ${banned?'<div style="margin-top:4px;font-size:11px;font-weight:700;color:var(--danger)">⛔ BANNED — '+_e(banned.reason||'')+'</div>':''}
+        </div>
+      </div>
+
+      <!-- Stats grid -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
+        <div style="text-align:center;background:var(--bg);border-radius:8px;padding:8px">
+          <div style="font-size:16px;font-weight:900;color:var(--primary)">${posts.length}</div>
+          <div style="font-size:10px;color:var(--ink3);text-transform:uppercase">Posts</div>
+        </div>
+        <div style="text-align:center;background:var(--bg);border-radius:8px;padding:8px">
+          <div style="font-size:16px;font-weight:900;color:var(--danger)">${reports.length}</div>
+          <div style="font-size:10px;color:var(--ink3);text-transform:uppercase">Reports</div>
+        </div>
+        <div style="text-align:center;background:var(--bg);border-radius:8px;padding:8px">
+          <div style="font-size:16px;font-weight:900;color:#f59e0b">${warns.length}</div>
+          <div style="font-size:10px;color:var(--ink3);text-transform:uppercase">Warnings</div>
+        </div>
+        <div style="text-align:center;background:var(--bg);border-radius:8px;padding:8px">
+          <div style="font-size:11px;font-weight:700;color:var(--ink2)">${joinDate.slice(0,10)}</div>
+          <div style="font-size:10px;color:var(--ink3);text-transform:uppercase">Last seen</div>
+        </div>
+      </div>
+
+      <!-- UID -->
+      <div style="background:var(--bg);border-radius:8px;padding:8px 10px;margin-bottom:12px;font-size:10px;font-family:monospace;color:var(--ink3);word-break:break-all">UID: ${_e(uid)}</div>
+
+      <!-- Warnings history -->
+      ${warns.length?`<div style="margin-bottom:12px">
+        <div style="font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;margin-bottom:6px">⚠️ Warning History</div>
+        ${warns.map(w=>`<div style="background:#fffbeb;border-radius:8px;padding:8px;margin-bottom:4px;font-size:12px;border-left:3px solid #f59e0b">${_e(w.message||'No message')} <span style="color:var(--ink3);font-size:10px">— ${_admFmt(w.ts)}</span></div>`).join('')}
+      </div>`:''}
+
+      <!-- Recent posts -->
+      ${posts.length?`<div style="margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;margin-bottom:6px">📝 Recent Posts (${posts.length})</div>
+        ${posts.slice(0,5).map(p=>`<div style="background:var(--bg);border-radius:8px;padding:8px;margin-bottom:4px;font-size:12px;display:flex;justify-content:space-between;gap:8px;align-items:center">
+          <div style="color:var(--ink2);word-break:break-word;flex:1">${_e((p.text||'').slice(0,120))}</div>
+          <button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);font-size:10px;flex-shrink:0;padding:3px 7px" onclick="window._admDeletePost('${p.id}')">🗑</button>
+        </div>`).join('')}
+      </div>`:''}
+
+      <!-- Action buttons -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border)">
+        <button class="btn btn-sm btn-o" onclick="window._admWarn('${uid}','${_e(u.username||'user')}')">⚠️ Send Warning</button>
+        ${banned
+          ?`<button class="btn btn-sm btn-o" onclick="window._admUnban('${uid}');document.getElementById('adm-user-modal').style.display='none'">✅ Unban</button>`
+          :`<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser('${uid}','${_e(u.username||'user')}');document.getElementById('adm-user-modal').style.display='none'">⛔ Ban User</button>`
+        }
+        <button class="btn btn-sm btn-o" style="color:var(--danger);border-color:var(--danger)" onclick="window._admNukeUser('${uid}','${_e(u.username||'user')}')">💥 Delete All Posts</button>
+      </div>`;
+  }catch(e){
+    content.innerHTML=`<div class="empty" style="color:var(--danger)">Failed to load: ${_e(e.message)}</div>`;
+  }
+};
+
+// ── ACTIONS ──
+window._admBanUser=async function(uid,alias,reportId){
+  if(!uid||!_isAdmin()){window.toast('No UID');return;}
+  const reason=prompt('Ban reason for @'+alias+'?\nThis will be shown to the user.');
+  if(reason===null)return;
+  try{
+    const _sd=window._setDoc||setDoc,_dc=window._doc||doc,
+          _st=window._sTs||serverTimestamp,_db2=window._db||db;
+    await _sd(_dc(_db2,'banned',uid),{uid,alias,reason:reason||'Community guidelines violation',bannedAt:_st(),bannedBy:window._CU.uid});
+    _admLogAction('BAN','@'+alias+' — '+reason);
+    window.toast('⛔ @'+alias+' banned');
+    if(reportId){window._admDeleteReport(reportId);}
+    await _admLoad();
+  }catch(e){window.toast('Failed: '+e.message);}
+};
+
+window._admUnban=async function(uid){
+  if(!_isAdmin())return;
+  const u=_admBanned.find(b=>b.id===uid||b.uid===uid)||{};
+  try{
+    const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;
+    await _dd(_dc(_db2,'banned',uid));
+    _admLogAction('UNBAN','@'+(u.alias||uid));
+    window.toast('✅ User unbanned');
+    await _admLoad();
+  }catch(e){window.toast('Failed: '+e.message);}
+};
+
+window._admDeletePost=async function(postId,reportId){
+  if(!_isAdmin())return;
+  if(!confirm('Delete this post permanently?'))return;
+  try{
+    const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;
+    await _dd(_dc(_db2,'posts',postId));
+    _admLogAction('DELETE POST',postId);
+    window.toast('🗑 Post deleted');
+    _admPosts=_admPosts.filter(p=>p.id!==postId);
+    document.getElementById('adm-post-c').textContent=_admPosts.length;
+    if(reportId)window._admDeleteReport(reportId);
+    _admRender();
+  }catch(e){window.toast('Failed: '+e.message);}
+};
+
+window._admDeleteReport=async function(id){
+  if(!_isAdmin())return;
+  try{
+    const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;
+    await _dd(_dc(_db2,'reports',id));
+    _admLogAction('DISMISS REPORT',id);
+    _admReports=_admReports.filter(r=>r.id!==id);
+    document.getElementById('adm-rep-c').textContent=_admReports.length;
+    _admRender();
+  }catch(e){window.toast('Failed: '+e.message);}
+};
+
+window._admWarn=async function(uid,alias){
+  if(!_isAdmin())return;
+  const msg=prompt('Warning message for @'+alias+':\n(They will see this in the app)');
+  if(!msg)return;
+  try{
+    const _ad=window._addDoc||addDoc,_col=window._collection||collection,
+          _st=window._sTs||serverTimestamp,_db2=window._db||db;
+    await _ad(_col(_db2,'warnings'),{uid,alias,message:msg,ts:_st(),by:window._CU.uid,read:false});
+    _admLogAction('WARN','@'+alias+' — '+msg.slice(0,50));
+    window.toast('⚠️ Warning sent to @'+alias);
+  }catch(e){window.toast('Failed: '+e.message);}
+};
+
+window._admNukeUser=async function(uid,alias){
+  if(!_isAdmin())return;
+  if(!confirm('Delete ALL posts by @'+alias+'?\nThis cannot be undone!'))return;
+  try{
+    const _dd=window._deleteDoc||deleteDoc,_dc=window._doc||doc,_db2=window._db||db;
+    const userPosts=_admPosts.filter(p=>p.uid===uid);
+    await Promise.all(userPosts.map(p=>_dd(_dc(_db2,'posts',p.id))));
+    _admLogAction('NUKE','All '+userPosts.length+' posts by @'+alias);
+    window.toast('💥 Deleted '+userPosts.length+' posts by @'+alias);
+    _admPosts=_admPosts.filter(p=>p.uid!==uid);
+    document.getElementById('adm-post-c').textContent=_admPosts.length;
+    _admRender();
+  }catch(e){window.toast('Failed: '+e.message);}
+};
+
+window._admSearch=function(){
+  const q=prompt('Search user by username or email:');
+  if(!q)return;
+  window._admTab('users');
+  setTimeout(()=>{
+    const inp=document.getElementById('adm-user-search');
+    if(inp){inp.value=q;_admRender();}
+  },100);
+};
+
+window._admAnnounce=async function(){
+  if(!_isAdmin())return;
+  const msg=prompt('📢 Announcement message:\n(Will be sent as a warning/notice to all users in the next version — for now it posts to forum as pinned)');
+  if(!msg)return;
+  try{
+    const _ad=window._addDoc||addDoc,_col=window._collection||collection,
+          _st=window._sTs||serverTimestamp,_db2=window._db||db;
+    await _ad(_col(_db2,'posts'),{
+      uid:window._CU.uid,alias:'📢 TISA Admin',uname:'tisaadmin',
+      text:'📢 ANNOUNCEMENT: '+msg,category:'General',
+      ts:_st(),likes:[],pinned:true
+    });
+    _admLogAction('ANNOUNCE',msg.slice(0,60));
+    window.toast('📢 Announcement posted!');
+  }catch(e){window.toast('Failed: '+e.message);}
+};
 // ══════════════════════════════════════
 // MOBILE UI REFACTOR JS
 // ══════════════════════════════════════
@@ -4218,7 +4615,185 @@ window.switchPandaTab=function(tab){
 window._askHistory=[];
 // Load saved Panda API key
 try{const _pk=localStorage.getItem('tisa_panda_key');if(_pk)window._PANDA_KEY=_pk;}catch(e){}
-window.askPanda=async function(){
+// ── PANDA BRAIN — smart rule-based AI, no API key needed ──
+window._pandaBrain=function(q){
+  const ql=q.toLowerCase().trim();
+  const name=window._uname?'@'+window._uname:(window._CU?.displayName?.split(' ')[0]||'');
+  const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
+  const hrs=Math.floor(todaySecs/3600);
+  const mins=Math.floor((todaySecs%3600)/60);
+  const streak=window.studyData?.streak||0;
+  const xp=window.xp||0;
+  const coins=window.coins||0;
+  const subjects=(window.subjects||[]).map(s=>s.name||s);
+
+  // ── Greeting / small talk ──
+  if(/^(hi|hey|hello|sup|yo|hiya|howdy)\b/.test(ql)){
+    const greets=["Hey there! 🐼 Ready to smash some studying today?","Hello! 🎋 What are we learning today?","Hi! I'm Panda, your study buddy. What's on your mind? 🐼","Heyy! 🌟 Ask me anything — study tips, subject help, or just chat!"];
+    return greets[Math.floor(Math.random()*greets.length)];
+  }
+  if(/how are you|how r u|you ok/.test(ql)){
+    return `I'm doing great, thanks for asking! 🐼 ${todaySecs>0?`You've studied ${hrs>0?hrs+'h ':''}${mins}m today — keep it up! 🔥`:"Haven't started studying yet today — want to kick things off? 💪"}`;
+  }
+  if(/your name|who are you|what are you/.test(ql)){
+    return "I'm Panda 🐼 — your personal study companion inside TISA (Track. Improve. Study. Ace.). I'm here to help you study smarter, stay motivated, and answer your questions!";
+  }
+  if(/thank|thanks|thx|ty\b/.test(ql)){
+    const ty=["You're welcome! 🎋 Keep studying hard!","Anytime! That's what I'm here for 🐼","Happy to help! Now back to those books 📚😄","Always! You've got this 🌟"];
+    return ty[Math.floor(Math.random()*ty.length)];
+  }
+
+  // ── Personal stats ──
+  if(/my (xp|experience|points)|how much xp/.test(ql)){
+    return `You have ${xp} XP and ${coins} 🪙 coins${streak>0?' with a '+streak+'-day streak 🔥':''}! Keep studying to earn more and unlock rewards 🌟`;
+  }
+  if(/my streak|how long.*streak|streak.*how/.test(ql)){
+    return streak>0?`You're on a 🔥 ${streak}-day streak — amazing! Don't break it, study a bit today even if it's just 15 minutes.`:`No active streak yet — study today to start one! Even 15 minutes counts 💪`;
+  }
+  if(/how (long|much).*studied|study.*today|today.*study|my progress/.test(ql)){
+    return todaySecs>0?`You've studied for ${hrs>0?hrs+'h ':''}${mins} minutes today 📚${hrs>=2?' — that\'s seriously impressive! 🏆':hrs>=1?' — great work! Keep going 💪':' — good start! Aim for at least an hour 🎯'}`:`You haven't logged any study time today yet. Start a timer now — even 25 minutes makes a difference! 🍅`;
+  }
+  if(/my subjects?|what.*studying|studying what/.test(ql)){
+    return subjects.length>0?`You're studying: ${subjects.join(', ')} 📚 Want tips on any of these?`:`You haven't added any subjects yet! Go to the Timer page and tap + to add your subjects 🎯`;
+  }
+
+  // ── Study techniques ──
+  if(/pomodoro|pomo|25.?min|tomato timer/.test(ql)){
+    return "The Pomodoro technique is 25 minutes of focused work → 5 min break → repeat 4× → long break 🍅 It's scientifically proven to boost focus. Tap '🍅 Pomo' on your timer to start one right now!";
+  }
+  if(/active recall|flashcard|self.?test/.test(ql)){
+    return "Active recall is the #1 most effective study method 🧠 Instead of re-reading, close your notes and try to recall key points. Use flashcards, practice tests, or just explain concepts out loud. Way better than highlighting!";
+  }
+  if(/spaced repetition|spacing effect/.test(ql)){
+    return "Spaced repetition means reviewing material at increasing intervals — today, tomorrow, in 3 days, in a week 📅 Apps like Anki use this. It exploits how memory works to make studying stick long-term!";
+  }
+  if(/mind map|concept map/.test(ql)){
+    return "Mind maps are great for visual learners 🗺️ Put the main topic in the centre, branch out key ideas, then add details. Drawing connections between ideas helps your brain encode the information more deeply!";
+  }
+  if(/feynman|teach.*explain|explain.*simple/.test(ql)){
+    return "The Feynman technique: pick a concept → explain it like you're teaching a 10-year-old → find the gaps where your explanation breaks → go back and learn those gaps 🎓 If you can't explain it simply, you don't understand it yet!";
+  }
+  if(/cornell notes?|note.?taking|how to take notes/.test(ql)){
+    return "Cornell notes are top tier 📝 Divide your page: narrow left column for key questions/cues, wide right column for notes, bottom for a summary. After class, cover the right side and use the cues to test yourself!";
+  }
+  if(/study group|study with friends|group study/.test(ql)){
+    return "Study groups work well when everyone comes prepared! 👥 Teach each other topics, quiz each other, and keep sessions focused (max 2 hours). Avoid turning it into a chat session though 😄";
+  }
+  if(/procrastinat|can't start|don't want to study|lazy|motivation/.test(ql)){
+    return "Procrastination hack: just commit to 2 minutes 🐼 Tell yourself you'll study for only 2 minutes. Once you start, momentum kicks in and you'll keep going. The hardest part is always starting!";
+  }
+  if(/focus|concentrat|distract|can't focus/.test(ql)){
+    return "Focus tips: 📵 phone in another room, 🎧 lo-fi music or white noise, 🍅 use the Pomodoro timer in TISA, 💧 stay hydrated, and clear your desk. Your environment shapes your focus more than willpower does!";
+  }
+  if(/memoris|memoriz|remember|forget|memory/.test(ql)){
+    return "Best memory hacks 🧠: (1) Active recall > re-reading, (2) Spaced repetition — review at intervals, (3) Link new info to something you already know, (4) Sleep! Your brain consolidates memories during sleep 😴 Try explaining what you learned before bed.";
+  }
+  if(/stress|anxious|anxiety|overwhelm|panic/.test(ql)){
+    return "Exam stress is real 💙 Try box breathing: inhale 4 counts, hold 4, exhale 4, hold 4. Then break your work into tiny chunks — not 'study chemistry' but 'read page 12'. One small step at a time. You've got this 🐼";
+  }
+  if(/tired|exhausted|sleepy|can't keep.*eyes/.test(ql)){
+    return "Being tired kills productivity 😴 Options: (1) 20-min power nap (set an alarm!), (2) go for a 5 min walk outside, (3) cold water on your face, or (4) just stop for today — sleep-deprived studying barely works. Rest is productive too!";
+  }
+  if(/break|how.*often.*break|when.*take.*break/.test(ql)){
+    return "Take a break every 25-50 minutes 🐼 During breaks: stand up, stretch, get water, look at something far away (20-20-20 rule). Avoid scrolling — it's not real rest for your brain. Short walks are the best!";
+  }
+  if(/exam|test|quiz.*tip|revision|revise/.test(ql)){
+    return "Exam prep tips 📝: (1) Past papers are GOLD — do them under timed conditions, (2) teach topics to yourself out loud, (3) start 2 weeks early (not the night before!), (4) sleep well the night before, (5) eat breakfast on exam day. You've got this! 💪";
+  }
+  if(/essay|writing|paragraph|thesis/.test(ql)){
+    return "Essay writing flow 📝: intro (hook + thesis), 3+ body paragraphs (point → evidence → explain → link back), conclusion (restate thesis + broader significance). Draft first, edit second — never try to do both at once!";
+  }
+  if(/read(ing)? (faster|speed|quickly)|speed read/.test(ql)){
+    return "Reading faster tip: use your finger or a pen as a pacer under each line — it stops your eyes from wandering and speeds up reading by 20-30% 👆 Also, preview headings and summaries first so your brain knows what to expect!";
+  }
+
+  // ── Subject-specific ──
+  if(/math|maths|algebra|calculus|equation|formula|geometry|trigonometry/.test(ql)){
+    return "Maths tip 🔢: don't just read examples — do them yourself with the textbook closed. Maths is a skill, not knowledge. Make formula sheets, then practice until you don't need them. Khan Academy and Wolfram Alpha are great for explanations!";
+  }
+  if(/physics|newton|force|energy|motion|velocity|acceleration/.test(ql)){
+    return "Physics tip ⚡: always draw a diagram first, label all forces/quantities, then write the equation. Physics problems are usually just finding the right formula and plugging in — but the diagram is where 80% of the thinking happens!";
+  }
+  if(/chemistry|chem|periodic|element|reaction|mole|atom|bond/.test(ql)){
+    return "Chemistry tip 🧪: understand the WHY behind reactions, don't just memorise. For calculations (moles, stoichiometry), write out every step clearly. Flashcards work great for element symbols and reaction types!";
+  }
+  if(/biology|bio|cell|genetics|dna|evolution|ecosystem|anatomy/.test(ql)){
+    return "Biology tip 🧬: it's a lot of vocab — flashcards and diagrams are your best friends. Draw diagrams from memory (cell structure, DNA replication). For processes, make step-by-step flow charts. Connecting concepts together is key!";
+  }
+  if(/history|historian|war|revolution|event|century|empire/.test(ql)){
+    return "History tip 📜: focus on CAUSE → EVENT → CONSEQUENCE chains. Use timelines, mind maps, and practice writing timed essays. For dates, link them to something memorable. Understanding context beats memorising facts!";
+  }
+  if(/english|literature|poem|novel|shakespeare|metaphor|analysis/.test(ql)){
+    return "English lit tip 📖: use PEE/PEEL structure (Point → Evidence → Explain → Link). Always analyse the author's intent — why did they choose THAT word? Annotate your texts with themes, techniques, and page references. Practice timed essays!";
+  }
+  if(/language|french|spanish|german|mandarin|vocab|grammar|pronunciation/.test(ql)){
+    return "Language learning tip 🗣️: consistency beats intensity — 20 min daily beats 3 hours once a week. Duolingo for vocab, watch shows in that language with subtitles, and speak out loud even if it feels awkward. Mistakes are how you learn!";
+  }
+  if(/computer|coding|programming|python|javascript|algorithm|code/.test(ql)){
+    return "Coding tip 💻: don't just read code — TYPE it out yourself and make small changes to see what breaks. Build something you care about. When stuck, rubber duck debug (explain the problem out loud). Stack Overflow and MDN are your best friends!";
+  }
+  if(/economics|econ|supply|demand|market|gdp|inflation/.test(ql)){
+    return "Economics tip 📈: master supply/demand diagrams — they come up everywhere. Practice drawing and shifting curves. For essays, always use economic theory + real-world examples. Investopedia is great for quick explanations!";
+  }
+  if(/psychology|psych|behaviour|cognitive|experiment|study.*people/.test(ql)){
+    return "Psychology tip 🧠: memorise key studies with the APFC method — Aim, Procedure, Findings, Conclusion. Link theories to real examples. For evaluation, think: strengths vs. limitations, ethical issues, real-world applications!";
+  }
+
+  // ── TISA-specific ──
+  if(/coin|how.*earn.*coin|earn.*coin/.test(ql)){
+    return `You have ${coins} 🪙 coins! Earn more by: studying (1 coin per 10 min), completing todo tasks, maintaining your streak, and reaching XP milestones. Spend coins to feed your Panda! 🐼`;
+  }
+  if(/xp|level up|rank|how.*earn.*xp/.test(ql)){
+    return `You have ${xp} XP! You earn XP by studying, logging sessions, posting on the forum, and completing wellness check-ins. Higher XP = higher rank on the leaderboard 🏆`;
+  }
+  if(/pomo(doro)?.*how|how.*pomo|start.*pomo/.test(ql)){
+    return "Tap the 🍅 Pomo button on your timer! It starts a 25-minute focus countdown automatically. After 25 min, a 5-min break starts. After 4 rounds, you get a long break 🎉 No setup needed!";
+  }
+  if(/timer.*how|how.*timer|start.*timer/.test(ql)){
+    return "Tap the Start button on your timer card on the home page 🏠 Select your subject first, then hit Start. Your study time gets logged automatically and earns you XP + coins!";
+  }
+  if(/theme|dark mode|colour|color|appearance/.test(ql)){
+    return "Go to Settings (⚙️ in the nav) to pick from 12 themes including dark mode 🌙 You can even create a custom theme with your own colours and font!";
+  }
+  if(/forum|post|community/.test(ql)){
+    return "The Community page is where you can post questions, share study tips, and chat with other TISA users 💬 Tap the speech bubble in the nav — posting and commenting earns you XP!";
+  }
+  if(/todo|task|checklist/.test(ql)){
+    return "Your Todo list is on the home page 🏠 Add tasks with the + button. Swipe left on a task to delete it. Completing tasks earns you coins and XP — so get ticking! ✅";
+  }
+  if(/streak.*how|how.*streak|keep.*streak/.test(ql)){
+    return "Your streak goes up by 1 every day you log at least 1 minute of study ⏱️ Log a short session even on busy days to keep it alive. Streaks earn bonus XP and flex on the leaderboard 🔥";
+  }
+
+  // ── Motivation & wellbeing ──
+  if(/motivat|inspire|give up|quit|worth it|why.*study/.test(ql)){
+    const mo=["Every expert was once a beginner 🌱 The hours you put in now compound into something amazing. Keep going!","Your future self will thank you for every minute you study today 🌟","Progress over perfection — a little studying done is infinitely better than perfect studying planned 💪","The pain of studying is temporary. The pride of achievement is permanent 🏆 You've got this!"];
+    return mo[Math.floor(Math.random()*mo.length)];
+  }
+  if(/affirmation|positive|cheer|encourage/.test(ql)){
+    const aff=[`You're doing amazing${name?' '+name:''}! 🌟 Your dedication will absolutely pay off.`,"Every page you read, every problem you solve — it all adds up. Trust the process 🐼","You are smarter and more capable than you give yourself credit for 💙 Keep believing in yourself!",`${xp>0?'You\'ve already earned '+xp+' XP — that\'s real effort!':'Today is the perfect day to start earning XP! 🌟'} Proud of you 🐼`];
+    return aff[Math.floor(Math.random()*aff.length)];
+  }
+  if(/joke|funny|laugh|entertain/.test(ql)){
+    const jokes=["Why did the student eat his homework? Because the teacher told him it was a piece of cake! 🎂😄","What do you call a fish without eyes? A fsh 🐟 ...okay back to studying 😄","Why is 6 afraid of 7? Because 7 8 9! 😂 Now that you're smiling, let's get back to it 💪","I tried to write a chemistry joke but I knew I wouldn't get a reaction 🧪😄"];
+    return jokes[Math.floor(Math.random()*jokes.length)];
+  }
+  if(/bored|boring|not interesting|hate studying/.test(ql)){
+    return "Boredom hack: gamify it! Set a 25-min Pomo timer and race yourself 🏎️ Or switch subjects, change your environment, or study with lo-fi music. Also — your Panda needs you to study to stay happy 🐼🥺";
+  }
+
+  // ── Catch-all smart fallback ──
+  const fallbacks=[
+    `Great question! Here's a general tip: break your study session into focused 25-minute chunks with short breaks in between 🍅 This keeps your brain sharp and prevents burnout. You've got this${name?' '+name:''}! 🐼`,
+    `Hmm, let me think... 🤔 Whatever you're working on, try explaining it out loud to yourself — it reveals gaps in your understanding super quickly! 🎓`,
+    `I'm still learning too 🌱 But here's what I know: consistent daily studying beats cramming every time. Even 30 minutes a day adds up to 180+ hours a year 📚`,
+    `Interesting question! For best results with any subject, use active recall (test yourself) + spaced repetition (review at intervals). These two techniques beat all others! 🧠`,
+    `Not sure about that specific one, but I do know this: ${todaySecs>300?`you've already studied ${hrs>0?hrs+'h ':''}${mins}m today — that's real progress! 🌟`:`starting a study session right now is the best thing you could do! Tap the timer ⏱️`}`,
+  ];
+  return fallbacks[Math.floor(Math.random()*fallbacks.length)];
+};
+
+window.askPanda=function(){
   const inp=document.getElementById('ask-panda-inp');
   const msgs=document.getElementById('ask-panda-msgs');
   if(!inp||!msgs)return;
@@ -4226,58 +4801,31 @@ window.askPanda=async function(){
   if(!q)return;
   inp.value='';
 
-  // Add user bubble
+  // User bubble
   const ub=document.createElement('div');
   ub.className='ask-bubble ask-user';
   ub.textContent=q;
   msgs.appendChild(ub);
 
-  // Add thinking bubble
+  // Thinking bubble
   const tb=document.createElement('div');
   tb.className='ask-bubble ask-panda ask-thinking';
   tb.textContent='Panda is thinking... 🎋';
   msgs.appendChild(tb);
   msgs.scrollTop=msgs.scrollHeight;
 
-  // Build context from user's study data
-  const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
-  const hrs=Math.floor(todaySecs/3600);
-  const mins=Math.floor((todaySecs%3600)/60);
-  const userName=window._CU?.displayName||'student';
-  const subjects=(window.subjects||[]).map(s=>s.name||s).join(', ')||'various subjects';
-
   window._askHistory.push({role:'user',content:q});
-  if(window._askHistory.length>10)window._askHistory=window._askHistory.slice(-10);
+  if(window._askHistory.length>20)window._askHistory=window._askHistory.slice(-20);
 
-  try{
-    const apiKey=window._PANDA_KEY||'';
-    if(!apiKey){throw new Error('No API key set. Go to Settings → Add Panda API Key 🐼');}
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key':apiKey,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body:JSON.stringify({
-        model:'claude-haiku-4-5-20251001',
-        max_tokens:300,
-        system:`You are Panda, TISA's friendly study companion. Be concise (2-3 sentences), warm, helpful, and encouraging. Use 1-2 emojis. Never say you are an AI — you are Panda! 🐼\nContext: ${userName} studied ${hrs}h ${mins}m today. Subjects: ${subjects}. XP: ${window.xp||0}.`,
-        messages:window._askHistory
-      })
-    });
-    const data=await resp.json();
-    if(data.error)throw new Error(data.error.message||'API error');
-    const reply=data.content?.map(b=>b.type==='text'?b.text:'').filter(Boolean).join('')||"Hmm, I couldn't think of anything! Try asking me again 🎋";
+  // Simulate thinking delay (300-800ms feels natural)
+  const delay=300+Math.floor(Math.random()*500);
+  setTimeout(()=>{
+    const reply=window._pandaBrain(q);
     window._askHistory.push({role:'assistant',content:reply});
     tb.classList.remove('ask-thinking');
     tb.textContent=reply;
-  }catch(e){
-    tb.classList.remove('ask-thinking');
-    tb.textContent='⚠️ '+e.message;
-  }
-  msgs.scrollTop=msgs.scrollHeight;
+    msgs.scrollTop=msgs.scrollHeight;
+  },delay);
 };
 
 // ── VIRTUAL PET ──
