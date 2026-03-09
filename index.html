@@ -663,6 +663,10 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 .ask-input-row{display:flex;gap:8px;align-items:center;}
 /* ── Virtual Pet ── */
 .pet-stage{display:flex;flex-direction:column;align-items:center;padding:4px 0 8px;}
+@keyframes pandaBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes pandaFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-4px) rotate(1deg)}}
+#pet-emoji{animation:pandaBob 3.5s ease-in-out infinite;}
+@keyframes cloudDrift{0%{transform:translateX(0)}100%{transform:translateX(8px)}}
 .pet-speech{font-size:12px;color:var(--ink2);text-align:center;min-height:18px;
   font-style:italic;margin-top:4px;opacity:.85;}
 .pet-bars{display:flex;flex-direction:column;gap:7px;margin:8px 0;}
@@ -790,7 +794,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 .badge-scroll::-webkit-scrollbar{display:none;}
 .badge-scroll>*{flex-shrink:0;}
 
-@media(min-width:761px){#todo-add-btn-mob{display:none!important;}#mob-greeting{display:none!important;}}
+@media(min-width:761px){#todo-add-btn-mob{display:none!important;}#todo-add-wrap{max-height:300px!important;opacity:1!important;}#mob-greeting{display:none!important;}}
 </style>
 <!--
   ══════════════════════════════════════════════════════════════
@@ -963,7 +967,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div class="hdr-right">
   <div class="xp-chip" onclick="showPage('profile',null)">⚡<span id="hdr-xp">0 XP</span><span id="hdr-lv" style="opacity:.7">Lv.1</span></div>
   <div style="font-size:12px;font-weight:800;color:var(--warn);cursor:pointer">🪙<span id="hdr-coins">0</span></div>
-  <div class="user-pill" onclick="showPage('profile',null)"><div class="uav" id="user-av">?</div><span id="user-dname">...</span></div>
+  <div class="user-pill" onclick="showPage('profile',null)"><div class="uav" id="user-av">?</div><span id="user-dname" style="max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle">...</span></div>
   <div class="dark-toggle" id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"></div>
   <button class="hdr-btn" onclick="toggleFocus()">🎯</button>
   <button class="hdr-btn" style="border-color:var(--danger);color:var(--danger)" onclick="doSignOut()">Out</button>
@@ -1083,7 +1087,188 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <!-- TAB 3: MY PANDA (Virtual Pet) -->
   <div id="panda-tab-pet" class="panda-panel" style="display:none">
     <div class="pet-stage">
-      <div id="pet-emoji" style="font-size:64px;line-height:1;transition:transform .3s">🐼</div>
+      <!-- Ghibli scene container -->
+      <div id="pet-emoji" style="width:220px;height:200px;margin:0 auto;transition:transform .3s;position:relative">
+        <svg id="panda-svg" viewBox="0 0 220 200" width="220" height="200" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 4px 12px rgba(0,0,0,.12))">
+          <defs>
+            <!-- Sky gradient — soft Ghibli dawn -->
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fde8d0"/>
+              <stop offset="60%" stop-color="#fdf3e3"/>
+              <stop offset="100%" stop-color="#e8f5e1"/>
+            </linearGradient>
+            <!-- Ground gradient -->
+            <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b8e08a"/>
+              <stop offset="100%" stop-color="#8cc452"/>
+            </linearGradient>
+            <!-- Panda body soft fill -->
+            <radialGradient id="bodyGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#e8e8e4"/>
+            </radialGradient>
+            <!-- Blush gradient -->
+            <radialGradient id="blushGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffb3c6" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#ffb3c6" stop-opacity="0"/>
+            </radialGradient>
+            <!-- Sparkle filter -->
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="1.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- ── SKY BACKGROUND ── -->
+          <rect width="220" height="200" rx="20" fill="url(#skyGrad)"/>
+
+          <!-- Soft clouds -->
+          <ellipse cx="30" cy="28" rx="22" ry="10" fill="white" opacity=".6"/>
+          <ellipse cx="45" cy="24" rx="16" ry="9" fill="white" opacity=".5"/>
+          <ellipse cx="18" cy="30" rx="14" ry="8" fill="white" opacity=".45"/>
+          <ellipse cx="170" cy="22" rx="24" ry="10" fill="white" opacity=".55"/>
+          <ellipse cx="188" cy="18" rx="15" ry="8" fill="white" opacity=".45"/>
+          <ellipse cx="158" cy="26" rx="14" ry="7" fill="white" opacity=".4"/>
+
+          <!-- Distant soft hills -->
+          <ellipse cx="40" cy="148" rx="60" ry="30" fill="#c8e89a" opacity=".5"/>
+          <ellipse cx="185" cy="152" rx="55" ry="28" fill="#bde08a" opacity=".45"/>
+
+          <!-- ── GROUND ── -->
+          <ellipse cx="110" cy="188" rx="95" ry="18" fill="url(#groundGrad)" opacity=".8"/>
+          <!-- Grass tufts -->
+          <path d="M20,178 Q23,168 26,178" fill="#7ab83a" stroke="none"/>
+          <path d="M28,176 Q31,167 34,176" fill="#8cc44a" stroke="none"/>
+          <path d="M185,175 Q188,166 191,175" fill="#7ab83a" stroke="none"/>
+          <path d="M193,177 Q196,168 199,177" fill="#8cc44a" stroke="none"/>
+          <path d="M100,180 Q103,172 106,180" fill="#7ab83a" stroke="none"/>
+
+          <!-- ── BACKGROUND BAMBOO (left) ── -->
+          <rect x="12" y="60" width="6" height="120" rx="3" fill="#7ab840" opacity=".5"/>
+          <rect x="10" y="80" width="10" height="4" rx="2" fill="#6aa830" opacity=".5"/>
+          <rect x="10" y="105" width="10" height="4" rx="2" fill="#6aa830" opacity=".5"/>
+          <rect x="10" y="130" width="10" height="4" rx="2" fill="#6aa830" opacity=".5"/>
+          <!-- BG bamboo leaves -->
+          <ellipse cx="22" cy="65" rx="14" ry="5" fill="#90c84a" transform="rotate(-35,22,65)" opacity=".55"/>
+          <ellipse cx="8" cy="75" rx="12" ry="4" fill="#7ab840" transform="rotate(25,8,75)" opacity=".5"/>
+
+          <!-- ── BACKGROUND BAMBOO (right) ── -->
+          <rect x="200" y="55" width="6" height="125" rx="3" fill="#7ab840" opacity=".45"/>
+          <rect x="198" y="75" width="10" height="4" rx="2" fill="#6aa830" opacity=".45"/>
+          <rect x="198" y="100" width="10" height="4" rx="2" fill="#6aa830" opacity=".45"/>
+          <rect x="198" y="128" width="10" height="4" rx="2" fill="#6aa830" opacity=".45"/>
+          <ellipse cx="196" cy="62" rx="13" ry="5" fill="#90c84a" transform="rotate(30,196,62)" opacity=".5"/>
+
+          <!-- ── FOREGROUND BAMBOO (left, main) ── -->
+          <rect x="32" y="40" width="9" height="155" rx="4" fill="#5fa82e"/>
+          <rect x="29" y="62" width="15" height="6" rx="3" fill="#4d9020"/>
+          <rect x="29" y="88" width="15" height="6" rx="3" fill="#4d9020"/>
+          <rect x="29" y="114" width="15" height="6" rx="3" fill="#4d9020"/>
+          <rect x="29" y="140" width="15" height="6" rx="3" fill="#4d9020"/>
+          <!-- Main bamboo leaves -->
+          <ellipse cx="50" cy="48" rx="20" ry="6" fill="#78c832" transform="rotate(-40,50,48)"/>
+          <ellipse cx="28" cy="55" rx="18" ry="5" fill="#5fa82e" transform="rotate(30,28,55)"/>
+          <ellipse cx="55" cy="70" rx="16" ry="5" fill="#78c832" transform="rotate(-25,55,70)"/>
+
+          <!-- ── PANDA BODY ── -->
+          <!-- Shadow -->
+          <ellipse cx="112" cy="185" rx="38" ry="8" fill="#000" opacity=".08"/>
+          <!-- Body -->
+          <ellipse cx="112" cy="162" rx="34" ry="30" fill="url(#bodyGrad)" stroke="#d0ccc4" stroke-width="1"/>
+          <!-- Belly patch -->
+          <ellipse cx="112" cy="168" rx="20" ry="18" fill="#f5f5f0"/>
+
+          <!-- ── EARS ── -->
+          <circle cx="83" cy="90" r="14" fill="#2a2a2a"/>
+          <circle cx="83" cy="90" r="8" fill="#3d3d3d"/>
+          <circle cx="141" cy="90" r="14" fill="#2a2a2a"/>
+          <circle cx="141" cy="90" r="8" fill="#3d3d3d"/>
+
+          <!-- ── HEAD ── -->
+          <circle cx="112" cy="118" r="38" fill="url(#bodyGrad)" stroke="#d0ccc4" stroke-width="1"/>
+
+          <!-- ── EYE PATCHES (big fluffy Ghibli style) ── -->
+          <ellipse cx="96" cy="112" rx="13" ry="12" fill="#2a2a2a" transform="rotate(-10,96,112)"/>
+          <ellipse cx="128" cy="112" rx="13" ry="12" fill="#2a2a2a" transform="rotate(10,128,112)"/>
+
+          <!-- ── EYES (animated) ── -->
+          <circle id="pd-eye-l" cx="96" cy="112" r="7" fill="white"/>
+          <circle id="pd-eye-r" cx="128" cy="112" r="7" fill="white"/>
+          <!-- Pupils -->
+          <circle id="pd-pupil-l" cx="97" cy="111" r="4" fill="#1a1a1a"/>
+          <circle id="pd-pupil-r" cx="129" cy="111" r="4" fill="#1a1a1a"/>
+          <!-- Eye shine -->
+          <circle cx="99" cy="109" r="1.8" fill="white"/>
+          <circle cx="131" cy="109" r="1.8" fill="white"/>
+          <!-- Small shine dot -->
+          <circle cx="95" cy="113" r="0.9" fill="white" opacity=".7"/>
+          <circle cx="127" cy="113" r="0.9" fill="white" opacity=".7"/>
+
+          <!-- ── NOSE ── -->
+          <ellipse cx="112" cy="122" rx="6" ry="4" fill="#e8a0b0"/>
+          <ellipse cx="112" cy="121" rx="4" ry="2.5" fill="#f0b8c4"/>
+
+          <!-- ── MOUTH (animated) ── -->
+          <path id="pd-mouth" d="M103,128 Q112,137 121,128" fill="none" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+
+          <!-- ── BLUSH (animated) ── -->
+          <ellipse id="pd-blush-l" cx="80" cy="124" rx="11" ry="7" fill="url(#blushGrad)" opacity="0"/>
+          <ellipse id="pd-blush-r" cx="144" cy="124" rx="11" ry="7" fill="url(#blushGrad)" opacity="0"/>
+
+          <!-- ── ARMS ── -->
+          <!-- Left arm (holding bamboo) -->
+          <ellipse cx="76" cy="158" rx="13" ry="9" fill="url(#bodyGrad)" stroke="#d0ccc4" stroke-width="1" transform="rotate(-35,76,158)"/>
+          <!-- Right arm (resting) -->
+          <ellipse cx="148" cy="158" rx="13" ry="9" fill="url(#bodyGrad)" stroke="#d0ccc4" stroke-width="1" transform="rotate(35,148,158)"/>
+
+          <!-- ── BAMBOO IN HAND ── -->
+          <rect x="58" y="100" width="7" height="75" rx="3" fill="#5fa82e"/>
+          <rect x="55" y="118" width="13" height="5" rx="2" fill="#4d9020"/>
+          <rect x="55" y="140" width="13" height="5" rx="2" fill="#4d9020"/>
+          <!-- Bamboo leaves on held stalk -->
+          <ellipse cx="72" cy="105" rx="16" ry="5" fill="#78c832" transform="rotate(-30,72,105)"/>
+          <ellipse cx="52" cy="112" rx="14" ry="4" fill="#5fa82e" transform="rotate(20,52,112)"/>
+
+          <!-- ── MOOD OVERLAYS ── -->
+          <!-- Sweat drop (sad/tired) -->
+          <g id="pd-sweat" opacity="0">
+            <path d="M152,92 Q156,102 150,106 Q144,102 148,92 Z" fill="#87ceeb" stroke="#6ab4d4" stroke-width=".5"/>
+          </g>
+          <!-- Zzz bubbles (sleeping) -->
+          <g id="pd-zzz" opacity="0">
+            <circle cx="158" cy="88" r="9" fill="white" stroke="#c4b8d4" stroke-width="1" opacity=".9"/>
+            <text x="153" y="93" font-size="11" fill="#8b6cb4" font-weight="bold" font-family="serif">z</text>
+            <circle cx="172" cy="72" r="7" fill="white" stroke="#c4b8d4" stroke-width="1" opacity=".85"/>
+            <text x="168" y="77" font-size="9" fill="#8b6cb4" font-weight="bold" font-family="serif">z</text>
+          </g>
+          <!-- Sparkle stars (thriving) -->
+          <g id="pd-stars" opacity="0" filter="url(#glow)">
+            <text x="152" y="88" font-size="14" fill="#ffd700">★</text>
+            <text x="164" y="72" font-size="10" fill="#ffb347">✦</text>
+            <text x="146" y="74" font-size="8" fill="#ffe066">✦</text>
+          </g>
+          <!-- Heart eyes (very happy) -->
+          <g id="pd-hearts" opacity="0">
+            <text x="88" y="118" font-size="13" fill="#ff6b8a">♥</text>
+            <text x="120" y="118" font-size="13" fill="#ff6b8a">♥</text>
+          </g>
+          <!-- Angry eyebrows (upset) -->
+          <g id="pd-angry" opacity="0">
+            <path d="M84,100 Q96,96 100,100" fill="none" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M124,100 Q128,96 140,100" fill="none" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+
+          <!-- ── FLOATING SOOT SPRITES (Ghibli touch) ── -->
+          <g id="pd-sprites" opacity="0">
+            <circle cx="168" cy="108" r="5" fill="#333" opacity=".7"/>
+            <circle cx="167" cy="107" r="1" fill="white" opacity=".9"/>
+            <circle cx="169" cy="107" r="1" fill="white" opacity=".9"/>
+            <circle cx="180" cy="98" r="4" fill="#333" opacity=".6"/>
+            <circle cx="179" cy="97" r=".8" fill="white" opacity=".9"/>
+            <circle cx="181" cy="97" r=".8" fill="white" opacity=".9"/>
+          </g>
+        </svg>
+      </div>
       <div id="pet-mood-label" style="font-size:13px;font-weight:800;color:var(--primary);margin-top:6px"></div>
       <div id="pet-speech" class="pet-speech"></div>
     </div>
@@ -1681,25 +1866,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     </div>
   </div>
 
-  <!-- Panda AI Key -->
-  <div class="card" style="grid-column:1/-1">
-    <div class="ct"><div class="ct-ic">🐼</div>Ask Panda — AI Key</div>
-    <div style="font-size:12px;color:var(--ink2);margin-bottom:10px;line-height:1.6">
-      Ask Panda uses the Claude API for real answers. Get a free key at <b>console.anthropic.com</b> → API Keys, then paste it below.
-    </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <input type="password" id="panda-key-inp" class="tisa-inp" placeholder="sk-ant-api03-..." style="flex:1;font-family:monospace;font-size:12px">
-      <button class="btn btn-sm" onclick="
-        const k=document.getElementById('panda-key-inp').value.trim();
-        if(!k){window.toast('Paste your API key first');return;}
-        window._PANDA_KEY=k;
-        try{localStorage.setItem('tisa_panda_key',k);}catch(e){}
-        document.getElementById('panda-key-status').textContent='✅ Key saved — Ask Panda is ready!';
-        window.toast('🐼 Panda AI key saved!');
-      ">Save</button>
-    </div>
-    <div id="panda-key-status" style="font-size:11px;color:var(--ink3);margin-top:6px"></div>
-  </div>
+
 </div>
 </div>
 
@@ -3670,7 +3837,7 @@ const PIE_COLORS=['#5c7a3e','#7db356','#d4688a','#2a7fa8','#d4783a','#8b6fd4','#
 function renderBigChart(){const el=document.getElementById('big-chart');if(!el)return;const vals=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];vals.push({l:d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:(window.studyData[ds]||0)/3600,s:window.studyData[ds]||0,isT:ds===window._today});}const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map(v=>`<div class="bc-bar-wrap"><div class="bc-bar" style="height:${Math.round(v.v/mx*150)+4}px;min-width:22px"><div class="bc-bar-tip">${fmtHLabel(v.s)}</div></div><div class="bc-lbl">${v.isT?'Today':v.l}</div></div>`).join('');let tw=0,lw=0;for(let i=0;i<7;i++)tw+=(window.studyData[window._dStr(i)]||0);for(let i=7;i<14;i++)lw+=(window.studyData[window._dStr(i)]||0);const pte=document.getElementById('pw-this'),ple=document.getElementById('pw-last'),pd=document.getElementById('pw-diff');if(pte)pte.textContent=window._fmtH(tw);if(ple)ple.textContent=window._fmtH(lw);if(pd){const diff=tw-lw;pd.textContent=diff>=0?'↑ +'+fmtHLabel(diff)+' vs last week':'↓ '+fmtHLabel(Math.abs(diff))+' vs last week';pd.style.color=diff>=0?'var(--success)':'var(--danger)';}}
 function renderPieChart(){const canvas=document.getElementById('pie-canvas');if(!canvas)return;const ctx=canvas.getContext('2d');const subTotals={};(sessions||[]).forEach(s=>{ // guard undefined sessions
   subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const entries=Object.entries(subTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,7);const total=entries.reduce((a,[,v])=>a+v,0);ctx.clearRect(0,0,150,150);const leg=document.getElementById('pie-legend');if(!total){ctx.fillStyle='#e0e0e0';ctx.beginPath();ctx.arc(75,75,65,0,Math.PI*2);ctx.fill();if(leg)leg.innerHTML='<div style="font-size:11px;color:var(--ink3);font-weight:600">Start studying to see chart!</div>';return;}let angle=-Math.PI/2;entries.forEach(([s,v],i)=>{const slice=(v/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,65,angle,angle+slice);ctx.closePath();ctx.fillStyle=PIE_COLORS[i%8];ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();angle+=slice;});if(leg)leg.innerHTML=entries.map(([s,v],i)=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${PIE_COLORS[i%8]}"></div><span>${window._esc(s)}</span><span style="margin-left:auto;color:var(--primary);font-weight:800">${fmtHLabel(v)}</span></div>`).join('');}
-function renderSubjPerf(){const el=document.getElementById('subj-perf');if(!el)return;const st={};sessions.forEach(s=>{st[s.sub]=(st[s.sub]||0)+s.dur;});const sorted=Object.entries(st).sort((a,b)=>b[1]-a[1]).slice(0,5);if(!sorted.length){el.innerHTML='<div class="empty">No study data yet</div>';return;}const mx=Math.max(...sorted.map(([,v])=>v),1);el.innerHTML=sorted.map(([s,v],i)=>`<div class="sp-item"><div style="font-size:11px;font-weight:700;width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(s)}</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:${Math.round(v/mx*100)}%;background:${PIE_COLORS[i%8]}"></div></div><div style="font-size:11px;font-weight:800;color:var(--primary);width:52px;text-align:right;font-family:'Space Mono',monospace">${fmtHLabel(v)}</div></div>`).join('');let allT=0;Object.values(window.studyData).forEach(v=>allT+=v);const days=Object.values(window.studyData).filter(v=>v>0);const avg=days.length?allT/days.length:0;const best=Math.max(...Object.values(window.studyData),0);const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('p-total-h',window._fmtH(allT));set('p-best-day',fmtHLabel(best)||'—');set('p-avg',window._fmtH(avg));set('p-tests-c',window.pastTests.length);}
+function renderSubjPerf(){const el=document.getElementById('subj-perf');if(!el)return;const st={};sessions.forEach(s=>{st[s.sub]=(st[s.sub]||0)+s.dur;});const sorted=Object.entries(st).sort((a,b)=>b[1]-a[1]).slice(0,5);if(!sorted.length){el.innerHTML='<div class="empty">No study data yet</div>';return;}const mx=Math.max(...sorted.map(([,v])=>v),1);el.innerHTML=sorted.map(([s,v],i)=>`<div class="sp-item"><div style="font-size:11px;font-weight:700;width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(s)}</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:${Math.round(v/mx*100)}%;background:${PIE_COLORS[i%8]}"></div></div><div style="font-size:11px;font-weight:800;color:var(--primary);width:52px;text-align:right;font-family:'Space Mono',monospace">${fmtHLabel(v)}</div></div>`).join('');let allT=0;Object.entries(window.studyData).forEach(([k,v])=>{if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof v==='number')allT+=v;});const days=Object.values(window.studyData).filter(v=>v>0);const avg=days.length?allT/days.length:0;const best=Math.max(...Object.values(window.studyData),0);const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('p-total-h',window._fmtH(allT));set('p-best-day',fmtHLabel(best)||'—');set('p-avg',window._fmtH(avg));set('p-tests-c',window.pastTests.length);}
 
 // ── TESTS ──
 window.setTT=(m,btn)=>{testTimeSelected=m;document.querySelectorAll('#time-chips .time-chip').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');const tl=document.getElementById('tt-lbl');if(tl)tl.textContent=m+' min';};
@@ -3744,7 +3911,7 @@ window.ck=(v)=>{const d=document.getElementById('calc-num'),ex=document.getEleme
 function calc(a,b,op){if(op==='+')return+(a+b).toPrecision(12);if(op==='-')return+(a-b).toPrecision(12);if(op==='*')return+(a*b).toPrecision(12);if(op==='/')return b?+(a/b).toPrecision(12):'ERR';return b;}
 
 // ── PROFILE PAGE ──
-function renderProfilePage(){const cu=window._currentUser;if(!cu)return;document.getElementById('prof-name').textContent=cu.displayName||'User';if(window._uname)document.getElementById('prof-uname').textContent='@'+window._uname;if(window.customAvatarUrl){const pa=document.getElementById('prof-av');if(pa)pa.innerHTML=`<img src="${window.customAvatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;}else{const pa=document.getElementById('prof-av');if(pa){if(cu.photoURL)pa.innerHTML=`<img src="${cu.photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;else pa.textContent=(cu.displayName||'?')[0];}}let allT=0;Object.values(window.studyData).forEach(v=>allT+=v);let wk=0;for(let i=0;i<7;i++)wk+=(window.studyData[window._dStr(i)]||0);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('p-alltime',window._fmtH(allT));set('p-wk',window._fmtH(wk));set('p-st',st);set('p-ts',window.pastTests.length);renderXP();renderBadges();}
+function renderProfilePage(){const cu=window._currentUser;if(!cu)return;document.getElementById('prof-name').textContent=cu.displayName||'User';if(window._uname)document.getElementById('prof-uname').textContent='@'+window._uname;if(window.customAvatarUrl){const pa=document.getElementById('prof-av');if(pa)pa.innerHTML=`<img src="${window.customAvatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;}else{const pa=document.getElementById('prof-av');if(pa){if(cu.photoURL)pa.innerHTML=`<img src="${cu.photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;else pa.textContent=(cu.displayName||'?')[0];}}let allT=0;Object.entries(window.studyData).forEach(([k,v])=>{if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof v==='number')allT+=v;});let wk=0;for(let i=0;i<7;i++)wk+=(window.studyData[window._dStr(i)]||0);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('p-alltime',window._fmtH(allT));set('p-wk',window._fmtH(wk));set('p-st',st);set('p-ts',window.pastTests.length);renderXP();renderBadges();}
 
 // ── HEALTH REMINDERS ──
 let healthOpen=false,healthInt=null;
@@ -4141,12 +4308,12 @@ async function _admLoad(){
           _qr=window._query||query,_ob=window._orderBy||orderBy,
           _lm=window._limit||limit,_db2=window._db||db;
     const [rS,pS,uS,bS]=await Promise.all([
-      _gD(_qr(_col(_db2,'reports'),_ob('ts','desc'))),
+      _gD(_col(_db2,'reports')),
       _gD(_qr(_col(_db2,'posts'),_ob('ts','desc'),_lm(300))),
       _gD(_col(_db2,'users')),
       _gD(_col(_db2,'banned'))
     ]);
-    _admReports=rS.docs.map(d=>({id:d.id,...d.data()}));
+    _admReports=rS.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.ts?.seconds||0)-(a.ts?.seconds||0));
     _admPosts=pS.docs.map(d=>({id:d.id,...d.data()}));
     _admUsers=uS.docs.map(d=>({id:d.id,...d.data()}));
     _admBanned=bS.docs.map(d=>({id:d.id,...d.data()}));
@@ -4628,6 +4795,20 @@ window._pandaBrain=function(q){
   const coins=window.coins||0;
   const subjects=(window.subjects||[]).map(s=>s.name||s);
 
+  // ── Maths / arithmetic ──
+  const mathMatch=ql.match(/^\s*what\s+is\s+([\d\s+\-*\/().%^]+)\??$/i)||ql.match(/^\s*([\d\s+\-*\/().%^]+)\s*=?\s*\??$/);
+  if(mathMatch){
+    try{
+      const expr=mathMatch[1].replace(/\^/g,'**').replace(/x/gi,'*');
+      // safe eval: only allow numbers and operators
+      if(/^[\d\s+\-*\/().%*]+$/.test(expr)){
+        const result=Function('"use strict";return ('+expr+')')();
+        if(typeof result==='number'&&isFinite(result)){
+          return `${expr.trim()} = **${result}** 🔢 Easy one! Need help with harder maths? 📚`;
+        }
+      }
+    }catch(e){}
+  }
   // ── Greeting / small talk ──
   if(/^(hi|hey|hello|sup|yo|hiya|howdy)\b/.test(ql)){
     const greets=["Hey there! 🐼 Ready to smash some studying today?","Hello! 🎋 What are we learning today?","Hi! I'm Panda, your study buddy. What's on your mind? 🐼","Heyy! 🌟 Ask me anything — study tips, subject help, or just chat!"];
@@ -4794,7 +4975,8 @@ window._pandaBrain=function(q){
   return fallbacks[Math.floor(Math.random()*fallbacks.length)];
 };
 
-window.askPanda=function(){
+const _PANDA_WORKER='https://tisa-panda.tisa-helpdesk.workers.dev';
+window.askPanda=async function(){
   const inp=document.getElementById('ask-panda-inp');
   const msgs=document.getElementById('ask-panda-msgs');
   if(!inp||!msgs)return;
@@ -4818,15 +5000,31 @@ window.askPanda=function(){
   window._askHistory.push({role:'user',content:q});
   if(window._askHistory.length>20)window._askHistory=window._askHistory.slice(-20);
 
-  // Simulate thinking delay (300-800ms feels natural)
-  const delay=300+Math.floor(Math.random()*500);
-  setTimeout(()=>{
-    const reply=window._pandaBrain(q);
-    window._askHistory.push({role:'assistant',content:reply});
+  // Build context string for personalised replies
+  const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
+  const hrs=Math.floor(todaySecs/3600),mins=Math.floor((todaySecs%3600)/60);
+  const context=`User: ${window._uname||window._CU?.displayName||'student'} | Studied today: ${hrs}h ${mins}m | Streak: ${window.studyData?.streak||0} days | XP: ${window.xp||0} | Subjects: ${(window.subjects||[]).map(s=>s.name||s).join(', ')||'none set'}`;
+
+  try{
+    const resp=await fetch(_PANDA_WORKER,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question:q,context})
+    });
+    if(!resp.ok)throw new Error('Worker returned '+resp.status);
+    const data=await resp.json();
+    if(!data.answer)throw new Error('Empty response');
+    window._askHistory.push({role:'assistant',content:data.answer});
     tb.classList.remove('ask-thinking');
-    tb.textContent=reply;
-    msgs.scrollTop=msgs.scrollHeight;
-  },delay);
+    tb.textContent=data.answer;
+  }catch(e){
+    // Fallback to rule-based brain if Worker is down
+    const fallback=window._pandaBrain(q);
+    window._askHistory.push({role:'assistant',content:fallback});
+    tb.classList.remove('ask-thinking');
+    tb.textContent=fallback;
+  }
+  msgs.scrollTop=msgs.scrollHeight;
 };
 
 // ── VIRTUAL PET ──
@@ -4873,10 +5071,70 @@ window.renderPet=function(){
   const mel=document.getElementById('pet-mood-label');
   const sel=document.getElementById('pet-speech');
   if(eel){
-    // Animate face change
-    eel.style.transform='scale(1.3)';
-    eel.textContent=emoji;
+    eel.style.transform='scale(1.15)';
     setTimeout(()=>eel.style.transform='scale(1)',300);
+  }
+  // Animate SVG panda face
+  const mouth=document.getElementById('pd-mouth');
+  const blushL=document.getElementById('pd-blush-l');
+  const blushR=document.getElementById('pd-blush-r');
+  const sweat=document.getElementById('pd-sweat');
+  const zzz=document.getElementById('pd-zzz');
+  const stars=document.getElementById('pd-stars');
+  const eyeL=document.getElementById('pd-eye-l');
+  const eyeR=document.getElementById('pd-eye-r');
+  // Reset all
+  if(blushL)blushL.setAttribute('opacity','0');
+  if(blushR)blushR.setAttribute('opacity','0');
+  if(sweat)sweat.setAttribute('opacity','0');
+  if(zzz)zzz.setAttribute('opacity','0');
+  if(stars)stars.setAttribute('opacity','0');
+  if(eyeL){eyeL.setAttribute('rx','5');eyeL.setAttribute('ry','5');}
+  if(eyeR){eyeR.setAttribute('rx','5');eyeR.setAttribute('ry','5');}
+  const hearts=document.getElementById('pd-hearts');
+  const angry=document.getElementById('pd-angry');
+  const sprites=document.getElementById('pd-sprites');
+  if(hearts)hearts.setAttribute('opacity','0');
+  if(angry)angry.setAttribute('opacity','0');
+  if(sprites)sprites.setAttribute('opacity','0');
+
+  if(avg>=85){
+    // Thriving — big smile, blush, hearts, sparkles, soot sprites appear
+    if(mouth)mouth.setAttribute('d','M100,128 Q112,142 124,128');
+    if(blushL)blushL.setAttribute('opacity','0.85');
+    if(blushR)blushR.setAttribute('opacity','0.85');
+    if(stars)stars.setAttribute('opacity','1');
+    if(hearts)hearts.setAttribute('opacity','1');
+    if(sprites)sprites.setAttribute('opacity','1');
+  } else if(avg>=65){
+    // Happy — warm smile, soft blush
+    if(mouth)mouth.setAttribute('d','M103,128 Q112,138 121,128');
+    if(blushL)blushL.setAttribute('opacity','0.5');
+    if(blushR)blushR.setAttribute('opacity','0.5');
+  } else if(avg>=45){
+    // Neutral — flat mouth
+    if(mouth)mouth.setAttribute('d','M105,130 Q112,132 119,130');
+  } else if(avg>=25){
+    // Tired — slight frown, droopy eyes, Zzz
+    if(mouth)mouth.setAttribute('d','M105,132 Q112,128 119,132');
+    if(eyeL){eyeL.setAttribute('rx','7');eyeL.setAttribute('ry','4');}
+    if(eyeR){eyeR.setAttribute('rx','7');eyeR.setAttribute('ry','4');}
+    if(zzz)zzz.setAttribute('opacity','1');
+  } else if(h<15){
+    // Hungry — sad frown, sweat
+    if(mouth)mouth.setAttribute('d','M104,134 Q112,126 120,134');
+    if(sweat)sweat.setAttribute('opacity','1');
+    if(angry)angry.setAttribute('opacity','0.4');
+  } else if(e<10){
+    // Exhausted — strong Zzz, droopy eyes
+    if(mouth)mouth.setAttribute('d','M105,132 Q112,128 119,132');
+    if(eyeL){eyeL.setAttribute('rx','7');eyeL.setAttribute('ry','3');}
+    if(eyeR){eyeR.setAttribute('rx','7');eyeR.setAttribute('ry','3');}
+    if(zzz)zzz.setAttribute('opacity','1');
+  } else {
+    // Unhappy — sad frown + sweat drop
+    if(mouth)mouth.setAttribute('d','M104,134 Q112,126 120,134');
+    if(sweat)sweat.setAttribute('opacity','1');
   }
   if(mel){mel.textContent=mood;mel.style.color=moodColor;}
   if(sel)sel.textContent=speech;
