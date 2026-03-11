@@ -232,6 +232,103 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .tt-full-card{grid-column:1/-1}
 .perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .test-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ── AI TEST ZONE ── */
+.atz-hero{background:linear-gradient(135deg,var(--primary) 0%,var(--pd) 100%);border-radius:20px;padding:20px;color:#fff;position:relative;overflow:hidden;margin-bottom:14px}
+.atz-hero::before{content:'';position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
+.atz-hero::after{content:'';position:absolute;bottom:-20px;right:30px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+.atz-hero h2{font-size:20px;font-weight:900;margin:0 0 4px;letter-spacing:-.3px}
+.atz-hero p{font-size:12px;opacity:.85;margin:0 0 14px;font-weight:600}
+.atz-daily{background:rgba(255,255,255,.15);border-radius:14px;padding:12px 14px;margin-bottom:14px;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2)}
+.atz-daily-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;opacity:.75;font-weight:700;margin-bottom:5px}
+.atz-daily-q{font-size:13px;font-weight:700;line-height:1.5;margin-bottom:10px}
+.atz-daily-opts{display:flex;flex-direction:column;gap:5px}
+.atz-daily-opt{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:9px;padding:7px 11px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;text-align:left;transition:all .2s;font-family:'Nunito',sans-serif}
+.atz-daily-opt:hover{background:rgba(255,255,255,.25)}
+.atz-daily-opt.correct{background:rgba(50,200,80,.4);border-color:rgba(50,200,80,.6)}
+.atz-daily-opt.wrong{background:rgba(220,60,60,.35);border-color:rgba(220,60,60,.5)}
+.atz-daily-opt:disabled{cursor:default}
+.atz-exp{font-size:11px;margin-top:8px;opacity:.85;line-height:1.5;padding:8px 10px;background:rgba(0,0,0,.15);border-radius:8px;display:none}
+.atz-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+@media(max-width:480px){.atz-selector{grid-template-columns:1fr 1fr}}
+.atz-sel-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:12px 8px;cursor:pointer;transition:all .18s;text-align:center}
+.atz-sel-card:hover,.atz-sel-card.sel{border-color:var(--primary);background:var(--pglow)}
+.atz-sel-card .atz-ic{font-size:22px;margin-bottom:4px}
+.atz-sel-card .atz-lbl{font-size:11px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.3px;line-height:1.3}
+.atz-sel-card .atz-sub{font-size:9px;color:var(--ink3);margin-top:2px;font-weight:600}
+.atz-filters{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.atz-filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.atz-filter-label{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;min-width:58px;flex-shrink:0}
+.atz-chip{padding:6px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);font-size:11px;font-weight:700;cursor:pointer;color:var(--ink3);transition:all .2s;font-family:'Nunito',sans-serif;white-space:nowrap}
+.atz-chip:hover,.atz-chip.sel{background:var(--primary);color:#fff;border-color:var(--primary)}
+.atz-chip.danger.sel{background:var(--danger);border-color:var(--danger)}
+
+/* MCQ Quiz Modal */
+#mcq-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:0}
+#mcq-modal.open{display:flex}
+.mcq-wrap{width:100%;max-width:680px;height:100dvh;max-height:100dvh;background:var(--bg);display:flex;flex-direction:column;border-radius:0;overflow:hidden}
+@media(min-width:700px){.mcq-wrap{height:92vh;max-height:720px;border-radius:24px}}
+.mcq-topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.mcq-progress-bar{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.mcq-progress-fill{height:100%;background:var(--primary);border-radius:3px;transition:width .4s ease}
+.mcq-timer{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--ink);min-width:42px;text-align:right}
+.mcq-timer.urgent{color:var(--danger);animation:pulse .6s infinite}
+.mcq-body{flex:1;overflow-y:auto;padding:20px 16px}
+.mcq-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.mcq-tag{background:var(--pglow);color:var(--primary);font-size:10px;font-weight:800;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+.mcq-qnum{font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:6px}
+.mcq-question{font-size:15px;font-weight:700;color:var(--ink);line-height:1.6;margin-bottom:18px}
+.mcq-options{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.mcq-opt{padding:13px 16px;border:1.5px solid var(--border);border-radius:14px;background:var(--surface);cursor:pointer;font-size:13px;font-weight:600;color:var(--ink);text-align:left;transition:all .2s;line-height:1.5;font-family:'Nunito',sans-serif;display:flex;gap:10px;align-items:flex-start}
+.mcq-opt:hover:not(:disabled){border-color:var(--primary);background:var(--pglow)}
+.mcq-opt .opt-letter{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px;transition:all .2s}
+.mcq-opt:hover .opt-letter{border-color:var(--primary);background:var(--primary);color:#fff}
+.mcq-opt.correct{border-color:#2d9e50;background:rgba(45,158,80,.1)}
+.mcq-opt.correct .opt-letter{background:#2d9e50;border-color:#2d9e50;color:#fff}
+.mcq-opt.wrong{border-color:var(--danger);background:rgba(192,57,43,.08)}
+.mcq-opt.wrong .opt-letter{background:var(--danger);border-color:var(--danger);color:#fff}
+.mcq-opt.reveal-correct{border-color:#2d9e50;background:rgba(45,158,80,.07)}
+.mcq-opt:disabled{cursor:default}
+.mcq-explanation{background:var(--surface2);border:1.5px solid var(--border);border-radius:14px;padding:14px;font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:14px;display:none}
+.mcq-explanation strong{color:var(--ink);font-weight:800}
+.mcq-marks-chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;margin-left:4px}
+.mcq-marks-chip.pos{background:rgba(45,158,80,.15);color:#2d9e50}
+.mcq-marks-chip.neg{background:rgba(192,57,43,.12);color:var(--danger)}
+.mcq-footer{padding:12px 16px;border-top:1px solid var(--border);background:var(--surface);display:flex;gap:8px;align-items:center;flex-shrink:0}
+.mcq-loading{text-align:center;padding:40px 20px;color:var(--ink3)}
+.mcq-loading .mcq-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Scorecard */
+.mcq-scorecard{padding:24px 20px;text-align:center}
+.score-ring-wrap{width:130px;height:130px;margin:0 auto 20px;position:relative}
+.score-ring-wrap svg{transform:rotate(-90deg)}
+.score-ring-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-ring-pct{font-size:28px;font-weight:900;color:var(--ink);font-family:'Space Mono',monospace}
+.score-ring-lbl{font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.score-stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 8px;text-align:center}
+.score-stat-val{font-size:18px;font-weight:900;color:var(--ink);font-family:'Space Mono',monospace}
+.score-stat-lbl{font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-top:2px}
+.score-analysis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:left;margin:10px 0}
+.score-analysis-title{font-size:11px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.score-topic-bar{margin-bottom:8px}
+.score-topic-name{font-size:11px;font-weight:700;color:var(--ink);margin-bottom:3px;display:flex;justify-content:space-between}
+.score-topic-track{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.score-topic-fill{height:100%;border-radius:3px;background:var(--primary);transition:width .8s ease}
+
+/* Bookmarks */
+.bm-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.bm-card-q{font-size:12px;font-weight:700;color:var(--ink);line-height:1.5;margin-bottom:6px}
+.bm-card-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.bm-card-ans{font-size:11px;color:var(--success);font-weight:700}
+
+/* History strip */
+.test-hist-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border);border-radius:12px;background:var(--surface);margin-bottom:6px}
+.test-hist-score{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--primary);min-width:44px}
+.test-hist-info{flex:1;min-width:0}
+.test-hist-name{font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.test-hist-sub{font-size:10px;color:var(--ink3);font-weight:600}
 .conn-grid{display:grid;grid-template-columns:240px 1fr;gap:14px;min-height:560px}
 .jgrid{display:grid;grid-template-columns:220px 1fr;gap:14px;min-height:500px}
 .forum-grid{display:grid;grid-template-columns:1fr 240px;gap:14px}
@@ -616,10 +713,10 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 /* Wellness bottom sheet */
 #wellness-sheet{
-  position:fixed;bottom:-640px;left:0;right:0;z-index:600;max-height:80vh;overflow-y:auto;
+  position:fixed;bottom:-100vh;left:0;right:0;z-index:600;height:88vh;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;
   background:var(--surface);
   border-radius:24px 24px 0 0;
-  padding:16px 20px 24px;
+  padding:0;
   box-shadow:0 -8px 40px rgba(0,0,0,.18);
   transition:bottom .35s cubic-bezier(.4,0,.2,1), visibility 0s;
   pointer-events:none;
@@ -651,16 +748,16 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 .ptab{flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:12px;background:var(--bg2);
   font-size:11px;font-weight:800;color:var(--ink3);cursor:pointer;transition:all .18s;letter-spacing:.3px;}
 .ptab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
-.panda-panel{animation:fadeIn .2s ease;}
+.panda-panel{animation:fadeIn .2s ease;height:100%;display:flex;flex-direction:column;}
 /* ── Ask Panda chat ── */
-.ask-msgs{max-height:180px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;
-  padding:4px 2px;margin-bottom:10px;scroll-behavior:smooth;}
-.ask-bubble{padding:10px 13px;border-radius:16px;font-size:13px;line-height:1.5;max-width:88%;}
+.ask-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;
+  padding:8px 4px;margin-bottom:0;scroll-behavior:smooth;}
+.ask-bubble{padding:12px 16px;border-radius:20px;font-size:15px;line-height:1.6;max-width:85%;}
 .ask-panda{background:color-mix(in srgb,var(--primary) 12%,var(--surface));
   color:var(--ink);border-bottom-left-radius:4px;align-self:flex-start;}
 .ask-user{background:var(--primary);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
 .ask-thinking{opacity:.6;font-style:italic;}
-.ask-input-row{display:flex;gap:8px;align-items:center;}
+.ask-input-row{display:flex;gap:8px;align-items:center;padding-top:10px;border-top:1px solid var(--border2);}
 /* ── Virtual Pet ── */
 .pet-stage{display:flex;flex-direction:column;align-items:center;padding:4px 0 8px;}
 @keyframes pandaBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
@@ -961,13 +1058,13 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <button onclick="showPage('community',this)">🌍 Community</button>
   <button onclick="showPage('profile',this)">👤 Profile</button>
   <button onclick="showPage('settings',this)">⚙️ Settings</button>
-  <button id="nav-admin-btn" onclick="showPage('admin',this)" style="display:none;color:var(--danger)">🛡️ Admin</button>
+  <button id="nav-admin-btn" onclick="showPage('admin',this)" style="display:none!important;color:var(--danger)">🛡️ Admin</button>
   <button id="nav-panda-btn" onclick="openWellnessSheet()" style="background:var(--primary);color:#fff;border-radius:99px;padding:6px 16px;font-weight:800;letter-spacing:.3px">🐼 Panda</button>
 </nav>
 <div class="hdr-right">
   <div class="xp-chip" onclick="showPage('profile',null)">⚡<span id="hdr-xp">0 XP</span><span id="hdr-lv" style="opacity:.7">Lv.1</span></div>
   <div style="font-size:12px;font-weight:800;color:var(--warn);cursor:pointer">🪙<span id="hdr-coins">0</span></div>
-  <div class="user-pill" onclick="showPage('profile',null)"><div class="uav" id="user-av">?</div><span id="user-dname" style="max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle">...</span></div>
+  <div class="user-pill" onclick="showPage('profile',null)"><div class="uav" id="user-av">?</div><span id="user-dname" style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle">...</span></div>
   <div class="dark-toggle" id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"></div>
   <button class="hdr-btn" onclick="toggleFocus()">🎯</button>
   <button class="hdr-btn" style="border-color:var(--danger);color:var(--danger)" onclick="doSignOut()">Out</button>
@@ -1037,17 +1134,18 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <!-- Wellness bottom sheet -->
 <div id="wellness-sheet-overlay" onclick="closeWellnessSheet()"></div>
 <div id="wellness-sheet">
+  <div style="padding:16px 20px 0;flex-shrink:0">
   <div class="wellness-handle" onclick="closeWellnessSheet()" style="cursor:pointer;padding:8px 0"></div>
 
-  <!-- Tab bar -->
-  <div class="panda-tabs">
+  <!-- Tab bar -->\n  <div class=\"panda-tabs\">
     <button class="ptab active" id="ptab-actions" onclick="switchPandaTab('actions')">⚡ Actions</button>
     <button class="ptab" id="ptab-ask" onclick="switchPandaTab('ask')">🐼 Ask Panda</button>
     <button class="ptab" id="ptab-pet" onclick="switchPandaTab('pet')">🎮 My Panda</button>
   </div>
+  </div><!-- end top padding div -->
 
   <!-- TAB 1: ACTIONS -->
-  <div id="panda-tab-actions" class="panda-panel">
+  <div id="panda-tab-actions" class="panda-panel" style="overflow-y:auto;padding:0 20px 24px">
     <div class="qa-grid">
       <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('performance',null):showPageMob('performance',null));toggleFocus()">
         <span class="qa-ic">⏱️</span><span class="qa-lb">Start Focus</span>
@@ -1074,18 +1172,18 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   </div>
 
   <!-- TAB 2: ASK PANDA -->
-  <div id="panda-tab-ask" class="panda-panel" style="display:none">
+  <div id="panda-tab-ask" class="panda-panel" style="display:none;flex:1;padding:0 20px 16px;min-height:0">
     <div id="ask-panda-msgs" class="ask-msgs">
-      <div class="ask-bubble ask-panda">Hi! I'm Panda 🐼 Ask me anything — study tips, subject help, motivation, or just chat!</div>
+      <div class="ask-bubble ask-panda">wassup! 🐼 what's on your mind?</div>
     </div>
     <div class="ask-input-row">
-      <input id="ask-panda-inp" class="tisa-inp" placeholder="Ask Panda anything..." style="flex:1;font-size:13px" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();askPanda();}">
-      <button class="btn btn-p btn-sm" onclick="askPanda()" style="flex-shrink:0">Send</button>
+      <input id="ask-panda-inp" class="tisa-inp" placeholder="talk to panda..." style="flex:1;font-size:15px;padding:12px 16px" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();askPanda();}">
+      <button class="btn btn-p" onclick="askPanda()" style="flex-shrink:0;font-size:14px;padding:12px 18px">→</button>
     </div>
   </div>
 
   <!-- TAB 3: MY PANDA (Virtual Pet) -->
-  <div id="panda-tab-pet" class="panda-panel" style="display:none">
+  <div id="panda-tab-pet" class="panda-panel" style="display:none;overflow-y:auto;padding:0 20px 24px">
     <div class="pet-stage">
       <!-- Ghibli scene container -->
       <div id="pet-emoji" style="width:220px;height:200px;margin:0 auto;transition:transform .3s;position:relative">
@@ -1512,6 +1610,111 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 <!-- TESTS -->
 <div class="page" id="page-tests">
+
+<!-- ── AI TEST ZONE HERO ── -->
+<div class="atz-hero">
+  <h2>🎯 AI Test Zone</h2>
+  <p>JEE · NEET · UPSC · SSC · CAT · CLAT · NDA · Banking · Boards — MCQ & written, timed, with full explanations</p>
+  <!-- Daily Challenge -->
+  <div class="atz-daily" id="atz-daily-wrap">
+    <div class="atz-daily-label">⚡ Daily Challenge</div>
+    <div class="atz-daily-q" id="atz-daily-q">Loading today's question…</div>
+    <div class="atz-daily-opts" id="atz-daily-opts"></div>
+    <div class="atz-exp" id="atz-daily-exp"></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.3);font-size:12px" onclick="atzStartFlow()">🚀 Start Practice Test</button>
+    <button class="btn" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.2);font-size:12px" onclick="atzShowBookmarks()">🔖 Bookmarks <span id="bm-count-badge" style="background:rgba(255,255,255,.25);border-radius:20px;padding:1px 6px;font-size:10px;margin-left:2px">0</span></button>
+  </div>
+</div>
+
+<!-- ── EXAM SELECTOR ── -->
+<div id="atz-flow" style="display:none">
+<div class="card" style="margin-bottom:14px">
+  <div class="ct"><div class="ct-ic">🎓</div>Choose Exam</div>
+
+  <!-- Category tabs -->
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="atz-cat-tabs">
+    <button class="atz-chip sel" onclick="atzCatTab('engineering',this)">⚙️ Engineering</button>
+    <button class="atz-chip" onclick="atzCatTab('medical',this)">🩺 Medical</button>
+    <button class="atz-chip" onclick="atzCatTab('boards',this)">📚 Boards</button>
+    <button class="atz-chip" onclick="atzCatTab('govtcivil',this)">🏛️ Govt / Civil</button>
+    <button class="atz-chip" onclick="atzCatTab('defence',this)">🎖️ Defence</button>
+    <button class="atz-chip" onclick="atzCatTab('management',this)">📊 Management</button>
+    <button class="atz-chip" onclick="atzCatTab('banking',this)">🏦 Banking</button>
+    <button class="atz-chip" onclick="atzCatTab('law',this)">⚖️ Law</button>
+  </div>
+
+  <!-- Exam cards — populated by JS -->
+  <div class="atz-selector" id="atz-exam-grid"></div>
+
+  <!-- Question type -->
+  <div id="atz-qtype-row" style="display:none;margin-top:12px;padding-top:10px;border-top:1px solid var(--border2)">
+    <div class="atz-filter-label" style="margin-bottom:6px">📝 Question Type</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="atz-chip sel" id="atz-qtype-obj" onclick="atzSetQtype('objective',this)">🔘 Objective MCQ</button>
+      <button class="atz-chip" id="atz-qtype-sub" onclick="atzSetQtype('subjective',this)">✍️ Subjective</button>
+    </div>
+    <div id="atz-qtype-note" style="font-size:11px;color:var(--ink3);font-weight:600;margin-top:6px;line-height:1.5">MCQ with 4 options, instant answer reveal &amp; full explanation after each question</div>
+  </div>
+
+  <!-- Subject -->
+  <div id="atz-subj-row" style="display:none;margin-top:10px">
+    <div class="atz-filter-label" style="margin-bottom:6px">📖 Subject</div>
+    <div class="atz-filter-row" id="atz-subj-chips"></div>
+  </div>
+
+  <!-- Chapter -->
+  <div id="atz-chap-row" style="display:none;margin-top:10px">
+    <div class="atz-filter-label" style="margin-bottom:6px">📑 Chapter / Topic</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <select class="tisa-inp" id="atz-chap-sel" style="max-width:260px;font-size:12px;padding:8px 10px"></select>
+      <span style="font-size:11px;color:var(--ink3);font-weight:600">or type custom</span>
+      <input class="tisa-inp" id="atz-chap-custom" placeholder="any chapter / topic…" style="max-width:200px;font-size:12px;padding:8px 10px">
+    </div>
+  </div>
+
+  <!-- Mode & Difficulty -->
+  <div id="atz-mode-row" style="display:none;margin-top:12px">
+    <div style="margin-bottom:10px">
+      <div class="atz-filter-label" style="margin-bottom:6px">⚡ Mode</div>
+      <div class="atz-filter-row" id="atz-mode-chips">
+        <button class="atz-chip sel" onclick="atzChip(this,'mode','quick10')">Quick 10Q</button>
+        <button class="atz-chip" onclick="atzChip(this,'mode','mock30')">Mock 30Q</button>
+        <button class="atz-chip" onclick="atzChip(this,'mode','full')">Full Mock</button>
+        <button class="atz-chip" onclick="atzChip(this,'mode','pyq')">PYQ Style</button>
+        <button class="atz-chip" onclick="atzChip(this,'mode','revision')">Revise Weak Qs</button>
+      </div>
+    </div>
+    <div>
+      <div class="atz-filter-label" style="margin-bottom:6px">📊 Difficulty</div>
+      <div class="atz-filter-row">
+        <button class="atz-chip sel" onclick="atzChip(this,'diff','mixed')">Mixed</button>
+        <button class="atz-chip" onclick="atzChip(this,'diff','easy')">Easy</button>
+        <button class="atz-chip" onclick="atzChip(this,'diff','medium')">Medium</button>
+        <button class="atz-chip danger" onclick="atzChip(this,'diff','hard')">Hard</button>
+      </div>
+    </div>
+    <button class="btn btn-p" style="width:100%;margin-top:14px;font-size:13px" id="atz-launch-btn" onclick="atzLaunchTest()">🚀 Generate &amp; Start →</button>
+  </div>
+</div>
+</div>
+
+<!-- ── BOOKMARKS VIEW ── -->
+<div id="atz-bookmarks-view" style="display:none;margin-bottom:14px">
+  <div class="card">
+    <div class="ct" style="margin-bottom:10px"><div class="ct-ic">🔖</div>Bookmarked Questions <button class="btn btn-sm" style="margin-left:auto;font-size:11px" onclick="atzHideBookmarks()">✕ Close</button></div>
+    <div id="atz-bm-list"><div class="empty">No bookmarks yet — star questions during tests!</div></div>
+  </div>
+</div>
+
+<!-- ── TEST HISTORY ── -->
+<div class="card" style="margin-bottom:14px" id="atz-hist-card">
+  <div class="ct"><div class="ct-ic">📊</div>Test History</div>
+  <div id="atz-hist-list"><div class="empty">No AI tests yet — start your first test above! 🎯</div></div>
+</div>
+
+<!-- ── UPLOAD PAPERS (kept) ── -->
 <div class="test-grid">
   <div class="card">
     <div class="ct"><div class="ct-ic">📄</div>Upload Papers</div>
@@ -1863,6 +2066,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <button class="btn btn-sm btn-o" onclick="document.getElementById('privacy-modal').classList.add('open')">📄 Privacy Policy</button>
       <button class="btn btn-sm btn-o" onclick="document.getElementById('tos-modal').classList.add('open')">📋 Terms of Service</button>
       <button class="btn btn-sm btn-o" onclick="document.getElementById('delete-modal').classList.add('open')">🗑️ Delete My Data</button>
+      <button id="settings-admin-btn" class="btn btn-sm btn-o" onclick="showPage('admin',null)" style="display:none;border-color:var(--danger);color:var(--danger)">🛡️ Admin Panel</button>
     </div>
   </div>
 
@@ -2069,6 +2273,30 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 </div>
 
 <!-- TEST MODAL -->
+<!-- ── MCQ MODAL ── -->
+<div id="mcq-modal">
+  <div class="mcq-wrap">
+    <!-- Top bar -->
+    <div class="mcq-topbar">
+      <button onclick="mcqClose()" style="background:none;border:none;font-size:18px;cursor:pointer;padding:0;color:var(--ink3)">✕</button>
+      <div class="mcq-progress-bar"><div class="mcq-progress-fill" id="mcq-prog-fill" style="width:0%"></div></div>
+      <span id="mcq-qcount" style="font-size:11px;font-weight:700;color:var(--ink3);white-space:nowrap">0/0</span>
+      <span class="mcq-timer" id="mcq-timer">—</span>
+      <button id="mcq-bm-btn" onclick="mcqBookmark()" title="Bookmark" style="background:none;border:none;font-size:18px;cursor:pointer;padding:0;color:var(--ink3)">🔖</button>
+    </div>
+    <!-- Body -->
+    <div class="mcq-body" id="mcq-body">
+      <div class="mcq-loading"><div class="mcq-spinner"></div><div style="font-size:13px;font-weight:700">Generating questions with AI…<br><span style="font-size:11px;color:var(--ink3);font-weight:600">Powered by Gemini 2.5-flash ✨</span></div></div>
+    </div>
+    <!-- Footer -->
+    <div class="mcq-footer">
+      <div id="mcq-marks-info" style="font-size:11px;font-weight:700;color:var(--ink3);flex:1"></div>
+      <button class="btn btn-sm" onclick="mcqSkip()" id="mcq-skip-btn" style="font-size:11px">Skip →</button>
+      <button class="btn btn-sm btn-p" onclick="mcqNext()" id="mcq-next-btn" style="font-size:11px;display:none">Next →</button>
+    </div>
+  </div>
+</div>
+
 <div id="test-modal">
 <div class="test-win">
   <div class="test-hdr">
@@ -4267,10 +4495,15 @@ window._isAdmin=function(){return window._CU&&_ADMIN_UIDS.includes(window._CU.ui
 
 window._showAdminButtons=function(){
   const show=window._isAdmin();
-  ['nav-admin-btn','mob-admin-btn'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el)el.style.display=show?(id==='nav-admin-btn'?'inline-flex':'flex'):'none';
-  });
+  // Keep mob-admin-btn in more menu, hide nav-admin-btn (moved to Settings)
+  const mob=document.getElementById('mob-admin-btn');
+  if(mob)mob.style.display=show?'flex':'none';
+  // Show in Settings page
+  const sBtn=document.getElementById('settings-admin-btn');
+  if(sBtn)sBtn.style.display=show?'inline-flex':'none';
+  // Keep nav-admin-btn always hidden (it's in Settings now)
+  const nav=document.getElementById('nav-admin-btn');
+  if(nav)nav.style.display='none';
 };
 
 function _e(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -4767,7 +5000,9 @@ window.closeWellnessSheet=function(){
 // ── PANDA HUB: Tab switcher ──
 window.switchPandaTab=function(tab){
   ['actions','ask','pet'].forEach(t=>{
-    document.getElementById('panda-tab-'+t).style.display=t===tab?'block':'none';
+    const el=document.getElementById('panda-tab-'+t);
+    // ask tab uses flex layout, others use block
+    el.style.display=t===tab?(t==='ask'?'flex':'block'):'none';
     document.getElementById('ptab-'+t).classList.toggle('active',t===tab);
   });
   if(tab==='pet')renderPet();
@@ -4775,6 +5010,8 @@ window.switchPandaTab=function(tab){
     setTimeout(()=>{
       const inp=document.getElementById('ask-panda-inp');
       if(inp)inp.focus();
+      const msgs=document.getElementById('ask-panda-msgs');
+      if(msgs)msgs.scrollTop=msgs.scrollHeight;
     },100);
   }
 };
@@ -4811,8 +5048,10 @@ window._pandaBrain=function(q){
   }
   // ── Greeting / small talk ──
   if(/^(hi|hey|hello|sup|yo|hiya|howdy)\b/.test(ql)){
-    const greets=["Hey there! 🐼 Ready to smash some studying today?","Hello! 🎋 What are we learning today?","Hi! I'm Panda, your study buddy. What's on your mind? 🐼","Heyy! 🌟 Ask me anything — study tips, subject help, or just chat!"];
-    return greets[Math.floor(Math.random()*greets.length)];
+    // Only greet if first message, otherwise skip straight to help
+    const msgCount=window._askHistory?window._askHistory.filter(m=>m.role==='user').length:0;
+    if(msgCount<=1) return `yo ${name||'bestie'}! 🐼 wassup, what do you need?`;
+    return `lol we already said hi 😄 what's up though?`;
   }
   if(/how are you|how r u|you ok/.test(ql)){
     return `I'm doing great, thanks for asking! 🐼 ${todaySecs>0?`You've studied ${hrs>0?hrs+'h ':''}${mins}m today — keep it up! 🔥`:"Haven't started studying yet today — want to kick things off? 💪"}`;
@@ -4966,11 +5205,11 @@ window._pandaBrain=function(q){
 
   // ── Catch-all smart fallback ──
   const fallbacks=[
-    `Great question! Here's a general tip: break your study session into focused 25-minute chunks with short breaks in between 🍅 This keeps your brain sharp and prevents burnout. You've got this${name?' '+name:''}! 🐼`,
-    `Hmm, let me think... 🤔 Whatever you're working on, try explaining it out loud to yourself — it reveals gaps in your understanding super quickly! 🎓`,
-    `I'm still learning too 🌱 But here's what I know: consistent daily studying beats cramming every time. Even 30 minutes a day adds up to 180+ hours a year 📚`,
-    `Interesting question! For best results with any subject, use active recall (test yourself) + spaced repetition (review at intervals). These two techniques beat all others! 🧠`,
-    `Not sure about that specific one, but I do know this: ${todaySecs>300?`you've already studied ${hrs>0?hrs+'h ':''}${mins}m today — that's real progress! 🌟`:`starting a study session right now is the best thing you could do! Tap the timer ⏱️`}`,
+    `okay so break it into 25-min chunks with short breaks 🍅 keeps the brain from frying, trust me`,
+    `ngl explaining it out loud to yourself literally works — reveals where you're actually confused 🎓`,
+    `real talk: consistent daily > cramming 💯 even 30 mins a day = 180+ hours a year 📚`,
+    `active recall + spaced repetition is the cheat code fr 🧠 everything else is cope`,
+    `${todaySecs>300?`you've already put in ${hrs>0?hrs+'h ':''}${mins}m today — that's actually lowkey impressive 🌟`:`open that timer rn, even 25 mins will make you feel better about today ⏱️`}`,
   ];
   return fallbacks[Math.floor(Math.random()*fallbacks.length)];
 };
@@ -5003,7 +5242,10 @@ window.askPanda=async function(){
   // Build context string for personalised replies
   const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
   const hrs=Math.floor(todaySecs/3600),mins=Math.floor((todaySecs%3600)/60);
-  const context=`User: ${window._uname||window._CU?.displayName||'student'} | Studied today: ${hrs}h ${mins}m | Streak: ${window.studyData?.streak||0} days | XP: ${window.xp||0} | Subjects: ${(window.subjects||[]).map(s=>s.name||s).join(', ')||'none set'}`;
+  const isFirstMsg=window._askHistory.filter(m=>m.role==='user').length<=1;
+  const context=`You are Panda 🐼 — ${window._uname||window._CU?.displayName?.split(' ')[0]||'this student'}'s close study friend inside TISA. Talk like a real friend — casual, short, warm, use slang sometimes (lol, ngl, bro/bestie etc), max 2-3 sentences unless the question needs more detail. NO formal language. NEVER start with "Hey [name]!" or any greeting — just reply directly. Only greet once at the very start of a conversation (first message ever), never again. Don't say you're an AI. Use 1-2 emojis naturally.
+Student info: studied today ${hrs}h ${mins}m | streak ${window.studyData?.streak||0} days | ${window.xp||0} XP | subjects: ${(window.subjects||[]).map(s=>s.name||s).join(', ')||'none set'}
+${isFirstMsg?'This is the first message — one short greeting is ok, then answer.':'NO greeting — reply directly to the question.'}`;
 
   try{
     console.log('[Panda] Sending to Worker:', {question:q,context,hasCustomKey:!!window._PANDA_KEY});
@@ -5422,7 +5664,697 @@ function _initHeaderShrink(){
 }
 window._initHeaderShrink=_initHeaderShrink;
 
-// Mobile UI also applied after auth in loadUD
+
+// ════════════════════════════════════════════════════════
+// ── AI TEST ZONE ENGINE ──
+// ════════════════════════════════════════════════════════
+
+window._atz={
+  exam:null, subject:null, chapter:null,
+  mode:'quick10', diff:'mixed', qtype:'objective',
+  questions:[], current:0,
+  score:0, correct:0, wrong:0, skipped:0,
+  marks:0, timerInt:null, timeLeft:0,
+  bookmarks: JSON.parse(localStorage.getItem('tisa_atz_bm')||'[]'),
+  history:  JSON.parse(localStorage.getItem('tisa_atz_hist')||'[]'),
+  dailyDone: localStorage.getItem('tisa_atz_daily_date')===new Date().toDateString(),
+  currentBmId: null,
+};
+
+// ── Exam → Subjects map ──
+// ════════════════════════════════════════════════════════
+// ── AI TEST ZONE — EXAM CATALOGUE ──
+// ════════════════════════════════════════════════════════
+
+const _ATZ_CATS={
+  engineering:[
+    {id:'jee',ic:'⚗️',lbl:'JEE Main',sub:'Class 11-12 PCM'},
+    {id:'jeeadv',ic:'🔬',lbl:'JEE Advanced',sub:'IIT Entrance'},
+    {id:'bitsat',ic:'💻',lbl:'BITSAT',sub:'BITS Pilani/Goa/Hyd'},
+    {id:'gate',ic:'🏗️',lbl:'GATE',sub:'M.Tech / PSU Recruitment'},
+    {id:'boards11',ic:'📚',lbl:'Class 11',sub:'PCM / PCB / Commerce / Arts'},
+    {id:'boards12',ic:'🎓',lbl:'Class 12',sub:'PCM / PCB / Commerce / Arts'},
+  ],
+  medical:[
+    {id:'neet',ic:'🧬',lbl:'NEET UG',sub:'MBBS / BDS Entrance'},
+    {id:'boards11',ic:'📚',lbl:'Class 11',sub:'PCB Stream'},
+    {id:'boards12',ic:'🎓',lbl:'Class 12',sub:'PCB Stream'},
+  ],
+  boards:[
+    {id:'boards11',ic:'📚',lbl:'Class 11',sub:'All Streams (CBSE/State)'},
+    {id:'boards12',ic:'🎓',lbl:'Class 12',sub:'All Streams (CBSE/State)'},
+    {id:'cbse_sample',ic:'📄',lbl:'CBSE Sample Papers',sub:'2020-2024 style'},
+    {id:'cuet',ic:'🏛️',lbl:'CUET',sub:'Central University Entrance'},
+  ],
+  govtcivil:[
+    {id:'upsc',ic:'🏛️',lbl:'UPSC CSE',sub:'IAS / IPS / IFS'},
+    {id:'ssc_cgl',ic:'📋',lbl:'SSC CGL',sub:'Group B & C Posts'},
+    {id:'state_pcs',ic:'🗺️',lbl:'State PCS',sub:'WBPSC / UPPCS / MPSC etc.'},
+    {id:'cuet',ic:'🏫',lbl:'CUET',sub:'Central Universities UG'},
+  ],
+  defence:[
+    {id:'nda',ic:'🎖️',lbl:'NDA',sub:'Army / Navy / Air Force'},
+    {id:'cds',ic:'⚔️',lbl:'CDS',sub:'IMA / Naval / Air Force Academy'},
+  ],
+  management:[
+    {id:'cat',ic:'📊',lbl:'CAT',sub:'IIMs & Top B-Schools'},
+    {id:'ipmat',ic:'🎓',lbl:'IPMAT',sub:'IIM Indore / Rohtak (BBA+MBA)'},
+  ],
+  banking:[
+    {id:'sbi_po',ic:'🏦',lbl:'SBI PO',sub:'State Bank of India'},
+    {id:'ibps_po',ic:'🏧',lbl:'IBPS PO',sub:'Nationalised Banks'},
+    {id:'rbi_grade_b',ic:'💰',lbl:'RBI Grade B',sub:'Reserve Bank of India'},
+  ],
+  law:[
+    {id:'clat',ic:'⚖️',lbl:'CLAT',sub:'22 National Law Universities'},
+    {id:'cuet',ic:'🏛️',lbl:'CUET',sub:'Central University UG Programs'},
+  ],
+};
+
+const _ATZ_SUBJECTS={
+  jee:         ['Physics','Chemistry','Mathematics'],
+  jeeadv:      ['Physics','Chemistry','Mathematics'],
+  bitsat:      ['Physics','Chemistry','Mathematics','English Proficiency','Logical Reasoning'],
+  gate:        ['Engineering Mathematics','General Aptitude','Computer Science','Electronics','Mechanical','Civil','Electrical','Chemical Engineering'],
+  neet:        ['Physics','Chemistry','Biology (Botany)','Biology (Zoology)'],
+  cuet:        ['Physics','Chemistry','Mathematics','Biology','English','General Test','History','Geography','Political Science','Economics','Accountancy','Business Studies'],
+  upsc:        ['History','Geography','Polity & Governance','Economics','Environment & Ecology','Science & Technology','Current Affairs','Ethics & Integrity','International Relations'],
+  ssc_cgl:     ['Quantitative Aptitude','English Language','General Intelligence & Reasoning','General Awareness'],
+  state_pcs:   ['History','Geography','Polity','Economics','General Science','Current Affairs','Reasoning'],
+  nda:         ['Mathematics','English','General Knowledge','Physics','Chemistry'],
+  cds:         ['English','General Knowledge','Elementary Mathematics'],
+  cat:         ['Quantitative Aptitude','Verbal Ability & Reading Comprehension','Data Interpretation & Logical Reasoning'],
+  ipmat:       ['Quantitative Aptitude','Verbal Ability','Logical Reasoning'],
+  sbi_po:      ['Reasoning Ability','Quantitative Aptitude','English Language','General Awareness','Computer Knowledge'],
+  ibps_po:     ['Reasoning Ability','Quantitative Aptitude','English Language','General Awareness','Computer Knowledge'],
+  rbi_grade_b: ['Economics','Finance','Management','Reasoning','English','Quantitative Aptitude','General Awareness'],
+  clat:        ['English Language','Current Affairs & GK','Legal Reasoning','Logical Reasoning','Quantitative Techniques'],
+  cbse_sample: ['Physics','Chemistry','Mathematics','Biology','English','History','Geography','Economics','Accountancy','Business Studies'],
+  boards11:    ['Physics','Chemistry','Mathematics','Biology','English','History','Geography','Political Science','Economics','Accountancy','Business Studies','Computer Science'],
+  boards12:    ['Physics','Chemistry','Mathematics','Biology','English','History','Geography','Political Science','Economics','Accountancy','Business Studies','Computer Science'],
+};
+
+const _ATZ_CHAPTERS={
+  'Physics':['Units & Measurements','Kinematics','Laws of Motion','Work Energy Power','Rotational Motion','Gravitation','Properties of Solids & Fluids','Thermodynamics','Kinetic Theory','Oscillations','Waves','Electrostatics','Current Electricity','Magnetic Effects','Electromagnetic Induction','Alternating Current','EM Waves','Ray Optics','Wave Optics','Dual Nature of Matter','Atoms & Nuclei','Semiconductors'],
+  'Chemistry':['Basic Concepts','Atomic Structure','Chemical Bonding','States of Matter','Thermodynamics','Equilibrium','Redox Reactions','Hydrogen','s-Block Elements','p-Block Elements','d & f Block Elements','Coordination Compounds','Organic Chemistry Basics','Hydrocarbons','Haloalkanes','Alcohols Phenols Ethers','Aldehydes Ketones','Carboxylic Acids','Amines','Biomolecules','Polymers','Electrochemistry','Chemical Kinetics','Surface Chemistry'],
+  'Mathematics':['Sets & Relations','Functions','Trigonometry','Inverse Trig','Matrices & Determinants','Limits & Continuity','Differentiation','Applications of Derivatives','Integration','Differential Equations','Vectors','3D Geometry','Probability','Statistics','Complex Numbers','Sequences & Series','Binomial Theorem','Permutations & Combinations','Straight Lines','Circles','Conics','Linear Programming'],
+  'Biology (Botany)':['Cell Biology','Cell Division','Biomolecules','Plant Physiology','Morphology of Plants','Anatomy of Plants','Reproduction in Plants','Genetics','Evolution','Ecology','Biodiversity','Plant Kingdom'],
+  'Biology (Zoology)':['Animal Kingdom','Structural Organisation in Animals','Human Physiology','Reproduction','Genetics','Evolution','Human Health & Disease','Biotechnology','Ecology'],
+  'Biology':['Cell Biology','Cell Division','Biomolecules','Plant Physiology','Human Physiology','Genetics','Evolution','Ecology','Biodiversity','Biotechnology','Reproduction'],
+  'English':['Reading Comprehension','Grammar','Vocabulary','Writing Skills','Literature'],
+  'English Language':['Reading Comprehension','Grammar & Error Spotting','Vocabulary','Fill in the Blanks','Para Jumbles','Cloze Test'],
+  'English Proficiency':['Grammar','Vocabulary','Reading Comprehension','Verbal Reasoning'],
+  'General Test':['Quantitative Aptitude','Logical Reasoning','General Knowledge','Current Affairs'],
+  'History':['Ancient India','Vedic Period','Maurya Empire','Medieval India','Mughal Empire','Modern India','Freedom Struggle','World History','Post-Independence India'],
+  'Geography':['Physical Geography','Indian Geography','World Geography','Climate','Resources','Agriculture','Map Work'],
+  'Economics':['Microeconomics','Macroeconomics','Indian Economy','Money & Banking','Statistics','International Trade'],
+  'Finance':['Financial Markets','Banking','Investment','Risk Management','Capital Markets'],
+  'Management':['Planning','Organising','Leading','Controlling','HRM','Operations','Strategy'],
+  'Accountancy':['Accounting Basics','Journal & Ledger','Trial Balance','Partnership Accounts','Company Accounts','Financial Statements'],
+  'Business Studies':['Nature of Business','Forms of Business','Management Functions','Finance','Marketing','Consumer Protection'],
+  'Computer Science':['Programming in Python','Data Structures','Computer Networks','Database Management','Boolean Algebra','OOP Concepts'],
+  'Computer Knowledge':['Computer Basics','MS Office','Internet','Networking','Security'],
+  'General Knowledge':['History','Geography','Science & Technology','Current Affairs','Sports','Awards & Honours','Economy'],
+  'General Awareness':['Current Affairs','History','Geography','Polity','Economy','Banking Awareness','Sports','Awards'],
+  'Political Science':['Indian Constitution','Fundamental Rights','Directive Principles','Parliament','Judiciary','Local Government','International Relations'],
+  'Polity & Governance':['Constitution Basics','Fundamental Rights & Duties','Parliament & Legislature','Executive','Judiciary','Local Self Government','Constitutional Bodies','Amendments'],
+  'Polity':['Indian Constitution','Parliament','Executive','Judiciary','Elections','Federalism'],
+  'Environment & Ecology':['Ecosystems','Biodiversity','Climate Change','Environmental Laws','Conservation','Pollution'],
+  'Science & Technology':['Space Technology','Defence Technology','Biotechnology','IT & Computers','Recent Developments'],
+  'Current Affairs':['National Events','International Events','Economy','Science','Sports','Awards'],
+  'International Relations':['India Foreign Policy','International Organisations','Treaties','Regional Groupings'],
+  'Ethics & Integrity':['Foundational Values','Attitude','Aptitude','Emotional Intelligence','Case Studies'],
+  'General Science':['Physics Basics','Chemistry Basics','Biology Basics','Science in Daily Life'],
+  'Quantitative Aptitude':['Number System','Percentage','Profit & Loss','Ratio & Proportion','Time & Work','Time Speed Distance','Simple & Compound Interest','Averages','Mensuration','Algebra','Data Interpretation'],
+  'Reasoning Ability':['Analogy','Coding-Decoding','Blood Relations','Direction Sense','Syllogism','Seating Arrangement','Puzzles','Logical Reasoning','Number Series'],
+  'General Intelligence & Reasoning':['Analogy','Classification','Series','Coding-Decoding','Blood Relations','Direction','Syllogism','Matrix'],
+  'Data Interpretation & Logical Reasoning':['Tables','Bar Charts','Line Graphs','Pie Charts','Caselet DI','Syllogism','Critical Reasoning','Puzzles'],
+  'Verbal Ability & Reading Comprehension':['RC Passages','Para Summary','Sentence Correction','Vocabulary','Critical Reasoning','Para Jumbles'],
+  'Verbal Ability':['Reading Comprehension','Vocabulary','Grammar','Para Jumbles','Critical Reasoning'],
+  'Legal Reasoning':['Legal Principles','Torts','Contract Law','Constitutional Law','Criminal Law','Application of Law'],
+  'Logical Reasoning':['Analogy','Series','Coding-Decoding','Syllogism','Critical Reasoning','Puzzles','Assumptions'],
+  'Quantitative Techniques':['Arithmetic','Algebra','Statistics','Number System'],
+  'Engineering Mathematics':['Linear Algebra','Calculus','Probability','Discrete Mathematics','Numerical Methods'],
+  'General Aptitude':['Verbal Ability','Numerical Ability','Reasoning','Spatial Ability'],
+  'Elementary Mathematics':['Arithmetic','Algebra','Geometry','Mensuration','Statistics','Trigonometry'],
+  'General Knowledge':['History','Geography','Science','Current Affairs','Sports','Awards'],
+  'Computer Science':['Algorithms','Data Structures','OS','DBMS','Computer Networks','Theory of Computation','Compiler Design','Digital Logic'],
+  'Electronics':['Signals & Systems','Electronic Devices','Analog Circuits','Digital Circuits','Control Systems','Communication'],
+  'Mechanical':['Engineering Mechanics','Strength of Materials','Thermodynamics','Fluid Mechanics','Manufacturing','Machine Design'],
+  'Civil':['Structural Analysis','Concrete Structures','Geotechnical','Fluid Mechanics','Transportation','Surveying'],
+  'Electrical':['Electric Circuits','Electromagnetic Fields','Electrical Machines','Power Systems','Control Systems','Power Electronics'],
+  'Chemical Engineering':['Process Calculations','Thermodynamics','Heat Transfer','Mass Transfer','Reaction Engineering','Process Control'],
+};
+
+const _ATZ_MARKS={
+  jee:         {pos:4,neg:-1,label:'JEE Main (+4 / −1)',hasNeg:true},
+  jeeadv:      {pos:4,neg:-2,label:'JEE Advanced (+4 / −2)',hasNeg:true},
+  bitsat:      {pos:3,neg:-1,label:'BITSAT (+3 / −1)',hasNeg:true},
+  gate:        {pos:1,neg:-0.33,label:'GATE (+1 / −0.33)',hasNeg:true},
+  neet:        {pos:4,neg:-1,label:'NEET (+4 / −1)',hasNeg:true},
+  cuet:        {pos:5,neg:-1,label:'CUET (+5 / −1)',hasNeg:true},
+  upsc:        {pos:2,neg:-0.66,label:'UPSC (+2 / −0.66)',hasNeg:true},
+  ssc_cgl:     {pos:2,neg:-0.5,label:'SSC CGL (+2 / −0.5)',hasNeg:true},
+  state_pcs:   {pos:1,neg:0,label:'State PCS (+1 / 0)',hasNeg:false},
+  nda:         {pos:2.5,neg:-0.83,label:'NDA (+2.5 / −0.83)',hasNeg:true},
+  cds:         {pos:1,neg:-0.33,label:'CDS (+1 / −0.33)',hasNeg:true},
+  cat:         {pos:3,neg:-1,label:'CAT (+3 / −1)',hasNeg:true},
+  ipmat:       {pos:4,neg:-1,label:'IPMAT (+4 / −1)',hasNeg:true},
+  sbi_po:      {pos:1,neg:-0.25,label:'SBI PO (+1 / −0.25)',hasNeg:true},
+  ibps_po:     {pos:1,neg:-0.25,label:'IBPS PO (+1 / −0.25)',hasNeg:true},
+  rbi_grade_b: {pos:1,neg:0,label:'RBI Grade B (+1 / 0)',hasNeg:false},
+  clat:        {pos:1,neg:-0.25,label:'CLAT (+1 / −0.25)',hasNeg:true},
+  boards11:    {pos:1,neg:0,label:'Boards (+1 / 0)',hasNeg:false},
+  boards12:    {pos:1,neg:0,label:'Boards (+1 / 0)',hasNeg:false},
+  cbse_sample: {pos:1,neg:0,label:'CBSE (+1 / 0)',hasNeg:false},
+};
+
+const _ATZ_QCOUNT={quick10:10,mock30:30,full:45,pyq:15,revision:10};
+
+const _ATZ_LABELS={
+  jee:'JEE Main',jeeadv:'JEE Advanced',bitsat:'BITSAT',gate:'GATE',
+  neet:'NEET UG',cuet:'CUET',upsc:'UPSC CSE',ssc_cgl:'SSC CGL',
+  state_pcs:'State PCS',nda:'NDA',cds:'CDS',cat:'CAT',ipmat:'IPMAT',
+  sbi_po:'SBI PO',ibps_po:'IBPS PO',rbi_grade_b:'RBI Grade B',
+  clat:'CLAT',boards11:'Class 11 Boards',boards12:'Class 12 Boards',cbse_sample:'CBSE Sample Paper',
+};
+
+const _ATZ_SUBJECTIVE_EXAMS=new Set(['upsc','state_pcs','clat','boards11','boards12','cbse_sample','gate','cat','rbi_grade_b','cds','jee_adv']);
+
+function atzSaveState(){
+  localStorage.setItem('tisa_atz_bm',JSON.stringify(window._atz.bookmarks));
+  localStorage.setItem('tisa_atz_hist',JSON.stringify(window._atz.history.slice(0,30)));
+}
+
+function atzStartFlow(){
+  document.getElementById('atz-flow').style.display='block';
+  document.getElementById('atz-flow').scrollIntoView({behavior:'smooth',block:'start'});
+  // Init default tab if not already done
+  if(!document.querySelector('#atz-exam-grid .atz-sel-card')){
+    const firstTab=document.querySelector('#atz-cat-tabs .atz-chip');
+    atzCatTab('engineering', firstTab);
+  }
+}
+
+function atzCatTab(cat, el){
+  document.querySelectorAll('#atz-cat-tabs .atz-chip').forEach(c=>c.classList.remove('sel'));
+  if(el) el.classList.add('sel');
+  const exams=_ATZ_CATS[cat]||[];
+  const grid=document.getElementById('atz-exam-grid');
+  grid.innerHTML=exams.map(e=>`<div class="atz-sel-card" onclick="atzPickExam('${e.id}',this)"><div class="atz-ic">${e.ic}</div><div class="atz-lbl">${e.lbl}</div><div class="atz-sub">${e.sub}</div></div>`).join('');
+  window._atz.exam=null; window._atz.subject=null; window._atz.chapter=null;
+  ['atz-qtype-row','atz-subj-row','atz-chap-row','atz-mode-row'].forEach(id=>{
+    const el2=document.getElementById(id); if(el2) el2.style.display='none';
+  });
+}
+
+function atzPickExam(exam, el){
+  window._atz.exam=exam;
+  document.querySelectorAll('#atz-exam-grid .atz-sel-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const qtRow=document.getElementById('atz-qtype-row');
+  qtRow.style.display='block';
+  const subBtn=document.getElementById('atz-qtype-sub');
+  if(!_ATZ_SUBJECTIVE_EXAMS.has(exam)){
+    atzSetQtype('objective', document.getElementById('atz-qtype-obj'));
+    subBtn.style.opacity='0.4';
+    subBtn.title='Subjective not applicable for this exam';
+  } else {
+    subBtn.style.opacity='1'; subBtn.title='';
+  }
+  const subs=_ATZ_SUBJECTS[exam]||[];
+  const sc=document.getElementById('atz-subj-chips');
+  sc.innerHTML=subs.map(s=>`<button class="atz-chip" onclick="atzPickSubj('${s.replace(/'/g,'')}',this)">${s}</button>`).join('');
+  document.getElementById('atz-subj-row').style.display='block';
+  document.getElementById('atz-chap-row').style.display='none';
+  document.getElementById('atz-mode-row').style.display='none';
+  window._atz.subject=null; window._atz.chapter=null;
+}
+
+function atzSetQtype(type, el){
+  window._atz.qtype=type;
+  document.getElementById('atz-qtype-obj').classList.toggle('sel', type==='objective');
+  document.getElementById('atz-qtype-sub').classList.toggle('sel', type==='subjective');
+  const note=document.getElementById('atz-qtype-note');
+  if(type==='objective') note.textContent='MCQ with 4 options — instant answer reveal & full explanation after each question';
+  else note.textContent='Short/long answer — model answer shown after each. Great for UPSC Mains, Law, Boards essay practice.';
+}
+
+function atzPickSubj(subj, el){
+  window._atz.subject=subj;
+  document.querySelectorAll('#atz-subj-chips .atz-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const chaps=_ATZ_CHAPTERS[subj]||['General Topics'];
+  const sel=document.getElementById('atz-chap-sel');
+  sel.innerHTML=`<option value="">All chapters</option>`+chaps.map(c=>`<option value="${c}">${c}</option>`).join('');
+  document.getElementById('atz-chap-sel').value='';
+  document.getElementById('atz-chap-custom').value='';
+  document.getElementById('atz-chap-row').style.display='block';
+  document.getElementById('atz-mode-row').style.display='block';
+}
+
+function atzChip(el, type, val){
+  const parent=el.closest('.atz-filter-row')||el.parentElement;
+  parent.querySelectorAll('.atz-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  if(type==='mode') window._atz.mode=val;
+  if(type==='diff') window._atz.diff=val;
+}
+
+function atzShowBookmarks(){
+  document.getElementById('atz-bookmarks-view').style.display='block';
+  const list=document.getElementById('atz-bm-list');
+  if(!window._atz.bookmarks.length){list.innerHTML='<div class="empty">No bookmarks yet — star questions during tests!</div>';return;}
+  list.innerHTML=window._atz.bookmarks.map((b,i)=>`
+    <div class="bm-card">
+      <div class="bm-card-meta"><span class="mcq-tag">${b.exam||''}</span><span class="mcq-tag">${b.subject||''}</span></div>
+      <div class="bm-card-q">${b.question}</div>
+      <div class="bm-card-ans">✅ ${b.qtype==='subjective'?'Model Answer':'Answer'}: ${b.correctAnswer}</div>
+      <div style="font-size:11px;color:var(--ink3);margin-top:4px;line-height:1.5">${b.explanation||''}</div>
+      <button class="btn btn-sm" style="margin-top:8px;font-size:10px;color:var(--danger);border-color:var(--danger)" onclick="atzRemoveBm(${i})">🗑 Remove</button>
+    </div>`).join('');
+}
+
+function atzHideBookmarks(){document.getElementById('atz-bookmarks-view').style.display='none';}
+
+function atzRemoveBm(i){
+  window._atz.bookmarks.splice(i,1); atzSaveState(); atzShowBookmarks();
+  document.getElementById('bm-count-badge').textContent=window._atz.bookmarks.length;
+}
+
+function atzBuildPrompt(){
+  const a=window._atz;
+  const scheme=_ATZ_MARKS[a.exam]||{pos:1,neg:0};
+  const qcount=_ATZ_QCOUNT[a.mode]||10;
+  const chapter=document.getElementById('atz-chap-custom')?.value.trim()||
+                 document.getElementById('atz-chap-sel')?.value||'general topics';
+  a.chapter=chapter||'general topics';
+  const examLabel=_ATZ_LABELS[a.exam]||a.exam;
+  const styleNote=a.mode==='pyq'
+    ?`Questions MUST closely mimic actual PYQ style from ${examLabel} past papers (2017-2024). Use real question patterns, terminology and difficulty.`
+    :a.mode==='revision'
+    ?'Focus on conceptually tricky questions that students frequently get wrong — common misconceptions, similar-looking distractors.'
+    :'';
+
+  if(a.qtype==='subjective'){
+    return `You are an expert ${examLabel} question setter for the SUBJECTIVE section.
+Generate exactly ${qcount} short/long answer questions for:
+Exam: ${examLabel} | Subject: ${a.subject} | Chapter/Topic: ${a.chapter} | Difficulty: ${a.diff}
+${styleNote}
+
+CRITICAL RULES:
+- Every question MUST have a complete, 100% accurate model answer
+- Explanations must be detailed (4-6 sentences) covering concept, context, relevance
+- For UPSC/law: include relevant articles, acts, case names, constitutional provisions
+- Absolutely no factual errors
+
+Return ONLY valid JSON array, no markdown:
+[{"q":"Question?","modelAnswer":"Complete model answer in 3-5 sentences.","exp":"Detailed explanation of the concept and why this answer is correct.","keyPoints":["key point 1","key point 2","key point 3"],"difficulty":"easy|medium|hard","topic":"sub-topic","marks":${scheme.pos}}]`;
+  }
+
+  return `You are an expert ${examLabel} MCQ question setter.
+Generate exactly ${qcount} questions for: Exam: ${examLabel} | Subject: ${a.subject} | Chapter: ${a.chapter} | Difficulty: ${a.diff}
+${styleNote}
+
+STRICT RULES:
+1. Each question has EXACTLY ONE unambiguously correct answer
+2. All 3 wrong options must be plausible distractors but definitively incorrect
+3. Explanation (3-5 sentences): why correct answer is right + why top distractor is wrong + underlying concept/formula
+4. Zero factual errors — all data, dates, formulas must be accurate
+5. No trick questions, no ambiguous wording
+
+Return ONLY valid JSON array, no markdown:
+[{"q":"Clear question?","opts":["(A) wrong","(B) correct","(C) wrong","(D) wrong"],"ans":1,"exp":"Why B is correct: [concept]. Why A is wrong: [reason]. Key formula/fact: [detail].","difficulty":"easy|medium|hard","topic":"sub-topic"}]
+ans is 0-indexed. opts must have exactly 4 items with (A)(B)(C)(D) prefixes.`;
+}
+
+window.atzLaunchTest=async function(){
+  const a=window._atz;
+  if(!a.exam){window.toast('Please select an exam first!');return;}
+  if(!a.subject){window.toast('Please select a subject!');return;}
+  if(!a.qtype) a.qtype='objective';
+  const label=_ATZ_LABELS[a.exam]||a.exam;
+  document.getElementById('mcq-modal').classList.add('open');
+  document.getElementById('mcq-body').innerHTML=`<div class="mcq-loading"><div class="mcq-spinner"></div><div style="font-size:13px;font-weight:700">Generating ${_ATZ_QCOUNT[a.mode]||10} ${a.qtype==='subjective'?'subjective':'MCQ'} questions for <strong>${label}</strong>…<br><span style="font-size:11px;color:var(--ink3);font-weight:600">AI is crafting your test ✨</span></div></div>`;
+  document.getElementById('mcq-next-btn').style.display='none';
+  document.getElementById('mcq-skip-btn').style.display='inline-flex';
+  try{
+    const prompt=atzBuildPrompt();
+    const resp=await fetch(_PANDA_WORKER,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question:prompt,context:'__mcq_gen__',apiKey:window._PANDA_KEY||undefined,raw:true})});
+    const rawText=await resp.text();
+    console.log('[ATZ] Raw Worker response:',rawText);
+    let data; try{data=JSON.parse(rawText);}catch(e){throw new Error('Worker non-JSON: '+rawText.slice(0,100));}
+    const answerText=data.answer||data.reply||data.text||data.response||data.message||'';
+    const match=answerText.match(/\[[\s\S]*\]/);
+    if(!match)throw new Error('No JSON array in response');
+    const qs=JSON.parse(match[0]);
+    if(!Array.isArray(qs)||!qs.length)throw new Error('Empty question array');
+    a.questions=qs; a.current=0; a.score=0; a.correct=0; a.wrong=0; a.skipped=0; a.marks=0;
+    const timeMap={quick10:600,mock30:1500,full:2700,pyq:1200,revision:480};
+    a.timeLeft=timeMap[a.mode]||600;
+    if(a.qtype==='subjective') mcqRenderSubjective();
+    else mcqRenderQuestion();
+    mcqStartTimer();
+  }catch(e){
+    console.error('[ATZ] Generation failed:',e);
+    document.getElementById('mcq-modal').classList.remove('open');
+    window.toast('⚠️ Could not generate questions. Check your Worker & API key.');
+  }
+};
+
+
+
+// ── Render question (Objective MCQ) ──
+function mcqRenderQuestion(){
+  const a=window._atz;
+  const q=a.questions[a.current];
+  if(!q)return mcqShowScorecard();
+  const scheme=_ATZ_MARKS[a.exam]||{pos:1,neg:0};
+  const prog=((a.current)/a.questions.length*100).toFixed(0);
+  document.getElementById('mcq-prog-fill').style.width=prog+'%';
+  document.getElementById('mcq-qcount').textContent=`${a.current+1}/${a.questions.length}`;
+  document.getElementById('mcq-marks-info').innerHTML=
+    `<span class="mcq-marks-chip pos">+${scheme.pos}</span>${scheme.hasNeg!==false?`<span class="mcq-marks-chip neg">${scheme.neg}</span>`:''}`;
+  document.getElementById('mcq-next-btn').style.display='none';
+  document.getElementById('mcq-skip-btn').style.display='inline-flex';
+  const examShort=_ATZ_LABELS[a.exam]||a.exam;
+  a.currentBmId={question:q.q,opts:q.opts,correctAnswer:q.opts[q.ans],explanation:q.exp,exam:examShort,subject:a.subject,topic:q.topic||a.chapter,qtype:'objective'};
+  document.getElementById('mcq-bm-btn').textContent='\U0001f516';
+  const diffColor=q.difficulty==='hard'?'rgba(192,57,43,.12)':q.difficulty==='easy'?'rgba(45,158,80,.12)':'rgba(200,150,0,.12)';
+  const diffTxtColor=q.difficulty==='hard'?'var(--danger)':q.difficulty==='easy'?'var(--success)':'var(--warn)';
+  document.getElementById('mcq-body').innerHTML=`
+    <div class="mcq-meta">
+      <span class="mcq-tag">${examShort}</span>
+      <span class="mcq-tag">${a.subject}</span>
+      ${q.topic?`<span class="mcq-tag">${q.topic}</span>`:''}
+      <span class="mcq-tag" style="background:${diffColor};color:${diffTxtColor}">${q.difficulty||'medium'}</span>
+    </div>
+    <div class="mcq-qnum">Q${a.current+1} of ${a.questions.length} &middot; ${scheme.label||''}</div>
+    <div class="mcq-question">${q.q}</div>
+    <div class="mcq-options">
+      ${q.opts.map((o,i)=>`<button class="mcq-opt" onclick="mcqAnswer(${i})" id="mcq-opt-${i}">
+        <span class="opt-letter">${['A','B','C','D'][i]}</span>
+        <span>${o.replace(/^\([ABCD]\)\s*/,'')}</span>
+      </button>`).join('')}
+    </div>
+    <div class="mcq-explanation" id="mcq-exp"><strong>\U0001f4d6 Explanation:</strong> ${q.exp||'No explanation available.'}</div>
+  `;
+}
+
+// ── Subjective question renderer ──
+function mcqRenderSubjective(){
+  const a=window._atz;
+  const q=a.questions[a.current];
+  if(!q)return mcqShowScorecard();
+  const scheme=_ATZ_MARKS[a.exam]||{pos:1,neg:0};
+  const prog=((a.current)/a.questions.length*100).toFixed(0);
+  document.getElementById('mcq-prog-fill').style.width=prog+'%';
+  document.getElementById('mcq-qcount').textContent=`${a.current+1}/${a.questions.length}`;
+  document.getElementById('mcq-marks-info').innerHTML=`<span class="mcq-marks-chip pos">+${q.marks||scheme.pos} marks</span>`;
+  document.getElementById('mcq-next-btn').style.display='none';
+  document.getElementById('mcq-skip-btn').style.display='inline-flex';
+  const examShort=_ATZ_LABELS[a.exam]||a.exam;
+  a.currentBmId={question:q.q,correctAnswer:q.modelAnswer,explanation:q.exp,exam:examShort,subject:a.subject,topic:q.topic||a.chapter,qtype:'subjective'};
+  document.getElementById('mcq-bm-btn').textContent='\U0001f516';
+  const diffColor=q.difficulty==='hard'?'rgba(192,57,43,.12)':q.difficulty==='easy'?'rgba(45,158,80,.12)':'rgba(200,150,0,.12)';
+  const diffTxtColor=q.difficulty==='hard'?'var(--danger)':q.difficulty==='easy'?'var(--success)':'var(--warn)';
+  const keyPts=(q.keyPoints||[]).map(p=>`<li style="margin-bottom:4px">${p}</li>`).join('');
+  document.getElementById('mcq-body').innerHTML=`
+    <div class="mcq-meta">
+      <span class="mcq-tag">${examShort}</span>
+      <span class="mcq-tag">${a.subject}</span>
+      ${q.topic?`<span class="mcq-tag">${q.topic}</span>`:''}
+      <span class="mcq-tag" style="background:${diffColor};color:${diffTxtColor}">${q.difficulty||'medium'}</span>
+      <span class="mcq-tag" style="background:rgba(92,122,62,.1);color:var(--primary)">Subjective</span>
+    </div>
+    <div class="mcq-qnum">Q${a.current+1} of ${a.questions.length}</div>
+    <div class="mcq-question">${q.q}</div>
+    <div style="margin-bottom:12px">
+      <textarea id="subj-ans-inp" placeholder="Write your answer here (optional - for self-assessment)..."
+        style="width:100%;min-height:100px;padding:12px;border:1.5px solid var(--border);border-radius:12px;background:var(--bg);color:var(--ink);font-size:13px;font-family:'Nunito',sans-serif;resize:vertical;outline:none;box-sizing:border-box;line-height:1.6"></textarea>
+    </div>
+    <button class="btn btn-p" style="width:100%;margin-bottom:14px" id="subj-reveal-btn" onclick="mcqRevealSubjective()">See Model Answer &amp; Explanation</button>
+    <div id="subj-reveal" style="display:none">
+      <div style="background:rgba(45,158,80,.08);border:1.5px solid rgba(45,158,80,.25);border-radius:14px;padding:14px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:800;color:var(--success);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Model Answer</div>
+        <div style="font-size:13px;color:var(--ink);line-height:1.7;font-weight:600">${q.modelAnswer||'Answer not available.'}</div>
+        ${keyPts?`<div style="margin-top:10px"><div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Key Points</div><ul style="margin:0;padding-left:18px;font-size:12px;color:var(--ink2);line-height:1.8">${keyPts}</ul></div>`:''}
+      </div>
+      <div class="mcq-explanation" style="display:block"><strong>Concept:</strong> ${q.exp||''}</div>
+      <div style="margin-top:14px">
+        <div style="font-size:11px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Self-assess</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm" style="flex:1;background:rgba(45,158,80,.1);border-color:var(--success);color:var(--success)" onclick="mcqSubjectiveScore(true)">Got it right</button>
+          <button class="btn btn-sm" style="flex:1;background:rgba(192,57,43,.08);border-color:var(--danger);color:var(--danger)" onclick="mcqSubjectiveScore(false)">Need more practice</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+window.mcqRevealSubjective=function(){
+  document.getElementById('subj-reveal').style.display='block';
+  const btn=document.getElementById('subj-reveal-btn');
+  if(btn) btn.style.display='none';
+};
+
+window.mcqSubjectiveScore=function(correct){
+  const a=window._atz;
+  const scheme=_ATZ_MARKS[a.exam]||{pos:1,neg:0};
+  if(correct){ a.correct++; a.marks+=scheme.pos; window.toast('Marked correct!'); }
+  else{ a.wrong++; window.toast('Noted - revise this topic!'); }
+  document.getElementById('mcq-next-btn').style.display='inline-flex';
+  document.getElementById('mcq-skip-btn').style.display='none';
+  document.querySelectorAll('#mcq-body button').forEach(b=>{ b.disabled=true; });
+};
+// ── Answer handler ──
+window.mcqAnswer=function(idx){
+  const a=window._atz;
+  const q=a.questions[a.current];
+  const scheme=_ATZ_MARKS[a.exam]||{pos:1,neg:0};
+  // Disable all options
+  document.querySelectorAll('.mcq-opt').forEach(b=>b.disabled=true);
+  if(idx===q.ans){
+    document.getElementById('mcq-opt-'+idx).classList.add('correct');
+    a.correct++; a.marks+=scheme.pos;
+    window.toast('✅ Correct! +'+scheme.pos+' marks');
+  }else{
+    document.getElementById('mcq-opt-'+idx).classList.add('wrong');
+    document.getElementById('mcq-opt-'+q.ans).classList.add('reveal-correct');
+    a.wrong++; a.marks+=scheme.neg;
+    window.toast('❌ Wrong! '+scheme.neg+' marks');
+  }
+  document.getElementById('mcq-exp').style.display='block';
+  document.getElementById('mcq-skip-btn').style.display='none';
+  document.getElementById('mcq-next-btn').style.display='inline-flex';
+};
+
+window.mcqSkip=function(){
+  window._atz.skipped++;
+  window._atz.current++;
+  if(window._atz.current>=window._atz.questions.length) mcqShowScorecard();
+  else{ if(window._atz.qtype==='subjective') mcqRenderSubjective(); else mcqRenderQuestion(); }
+};
+
+window.mcqNext=function(){
+  window._atz.current++;
+  if(window._atz.current>=window._atz.questions.length) mcqShowScorecard();
+  else{ if(window._atz.qtype==='subjective') mcqRenderSubjective(); else mcqRenderQuestion(); }
+};
+
+window.mcqBookmark=function(){
+  const bm=window._atz.currentBmId;
+  if(!bm)return;
+  const exists=window._atz.bookmarks.some(b=>b.question===bm.question);
+  if(exists){window.toast('Already bookmarked!');return;}
+  window._atz.bookmarks.unshift(bm);
+  atzSaveState();
+  document.getElementById('mcq-bm-btn').textContent='⭐';
+  document.getElementById('bm-count-badge').textContent=window._atz.bookmarks.length;
+  window.toast('🔖 Bookmarked!');
+};
+
+// ── Timer ──
+function mcqStartTimer(){
+  clearInterval(window._atz.timerInt);
+  window._atz.timerInt=setInterval(()=>{
+    window._atz.timeLeft--;
+    const t=window._atz.timeLeft;
+    const el=document.getElementById('mcq-timer');
+    if(el){
+      const m=Math.floor(t/60),s=t%60;
+      el.textContent=`${m}:${s.toString().padStart(2,'0')}`;
+      el.classList.toggle('urgent',t<=30&&t>0);
+    }
+    if(t<=0){clearInterval(window._atz.timerInt);mcqShowScorecard();}
+  },1000);
+}
+
+window.mcqClose=function(){
+  clearInterval(window._atz.timerInt);
+  document.getElementById('mcq-modal').classList.remove('open');
+};
+
+// ── Scorecard ──
+function mcqShowScorecard(){
+  clearInterval(window._atz.timerInt);
+  const a=window._atz;
+  const total=a.questions.length;
+  const pct=total?Math.round(a.correct/total*100):0;
+  const scheme=_ATZ_MARKS[a.exam]||{pos:1,neg:0};
+  const maxMarks=total*scheme.pos;
+  // Compute topic breakdown
+  const topicMap={};
+  a.questions.forEach((q,i)=>{
+    const t=q.topic||a.subject;
+    if(!topicMap[t])topicMap[t]={total:0,seen:0};
+    topicMap[t].total++;
+    // We don't track per-question result easily, so just show distribution
+    topicMap[t].seen++;
+  });
+  const circleR=54, circleC=65;
+  const dash=2*Math.PI*circleR;
+  const fill=dash*(pct/100);
+  const color=pct>=70?'#2d9e50':pct>=40?'var(--warn)':'var(--danger)';
+  const grade=pct>=90?'A+':pct>=75?'A':pct>=60?'B+':pct>=50?'B':pct>=40?'C':'D';
+  document.getElementById('mcq-prog-fill').style.width='100%';
+  document.getElementById('mcq-timer').textContent='Done';
+  document.getElementById('mcq-bm-btn').style.display='none';
+  document.getElementById('mcq-skip-btn').style.display='none';
+  document.getElementById('mcq-next-btn').style.display='none';
+  document.getElementById('mcq-body').innerHTML=`
+    <div class="mcq-scorecard">
+      <div style="font-size:16px;font-weight:900;margin-bottom:16px">Test Complete! 🎯</div>
+      <div class="score-ring-wrap">
+        <svg width="130" height="130" viewBox="0 0 130 130">
+          <circle cx="${circleC}" cy="${circleC}" r="${circleR}" fill="none" stroke="var(--bg3)" stroke-width="10"/>
+          <circle cx="${circleC}" cy="${circleC}" r="${circleR}" fill="none" stroke="${color}" stroke-width="10"
+            stroke-dasharray="${fill} ${dash}" stroke-linecap="round"/>
+        </svg>
+        <div class="score-ring-val">
+          <div class="score-ring-pct">${pct}%</div>
+          <div class="score-ring-lbl">Grade ${grade}</div>
+        </div>
+      </div>
+      <div class="score-grid">
+        <div class="score-stat"><div class="score-stat-val" style="color:#2d9e50">${a.correct}</div><div class="score-stat-lbl">Correct</div></div>
+        <div class="score-stat"><div class="score-stat-val" style="color:var(--danger)">${a.wrong}</div><div class="score-stat-lbl">Wrong</div></div>
+        <div class="score-stat"><div class="score-stat-val" style="color:var(--warn)">${a.skipped}</div><div class="score-stat-lbl">Skipped</div></div>
+        <div class="score-stat"><div class="score-stat-val">${a.marks.toFixed(1)}</div><div class="score-stat-lbl">Marks</div></div>
+        <div class="score-stat"><div class="score-stat-val">${maxMarks}</div><div class="score-stat-lbl">Max Marks</div></div>
+        <div class="score-stat"><div class="score-stat-val">${total}</div><div class="score-stat-lbl">Total Qs</div></div>
+      </div>
+      <div class="score-analysis">
+        <div class="score-analysis-title">Performance</div>
+        <div class="score-topic-bar">
+          <div class="score-topic-name"><span>Accuracy</span><span>${pct}%</span></div>
+          <div class="score-topic-track"><div class="score-topic-fill" style="width:${pct}%;background:${color}"></div></div>
+        </div>
+        <div class="score-topic-bar">
+          <div class="score-topic-name"><span>Marks scored</span><span>${a.marks.toFixed(1)} / ${maxMarks}</span></div>
+          <div class="score-topic-track"><div class="score-topic-fill" style="width:${maxMarks?Math.max(0,(a.marks/maxMarks*100)).toFixed(0):0}%;background:var(--primary)"></div></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+        <button class="btn btn-p" onclick="mcqClose();atzLaunchTest()">🔄 Retry</button>
+        <button class="btn" onclick="mcqClose()">✕ Close</button>
+      </div>
+    </div>`;
+  // Save to history
+  const examLabel={jee:'JEE',neet:'NEET',cuet:'CUET',nda:'NDA',boards11:'Class 11',boards12:'Class 12'}[a.exam]||a.exam;
+  a.history.unshift({exam:examLabel,subject:a.subject,chapter:a.chapter,mode:a.mode,correct:a.correct,wrong:a.wrong,total,marks:a.marks.toFixed(1),maxMarks,pct,date:new Date().toLocaleDateString('en-IN')});
+  atzSaveState();
+  atzRenderHistory();
+  if(typeof addXP==='function') addXP(Math.min(50,Math.round(a.correct*5)),'AI test completed');
+  window.toast(`Test done! ${pct}% · Grade ${grade} 🎯`);
+}
+
+// ── History render ──
+function atzRenderHistory(){
+  const list=document.getElementById('atz-hist-list');
+  if(!list)return;
+  const h=window._atz.history;
+  if(!h.length){list.innerHTML='<div class="empty">No AI tests yet!</div>';return;}
+  list.innerHTML=h.slice(0,10).map(t=>`
+    <div class="test-hist-item">
+      <div class="test-hist-score" style="color:${t.pct>=70?'var(--success)':t.pct>=40?'var(--warn)':'var(--danger)'}">${t.pct}%</div>
+      <div class="test-hist-info">
+        <div class="test-hist-name">${t.exam} · ${t.subject}</div>
+        <div class="test-hist-sub">${t.chapter} · ${t.correct}✅ ${t.wrong}❌ · ${t.marks}/${t.maxMarks} marks · ${t.date}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── Daily Challenge ──
+async function atzLoadDaily(){
+  const a=window._atz;
+  document.getElementById('bm-count-badge').textContent=a.bookmarks.length;
+  if(a.dailyDone){
+    document.getElementById('atz-daily-q').textContent='✅ Daily challenge done! Come back tomorrow.';
+    document.getElementById('atz-daily-opts').innerHTML='';
+    return;
+  }
+  // Random exam/subject combo for daily
+  const dailyExams=['jee','neet','cuet','boards12'];
+  const ex=dailyExams[new Date().getDate()%dailyExams.length];
+  const subs=_ATZ_SUBJECTS[ex]||['Physics'];
+  const sub=subs[new Date().getDay()%subs.length];
+  try{
+    const prompt=`Generate exactly 1 MCQ question for ${ex.toUpperCase()} ${sub}, medium difficulty.
+Return ONLY valid JSON (no markdown):
+{"q":"question?","opts":["(A) ...","(B) ...","(C) ...","(D) ..."],"ans":0,"exp":"explanation"}`;
+    const resp=await fetch(_PANDA_WORKER,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question:prompt,context:'__daily__',apiKey:window._PANDA_KEY||undefined,raw:true})});
+    const raw=await resp.text();
+    const data=JSON.parse(raw);
+    const txt=data.answer||data.reply||data.text||data.response||'';
+    const match=txt.match(/\{[\s\S]*\}/);
+    if(!match)throw new Error('no json');
+    const q=JSON.parse(match[0]);
+    document.getElementById('atz-daily-q').textContent=`[${ex.toUpperCase()} · ${sub}] ${q.q}`;
+    document.getElementById('atz-daily-opts').innerHTML=q.opts.map((o,i)=>
+      `<button class="atz-daily-opt" onclick="atzAnswerDaily(${i},${q.ans},'${(q.exp||'').replace(/'/g,"&#39;")}',this)">${o}</button>`
+    ).join('');
+    document.getElementById('atz-daily-exp').dataset.exp=q.exp||'';
+  }catch(e){
+    console.log('[ATZ Daily]',e.message);
+    document.getElementById('atz-daily-q').textContent='Start a test above to practice! 🎯';
+    document.getElementById('atz-daily-opts').innerHTML='';
+  }
+}
+
+window.atzAnswerDaily=function(idx,ans,exp,el){
+  document.querySelectorAll('.atz-daily-opt').forEach(b=>b.disabled=true);
+  if(idx===ans){el.classList.add('correct');window.toast('✅ Correct!');}
+  else{el.classList.add('wrong');document.querySelectorAll('.atz-daily-opt')[ans].classList.add('correct');window.toast('❌ Wrong!');}
+  const expEl=document.getElementById('atz-daily-exp');
+  expEl.textContent=exp||'';
+  expEl.style.display=exp?'block':'none';
+  localStorage.setItem('tisa_atz_daily_date',new Date().toDateString());
+  window._atz.dailyDone=true;
+  if(typeof addXP==='function') addXP(10,'daily challenge');
+};
+
+// ── Init on page load ──
+document.addEventListener('DOMContentLoaded',()=>{
+  atzRenderHistory();
+  // Only load daily once Tests page is first visited to avoid burning API on load
+});
+
+// Lazy-load daily when tests page becomes visible
+const _atzOrigShowPage=window.showPage;
+window.showPage=function(name,btn){
+  _atzOrigShowPage&&_atzOrigShowPage(name,btn);
+  if(name==='tests'&&!window._atz._dailyLoaded){window._atz._dailyLoaded=true;atzLoadDaily();}
+};
+const _atzOrigShowPageMob=window.showPageMob;
+window.showPageMob=function(name,btn){
+  _atzOrigShowPageMob&&_atzOrigShowPageMob(name,btn);
+  if(name==='tests'&&!window._atz._dailyLoaded){window._atz._dailyLoaded=true;atzLoadDaily();}
+};
+
+// ── END AI TEST ZONE ──
 
 </script>
 </body>
