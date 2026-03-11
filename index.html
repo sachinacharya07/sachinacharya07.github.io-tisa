@@ -1814,23 +1814,25 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div class="page" id="page-tests">
 
 <!-- ── AI TEST ZONE HERO ── -->
+<!-- GK Daily Card — outside atz-hero so it renders independently -->
+<div id="gk-daily-wrap" class="gk-hero">
+  <div class="gk-hero-label">🌍 Daily Knowledge · GK & Current Affairs</div>
+  <div id="gk-daily-category" class="gk-hero-category">Loading…</div>
+  <div id="gk-daily-q" class="gk-hero-title">Loading today's question…</div>
+  <div id="gk-daily-opts"></div>
+  <div class="gk-exp" id="gk-daily-exp"></div>
+  <div class="gk-streak" id="gk-streak-bar" style="display:none">
+    <span class="gk-streak-fire">🔥</span>
+    <span class="gk-streak-text" id="gk-streak-txt">0 day streak</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,220,100,.6);font-weight:700">Keep it up!</span>
+  </div>
+</div>
+
+<!-- AI Test Zone hero bar -->
 <div class="atz-hero">
   <h2>🎯 AI Test Zone</h2>
   <p>JEE · NEET · UPSC · SSC · CAT · CLAT · NDA · Banking · Boards — MCQ & written, timed, with full explanations</p>
-  <!-- GK & Current Affairs Daily -->
-  <div id="gk-daily-wrap" class="gk-hero">
-    <div class="gk-hero-label">🌍 Daily Knowledge</div>
-    <div id="gk-daily-category" class="gk-hero-category">Loading…</div>
-    <div id="gk-daily-q" class="gk-hero-title">Loading today's GK question…</div>
-    <div id="gk-daily-opts"></div>
-    <div class="gk-exp" id="gk-daily-exp"></div>
-    <div class="gk-streak" id="gk-streak-bar" style="display:none">
-      <span class="gk-streak-fire">🔥</span>
-      <span class="gk-streak-text" id="gk-streak-txt">0 day streak</span>
-      <span style="margin-left:auto;font-size:10px;color:rgba(255,220,100,.6);font-weight:700">Keep it up!</span>
-    </div>
-  </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
     <button class="btn" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.3);font-size:12px" onclick="atzStartFlow()">🚀 Start Practice Test</button>
     <button class="btn" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.2);font-size:12px" onclick="atzShowBookmarks()">🔖 Bookmarks <span id="bm-count-badge" style="background:rgba(255,255,255,.25);border-radius:20px;padding:1px 6px;font-size:10px;margin-left:2px">0</span></button>
   </div>
@@ -2685,8 +2687,22 @@ async function showApp(user){
 
   // Avatar in header
   const av=document.getElementById('user-av');
-  if(user.photoURL){av.innerHTML=`<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover" alt="">`;}
-  else av.textContent=(user.displayName||'?')[0];
+  const _setAv=(el,url,name)=>{
+    if(!el)return;
+    if(url){
+      const img=document.createElement('img');
+      img.src=url;
+      img.referrerPolicy='no-referrer';
+      img.style.cssText='width:100%;height:100%;object-fit:cover';
+      img.onerror=()=>{el.textContent=(name||'?')[0].toUpperCase();};
+      el.innerHTML='';
+      el.appendChild(img);
+    } else {
+      el.textContent=(name||'?')[0].toUpperCase();
+    }
+  };
+  _setAv(av,user.photoURL,user.displayName);
+  window._setAv=_setAv; // expose for reuse
 
   // Profile name
   document.getElementById('prof-name').textContent=user.displayName||'User';
@@ -2752,7 +2768,8 @@ async function loadUD(){
     if(window.customAvatarUrl){
       ['user-av','prof-av'].forEach(id=>{
         const el=document.getElementById(id);
-        if(el) el.innerHTML=`<img src="${window.customAvatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;
+        if(el&&window._setAv) window._setAv(el,window.customAvatarUrl,'');
+        else if(el) el.innerHTML=`<img src="${window.customAvatarUrl}" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;
       });
     }
   }
@@ -4716,16 +4733,28 @@ window._isAdmin=function(){return window._CU&&_ADMIN_UIDS.includes(window._CU.ui
 
 window._showAdminButtons=function(){
   const show=window._isAdmin();
-  // Keep mob-admin-btn in more menu, hide nav-admin-btn (moved to Settings)
+  // mob-admin-btn in More menu
   const mob=document.getElementById('mob-admin-btn');
   if(mob)mob.style.display=show?'flex':'none';
-  // Show in Settings page
+  // settings-admin-btn in Settings page
   const sBtn=document.getElementById('settings-admin-btn');
   if(sBtn)sBtn.style.display=show?'inline-flex':'none';
-  // Keep nav-admin-btn always hidden (it's in Settings now)
+  // nav-admin-btn hidden (use Settings/More menu instead)
   const nav=document.getElementById('nav-admin-btn');
   if(nav)nav.style.display='none';
+  return show;
 };
+// Retry admin check after a delay in case Firebase auth loads slowly
+setTimeout(function(){
+  if(window._CU&&typeof window._showAdminButtons==='function'){
+    window._showAdminButtons();
+  }
+},2000);
+setTimeout(function(){
+  if(window._CU&&typeof window._showAdminButtons==='function'){
+    window._showAdminButtons();
+  }
+},5000);
 
 function _e(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function _admFmt(ts){if(!ts)return 'Unknown';const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
@@ -6604,59 +6633,73 @@ const _GK_CATEGORIES=[
   {id:'art_culture',label:'Art & Culture',color:'#9333ea'},
 ];
 
+// Fallback GK questions — shown immediately while AI generates a fresh question
+const _GK_FALLBACKS=[
+  {q:'Which country topped the medal tally at the Paris Olympics 2024?',opts:['(A) China','(B) USA','(C) Great Britain','(D) Australia'],ans:1,exp:'The USA topped the Paris 2024 Olympics with 126 total medals including 40 gold medals, ahead of China (91) and Great Britain (65).',_cat:{label:'Sports',color:'#0891b2'}},
+  {q:'Who became the 15th President of India in 2022?',opts:['(A) Ram Nath Kovind','(B) Droupadi Murmu','(C) Pranab Mukherjee','(D) V.V. Giri'],ans:1,exp:'Droupadi Murmu became the 15th President of India in July 2022 — the first tribal woman and second woman to hold this office.',_cat:{label:'Indian Polity',color:'#7c3aed'}},
+  {q:'Which mission successfully landed near the Moon south pole in 2023?',opts:['(A) Luna-25','(B) Artemis-3','(C) Chandrayaan-3','(D) Chang'e-6'],ans:2,exp:'ISRO's Chandrayaan-3 made a historic soft landing near the Moon south pole on August 23, 2023. India became the first country to achieve this.',_cat:{label:'Science & Tech',color:'#dc2626'}},
+  {q:'The 2023 ICC Cricket World Cup was won by?',opts:['(A) India','(B) Pakistan','(C) England','(D) Australia'],ans:3,exp:'Australia won the ICC Cricket World Cup 2023, defeating India in the final at Ahmedabad. It was their 6th ODI World Cup title.',_cat:{label:'Sports',color:'#0891b2'}},
+  {q:'Which Indian state has the largest geographical area?',opts:['(A) Uttar Pradesh','(B) Madhya Pradesh','(C) Rajasthan','(D) Maharashtra'],ans:2,exp:'Rajasthan is the largest Indian state by area at approx 342,239 sq km, covering about 10.4% of India's total geographical area.',_cat:{label:'Indian Geography',color:'#059669'}},
+  {q:'Which organisation publishes the Human Development Index annually?',opts:['(A) World Bank','(B) UNDP','(C) IMF','(D) WEF'],ans:1,exp:'The UNDP (United Nations Development Programme) publishes the Human Development Index (HDI) annually. It measures health, education and living standards.',_cat:{label:'World Affairs',color:'#2563eb'}},
+  {q:'India's first indigenously built aircraft carrier INS Vikrant was commissioned in?',opts:['(A) 2019','(B) 2020','(C) 2021','(D) 2022'],ans:3,exp:'INS Vikrant was commissioned on September 2, 2022 by PM Narendra Modi in Kochi. It is India's first indigenously designed and built aircraft carrier.',_cat:{label:'Current Affairs',color:'#2563eb'}},
+];
+
 async function gkLoadDaily(){
-  document.getElementById('bm-count-badge').textContent=window._atz.bookmarks.length;
+  // Safe access — _atz may not be ready yet
+  try{const b=document.getElementById('bm-count-badge');if(b&&window._atz)b.textContent=window._atz.bookmarks.length;}catch(e){}
   const today=new Date().toDateString();
   const savedDate=localStorage.getItem('tisa_gk_daily_date');
   const savedStreak=parseInt(localStorage.getItem('tisa_gk_streak')||'0');
-  if(savedStreak>0){
-    const sb=document.getElementById('gk-streak-bar');
-    if(sb){sb.style.display='flex';document.getElementById('gk-streak-txt').textContent=savedStreak+' day streak';}
+  const sb=document.getElementById('gk-streak-bar');
+  if(savedStreak>0&&sb){
+    sb.style.display='flex';
+    const st=document.getElementById('gk-streak-txt');
+    if(st)st.textContent=savedStreak+' day streak';
   }
+  // Already answered today — show saved question
   if(savedDate===today){
     const savedQ=localStorage.getItem('tisa_gk_daily_q');
     if(savedQ){try{renderGkQuestion(JSON.parse(savedQ),true);return;}catch(e){}}
-    document.getElementById('gk-daily-q').textContent='Today\'s question answered! Come back tomorrow.';
+    const qEl=document.getElementById('gk-daily-q');
+    if(qEl)qEl.textContent='Answered today! Come back tomorrow for a new question.';
     return;
   }
+  // Show a fallback question IMMEDIATELY so user sees something
+  const fallback=_GK_FALLBACKS[new Date().getDate()%_GK_FALLBACKS.length];
+  renderGkQuestion(fallback,false);
+  // Then try to get a fresh AI question in the background
   const cat=_GK_CATEGORIES[new Date().getDate()%_GK_CATEGORIES.length];
-  const catEl=document.getElementById('gk-daily-category');
-  if(catEl){catEl.textContent=cat.label;catEl.style.background=cat.color+'22';}
-  document.getElementById('gk-daily-q').textContent='Loading today\'s question...';
   try{
-    const topic='General Knowledge: '+cat.label+'. Focus on India, world affairs, current events, important facts. One clear correct answer, three plausible but wrong options. Include a clear 2-sentence explanation.';
+    const prompt='You are a GK expert. Generate 1 MCQ about: '+cat.label+'. Focus on recent events, India and world awareness. Return ONLY valid JSON, no markdown: {"q":"Question?","opts":["(A) opt","(B) opt","(C) opt","(D) opt"],"ans":0,"exp":"2-3 sentence explanation.","category":"'+cat.id+'"}';
     const resp=await fetch(_PANDA_WORKER,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({mode:'test_generator',topic,numQuestions:1,difficulty:'Medium',context:'GK Daily MCQ',apiKey:window._PANDA_KEY||undefined})});
+      body:JSON.stringify({question:prompt,context:'GK Daily Question Generator',apiKey:window._PANDA_KEY||undefined,raw:true})});
+    if(!resp.ok)throw new Error('Worker HTTP '+resp.status);
     const raw=await resp.text();
     const data=JSON.parse(raw);
-    let q=null;
-    if(data.questions&&data.questions.length){
-      // New worker format: {questions:[{q,options,correct_answer,explanation}]}
-      const wq=data.questions[0];
-      const opts=wq.options||['(A)','(B)','(C)','(D)'];
-      const ans=opts.indexOf(wq.correct_answer);
-      q={q:wq.q||wq.question||'',opts,ans:ans>=0?ans:0,exp:wq.explanation||'',_cat:cat};
-    } else {
-      // Fallback: try answer field
-      const txt=data.answer||data.reply||'';
-      const match=txt.match(/\{[\s\S]*?\}/);
-      if(!match)throw new Error('no json');
-      q=JSON.parse(match[0]);
-      q._cat=cat;
-    }
+    const txt=data.answer||data.reply||data.text||data.response||'';
+    const match=txt.match(/\{[\s\S]*?\}/);
+    if(!match)throw new Error('no json');
+    const q=JSON.parse(match[0]);
+    if(!q.q||!q.opts||q.opts.length<2)throw new Error('invalid q');
+    q._cat=cat;
     localStorage.setItem('tisa_gk_daily_q',JSON.stringify(q));
+    // Replace the fallback with the fresh AI question
     renderGkQuestion(q,false);
   }catch(e){
-    console.log('[GK Daily]',e.message);
-    renderGkQuestion({q:'Which organization publishes the Human Development Index (HDI) annually?',opts:['(A) World Bank','(B) UNDP','(C) IMF','(D) WEF'],ans:1,exp:'The UNDP (United Nations Development Programme) publishes the HDI annually. It measures health, education, and standard of living.',_cat:{label:'World Affairs',color:'#2563eb'}},false);
+    console.log('[GK Daily] Using fallback (AI unavailable):', e.message);
+    // Fallback already shown — save it as today's Q so we don't retry
+    const saved=_GK_FALLBACKS[new Date().getDate()%_GK_FALLBACKS.length];
+    localStorage.setItem('tisa_gk_daily_q',JSON.stringify(saved));
   }
 }
 
 function renderGkQuestion(q,alreadyAnswered){
+  if(!q||!q.q){console.warn('[GK] renderGkQuestion: no question data');return;}
   const cat=q._cat||{label:'GK',color:'#2563eb'};
   const catEl=document.getElementById('gk-daily-category');
-  if(catEl){catEl.textContent=cat.label;catEl.style.background=cat.color+'22';}
-  document.getElementById('gk-daily-q').textContent=q.q;
+  if(catEl){catEl.textContent=cat.label;catEl.style.background=cat.color+'22';catEl.style.color='rgba(255,255,255,.85)';}
+  const qEl=document.getElementById('gk-daily-q');
+  if(qEl)qEl.textContent=q.q;
   const opts=q.opts||[];
   if(alreadyAnswered){
     document.getElementById('gk-daily-opts').innerHTML=opts.map((o,i)=>'<button class="gk-opt '+(i===q.ans?'correct':'')+'" disabled>'+o+'</button>').join('');
@@ -6908,23 +6951,46 @@ window.pandaJoke=function(){
 // ── Init on DOMContentLoaded ──
 document.addEventListener('DOMContentLoaded',function(){
   atzRenderHistory();
-  // Load default JEE papers after DOM ready
+  // Load mock papers grid after a short delay
   setTimeout(function(){
     var firstTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
-    mockCat('jee',firstTab);
-  },100);
+    if(typeof mockCat==='function') mockCat('jee',firstTab);
+  },200);
+  // Load GK daily if we're already on tests page
+  setTimeout(function(){
+    var testsPage=document.getElementById('page-tests');
+    if(testsPage&&(testsPage.classList.contains('active')||getComputedStyle(testsPage).display!=='none')){
+      if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+    }
+  },500);
 });
 
 // Lazy-load GK daily when tests page becomes visible
 var _atzOrigShowPage=window.showPage;
 window.showPage=function(name,btn){
   if(_atzOrigShowPage)_atzOrigShowPage(name,btn);
-  if(name==='tests'&&!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+  if(name==='tests'){
+    // Load GK daily once
+    if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+    // Always refresh mock papers grid
+    setTimeout(function(){
+      var activeTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
+      var cat=window._mockCurrentCat||'jee';
+      if(typeof mockCat==='function') mockCat(cat,activeTab);
+    },50);
+  }
 };
 var _atzOrigShowPageMob=window.showPageMob;
 window.showPageMob=function(name,btn){
   if(_atzOrigShowPageMob)_atzOrigShowPageMob(name,btn);
-  if(name==='tests'&&!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+  if(name==='tests'){
+    if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+    setTimeout(function(){
+      var activeTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
+      var cat=window._mockCurrentCat||'jee';
+      if(typeof mockCat==='function') mockCat(cat,activeTab);
+    },50);
+  }
 };
 
 // ── END AI TEST ZONE ──
