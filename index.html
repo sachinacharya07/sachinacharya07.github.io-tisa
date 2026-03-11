@@ -5006,20 +5006,36 @@ window.askPanda=async function(){
   const context=`User: ${window._uname||window._CU?.displayName||'student'} | Studied today: ${hrs}h ${mins}m | Streak: ${window.studyData?.streak||0} days | XP: ${window.xp||0} | Subjects: ${(window.subjects||[]).map(s=>s.name||s).join(', ')||'none set'}`;
 
   try{
+    console.log('[Panda] Sending to Worker:', {question:q,context,hasCustomKey:!!window._PANDA_KEY});
     const resp=await fetch(_PANDA_WORKER,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({question:q,context})
+      body:JSON.stringify({
+        question:q,
+        context,
+        history:window._askHistory.slice(-10),
+        apiKey:window._PANDA_KEY||undefined  // send user's custom key if set
+      })
     });
-    if(!resp.ok)throw new Error('Worker returned '+resp.status);
-    const data=await resp.json();
-    if(!data.answer)throw new Error('Empty response');
-    window._askHistory.push({role:'assistant',content:data.answer});
+    console.log('[Panda] Worker status:', resp.status, resp.statusText);
+    const rawText=await resp.text();
+    console.log('[Panda] Worker raw response:', rawText);
+    if(!resp.ok)throw new Error('Worker HTTP '+resp.status+': '+rawText);
+    let data;
+    try{ data=JSON.parse(rawText); }catch(pe){ throw new Error('Worker returned non-JSON: '+rawText.slice(0,200)); }
+    // Accept both {answer:...} and {reply:...} shapes
+    const answer=data.answer||data.reply||data.text||data.response||data.message;
+    if(!answer)throw new Error('Worker JSON missing answer field. Keys: '+Object.keys(data).join(','));
+    window._askHistory.push({role:'assistant',content:answer});
     tb.classList.remove('ask-thinking');
-    tb.textContent=data.answer;
+    tb.textContent=answer;
   }catch(e){
-    // Fallback to rule-based brain if Worker is down
-    const fallback=window._pandaBrain(q);
+    // Fallback to rule-based brain if Worker is down or rate-limited
+    console.error('[Panda] Worker failed, using _pandaBrain fallback. Reason:', e.message, e);
+    const isRateLimit=e.message&&(e.message.includes('429')||e.message.includes('quota'));
+    const fallback=isRateLimit
+      ? '⏳ Panda is resting (rate limit hit)! ' + window._pandaBrain(q)
+      : window._pandaBrain(q);
     window._askHistory.push({role:'assistant',content:fallback});
     tb.classList.remove('ask-thinking');
     tb.textContent=fallback;
