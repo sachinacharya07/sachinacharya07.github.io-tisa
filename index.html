@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>TISA — Track. Improve. Study. Ace.</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%235c7a3e'/%3E%3Ctext x='33' y='43' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='22' fill='white'%3ETISA%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#5c7a3e">
@@ -65,7 +65,7 @@ html{overflow-x:hidden}
   --font:'Inter','Helvetica Neue',Arial,sans-serif;
 }
 [data-theme="minimalist"] .tisa-logo{font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-weight:300;letter-spacing:8px;font-size:28px}
-[data-theme="minimalist"] [data-theme="minimalist"] .card{border-radius:6px;border:1px solid var(--border);box-shadow:none}
+[data-theme="minimalist"] .card{border-radius:6px;border:1px solid var(--border);box-shadow:none}
 [data-theme="minimalist"] .btn{border-radius:4px}
 [data-theme="minimalist"] .tisa-inp{border-radius:4px}
 [data-theme="minimalist"] .pill-btn{border-radius:4px}
@@ -80,7 +80,7 @@ html{overflow-x:hidden}
 [data-theme="minimalist"] .timer-ring svg circle.t-prog{stroke-linecap:square}
 [data-theme="minimalist"] .pomo-dots .dot{border-radius:2px}
 [data-theme="minimalist"] .xp-chip{border-radius:4px}
-[data-theme="minimalist"] *{font-family:'Inter','Helvetica Neue',Arial,sans-serif !important}
+[data-theme="minimalist"] *:not(.t-digits):not(code):not(pre):not([style*='monospace']){font-family:'Inter','Helvetica Neue',Arial,sans-serif}
 [data-theme="minimalist"] .t-digits{font-family:'Courier New',monospace !important;font-weight:300}
 [data-theme="minimalist"] .login-card{border:1px solid var(--border);box-shadow:none;border-radius:8px}
 [data-theme="minimalist"] .tisa-tagline{display:none}
@@ -199,8 +199,8 @@ html[data-theme="dark"] .dark-toggle::after{transform:translateX(16px);backgroun
 main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px;overflow-x:hidden;overflow-y:auto;}
 .page{display:none}.page.active{display:block}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05),0 1px 2px rgba(0,0,0,.04)}
+
 .card:hover{box-shadow:0 5px 20px rgba(0,0,0,.09),0 2px 5px rgba(0,0,0,.06);transform:translateY(-1px)}
-.card:hover{box-shadow:var(--sh)}
 .ct{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .ct-ic{width:26px;height:26px;border-radius:8px;background:var(--pglow);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
 .btn{padding:9px 18px;font-size:12px;font-weight:700;border-radius:10px;cursor:pointer;transition:all .2s;border:1.5px solid var(--primary);font-family:'Nunito',sans-serif;touch-action:manipulation}
@@ -266,7 +266,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 /* MCQ Quiz Modal */
 #mcq-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:0}
 #mcq-modal.open{display:flex}
-.mcq-wrap{width:100%;max-width:680px;height:100dvh;max-height:100dvh;background:var(--bg);display:flex;flex-direction:column;border-radius:0;overflow:hidden}
+.mcq-wrap{width:100%;max-width:680px;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;background:var(--bg);display:flex;flex-direction:column;border-radius:0;overflow:hidden}
 @media(min-width:700px){.mcq-wrap{height:92vh;max-height:720px;border-radius:24px}}
 .mcq-topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .mcq-progress-bar{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
@@ -568,6 +568,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 /* DECO */
 .panda-deco{position:absolute;pointer-events:none;user-select:none}
 .float-anim{animation:floatUD 6s ease-in-out infinite}
+.t-anim{animation:floatUD 6s ease-in-out infinite}
 .sakura-float{animation:sakF 7s ease-in-out infinite}
 .sakura-sway{animation:sakS 9s ease-in-out infinite}
 
@@ -718,7 +719,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   border-radius:24px 24px 0 0;
   padding:0;
   box-shadow:0 -8px 40px rgba(0,0,0,.18);
-  transition:bottom .35s cubic-bezier(.4,0,.2,1), visibility 0s;
+  transition:bottom .35s cubic-bezier(.4,0,.2,1), visibility 0s .35s;
   pointer-events:none;
   visibility:hidden;
 }
@@ -2280,6 +2281,16 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     </div>
     <div id="res-list-el"><div class="empty">No resources yet</div></div>
   </div>
+  <div class="card" style="grid-column:1/-1">
+    <div class="ct"><div class="ct-ic">🤖</div>AI &amp; API Key</div>
+    <p style="font-size:12px;color:var(--ink3);margin-bottom:10px">Optional: add your own Gemini API key for faster AI responses. Leave blank to use the shared key.</p>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <input id="panda-key-inp" type="password" class="tisa-inp" placeholder="AIzaSy... (optional)" style="flex:1;font-size:12px">
+      <button class="btn btn-sm btn-p" onclick="(function(){var v=document.getElementById('panda-key-inp').value.trim();if(v){window._PANDA_KEY=v;localStorage.setItem('tisa_panda_key',v);document.getElementById('panda-key-status').textContent='Key saved!';window.toast('API key saved!');}else{window._PANDA_KEY='';localStorage.removeItem('tisa_panda_key');document.getElementById('panda-key-status').textContent='Cleared.';window.toast('Key cleared');}})()" style="font-size:12px;white-space:nowrap">Save</button>
+    </div>
+    <div id="panda-key-status" style="font-size:11px;color:var(--ink3);font-weight:600">No key set — using shared key.</div>
+  </div>
+
   <div class="card" style="grid-column:1/-1">
     <div class="ct"><div class="ct-ic">🔒</div>Privacy & Legal</div>
     <div style="font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:12px">
@@ -4167,7 +4178,11 @@ function renderRecentActivity(){
   const el=document.getElementById('recent-act');if(!el)return;
   // Build activity from sessions + studyData
   const items=[];
-  sessions.slice(0,5).forEach(s=>items.push({icon:'📚',text:'Studied '+fmtHLabel(s.dur)+' · '+window._esc(s.sub),time:s.time}));
+  sessions.slice(0,5).forEach(s=>{
+    const isToday=!s.date||s.date===window._today;
+    const timeLabel=isToday?s.time:(s.date?s.date+' · '+s.time:s.time);
+    items.push({icon:'📚',text:'Studied '+fmtHLabel(s.dur)+' · '+window._esc(s.sub),time:timeLabel});
+  });
   // Add today's todos done
   const todayDone=(window.todos||[]).filter(t=>t.done&&t.doneAt===window._today);
   if(todayDone.length)items.push({icon:'✅',text:todayDone.length+' task'+(todayDone.length>1?'s':'')+' completed today',time:'today'});
@@ -4308,7 +4323,7 @@ function renderSubjPerf(){const el=document.getElementById('subj-perf');if(!el)r
 // ── TESTS ──
 window.setTT=(m,btn)=>{testTimeSelected=m;document.querySelectorAll('#time-chips .time-chip').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');const tl=document.getElementById('tt-lbl');if(tl)tl.textContent=m+' min';};
 window.handleFiles=(files)=>{Array.from(files).forEach(f=>{const r=new FileReader();r.onload=e=>{window.papers.push({id:Date.now()+Math.random(),name:f.name,size:f.size,type:f.type,dataUrl:e.target.result,date:new Date().toLocaleDateString()});save();renderPapers();toast('Uploaded: '+f.name);};r.readAsDataURL(f);});document.getElementById('fi').value='';};
-window.handleDrop=(e)=>{e.preventDefault();document.getElementById('upload-z').classList.remove('drag');window.handleFiles(e.dataTransfer.files);};
+window.handleDrop=(e)=>{e.preventDefault();var uz=document.getElementById('upload-z');if(uz)uz.classList.remove('drag');window.handleFiles(e.dataTransfer.files);};
 function renderPapers(){const el=document.getElementById('paper-list'),sel=document.getElementById('tpsel');const prev=document.getElementById('inline-preview');if(!window.papers.length){if(el)el.innerHTML='<div class="empty">No papers yet</div>';if(sel)sel.innerHTML='<option value="">— pick a paper —</option>';if(prev)prev.innerHTML='';return;}if(el)el.innerHTML=window.papers.map(p=>`<div class="paper-item"><div style="min-width:0;flex:1"><div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(p.name)}</div><div style="font-size:10px;color:var(--ink3);font-weight:600">${fmtSz(p.size)} · ${p.date}</div></div><div style="display:flex;gap:5px;flex-shrink:0"><button class="pill-btn" onclick="previewPaper('${p.id}')">👁 View</button><button class="pill-btn" style="border-color:var(--danger);color:var(--danger)" onclick="remPaper('${p.id}')">Del</button></div></div>`).join('');if(sel)sel.innerHTML='<option value="">— pick a paper —</option>'+window.papers.map(p=>`<option value="${p.id}">${window._esc(p.name)}</option>`).join('');}
 function fmtSz(b){return b>1048576?(b/1048576).toFixed(1)+' MB':Math.round(b/1024)+' KB';}
 window.remPaper=(id)=>{window.papers=window.papers.filter(p=>p.id!=id);save();renderPapers();document.getElementById('inline-preview').innerHTML='';};
@@ -5526,10 +5541,8 @@ ${isFirstMsg?'This is the first message — one short greeting is ok, then answe
   }catch(e){
     // Fallback to rule-based brain if Worker is down or rate-limited
     console.error('[Panda] Worker failed, using _pandaBrain fallback. Reason:', e.message, e);
-    const isRateLimit=e.message&&(e.message.includes('429')||e.message.includes('quota'));
-    const fallback=isRateLimit
-      ? '⏳ Panda is resting (rate limit hit)! ' + window._pandaBrain(q)
-      : window._pandaBrain(q);
+    // Use rule-based brain as fallback — no ugly "resting" prefix
+    const fallback=window._pandaBrain(q);
     window._askHistory.push({role:'assistant',content:fallback});
     tb.classList.remove('ask-thinking');
     tb.textContent=fallback;
@@ -6241,6 +6254,7 @@ window.atzLaunchTest=async function(){
   const a=window._atz;
   if(!a.exam){window.toast('Please select an exam first!');return;}
   if(!a.subject){window.toast('Please select a subject!');return;}
+  if(!_PANDA_WORKER||_PANDA_WORKER===''){window.toast('Worker URL not configured!');return;}
   if(!a.qtype) a.qtype='objective';
   const totalQ=_ATZ_QCOUNT[a.mode]||10;
   const label=_ATZ_LABELS[a.exam]||a.exam;
@@ -6348,7 +6362,8 @@ window.atzLaunchTest=async function(){
       // If we already have some questions, continue; else show error
       if(!started){
         document.getElementById('mcq-modal').classList.remove('open');
-        window.toast('⚠️ Could not generate questions. Check your Worker & API key.');
+        window.toast('⚠️ AI is slow right now. Try again in a moment!');
+        console.error('[ATZ] Generation failed:', e.message);
         return;
       }
       // Silently skip failed batch if test already started
@@ -6600,6 +6615,19 @@ function mcqShowScorecard(){
   atzSaveState();
   atzRenderHistory();
   if(typeof addXP==='function') addXP(Math.min(50,Math.round(a.correct*5)),'AI test completed');
+  // Save test result to history & Firestore
+  window.pastTests=window.pastTests||[];
+  window.pastTests.unshift({
+    exam:a.exam,subject:a.subject,chapter:a.chapter||'',
+    mode:a.mode,diff:a.diff,
+    total:a.questions.length,correct:a.correct,wrong:a.wrong,skipped:a.skipped,
+    marks:a.marks,maxMarks:(a.questions.length*(_ATZ_MARKS[a.exam]||{pos:1}).pos),
+    pct,grade,
+    date:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}),
+    ts:Date.now()
+  });
+  if(window.pastTests.length>50)window.pastTests.length=50;
+  window._save&&window._save();
   window.toast(`Test done! ${pct}% · Grade ${grade} 🎯`);
 }
 
@@ -6664,6 +6692,8 @@ async function gkLoadDaily(){
     if(qEl)qEl.textContent='Answered today! Come back tomorrow for a new question.';
     return;
   }
+  // New day — reset dailyLoaded flag so it re-runs tomorrow
+  window._atz._dailyLoaded=false;
   // Show a fallback question IMMEDIATELY so user sees something
   const fallback=_GK_FALLBACKS[new Date().getDate()%_GK_FALLBACKS.length];
   renderGkQuestion(fallback,false);
@@ -6728,79 +6758,78 @@ window.gkAnswerDaily=function(idx,ans,exp,el){
 };
 
 // ─── MOCK PAPERS CATALOGUE ──────────────────────────────────────────────────
-// Real papers from official & trusted sources: NTA, CBSE, UPSC, Mathongo, Allen, Careers360
+// All URLs are public landing pages — no CDN/S3 direct links (those give Access Denied)
 const _MOCK_PAPERS={
   jee:[
-    // Mathongo - Best JEE PYQ PDFs (direct download links)
-    {title:'JEE Main 2024 Jan Shift 1 — Official PDF',meta:'300 marks · 3 hrs · Full paper + key',badge:'official',url:'https://www.mathongo.com/pyq-pdf/jee-main-2024-january-shift-1-question-paper',pdf:'https://cdn.mathongo.com/pyq/jee-main-jan-2024-s1.pdf',year:2024,marks:300,time:180},
-    {title:'JEE Main 2024 April Shift 1 — Paper + Key',meta:'300 marks · PCM · Answer key included',badge:'official',url:'https://www.mathongo.com/pyq-pdf/jee-main-2024-april-shift-1-question-paper',pdf:'https://cdn.mathongo.com/pyq/jee-main-apr-2024-s1.pdf',year:2024,marks:300,time:180},
-    {title:'JEE Main 2023 Jan S1 — Mathongo PDF',meta:'300 marks · PCM · Detailed solutions',badge:'pyq',url:'https://www.mathongo.com/pyq-pdf/jee-main-2023-january-shift-1-question-paper',pdf:'https://cdn.mathongo.com/pyq/jee-main-jan-2023-s1.pdf',year:2023,marks:300,time:180},
-    {title:'JEE Advanced 2024 Paper 1 — IIT PDF',meta:'180 marks · 3 hrs · IIT official',badge:'official',url:'https://jeeadv.ac.in/past_qps/2024/2024_Paper1.pdf',pdf:'https://jeeadv.ac.in/past_qps/2024/2024_Paper1.pdf',year:2024,marks:180,time:180},
-    {title:'JEE Advanced 2024 Paper 2 — IIT PDF',meta:'180 marks · 3 hrs · IIT official',badge:'official',url:'https://jeeadv.ac.in/past_qps/2024/2024_Paper2.pdf',pdf:'https://jeeadv.ac.in/past_qps/2024/2024_Paper2.pdf',year:2024,marks:180,time:180},
-    {title:'JEE Advanced 2023 Paper 1',meta:'180 marks · IIT official PDF',badge:'pyq',url:'https://jeeadv.ac.in/past_qps/2023/2023_Paper1.pdf',pdf:'https://jeeadv.ac.in/past_qps/2023/2023_Paper1.pdf',year:2023,marks:180,time:180},
-    {title:'Allen JEE Main Mock Test Series',meta:'Mock tests by Allen Kota · With solutions',badge:'new',url:'https://www.allen.ac.in/resources/jee-main-papers',pdf:'https://www.allen.ac.in/resources/jee-main-papers',year:2024,marks:300,time:180},
-    {title:'Mathongo JEE Main Free Mock 2024',meta:'Full mock · 90 Qs · With video solutions',badge:'new',url:'https://www.mathongo.com/mock-tests/jee-main',pdf:'https://www.mathongo.com/mock-tests/jee-main',year:2024,marks:300,time:180},
+    {title:'JEE Main 2024 Jan — Mathongo PYQ',meta:'300 marks · 3 hrs · PCM · Solutions included',badge:'official',url:'https://www.mathongo.com/jee-main-pyq',year:2024,marks:300,time:180},
+    {title:'JEE Main 2024 April — Mathongo PYQ',meta:'300 marks · 3 hrs · All shifts',badge:'official',url:'https://www.mathongo.com/jee-main-pyq',year:2024,marks:300,time:180},
+    {title:'JEE Main 2023 PYQs — Mathongo',meta:'All shifts with video solutions',badge:'pyq',url:'https://www.mathongo.com/jee-main-pyq',year:2023,marks:300,time:180},
+    {title:'JEE Advanced 2024 Paper 1 — IIT Official',meta:'180 marks · 3 hrs · Download from IIT',badge:'official',url:'https://jeeadv.ac.in/past_qps.html',year:2024,marks:180,time:180},
+    {title:'JEE Advanced 2024 Paper 2 — IIT Official',meta:'180 marks · 3 hrs · Download from IIT',badge:'official',url:'https://jeeadv.ac.in/past_qps.html',year:2024,marks:180,time:180},
+    {title:'JEE Advanced 2023 Papers — IIT Official',meta:'Paper 1 + Paper 2 with answer keys',badge:'pyq',url:'https://jeeadv.ac.in/past_qps.html',year:2023,marks:360,time:360},
+    {title:'JEE Main Free Mock — Allen Official',meta:'Full mock with solutions · Allen Kota',badge:'new',url:'https://www.allen.ac.in/apps/student/index.html',year:2024,marks:300,time:180},
+    {title:'JEE Main Mock Test — NTA Official',meta:'Free mock by NTA at Abhyas portal',badge:'new',url:'https://abhyas.nta.ac.in',year:2024,marks:300,time:180},
   ],
   neet:[
-    {title:'NEET UG 2024 Official Paper (Code R1) + Key',meta:'720 marks · 3 hrs · 180 Qs · PCB',badge:'official',url:'https://cdn3.digialm.com/EForms/configuredHtml/1258/86869/Exam.html',pdf:'https://neet.ntaonline.in/frontend/web/common-content/2024/NTAQuestionPaper-NEET-2024-Code-R1.pdf',year:2024,marks:720,time:200},
-    {title:'NEET UG 2023 Question Paper + Answer Key',meta:'720 marks · 3 hrs · All codes',badge:'pyq',url:'https://www.embibe.com/exams/neet-question-papers/neet-2023-question-paper/',pdf:'https://www.careers360.com/sites/default/files/2023-05/NEET-2023-question-paper.pdf',year:2023,marks:720,time:200},
-    {title:'NEET UG 2022 Question Paper + Key',meta:'720 marks · 3 hrs · PCB',badge:'pyq',url:'https://www.embibe.com/exams/neet-question-papers/',pdf:'https://www.careers360.com/sites/default/files/2022-07/neet-2022-question-paper.pdf',year:2022,marks:720,time:200},
-    {title:'NEET Mock Test — NTA Abhyas App',meta:'Full 180Q mock · Free · Official NTA',badge:'new',url:'https://abhyas.nta.ac.in',pdf:'https://abhyas.nta.ac.in',year:2024,marks:720,time:200},
-    {title:'Allen NEET Mock Paper 2024',meta:'180 Qs · With detailed solutions',badge:'new',url:'https://www.allen.ac.in/resources/neet-papers',pdf:'https://www.allen.ac.in/resources/neet-papers',year:2024,marks:720,time:200},
-    {title:'NEET 2021 Question Paper (All Codes)',meta:'720 marks · 3 hrs',badge:'pyq',url:'https://www.careers360.com/medicine/neet-question-paper',pdf:'https://www.careers360.com/medicine/neet-question-paper',year:2021,marks:720,time:200},
+    {title:'NEET UG 2024 Question Paper — NTA',meta:'720 marks · 3 hrs · Official from NTA',badge:'official',url:'https://neet.ntaonline.in/frontend/web/question-paper/index',year:2024,marks:720,time:200},
+    {title:'NEET 2024 Paper + Key — Careers360',meta:'720 marks · All codes · Free download',badge:'official',url:'https://medicine.careers360.com/articles/neet-question-paper',year:2024,marks:720,time:200},
+    {title:'NEET 2023 Paper + Key — Careers360',meta:'720 marks · 3 hrs · PCB',badge:'pyq',url:'https://medicine.careers360.com/articles/neet-question-paper',year:2023,marks:720,time:200},
+    {title:'NEET 2022 Paper + Key — Careers360',meta:'720 marks · 3 hrs · PCB',badge:'pyq',url:'https://medicine.careers360.com/articles/neet-question-paper',year:2022,marks:720,time:200},
+    {title:'NEET Mock Test — NTA Abhyas (Free)',meta:'Full 180Q mock · Official NTA portal',badge:'new',url:'https://abhyas.nta.ac.in',year:2024,marks:720,time:200},
+    {title:'NEET PYQs — Allen Official Portal',meta:'Chapter-wise + full papers with solutions',badge:'new',url:'https://www.allen.ac.in/apps/student/index.html',year:2024,marks:720,time:200},
   ],
   boards:[
-    {title:'CBSE Class 12 Physics SQP 2024-25',meta:'70 marks · 3 hrs · Marking scheme included',badge:'official',url:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Physics_SQP.pdf',pdf:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Physics_SQP.pdf',year:2025,marks:70,time:180},
-    {title:'CBSE Class 12 Chemistry SQP 2024-25',meta:'70 marks · 3 hrs · With marking scheme',badge:'official',url:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Chemistry_SQP.pdf',pdf:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Chemistry_SQP.pdf',year:2025,marks:70,time:180},
-    {title:'CBSE Class 12 Maths SQP 2024-25',meta:'80 marks · 3 hrs · Official CBSE',badge:'official',url:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Mathematics_SQP.pdf',pdf:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Mathematics_SQP.pdf',year:2025,marks:80,time:180},
-    {title:'CBSE Class 12 Biology SQP 2024-25',meta:'70 marks · 3 hrs · Official CBSE',badge:'official',url:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Biology_SQP.pdf',pdf:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Biology_SQP.pdf',year:2025,marks:70,time:180},
-    {title:'CBSE Class 12 Accountancy SQP 2024-25',meta:'80 marks · 3 hrs · Commerce stream',badge:'official',url:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy_SQP.pdf',pdf:'https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy_SQP.pdf',year:2025,marks:80,time:180},
-    {title:'CBSE Class 10 Maths Standard SQP 2024-25',meta:'80 marks · 3 hrs · Official',badge:'official',url:'https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Mathematics(Standard)_SQP.pdf',pdf:'https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Mathematics(Standard)_SQP.pdf',year:2025,marks:80,time:180},
-    {title:'CBSE Class 10 Science SQP 2024-25',meta:'80 marks · 3 hrs · Official CBSE',badge:'official',url:'https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Science_SQP.pdf',pdf:'https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Science_SQP.pdf',year:2025,marks:80,time:180},
+    {title:'CBSE Class 12 Sample Papers 2024-25 — Official',meta:'All subjects · Marking scheme included',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html',year:2025,marks:70,time:180},
+    {title:'CBSE Class 12 Physics SQP 2024-25',meta:'70 marks · 3 hrs · With marking scheme',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html',year:2025,marks:70,time:180},
+    {title:'CBSE Class 12 Maths SQP 2024-25',meta:'80 marks · 3 hrs · Official CBSE',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html',year:2025,marks:80,time:180},
+    {title:'CBSE Class 10 Sample Papers 2024-25',meta:'All subjects · Official CBSE portal',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSX_2024-25.html',year:2025,marks:80,time:180},
+    {title:'CBSE Previous Year Papers — Careers360',meta:'Class 10 & 12 · All subjects 2019-2024',badge:'pyq',url:'https://school.careers360.com/articles/cbse-previous-year-question-papers',year:2024,marks:80,time:180},
+    {title:'CBSE Class 12 Board Papers 2024',meta:'All streams · Official source',badge:'pyq',url:'https://cbseacademic.nic.in/question_paper_2024.html',year:2024,marks:70,time:180},
   ],
   upsc:[
-    {title:'UPSC Prelims 2024 GS Paper 1 — Official PDF',meta:'200 marks · 2 hrs · 100 Qs',badge:'official',url:'https://upsc.gov.in/sites/default/files/QP-CSP-24-GS-Paper-I-290624.pdf',pdf:'https://upsc.gov.in/sites/default/files/QP-CSP-24-GS-Paper-I-290624.pdf',year:2024,marks:200,time:120},
-    {title:'UPSC Prelims 2024 CSAT Paper 2 — Official',meta:'200 marks · 2 hrs · Aptitude',badge:'official',url:'https://upsc.gov.in/sites/default/files/QP-CSP-24-GS-Paper-II-290624.pdf',pdf:'https://upsc.gov.in/sites/default/files/QP-CSP-24-GS-Paper-II-290624.pdf',year:2024,marks:200,time:120},
-    {title:'UPSC Prelims 2023 GS Paper 1 — PDF + Key',meta:'200 marks · 2 hrs · 100 Qs',badge:'pyq',url:'https://upsc.gov.in/sites/default/files/QP-CSP23-GS-Paper-I-280523.pdf',pdf:'https://upsc.gov.in/sites/default/files/QP-CSP23-GS-Paper-I-280523.pdf',year:2023,marks:200,time:120},
-    {title:'UPSC Prelims 2022 GS Paper 1',meta:'200 marks · 2 hrs · 100 Qs',badge:'pyq',url:'https://upsc.gov.in/sites/default/files/QP-CSP-2022-GS-Paper1.pdf',pdf:'https://upsc.gov.in/sites/default/files/QP-CSP-2022-GS-Paper1.pdf',year:2022,marks:200,time:120},
-    {title:'UPSC Mains 2023 GS Paper 1 (History+Geography)',meta:'250 marks · 3 hrs · Subjective',badge:'pyq',url:'https://upsc.gov.in/sites/default/files/QP-CSM23-GS-I.pdf',pdf:'https://upsc.gov.in/sites/default/files/QP-CSM23-GS-I.pdf',year:2023,marks:250,time:180},
-    {title:'UPSC Mains 2023 GS Paper 2 (Polity+IR)',meta:'250 marks · 3 hrs · Subjective',badge:'pyq',url:'https://upsc.gov.in/sites/default/files/QP-CSM23-GS-II.pdf',pdf:'https://upsc.gov.in/sites/default/files/QP-CSM23-GS-II.pdf',year:2023,marks:250,time:180},
+    {title:'UPSC Prelims 2024 GS Paper 1 — UPSC.gov.in',meta:'200 marks · 2 hrs · 100 Qs · Official',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024,marks:200,time:120},
+    {title:'UPSC Prelims 2024 CSAT Paper 2 — Official',meta:'200 marks · 2 hrs · Aptitude',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024,marks:200,time:120},
+    {title:'UPSC Prelims 2023 GS Paper 1 — Official',meta:'200 marks · 2 hrs · 100 Qs',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2023,marks:200,time:120},
+    {title:'UPSC Prelims 2022 GS Paper 1 — Official',meta:'200 marks · 2 hrs · 100 Qs',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2022,marks:200,time:120},
+    {title:'UPSC Mains 2023 Papers (GS 1-4) — Official',meta:'250 marks each · 3 hrs · Subjective',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2023,marks:250,time:180},
+    {title:'UPSC PYQs with Solutions — Drishti IAS',meta:'Prelims + Mains · Topic-wise analysis',badge:'new',url:'https://www.drishtiias.com/upsc-prelims-previous-year-papers',year:2024,marks:200,time:120},
   ],
   ssc:[
-    {title:'SSC CGL Tier 1 2024 — Official PDF',meta:'200 marks · 60 min · 100 Qs',badge:'official',url:'https://ssc.gov.in/portal/previouspaper',pdf:'https://ssc.gov.in/portal/previouspaper',year:2024,marks:200,time:60},
-    {title:'SSC CGL Tier 1 2023 Paper + Key',meta:'200 marks · 60 min · 100 Qs',badge:'pyq',url:'https://www.careers360.com/ssc-cgl-question-paper',pdf:'https://www.careers360.com/ssc-cgl-question-paper',year:2023,marks:200,time:60},
-    {title:'SSC CHSL 2024 Tier 1 Paper',meta:'200 marks · 60 min · 100 Qs',badge:'official',url:'https://ssc.gov.in/portal/previouspaper',pdf:'https://ssc.gov.in/portal/previouspaper',year:2024,marks:200,time:60},
-    {title:'SSC MTS 2023 Paper + Answer Key',meta:'150 marks · 90 min · Official PDF',badge:'pyq',url:'https://ssc.gov.in/portal/previouspaper',pdf:'https://ssc.gov.in/portal/previouspaper',year:2023,marks:150,time:90},
+    {title:'SSC CGL 2024 — SSC Official Portal',meta:'200 marks · 60 min · 100 Qs',badge:'official',url:'https://ssc.gov.in/portal/previouspaper',year:2024,marks:200,time:60},
+    {title:'SSC CGL 2023 Paper + Key — Careers360',meta:'200 marks · 60 min · With solutions',badge:'pyq',url:'https://www.careers360.com/articles/ssc-cgl-question-paper',year:2023,marks:200,time:60},
+    {title:'SSC CHSL 2024 — SSC Official Portal',meta:'200 marks · 60 min · 100 Qs',badge:'official',url:'https://ssc.gov.in/portal/previouspaper',year:2024,marks:200,time:60},
+    {title:'SSC MTS 2023 — SSC Official Portal',meta:'150 marks · 90 min',badge:'pyq',url:'https://ssc.gov.in/portal/previouspaper',year:2023,marks:150,time:90},
   ],
   banking:[
-    {title:'SBI PO Prelims 2024 — Official PDF',meta:'100 marks · 60 min · 100 Qs',badge:'official',url:'https://www.bankersadda.com/sbi-po-previous-year-question-papers/',pdf:'https://www.bankersadda.com/sbi-po-previous-year-question-papers/',year:2024,marks:100,time:60},
-    {title:'IBPS PO Prelims 2024 Paper',meta:'100 marks · 60 min · 100 Qs',badge:'official',url:'https://www.bankersadda.com/ibps-po-previous-year-question-papers/',pdf:'https://www.bankersadda.com/ibps-po-previous-year-question-papers/',year:2024,marks:100,time:60},
-    {title:'RBI Grade B Phase 1 2024',meta:'200 marks · 120 min · Objective',badge:'official',url:'https://www.bankersadda.com/rbi-grade-b-previous-year-paper/',pdf:'https://www.bankersadda.com/rbi-grade-b-previous-year-paper/',year:2024,marks:200,time:120},
-    {title:'IBPS PO Mains 2023 Full Paper',meta:'200 marks · 3 hrs · Reasoning+DI+English',badge:'pyq',url:'https://www.bankersadda.com/ibps-po-previous-year-question-papers/',pdf:'https://www.bankersadda.com/ibps-po-previous-year-question-papers/',year:2023,marks:200,time:180},
+    {title:'SBI PO Prelims 2024 — BankersAdda',meta:'100 marks · 60 min · Free PDF',badge:'official',url:'https://www.bankersadda.com/sbi-po-previous-year-question-papers/',year:2024,marks:100,time:60},
+    {title:'IBPS PO Prelims 2024 — BankersAdda',meta:'100 marks · 60 min · 100 Qs',badge:'official',url:'https://www.bankersadda.com/ibps-po-previous-year-question-papers/',year:2024,marks:100,time:60},
+    {title:'RBI Grade B Phase 1 2024 — BankersAdda',meta:'200 marks · 120 min · Objective',badge:'official',url:'https://www.bankersadda.com/rbi-grade-b-previous-year-paper/',year:2024,marks:200,time:120},
+    {title:'IBPS PO Mains 2023 — BankersAdda',meta:'200 marks · 3 hrs · With solutions',badge:'pyq',url:'https://www.bankersadda.com/ibps-po-previous-year-question-papers/',year:2023,marks:200,time:180},
   ],
   clat:[
-    {title:'CLAT 2024 Question Paper — Official PDF',meta:'120 Qs · 120 min · 150 marks',badge:'official',url:'https://consortiumofnlus.ac.in/clat-2024/',pdf:'https://consortiumofnlus.ac.in/clat-2024/',year:2024,marks:150,time:120},
-    {title:'CLAT 2023 Official Question Paper',meta:'120 Qs · 120 min · 150 marks',badge:'pyq',url:'https://www.legaledge.in/wp-content/uploads/2023/12/CLAT_2024_Question_Paper.pdf',pdf:'https://www.legaledge.in/wp-content/uploads/2023/12/CLAT_2024_Question_Paper.pdf',year:2023,marks:150,time:120},
-    {title:'CLAT 2022 Paper + Detailed Solutions',meta:'150 Qs · 120 min',badge:'pyq',url:'https://www.clathelpline.in/clat-previous-year-papers/',pdf:'https://www.clathelpline.in/clat-previous-year-papers/',year:2022,marks:150,time:120},
-    {title:'CLAT UG Mock Test 2025 — Free',meta:'Official consortium mock · Free attempt',badge:'new',url:'https://consortiumofnlus.ac.in',pdf:'https://consortiumofnlus.ac.in',year:2025,marks:150,time:120},
+    {title:'CLAT 2024 Official — Consortium of NLUs',meta:'120 Qs · 120 min · 150 marks',badge:'official',url:'https://consortiumofnlus.ac.in/clat-2025/',year:2024,marks:150,time:120},
+    {title:'CLAT 2023 Paper — LegalEdge',meta:'120 Qs · 120 min · With solutions',badge:'pyq',url:'https://www.legaledge.in/blog/clat-previous-year-papers/',year:2023,marks:150,time:120},
+    {title:'CLAT 2022 Paper + Solutions — CLATPrep',meta:'150 Qs · 120 min · Detailed analysis',badge:'pyq',url:'https://www.clathelpline.in/clat-previous-year-papers/',year:2022,marks:150,time:120},
+    {title:'CLAT 2025 Mock Test — Consortium Official',meta:'Free mock on official portal',badge:'new',url:'https://consortiumofnlus.ac.in',year:2025,marks:150,time:120},
   ],
   nda:[
-    {title:'NDA & NA 2024 (I) Paper 1 Maths — UPSC PDF',meta:'300 marks · 2.5 hrs · 120 Qs',badge:'official',url:'https://upsc.gov.in/sites/default/files/NDA-NA-II-24-Maths.pdf',pdf:'https://upsc.gov.in/sites/default/files/NDA-NA-II-24-Maths.pdf',year:2024,marks:300,time:150},
-    {title:'NDA & NA 2024 (I) Paper 2 GAT — UPSC PDF',meta:'600 marks · 2.5 hrs · English+GK',badge:'official',url:'https://upsc.gov.in/sites/default/files/NDA-NA-II-24-GAT.pdf',pdf:'https://upsc.gov.in/sites/default/files/NDA-NA-II-24-GAT.pdf',year:2024,marks:600,time:150},
-    {title:'NDA 2023 II Maths + GAT Papers',meta:'Full paper both parts',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',pdf:'https://upsc.gov.in/examinations/previous-question-papers',year:2023,marks:900,time:300},
-    {title:'NDA Mathongo Free Mock 2024',meta:'Full mock with solutions · Free',badge:'new',url:'https://www.mathongo.com/mock-tests/nda',pdf:'https://www.mathongo.com/mock-tests/nda',year:2024,marks:900,time:300},
+    {title:'NDA 2024 (I) Papers — UPSC Official',meta:'Maths + GAT · Both papers',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024,marks:900,time:300},
+    {title:'NDA 2023 (II) Papers — UPSC Official',meta:'Maths 300M + GAT 600M',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2023,marks:900,time:300},
+    {title:'NDA PYQs with Solutions — Careers360',meta:'2018-2024 · All papers with keys',badge:'pyq',url:'https://www.careers360.com/articles/nda-previous-year-question-papers',year:2024,marks:900,time:300},
+    {title:'NDA Free Mock — Testbook',meta:'Full mock with NDA pattern',badge:'new',url:'https://testbook.com/nda/free-mock-test',year:2024,marks:900,time:300},
   ],
   cat:[
-    {title:'CAT 2024 Official Question Paper — IIM',meta:'66 Qs · 120 min · VARC+DILR+QA',badge:'official',url:'https://iimcat.ac.in/per/g21/pub/1327/ASM/WebPortal/1/index.html',pdf:'https://www.2iim.com/cat-question-paper/cat-2024-question-paper.shtml',year:2024,marks:198,time:120},
-    {title:'CAT 2023 Question Paper + Solutions',meta:'66 Qs · 120 min · All 3 sections',badge:'pyq',url:'https://www.2iim.com/cat-question-paper/cat-2023-question-paper.shtml',pdf:'https://www.2iim.com/cat-question-paper/cat-2023-question-paper.shtml',year:2023,marks:198,time:120},
-    {title:'CAT 2022 Paper (Slot 1+2+3)',meta:'66 Qs × 3 slots · With answer keys',badge:'pyq',url:'https://www.2iim.com/cat-question-paper/cat-2022-question-paper.shtml',pdf:'https://www.2iim.com/cat-question-paper/cat-2022-question-paper.shtml',year:2022,marks:198,time:120},
-    {title:'CAT Free Mock — IMS / TIME / CL',meta:'Full mock with percentile',badge:'new',url:'https://www.imsindia.com/cat-mock-test/',pdf:'https://www.imsindia.com/cat-mock-test/',year:2024,marks:198,time:120},
+    {title:'CAT 2024 Official — IIM CAT Portal',meta:'66 Qs · 120 min · VARC+DILR+QA',badge:'official',url:'https://iimcat.ac.in',year:2024,marks:198,time:120},
+    {title:'CAT 2024 Paper + Solutions — 2IIM',meta:'All 3 slots · Video + text solutions',badge:'official',url:'https://www.2iim.com/cat-question-paper/cat-2024-question-paper.shtml',year:2024,marks:198,time:120},
+    {title:'CAT 2023 Paper + Solutions — 2IIM',meta:'All 3 slots · Detailed explanations',badge:'pyq',url:'https://www.2iim.com/cat-question-paper/cat-2023-question-paper.shtml',year:2023,marks:198,time:120},
+    {title:'CAT 2022 Paper + Solutions — 2IIM',meta:'All 3 slots with percentile analysis',badge:'pyq',url:'https://www.2iim.com/cat-question-paper/cat-2022-question-paper.shtml',year:2022,marks:198,time:120},
+    {title:'CAT Free Mock Test — IMS Learning',meta:'Full mock with percentile estimate',badge:'new',url:'https://www.imsindia.com/cat-mock-test/',year:2024,marks:198,time:120},
   ],
   gate:[
-    {title:'GATE CS 2024 — IIT Madras Official PDF',meta:'100 marks · 3 hrs · CSE',badge:'official',url:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/CS1-AnswerKey.pdf',pdf:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/CS1-AnswerKey.pdf',year:2024,marks:100,time:180},
-    {title:'GATE ECE 2024 — Official PDF',meta:'100 marks · 3 hrs · Electronics',badge:'official',url:'https://gate2024.iisc.ac.in/question-papers-answer-keys/',pdf:'https://gate2024.iisc.ac.in/question-papers-answer-keys/',year:2024,marks:100,time:180},
-    {title:'GATE Mech 2024 — Official PDF',meta:'100 marks · 3 hrs · Mechanical',badge:'official',url:'https://gate2024.iisc.ac.in/question-papers-answer-keys/',pdf:'https://gate2024.iisc.ac.in/question-papers-answer-keys/',year:2024,marks:100,time:180},
-    {title:'GATE 2023 CS Question Paper + Key',meta:'100 marks · 3 hrs',badge:'pyq',url:'https://gate2023.iisc.ac.in/question-papers-and-answer-keys/',pdf:'https://gate2023.iisc.ac.in/question-papers-and-answer-keys/',year:2023,marks:100,time:180},
+    {title:'GATE 2024 All Papers — IISc Official',meta:'CS, ECE, ME, CE and 28 others',badge:'official',url:'https://gate2024.iisc.ac.in/question-papers-answer-keys/',year:2024,marks:100,time:180},
+    {title:'GATE 2023 All Papers — IISc Official',meta:'All branches with answer keys',badge:'pyq',url:'https://gate2023.iisc.ac.in/question-papers-and-answer-keys/',year:2023,marks:100,time:180},
+    {title:'GATE PYQs Topic-wise — MADE Easy',meta:'Subject-wise practice with solutions',badge:'pyq',url:'https://www.madeeasy.in/gate-study-material.php',year:2024,marks:100,time:180},
+    {title:'GATE Free Mock Test — MADE Easy',meta:'Full mock · Branch-wise available',badge:'new',url:'https://www.madeeasy.in/gate-online-test-series.php',year:2024,marks:100,time:180},
   ],
 };
 
@@ -6852,20 +6881,48 @@ window.mockViewPaper=function(url,title){
 window.mockTimedAttempt=function(url,title,mins){
   mins=mins||90;
   testLeft=mins*60;
+  // Open paper in new tab — iframes blocked by X-Frame-Options on exam sites
+  window.open(url,'_blank','noopener');
   document.getElementById('m-title').textContent=title;
   document.getElementById('m-sub').textContent=mins+' min timed attempt';
   var tb=document.getElementById('test-body');
   var toolbar=document.getElementById('pdf-toolbar');
-  if(tb){tb.style.padding='0';}
-  if(toolbar)toolbar.style.display='flex';
-  if(tb)tb.innerHTML='<iframe src="'+url+'" style="width:100%;height:560px;border:none;display:block"></iframe>';
+  if(toolbar)toolbar.style.display='none';
+  if(tb){
+    tb.style.padding='20px';
+    var hh=String(Math.floor(mins/60)).padStart(2,'0');
+    var mm2=String(mins%60).padStart(2,'0');
+    var timerDiv=document.createElement('div');
+    timerDiv.style.cssText='text-align:center;padding:20px 0';
+    timerDiv.innerHTML='<div style="font-size:48px;margin-bottom:8px">📄</div>'
+      +'<div style="font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px">'+title+'</div>'
+      +'<div style="font-size:12px;color:var(--ink3);margin-bottom:20px">Paper opened in a new tab · attempt it there</div>'
+      +'<div id="mock-timer-display" style="font-size:36px;font-weight:900;color:var(--primary);letter-spacing:2px;margin-bottom:20px">'+hh+':'+mm2+':00</div>'
+      +'<div style="font-size:11px;color:var(--ink3);margin-bottom:16px">Timer running · switch to paper tab to attempt</div>';
+    var reopenBtn=document.createElement('button');
+    reopenBtn.className='btn btn-p';
+    reopenBtn.style.cssText='margin-bottom:14px;width:100%';
+    reopenBtn.textContent='📄 Reopen Paper';
+    reopenBtn.onclick=function(){window.open(url,'_blank','noopener');};
+    var scoreGrid=document.createElement('div');
+    scoreGrid.style.cssText='display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px';
+    scoreGrid.innerHTML='<div style="text-align:center"><div style="font-size:10px;color:var(--ink3);font-weight:700">TOTAL</div><input id="m-total" type="number" min="0" placeholder="—" style="width:100%;text-align:center;font-weight:800;border:1.5px solid var(--border);border-radius:8px;padding:6px;font-size:14px"></div>'
+      +'<div style="text-align:center"><div style="font-size:10px;color:var(--ink3);font-weight:700">ATTEMPTED</div><input id="m-got" type="number" min="0" placeholder="—" style="width:100%;text-align:center;font-weight:800;border:1.5px solid var(--border);border-radius:8px;padding:6px;font-size:14px"></div>'
+      +'<div style="text-align:center"><div style="font-size:10px;color:var(--ink3);font-weight:700">WRONG</div><input id="m-wrong" type="number" min="0" placeholder="—" style="width:100%;text-align:center;font-weight:800;border:1.5px solid var(--border);border-radius:8px;padding:6px;font-size:14px"></div>';
+    tb.innerHTML='';
+    tb.appendChild(timerDiv);
+    tb.appendChild(reopenBtn);
+    tb.appendChild(scoreGrid);
+  }
   document.getElementById('test-modal').classList.add('open');
-  document.getElementById('m-got').value='';
-  document.getElementById('m-total').value='';
-  document.getElementById('m-wrong').value='';
-  if(typeof updTestT==='function')updTestT();
   if(window.testInt)clearInterval(window.testInt);
-  window.testInt=setInterval(function(){testLeft--;if(typeof updTestT==='function')updTestT();if(testLeft<=0)window.submitTest();},1000);
+  window.testInt=setInterval(function(){
+    testLeft--;
+    var h=Math.floor(testLeft/3600),m=Math.floor((testLeft%3600)/60),s=testLeft%60;
+    var disp=document.getElementById('mock-timer-display');
+    if(disp) disp.textContent=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(testLeft<=0){clearInterval(window.testInt);if(disp)disp.style.color='var(--danger)';window.toast('Time up! Enter your score.');}
+  },1000);
 };
 
 // ─── PANDA QUICK SEND ────────────────────────────────────────────────────────
