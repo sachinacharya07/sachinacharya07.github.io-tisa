@@ -6637,11 +6637,11 @@ const _GK_CATEGORIES=[
 const _GK_FALLBACKS=[
   {q:'Which country topped the medal tally at the Paris Olympics 2024?',opts:['(A) China','(B) USA','(C) Great Britain','(D) Australia'],ans:1,exp:'The USA topped the Paris 2024 Olympics with 126 total medals including 40 gold medals, ahead of China (91) and Great Britain (65).',_cat:{label:'Sports',color:'#0891b2'}},
   {q:'Who became the 15th President of India in 2022?',opts:['(A) Ram Nath Kovind','(B) Droupadi Murmu','(C) Pranab Mukherjee','(D) V.V. Giri'],ans:1,exp:'Droupadi Murmu became the 15th President of India in July 2022 — the first tribal woman and second woman to hold this office.',_cat:{label:'Indian Polity',color:'#7c3aed'}},
-  {q:'Which mission successfully landed near the Moon south pole in 2023?',opts:['(A) Luna-25','(B) Artemis-3','(C) Chandrayaan-3','(D) Chang'e-6'],ans:2,exp:'ISRO's Chandrayaan-3 made a historic soft landing near the Moon south pole on August 23, 2023. India became the first country to achieve this.',_cat:{label:'Science & Tech',color:'#dc2626'}},
+  {q:'Which mission successfully landed near the Moon south pole in 2023?',opts:['(A) Luna-25','(B) Artemis-3','(C) Chandrayaan-3','(D) Chang’e-6'],ans:2,exp:'ISRO’s Chandrayaan-3 made a historic soft landing near the Moon south pole on August 23, 2023. India became the first country to achieve this.',_cat:{label:'Science & Tech',color:'#dc2626'}},
   {q:'The 2023 ICC Cricket World Cup was won by?',opts:['(A) India','(B) Pakistan','(C) England','(D) Australia'],ans:3,exp:'Australia won the ICC Cricket World Cup 2023, defeating India in the final at Ahmedabad. It was their 6th ODI World Cup title.',_cat:{label:'Sports',color:'#0891b2'}},
-  {q:'Which Indian state has the largest geographical area?',opts:['(A) Uttar Pradesh','(B) Madhya Pradesh','(C) Rajasthan','(D) Maharashtra'],ans:2,exp:'Rajasthan is the largest Indian state by area at approx 342,239 sq km, covering about 10.4% of India's total geographical area.',_cat:{label:'Indian Geography',color:'#059669'}},
+  {q:'Which Indian state has the largest geographical area?',opts:['(A) Uttar Pradesh','(B) Madhya Pradesh','(C) Rajasthan','(D) Maharashtra'],ans:2,exp:'Rajasthan is the largest Indian state by area at approx 342,239 sq km, covering about 10.4% of India’s total geographical area.',_cat:{label:'Indian Geography',color:'#059669'}},
   {q:'Which organisation publishes the Human Development Index annually?',opts:['(A) World Bank','(B) UNDP','(C) IMF','(D) WEF'],ans:1,exp:'The UNDP (United Nations Development Programme) publishes the Human Development Index (HDI) annually. It measures health, education and living standards.',_cat:{label:'World Affairs',color:'#2563eb'}},
-  {q:'India's first indigenously built aircraft carrier INS Vikrant was commissioned in?',opts:['(A) 2019','(B) 2020','(C) 2021','(D) 2022'],ans:3,exp:'INS Vikrant was commissioned on September 2, 2022 by PM Narendra Modi in Kochi. It is India's first indigenously designed and built aircraft carrier.',_cat:{label:'Current Affairs',color:'#2563eb'}},
+  {q:'India’s first indigenously built aircraft carrier INS Vikrant was commissioned in?',opts:['(A) 2019','(B) 2020','(C) 2021','(D) 2022'],ans:3,exp:'INS Vikrant was commissioned on September 2, 2022 by PM Narendra Modi in Kochi. It is India’s first indigenously designed and built aircraft carrier.',_cat:{label:'Current Affairs',color:'#2563eb'}},
 ];
 
 async function gkLoadDaily(){
@@ -6670,20 +6670,20 @@ async function gkLoadDaily(){
   // Then try to get a fresh AI question in the background
   const cat=_GK_CATEGORIES[new Date().getDate()%_GK_CATEGORIES.length];
   try{
-    const prompt='You are a GK expert. Generate 1 MCQ about: '+cat.label+'. Focus on recent events, India and world awareness. Return ONLY valid JSON, no markdown: {"q":"Question?","opts":["(A) opt","(B) opt","(C) opt","(D) opt"],"ans":0,"exp":"2-3 sentence explanation.","category":"'+cat.id+'"}';
     const resp=await fetch(_PANDA_WORKER,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({question:prompt,context:'GK Daily Question Generator',apiKey:window._PANDA_KEY||undefined,raw:true})});
+      body:JSON.stringify({
+        mode:'gk_question',
+        topic:cat.label,
+        category:cat.id,
+        apiKey:window._PANDA_KEY||undefined
+      })});
     if(!resp.ok)throw new Error('Worker HTTP '+resp.status);
-    const raw=await resp.text();
-    const data=JSON.parse(raw);
-    const txt=data.answer||data.reply||data.text||data.response||'';
-    const match=txt.match(/\{[\s\S]*?\}/);
-    if(!match)throw new Error('no json');
-    const q=JSON.parse(match[0]);
-    if(!q.q||!q.opts||q.opts.length<2)throw new Error('invalid q');
+    const data=await resp.json();
+    // Worker returns {q, opts, ans, exp} directly for gk_question mode
+    const q=data;
+    if(!q.q||!q.opts||q.opts.length<2)throw new Error('invalid gk q');
     q._cat=cat;
     localStorage.setItem('tisa_gk_daily_q',JSON.stringify(q));
-    // Replace the fallback with the fresh AI question
     renderGkQuestion(q,false);
   }catch(e){
     console.log('[GK Daily] Using fallback (AI unavailable):', e.message);
@@ -6806,32 +6806,43 @@ const _MOCK_PAPERS={
 
 
 function mockCat(cat,el){
-  document.querySelectorAll('.mock-cat-tab').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('.mock-cat-tab').forEach(function(b){b.classList.remove('sel');});
   if(el)el.classList.add('sel');
   window._mockCurrentCat=cat;
-  const papers=_MOCK_PAPERS[cat]||[];
-  const grid=document.getElementById('mock-paper-grid');
+  var papers=_MOCK_PAPERS[cat]||[];
+  var grid=document.getElementById('mock-paper-grid');
   if(!grid)return;
-  if(!papers.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1;padding:20px;text-align:center">Papers coming soon!</div>';return;}
+  if(!papers.length){
+    grid.innerHTML='<div class="empty" style="grid-column:1/-1;padding:20px;text-align:center">Papers coming soon!</div>';
+    return;
+  }
   grid.innerHTML=papers.map(function(p){
-    var badgeClass=p.badge==='official'?'official':p.badge==='new'?'new':'';
-    var badgeLabel=p.badge==='official'?'Official':p.badge==='new'?'New':'PYQ';
-    var pdfUrl=(p.pdf||p.url);
-    var safeTitle=p.title.replace(/['"]/g,'').slice(0,50);
-    var timeMins=p.time||120;
-    var featured=p.badge==='official'||p.badge==='new'?'featured':'';
-    return '<div class="mock-paper-card '+featured+'">'
-      +'<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px;margin-bottom:4px">'
-      +'<span class="mock-paper-badge '+badgeClass+'">'+badgeLabel+' · '+p.year+'</span>'
-      +'<span style="font-size:10px;font-weight:700;color:var(--ink3)">'+timeMins+'min · '+(p.marks||'—')+'M</span></div>'
-      +'<div class="mock-paper-title">'+p.title+'</div>'
-      +'<div class="mock-paper-meta">'+p.meta+'</div>'
-      +'<div class="mock-paper-actions">'
-      +'<button class="mock-paper-btn primary" onclick="window.open(''+pdfUrl.replace(/'/g,"\'")+"','_blank','noopener')">📄 View PDF</button>"
-      +'<button class="mock-paper-btn" onclick="mockTimedAttempt(''+pdfUrl.replace(/'/g,"\'")+'',''+safeTitle+'','+timeMins+')">⏱ Timed</button>'
-      +'</div></div>';
+    var bc=p.badge==='official'?'official':p.badge==='new'?'new':'';
+    var bl=p.badge==='official'?'Official':p.badge==='new'?'New':'PYQ';
+    var url=p.pdf||p.url;
+    var title=p.title.replace(/['"<>]/g,'');
+    var meta=p.meta.replace(/['"<>]/g,'');
+    var mins=p.time||120;
+    var marks=p.marks||'—';
+    var yr=p.year;
+    var feat=p.badge==='official'||p.badge==='new';
+    return [
+      '<div class="mock-paper-card '+(feat?'featured':'')+'">',
+        '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px;margin-bottom:4px">',
+          '<span class="mock-paper-badge '+bc+'">'+bl+' \u00b7 '+yr+'</span>',
+          '<span style="font-size:10px;font-weight:700;color:var(--ink3)">'+mins+'min \u00b7 '+marks+'M</span>',
+        '</div>',
+        '<div class="mock-paper-title">'+title+'</div>',
+        '<div class="mock-paper-meta">'+meta+'</div>',
+        '<div class="mock-paper-actions">',
+          '<button class="mock-paper-btn primary" data-url="'+encodeURIComponent(url)+'" onclick="window.open(decodeURIComponent(this.dataset.url),\'_blank\',\'noopener\')">📄 View PDF</button>',
+          '<button class="mock-paper-btn" data-url="'+encodeURIComponent(url)+'" data-title="'+encodeURIComponent(title)+'" data-mins="'+mins+'" onclick="mockTimedAttempt(decodeURIComponent(this.dataset.url),decodeURIComponent(this.dataset.title),parseInt(this.dataset.mins))">⏱ Timed</button>',
+        '</div>',
+      '</div>'
+    ].join('');
   }).join('');
 }
+
 
 window.mockViewPaper=function(url,title){
   window.open(url,'_blank','noopener');
