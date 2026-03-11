@@ -781,6 +781,164 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 .wellness-btn .wb-ic{font-size:26px;}
 .wellness-btn .wb-lb{font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;}
 
+
+/* ── ASK PANDA THEMED CHAT ── */
+#panda-chat-bg{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:0;
+  background:linear-gradient(160deg,#e8f5e1 0%,#fdf3e3 40%,#fde8d0 70%,#e8f0fb 100%);
+  z-index:0;
+}
+#panda-chat-bg::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(92,122,62,.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 70%, rgba(255,180,120,.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(180,210,150,.06) 0%, transparent 60%);
+}
+/* floating decorations */
+#panda-chat-bg::after{
+  content:'🌿 ✨ 🌸 🍃 ⭐';
+  position:absolute;top:8px;right:12px;
+  font-size:14px;opacity:.25;letter-spacing:4px;pointer-events:none;
+}
+#panda-tab-ask{position:relative;background:transparent !important;}
+#ask-panda-msgs{position:relative;z-index:1;}
+.ask-input-row{position:relative;z-index:1;}
+.ask-bubble.ask-panda{
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  color:#3a4a2a;
+  border-bottom-left-radius:4px;
+}
+.ask-bubble.ask-user{
+  background:linear-gradient(135deg,#5c7a3e,#4a6632);
+  color:#fff;
+  box-shadow:0 2px 10px rgba(92,122,62,.35);
+}
+.ask-thinking{
+  background:rgba(255,255,255,.6) !important;
+  backdrop-filter:blur(4px);
+}
+/* mood chips in panda tab */
+.panda-mood-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;position:relative;z-index:1;}
+.panda-mood-chip{
+  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;
+  background:rgba(255,255,255,.75);border:1px solid rgba(92,122,62,.2);
+  color:#5c7a3e;cursor:pointer;transition:all .15s;backdrop-filter:blur(4px);
+}
+.panda-mood-chip:hover{background:rgba(92,122,62,.15);transform:translateY(-1px);}
+/* panda quick prompts */
+.panda-quick-prompts{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;position:relative;z-index:1;}
+.panda-qp{
+  padding:8px 14px;border-radius:14px;font-size:12px;font-weight:600;
+  background:rgba(255,255,255,.7);border:1px solid rgba(92,122,62,.15);
+  color:#4a5c35;cursor:pointer;transition:all .15s;text-align:left;backdrop-filter:blur(4px);
+}
+.panda-qp:hover{background:rgba(92,122,62,.1);border-color:rgba(92,122,62,.3);}
+/* ── MY PANDA improvements ── */
+.panda-mood-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;}
+.panda-mood-btn{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:12px 8px;border-radius:14px;border:1.5px solid var(--border);
+  background:var(--bg2);cursor:pointer;transition:all .18s;
+  font-size:20px;
+}
+.panda-mood-btn.sel{background:var(--pglow);border-color:var(--primary);}
+.panda-mood-btn span{font-size:10px;font-weight:700;color:var(--ink3);}
+.panda-gift-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.panda-gift-btn{
+  flex:1;min-width:60px;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:10px 6px;border-radius:12px;border:1.5px solid var(--border);
+  background:var(--bg2);cursor:pointer;font-size:18px;
+  transition:all .18s;
+}
+.panda-gift-btn:active{transform:scale(.9);background:var(--pglow);}
+.panda-gift-btn span{font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;}
+
+/* ── TESTS PAGE REDESIGN ── */
+.mock-papers-section{margin-bottom:20px;}
+.mock-cat-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.mock-cat-tab{
+  padding:7px 14px;border-radius:20px;font-size:11px;font-weight:800;
+  border:1.5px solid var(--border);background:var(--bg2);
+  color:var(--ink3);cursor:pointer;transition:all .18s;letter-spacing:.3px;
+}
+.mock-cat-tab.sel{background:var(--primary);color:#fff;border-color:var(--primary);}
+.mock-paper-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:600px){.mock-paper-grid{grid-template-columns:1fr;}}
+.mock-paper-card{
+  border:1.5px solid var(--border);border-radius:16px;
+  padding:14px;background:var(--surface);
+  transition:all .2s;cursor:pointer;
+  display:flex;flex-direction:column;gap:6px;
+}
+.mock-paper-card:hover{border-color:var(--primary);box-shadow:0 4px 16px var(--pglow);}
+.mock-paper-card.featured{
+  border-color:var(--primary);
+  background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 6%,var(--surface)),var(--surface));
+}
+.mock-paper-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 8px;border-radius:8px;font-size:9px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.8px;
+  background:rgba(92,122,62,.1);color:var(--primary);
+}
+.mock-paper-badge.official{background:rgba(200,150,0,.1);color:var(--warn);}
+.mock-paper-badge.new{background:rgba(45,158,80,.1);color:var(--success);}
+.mock-paper-title{font-size:13px;font-weight:800;color:var(--ink);line-height:1.3;}
+.mock-paper-meta{font-size:11px;color:var(--ink3);font-weight:600;}
+.mock-paper-actions{display:flex;gap:6px;margin-top:4px;}
+.mock-paper-btn{
+  flex:1;padding:7px 8px;border-radius:10px;font-size:11px;font-weight:700;
+  border:1.5px solid var(--border);background:var(--bg2);cursor:pointer;
+  transition:all .15s;color:var(--ink2);
+}
+.mock-paper-btn.primary{background:var(--primary);color:#fff;border-color:var(--primary);}
+.mock-paper-btn:hover{border-color:var(--primary);color:var(--primary);}
+.mock-paper-btn.primary:hover{opacity:.88;}
+
+/* ── GK DAILY CARD ── */
+.gk-hero{
+  background:linear-gradient(135deg,#1a2a4a 0%,#2d4a6e 50%,#1a3a5a 100%);
+  border-radius:20px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden;
+}
+.gk-hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.gk-hero-label{font-size:9px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+.gk-hero-title{font-size:15px;font-weight:800;color:#fff;line-height:1.5;margin-bottom:12px;}
+.gk-hero-category{
+  display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
+  border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;
+  background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);margin-bottom:10px;
+}
+.gk-opt{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;padding:8px 12px;font-size:12px;font-weight:600;color:#fff;
+  cursor:pointer;text-align:left;transition:all .2s;font-family:'Nunito',sans-serif;
+  width:100%;margin-bottom:6px;
+}
+.gk-opt:hover{background:rgba(255,255,255,.15);}
+.gk-opt.correct{background:rgba(50,200,80,.35);border-color:rgba(50,200,80,.6);}
+.gk-opt.wrong{background:rgba(220,60,60,.3);border-color:rgba(220,60,60,.5);}
+.gk-opt:disabled{cursor:default;}
+.gk-exp{
+  margin-top:10px;padding:10px 14px;border-radius:12px;
+  background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);
+  font-size:12px;line-height:1.6;font-style:italic;display:none;
+}
+.gk-streak{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:12px;
+  background:rgba(255,200,50,.15);border:1px solid rgba(255,200,50,.25);
+  margin-top:10px;
+}
+.gk-streak-fire{font-size:18px;}
+.gk-streak-text{font-size:12px;font-weight:700;color:rgba(255,220,100,.9);}
+
 /* Press animation on all buttons */
 .btn:active,.btn-sm:active,.hfab:active,.mnb:active{transform:scale(0.96)!important;}
 
@@ -1137,7 +1295,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div style="padding:16px 20px 0;flex-shrink:0">
   <div class="wellness-handle" onclick="closeWellnessSheet()" style="cursor:pointer;padding:8px 0"></div>
 
-  <!-- Tab bar -->\n  <div class=\"panda-tabs\">
+  <!-- Tab bar -->
+  <div class="panda-tabs">
     <button class="ptab active" id="ptab-actions" onclick="switchPandaTab('actions')">⚡ Actions</button>
     <button class="ptab" id="ptab-ask" onclick="switchPandaTab('ask')">🐼 Ask Panda</button>
     <button class="ptab" id="ptab-pet" onclick="switchPandaTab('pet')">🎮 My Panda</button>
@@ -1172,13 +1331,27 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   </div>
 
   <!-- TAB 2: ASK PANDA -->
-  <div id="panda-tab-ask" class="panda-panel" style="display:none;flex:1;padding:0 20px 16px;min-height:0">
-    <div id="ask-panda-msgs" class="ask-msgs">
+  <div id="panda-tab-ask" class="panda-panel" style="display:none;flex:1;padding:0;min-height:0;position:relative">
+    <!-- Themed wallpaper background -->
+    <div id="panda-chat-bg"></div>
+    <!-- Messages -->
+    <div id="ask-panda-msgs" class="ask-msgs" style="padding:12px 20px 6px;position:relative;z-index:1">
       <div class="ask-bubble ask-panda">wassup! 🐼 what's on your mind?</div>
+      <!-- Quick prompts shown when chat is fresh -->
+      <div id="panda-quick-area" style="margin-top:10px">
+        <div style="font-size:10px;font-weight:800;color:rgba(74,86,53,.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;padding-left:2px">Quick asks 💬</div>
+        <div class="panda-quick-prompts">
+          <button class="panda-qp" onclick="pandaQuickSend(this)">😰 I'm stressed about my exams</button>
+          <button class="panda-qp" onclick="pandaQuickSend(this)">📖 Give me a study tip for right now</button>
+          <button class="panda-qp" onclick="pandaQuickSend(this)">⚡ Help me make a quick study plan</button>
+          <button class="panda-qp" onclick="pandaQuickSend(this)">😴 I can't focus today, what do I do?</button>
+        </div>
+      </div>
     </div>
-    <div class="ask-input-row">
-      <input id="ask-panda-inp" class="tisa-inp" placeholder="talk to panda..." style="flex:1;font-size:15px;padding:12px 16px" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();askPanda();}">
-      <button class="btn btn-p" onclick="askPanda()" style="flex-shrink:0;font-size:14px;padding:12px 18px">→</button>
+    <!-- Input -->
+    <div class="ask-input-row" style="padding:8px 20px 14px;position:relative;z-index:1;border-top:1px solid rgba(92,122,62,.12);background:rgba(255,255,255,.6);backdrop-filter:blur(8px)">
+      <input id="ask-panda-inp" class="tisa-inp" placeholder="talk to panda..." style="flex:1;font-size:14px;padding:11px 14px;background:rgba(255,255,255,.8);border-color:rgba(92,122,62,.2)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();askPanda();}">
+      <button class="btn btn-p" onclick="askPanda()" style="flex-shrink:0;font-size:16px;padding:11px 16px;line-height:1">→</button>
     </div>
   </div>
 
@@ -1383,6 +1556,35 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <button class="pet-act-btn" onclick="petNap()"><span style="font-size:18px">💤</span><span>Nap</span><span style="font-size:10px;color:var(--ink3)">Free</span></button>
     </div>
     <div style="text-align:center;font-size:11px;color:var(--ink3);margin-top:8px">You have <span id="pet-coins-display" style="font-weight:800;color:var(--primary)">0</span> 🪙 coins</div>
+    <!-- Gifts section -->
+    <div style="margin-top:14px;border-top:1px solid var(--border2);padding-top:12px">
+      <div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🎁 Send a Gift</div>
+      <div class="panda-gift-row">
+        <button class="panda-gift-btn" onclick="pandaGift('bamboo','🎋',10)"><span>🎋</span><span>Bamboo</span><span style="font-size:9px;color:var(--ink3)">10🪙</span></button>
+        <button class="panda-gift-btn" onclick="pandaGift('tea','🍵',8)"><span>🍵</span><span>Tea</span><span style="font-size:9px;color:var(--ink3)">8🪙</span></button>
+        <button class="panda-gift-btn" onclick="pandaGift('star','⭐',15)"><span>⭐</span><span>Star</span><span style="font-size:9px;color:var(--ink3)">15🪙</span></button>
+        <button class="panda-gift-btn" onclick="pandaGift('flower','🌸',12)"><span>🌸</span><span>Flower</span><span style="font-size:9px;color:var(--ink3)">12🪙</span></button>
+        <button class="panda-gift-btn" onclick="pandaGift('cookie','🍪',6)"><span>🍪</span><span>Cookie</span><span style="font-size:9px;color:var(--ink3)">6🪙</span></button>
+      </div>
+    </div>
+    <!-- Relaxing mini-games -->
+    <div style="margin-top:14px;border-top:1px solid var(--border2);padding-top:12px">
+      <div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🧘 Calm Corner</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <button class="panda-qp" onclick="pandaCalmBreath()" style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:18px">🌬️</span>
+          <div style="text-align:left"><div style="font-size:12px;font-weight:700">Box Breathing</div><div style="font-size:10px;color:var(--ink3)">4-4-4-4 breathing exercise to calm down</div></div>
+        </button>
+        <button class="panda-qp" onclick="pandaAffirmation()" style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:18px">💚</span>
+          <div style="text-align:left"><div style="font-size:12px;font-weight:700">Daily Affirmation</div><div style="font-size:10px;color:var(--ink3)">A kind reminder just for you</div></div>
+        </button>
+        <button class="panda-qp" onclick="pandaJoke()" style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:18px">😄</span>
+          <div style="text-align:left"><div style="font-size:12px;font-weight:700">Study Joke</div><div style="font-size:10px;color:var(--ink3)">A quick laugh to reset your brain</div></div>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1615,12 +1817,18 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <div class="atz-hero">
   <h2>🎯 AI Test Zone</h2>
   <p>JEE · NEET · UPSC · SSC · CAT · CLAT · NDA · Banking · Boards — MCQ & written, timed, with full explanations</p>
-  <!-- Daily Challenge -->
-  <div class="atz-daily" id="atz-daily-wrap">
-    <div class="atz-daily-label">⚡ Daily Challenge</div>
-    <div class="atz-daily-q" id="atz-daily-q">Loading today's question…</div>
-    <div class="atz-daily-opts" id="atz-daily-opts"></div>
-    <div class="atz-exp" id="atz-daily-exp"></div>
+  <!-- GK & Current Affairs Daily -->
+  <div id="gk-daily-wrap" class="gk-hero">
+    <div class="gk-hero-label">🌍 Daily Knowledge</div>
+    <div id="gk-daily-category" class="gk-hero-category">Loading…</div>
+    <div id="gk-daily-q" class="gk-hero-title">Loading today's GK question…</div>
+    <div id="gk-daily-opts"></div>
+    <div class="gk-exp" id="gk-daily-exp"></div>
+    <div class="gk-streak" id="gk-streak-bar" style="display:none">
+      <span class="gk-streak-fire">🔥</span>
+      <span class="gk-streak-text" id="gk-streak-txt">0 day streak</span>
+      <span style="margin-left:auto;font-size:10px;color:rgba(255,220,100,.6);font-weight:700">Keep it up!</span>
+    </div>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="btn" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.3);font-size:12px" onclick="atzStartFlow()">🚀 Start Practice Test</button>
@@ -1714,33 +1922,57 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   <div id="atz-hist-list"><div class="empty">No AI tests yet — start your first test above! 🎯</div></div>
 </div>
 
-<!-- ── UPLOAD PAPERS (kept) ── -->
-<div class="test-grid">
-  <div class="card">
-    <div class="ct"><div class="ct-ic">📄</div>Upload Papers</div>
-    <div class="upload-z" id="upload-z" onclick="document.getElementById('fi').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
-      <div style="font-size:30px;margin-bottom:8px">📄</div>
-      <div style="font-size:13px;color:var(--ink2);line-height:1.6;font-weight:600"><strong style="color:var(--primary)">Tap / click to upload</strong> or drag & drop<br><span style="font-size:11px;color:var(--ink3)">PDF, PNG, JPG</span></div>
+<!-- ── REAL MOCK PAPERS LIBRARY ── -->
+<div class="card mock-papers-section">
+  <div class="ct"><div class="ct-ic">📋</div>Official Mock Papers & PYQs
+    <span style="margin-left:auto;font-size:10px;font-weight:700;color:var(--ink3)">Tap to open → attempt in timed mode</span>
+  </div>
+
+  <!-- Category filter tabs -->
+  <div class="mock-cat-tabs" id="mock-cat-tabs">
+    <button class="mock-cat-tab sel" onclick="mockCat('jee',this)">⚗️ JEE</button>
+    <button class="mock-cat-tab" onclick="mockCat('neet',this)">🧬 NEET</button>
+    <button class="mock-cat-tab" onclick="mockCat('boards',this)">📚 Boards</button>
+    <button class="mock-cat-tab" onclick="mockCat('upsc',this)">🏛️ UPSC</button>
+    <button class="mock-cat-tab" onclick="mockCat('ssc',this)">📋 SSC</button>
+    <button class="mock-cat-tab" onclick="mockCat('banking',this)">🏦 Banking</button>
+    <button class="mock-cat-tab" onclick="mockCat('clat',this)">⚖️ CLAT</button>
+    <button class="mock-cat-tab" onclick="mockCat('nda',this)">🎖️ NDA</button>
+  </div>
+
+  <!-- Paper cards — populated by JS -->
+  <div class="mock-paper-grid" id="mock-paper-grid"></div>
+
+  <!-- Upload your own papers + take test -->
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border2)">
+    <div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📤 Upload Your Own Paper</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <div class="upload-z" id="upload-z" onclick="document.getElementById('fi').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)" style="flex:1;min-height:60px;padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer">
+        <span style="font-size:22px">📎</span>
+        <div style="font-size:12px;color:var(--ink2);font-weight:600"><strong style="color:var(--primary)">Upload</strong> PDF / PNG / JPG</div>
+      </div>
+      <div style="flex:2;min-width:200px">
+        <select id="tpsel" class="tisa-inp" style="width:100%;margin-bottom:7px;font-size:12px"><option value="">— pick uploaded paper —</option></select>
+        <div style="display:flex;gap:6px;flex-wrap:wrap" id="time-chips">
+          <button class="time-chip" onclick="setTT(30,this)">30m</button>
+          <button class="time-chip sel" onclick="setTT(60,this)">60m</button>
+          <button class="time-chip" onclick="setTT(90,this)">90m</button>
+          <button class="time-chip" onclick="setTT(120,this)">2hr</button>
+          <button class="time-chip" onclick="setTT(180,this)">3hr</button>
+        </div>
+        <div style="font-size:10px;color:var(--ink3);margin-top:4px;font-weight:700">⏱ <span id="tt-lbl">60 min</span></div>
+      </div>
     </div>
     <input type="file" id="fi" multiple accept=".pdf,.png,.jpg,.jpeg" onchange="handleFiles(this.files)" style="display:none">
-    <div id="inline-preview" style="margin-top:10px"></div>
-    <div id="paper-list" style="margin-top:10px;max-height:200px;overflow-y:auto"><div class="empty">No papers yet</div></div>
+    <div id="inline-preview" style="margin-top:6px"></div>
+    <div id="paper-list" style="margin-top:6px;max-height:120px;overflow-y:auto"><div class="empty" style="font-size:11px">No uploaded papers yet</div></div>
+    <button class="btn btn-p" style="width:100%;margin-top:10px" onclick="startTest()">Begin Timed Test →</button>
   </div>
-  <div class="card">
-    <div class="ct"><div class="ct-ic">⏱</div>Take a Test</div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div><div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Select Paper</div><select id="tpsel" class="tisa-inp" style="width:100%"><option value="">— pick a paper —</option></select></div>
-      <div><div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Time Limit (minutes)</div>
-      <div style="display:flex;gap:5px;flex-wrap:wrap" id="time-chips">
-        <button class="time-chip" onclick="setTT(5,this)">5</button><button class="time-chip" onclick="setTT(10,this)">10</button><button class="time-chip" onclick="setTT(15,this)">15</button><button class="time-chip" onclick="setTT(20,this)">20</button><button class="time-chip" onclick="setTT(25,this)">25</button><button class="time-chip" onclick="setTT(30,this)">30</button><button class="time-chip" onclick="setTT(45,this)">45</button><button class="time-chip sel" onclick="setTT(60,this)">60</button><button class="time-chip" onclick="setTT(90,this)">90</button><button class="time-chip" onclick="setTT(120,this)">120</button><button class="time-chip" onclick="setTT(150,this)">150</button><button class="time-chip" onclick="setTT(180,this)">180</button>
-      </div>
-      <div style="font-size:11px;color:var(--ink3);margin-top:5px;font-weight:700">Selected: <span id="tt-lbl" style="color:var(--primary)">60 min</span></div></div>
-      <button class="btn btn-p" style="width:100%" onclick="startTest()">Begin Test →</button>
-    </div>
-    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2)">
-      <div class="ct" style="margin-bottom:8px"><div class="ct-ic">📊</div>Past Tests</div>
-      <div id="past-tests"><div class="empty">No tests yet</div></div>
-    </div>
+
+  <!-- Past Tests -->
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2)">
+    <div class="ct" style="margin-bottom:8px"><div class="ct-ic">📊</div>Your Test History</div>
+    <div id="past-tests"><div class="empty">No tests yet — attempt a paper above!</div></div>
   </div>
 </div>
 <div style="margin-top:14px"><div class="card">
@@ -5829,7 +6061,7 @@ const _ATZ_MARKS={
   cbse_sample: {pos:1,neg:0,label:'CBSE (+1 / 0)',hasNeg:false},
 };
 
-const _ATZ_QCOUNT={quick10:10,mock30:30,full:45,pyq:15,revision:10};
+const _ATZ_QCOUNT={quick10:5,mock30:15,full:25,pyq:10,revision:5};
 
 const _ATZ_LABELS={
   jee:'JEE Main',jeeadv:'JEE Advanced',bitsat:'BITSAT',gate:'GATE',
@@ -5942,19 +6174,113 @@ function atzRemoveBm(i){
   document.getElementById('bm-count-badge').textContent=window._atz.bookmarks.length;
 }
 
-function atzBuildPrompt(){
+function atzBuildPrompt(batchSize){
   const a=window._atz;
   const scheme=_ATZ_MARKS[a.exam]||{pos:1,neg:0};
-  const qcount=_ATZ_QCOUNT[a.mode]||10;
   const chapter=document.getElementById('atz-chap-custom')?.value.trim()||
                  document.getElementById('atz-chap-sel')?.value||'general topics';
   a.chapter=chapter||'general topics';
   const examLabel=_ATZ_LABELS[a.exam]||a.exam;
-  const styleNote=a.mode==='pyq'
-    ?`Questions MUST closely mimic actual PYQ style from ${examLabel} past papers (2017-2024). Use real question patterns, terminology and difficulty.`
-    :a.mode==='revision'
-    ?'Focus on conceptually tricky questions that students frequently get wrong — common misconceptions, similar-looking distractors.'
-    :'';
+  const styleNote=a.mode==='pyq'?`Mirror real ${examLabel} PYQ style (2017-2024).`
+    :a.mode==='revision'?'Focus on tricky/commonly-wrong questions.':'';
+
+  if(a.qtype==='subjective'){
+    return `Expert ${examLabel} question setter. Generate ${batchSize} subjective Qs.
+Exam:${examLabel} Subject:${a.subject} Topic:${a.chapter} Difficulty:${a.diff} ${styleNote}
+Rules: accurate model answer, 3-5 sentence explanation, key points.
+Return ONLY JSON array: [{"q":"?","modelAnswer":"...","exp":"...","keyPoints":["..."],"difficulty":"easy|medium|hard","topic":"...","marks":${scheme.pos}}]`;
+  }
+
+  return `Expert ${examLabel} MCQ setter. Generate ${batchSize} questions.
+Exam:${examLabel} Subject:${a.subject} Topic:${a.chapter} Difficulty:${a.diff} ${styleNote}
+Rules: 1 correct answer, 3 plausible wrong options, explanation=why correct+why main distractor wrong.
+Return ONLY JSON array: [{"q":"?","opts":["(A)...","(B)...","(C)...","(D)..."],"ans":0,"exp":"...","difficulty":"easy|medium|hard","topic":"..."}]
+ans=0-indexed. Exactly 4 opts each starting (A)(B)(C)(D).`;
+}
+
+window.atzLaunchTest=async function(){
+  const a=window._atz;
+  if(!a.exam){window.toast('Please select an exam first!');return;}
+  if(!a.subject){window.toast('Please select a subject!');return;}
+  if(!a.qtype) a.qtype='objective';
+  const totalQ=_ATZ_QCOUNT[a.mode]||10;
+  const label=_ATZ_LABELS[a.exam]||a.exam;
+
+  // Open modal immediately
+  document.getElementById('mcq-modal').classList.add('open');
+  document.getElementById('mcq-next-btn').style.display='none';
+  document.getElementById('mcq-skip-btn').style.display='inline-flex';
+
+  // Show loading
+  const showLoading=(n,total)=>{
+    document.getElementById('mcq-body').innerHTML=`
+      <div class="mcq-loading">
+        <div class="mcq-spinner"></div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:6px">
+          ${n===0?`Generating questions for <strong>${label}</strong>…`:`Got ${n} / ${total} questions ✓`}
+        </div>
+        <div style="font-size:11px;color:var(--ink3);font-weight:600">
+          ${n===0?'First batch arriving in ~5 seconds…':'Loading more…'}
+        </div>
+        ${n>0?`<div style="width:200px;height:5px;background:var(--bg3);border-radius:3px;margin:10px auto 0;overflow:hidden">
+          <div style="height:100%;background:var(--primary);border-radius:3px;width:${Math.round(n/total*100)}%;transition:width .4s"></div>
+        </div>`:''}
+      </div>`;
+  };
+
+  // Generate in batches of 5 for speed
+  const batchSize=Math.min(5, totalQ);
+  const batches=Math.ceil(totalQ/batchSize);
+  a.questions=[]; a.current=0; a.score=0; a.correct=0; a.wrong=0; a.skipped=0; a.marks=0;
+  const timeMap={quick10:600,mock30:1500,full:2700,pyq:1200,revision:480};
+  a.timeLeft=timeMap[a.mode]||600;
+
+  let started=false;
+  showLoading(0,totalQ);
+
+  for(let b=0;b<batches;b++){
+    const thisBatch=Math.min(batchSize, totalQ-a.questions.length);
+    if(thisBatch<=0)break;
+    try{
+      const prompt=atzBuildPrompt(thisBatch);
+      const resp=await fetch(_PANDA_WORKER,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({question:prompt,context:'__mcq_gen__',apiKey:window._PANDA_KEY||undefined,raw:true})
+      });
+      if(!resp.ok)throw new Error('Worker HTTP '+resp.status);
+      const rawText=await resp.text();
+      console.log(`[ATZ] Batch ${b+1} response:`,rawText.slice(0,200));
+      let data; try{data=JSON.parse(rawText);}catch(e){throw new Error('Non-JSON: '+rawText.slice(0,80));}
+      const answerText=data.answer||data.reply||data.text||data.response||data.message||'';
+      const match=answerText.match(/\[[\s\S]*?\]/);
+      if(!match)throw new Error('No JSON array in batch '+b);
+      const qs=JSON.parse(match[0]);
+      if(!Array.isArray(qs)||!qs.length)throw new Error('Empty batch '+b);
+      a.questions.push(...qs);
+
+      // Start test as soon as first batch arrives
+      if(!started){
+        started=true;
+        mcqStartTimer();
+        if(a.qtype==='subjective') mcqRenderSubjective();
+        else mcqRenderQuestion();
+      } else {
+        showLoading(a.questions.length,totalQ);
+      }
+    }catch(e){
+      console.error(`[ATZ] Batch ${b+1} failed:`,e.message);
+      // If we already have some questions, continue; else show error
+      if(!started){
+        document.getElementById('mcq-modal').classList.remove('open');
+        window.toast('⚠️ Could not generate questions. Check your Worker & API key.');
+        return;
+      }
+      // Silently skip failed batch if test already started
+      break;
+    }
+  }
+};
 
   if(a.qtype==='subjective'){
     return `You are an expert ${examLabel} question setter for the SUBJECTIVE section.
@@ -5988,40 +6314,6 @@ Return ONLY valid JSON array, no markdown:
 ans is 0-indexed. opts must have exactly 4 items with (A)(B)(C)(D) prefixes.`;
 }
 
-window.atzLaunchTest=async function(){
-  const a=window._atz;
-  if(!a.exam){window.toast('Please select an exam first!');return;}
-  if(!a.subject){window.toast('Please select a subject!');return;}
-  if(!a.qtype) a.qtype='objective';
-  const label=_ATZ_LABELS[a.exam]||a.exam;
-  document.getElementById('mcq-modal').classList.add('open');
-  document.getElementById('mcq-body').innerHTML=`<div class="mcq-loading"><div class="mcq-spinner"></div><div style="font-size:13px;font-weight:700">Generating ${_ATZ_QCOUNT[a.mode]||10} ${a.qtype==='subjective'?'subjective':'MCQ'} questions for <strong>${label}</strong>…<br><span style="font-size:11px;color:var(--ink3);font-weight:600">AI is crafting your test ✨</span></div></div>`;
-  document.getElementById('mcq-next-btn').style.display='none';
-  document.getElementById('mcq-skip-btn').style.display='inline-flex';
-  try{
-    const prompt=atzBuildPrompt();
-    const resp=await fetch(_PANDA_WORKER,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({question:prompt,context:'__mcq_gen__',apiKey:window._PANDA_KEY||undefined,raw:true})});
-    const rawText=await resp.text();
-    console.log('[ATZ] Raw Worker response:',rawText);
-    let data; try{data=JSON.parse(rawText);}catch(e){throw new Error('Worker non-JSON: '+rawText.slice(0,100));}
-    const answerText=data.answer||data.reply||data.text||data.response||data.message||'';
-    const match=answerText.match(/\[[\s\S]*\]/);
-    if(!match)throw new Error('No JSON array in response');
-    const qs=JSON.parse(match[0]);
-    if(!Array.isArray(qs)||!qs.length)throw new Error('Empty question array');
-    a.questions=qs; a.current=0; a.score=0; a.correct=0; a.wrong=0; a.skipped=0; a.marks=0;
-    const timeMap={quick10:600,mock30:1500,full:2700,pyq:1200,revision:480};
-    a.timeLeft=timeMap[a.mode]||600;
-    if(a.qtype==='subjective') mcqRenderSubjective();
-    else mcqRenderQuestion();
-    mcqStartTimer();
-  }catch(e){
-    console.error('[ATZ] Generation failed:',e);
-    document.getElementById('mcq-modal').classList.remove('open');
-    window.toast('⚠️ Could not generate questions. Check your Worker & API key.');
-  }
-};
 
 
 
@@ -6286,75 +6578,288 @@ function atzRenderHistory(){
     </div>`).join('');
 }
 
-// ── Daily Challenge ──
-async function atzLoadDaily(){
-  const a=window._atz;
-  document.getElementById('bm-count-badge').textContent=a.bookmarks.length;
-  if(a.dailyDone){
-    document.getElementById('atz-daily-q').textContent='✅ Daily challenge done! Come back tomorrow.';
-    document.getElementById('atz-daily-opts').innerHTML='';
+// ─── GK / CURRENT AFFAIRS DAILY ────────────────────────────────────────────
+const _GK_CATEGORIES=[
+  {id:'current_affairs',label:'Current Affairs',color:'#2563eb'},
+  {id:'world_geography',label:'World Geography',color:'#059669'},
+  {id:'indian_polity',label:'Indian Polity',color:'#7c3aed'},
+  {id:'science_tech',label:'Science & Tech',color:'#dc2626'},
+  {id:'economy',label:'Economy & Finance',color:'#d97706'},
+  {id:'sports',label:'Sports',color:'#0891b2'},
+  {id:'history',label:'History',color:'#9a3412'},
+  {id:'environment',label:'Environment',color:'#16a34a'},
+  {id:'awards_honours',label:'Awards & Honours',color:'#ca8a04'},
+  {id:'art_culture',label:'Art & Culture',color:'#9333ea'},
+];
+
+async function gkLoadDaily(){
+  document.getElementById('bm-count-badge').textContent=window._atz.bookmarks.length;
+  const today=new Date().toDateString();
+  const savedDate=localStorage.getItem('tisa_gk_daily_date');
+  const savedStreak=parseInt(localStorage.getItem('tisa_gk_streak')||'0');
+  if(savedStreak>0){
+    const sb=document.getElementById('gk-streak-bar');
+    if(sb){sb.style.display='flex';document.getElementById('gk-streak-txt').textContent=savedStreak+' day streak';}
+  }
+  if(savedDate===today){
+    const savedQ=localStorage.getItem('tisa_gk_daily_q');
+    if(savedQ){try{renderGkQuestion(JSON.parse(savedQ),true);return;}catch(e){}}
+    document.getElementById('gk-daily-q').textContent='Today\'s question answered! Come back tomorrow.';
     return;
   }
-  // Random exam/subject combo for daily
-  const dailyExams=['jee','neet','cuet','boards12'];
-  const ex=dailyExams[new Date().getDate()%dailyExams.length];
-  const subs=_ATZ_SUBJECTS[ex]||['Physics'];
-  const sub=subs[new Date().getDay()%subs.length];
+  const cat=_GK_CATEGORIES[new Date().getDate()%_GK_CATEGORIES.length];
+  const catEl=document.getElementById('gk-daily-category');
+  if(catEl){catEl.textContent=cat.label;catEl.style.background=cat.color+'22';}
+  document.getElementById('gk-daily-q').textContent='Loading today\'s question...';
   try{
-    const prompt=`Generate exactly 1 MCQ question for ${ex.toUpperCase()} ${sub}, medium difficulty.
-Return ONLY valid JSON (no markdown):
-{"q":"question?","opts":["(A) ...","(B) ...","(C) ...","(D) ..."],"ans":0,"exp":"explanation"}`;
+    const prompt='You are a GK expert. Generate 1 high-quality MCQ about: '+cat.label+'. Focus on recent news and important facts about India and the world. Return ONLY valid JSON, no markdown: {"q":"Question?","opts":["(A) option","(B) option","(C) option","(D) option"],"ans":0,"exp":"2-3 sentence explanation.","category":"'+cat.id+'"}';
     const resp=await fetch(_PANDA_WORKER,{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({question:prompt,context:'__daily__',apiKey:window._PANDA_KEY||undefined,raw:true})});
     const raw=await resp.text();
     const data=JSON.parse(raw);
     const txt=data.answer||data.reply||data.text||data.response||'';
-    const match=txt.match(/\{[\s\S]*\}/);
+    const match=txt.match(/\{[\s\S]*?\}/);
     if(!match)throw new Error('no json');
     const q=JSON.parse(match[0]);
-    document.getElementById('atz-daily-q').textContent=`[${ex.toUpperCase()} · ${sub}] ${q.q}`;
-    document.getElementById('atz-daily-opts').innerHTML=q.opts.map((o,i)=>
-      `<button class="atz-daily-opt" onclick="atzAnswerDaily(${i},${q.ans},'${(q.exp||'').replace(/'/g,"&#39;")}',this)">${o}</button>`
-    ).join('');
-    document.getElementById('atz-daily-exp').dataset.exp=q.exp||'';
+    q._cat=cat;
+    localStorage.setItem('tisa_gk_daily_q',JSON.stringify(q));
+    renderGkQuestion(q,false);
   }catch(e){
-    console.log('[ATZ Daily]',e.message);
-    document.getElementById('atz-daily-q').textContent='Start a test above to practice! 🎯';
-    document.getElementById('atz-daily-opts').innerHTML='';
+    console.log('[GK Daily]',e.message);
+    renderGkQuestion({q:'Which organization publishes the Human Development Index (HDI) annually?',opts:['(A) World Bank','(B) UNDP','(C) IMF','(D) WEF'],ans:1,exp:'The UNDP (United Nations Development Programme) publishes the HDI annually. It measures health, education, and standard of living.',_cat:{label:'World Affairs',color:'#2563eb'}},false);
   }
 }
 
-window.atzAnswerDaily=function(idx,ans,exp,el){
-  document.querySelectorAll('.atz-daily-opt').forEach(b=>b.disabled=true);
-  if(idx===ans){el.classList.add('correct');window.toast('✅ Correct!');}
-  else{el.classList.add('wrong');document.querySelectorAll('.atz-daily-opt')[ans].classList.add('correct');window.toast('❌ Wrong!');}
-  const expEl=document.getElementById('atz-daily-exp');
-  expEl.textContent=exp||'';
-  expEl.style.display=exp?'block':'none';
-  localStorage.setItem('tisa_atz_daily_date',new Date().toDateString());
-  window._atz.dailyDone=true;
-  if(typeof addXP==='function') addXP(10,'daily challenge');
+function renderGkQuestion(q,alreadyAnswered){
+  const cat=q._cat||{label:'GK',color:'#2563eb'};
+  const catEl=document.getElementById('gk-daily-category');
+  if(catEl){catEl.textContent=cat.label;catEl.style.background=cat.color+'22';}
+  document.getElementById('gk-daily-q').textContent=q.q;
+  const opts=q.opts||[];
+  if(alreadyAnswered){
+    document.getElementById('gk-daily-opts').innerHTML=opts.map((o,i)=>'<button class="gk-opt '+(i===q.ans?'correct':'')+'" disabled>'+o+'</button>').join('');
+    const expEl=document.getElementById('gk-daily-exp');
+    if(expEl){expEl.textContent=q.exp||'';expEl.style.display='block';}
+  } else {
+    document.getElementById('gk-daily-opts').innerHTML=opts.map((o,i)=>'<button class="gk-opt" onclick="gkAnswerDaily('+i+','+q.ans+','+JSON.stringify((q.exp||'').slice(0,300))+',this)">'+o+'</button>').join('');
+  }
+}
+
+window.gkAnswerDaily=function(idx,ans,exp,el){
+  document.querySelectorAll('.gk-opt').forEach(b=>b.disabled=true);
+  if(idx===ans){el.classList.add('correct');window.toast('Correct! +10 XP');if(typeof addXP==='function')addXP(10,'gk daily');}
+  else{el.classList.add('wrong');const ao=document.querySelectorAll('.gk-opt');if(ao[ans])ao[ans].classList.add('correct');window.toast('Wrong! Check the explanation.');}
+  const expEl=document.getElementById('gk-daily-exp');
+  if(expEl){expEl.textContent=exp||'';expEl.style.display=exp?'block':'none';}
+  const today=new Date().toDateString();
+  const lastDate=localStorage.getItem('tisa_gk_daily_date');
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  const streak=parseInt(localStorage.getItem('tisa_gk_streak')||'0');
+  const newStreak=lastDate===yesterday?streak+1:1;
+  localStorage.setItem('tisa_gk_daily_date',today);
+  localStorage.setItem('tisa_gk_streak',newStreak);
+  const sb=document.getElementById('gk-streak-bar');
+  if(sb){sb.style.display='flex';document.getElementById('gk-streak-txt').textContent=newStreak+' day streak';}
 };
 
-// ── Init on page load ──
-document.addEventListener('DOMContentLoaded',()=>{
+// ─── MOCK PAPERS CATALOGUE ──────────────────────────────────────────────────
+const _MOCK_PAPERS={
+  jee:[
+    {title:'JEE Main 2024 Official (Jan)',meta:'300 marks · 3 hrs · PCM',badge:'official',url:'https://jeemain.nta.ac.in',year:2024},
+    {title:'JEE Main 2023 Question Paper',meta:'300 marks · 3 hrs · All subjects',badge:'pyq',url:'https://www.careers360.com/jee-main-question-paper',year:2023},
+    {title:'JEE Advanced 2024 Paper 1',meta:'180 marks · 3 hrs · IIT Entrance',badge:'official',url:'https://jeeadv.ac.in/past_qps.html',year:2024},
+    {title:'JEE Advanced 2023 Paper 2',meta:'180 marks · 3 hrs · IIT Entrance',badge:'pyq',url:'https://jeeadv.ac.in/past_qps.html',year:2023},
+    {title:'NTA JEE Mock Test (Official)',meta:'300 marks · Free Official Mock',badge:'new',url:'https://nta.ac.in',year:2024},
+    {title:'BITSAT 2024 Sample Paper',meta:'450 marks · 3 hrs · PCM+English',badge:'pyq',url:'https://bitsadmission.com',year:2024},
+  ],
+  neet:[
+    {title:'NEET UG 2024 Official Paper',meta:'720 marks · 3 hrs · PCB',badge:'official',url:'https://neet.ntaonline.in',year:2024},
+    {title:'NEET UG 2023 Question Paper',meta:'720 marks · 3 hrs · PCB',badge:'pyq',url:'https://www.careers360.com/medicine/neet-question-paper',year:2023},
+    {title:'NEET UG 2022 Question Paper',meta:'720 marks · 3 hrs · PCB',badge:'pyq',url:'https://www.embibe.com/exams/neet-question-papers/',year:2022},
+    {title:'NEET Mock Test — NTA Abhyas',meta:'720 marks · Full mock · Free',badge:'new',url:'https://abhyas.nta.ac.in',year:2024},
+  ],
+  boards:[
+    {title:'CBSE Class 12 Sample Papers 2025',meta:'All subjects · New pattern',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html',year:2025},
+    {title:'CBSE Class 12 Board 2024 Papers',meta:'Physics · Chem · Maths · Bio',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSXII_2023-24.html',year:2024},
+    {title:'CBSE Class 10 Sample Papers 2025',meta:'All subjects · Official SQP',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSX_2024-25.html',year:2025},
+    {title:'CBSE Class 10 Board 2024 Papers',meta:'Maths · Science · SST · English',badge:'pyq',url:'https://cbseacademic.nic.in/SQP_CLASSX_2023-24.html',year:2024},
+  ],
+  upsc:[
+    {title:'UPSC Prelims 2024 GS Paper 1',meta:'200 marks · 2 hrs · 100 Qs',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024},
+    {title:'UPSC Prelims 2024 CSAT Paper 2',meta:'200 marks · 2 hrs · Aptitude',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024},
+    {title:'UPSC Prelims 2023 GS Paper 1',meta:'200 marks · 2 hrs · 100 Qs',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2023},
+    {title:'UPSC Mains 2023 GS Papers 1-4',meta:'250 marks each · Subjective',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2023},
+  ],
+  ssc:[
+    {title:'SSC CGL Tier 1 2024',meta:'200 marks · 60 min · 100 Qs',badge:'official',url:'https://ssc.gov.in/portal/previouspaper',year:2024},
+    {title:'SSC CGL Tier 1 2023',meta:'200 marks · 60 min · 100 Qs',badge:'pyq',url:'https://ssc.gov.in/portal/previouspaper',year:2023},
+    {title:'SSC CHSL 2024 Tier 1',meta:'200 marks · 60 min',badge:'official',url:'https://ssc.gov.in/portal/previouspaper',year:2024},
+    {title:'SSC MTS 2023 Paper',meta:'150 marks · 90 min',badge:'pyq',url:'https://ssc.gov.in/portal/previouspaper',year:2023},
+  ],
+  banking:[
+    {title:'SBI PO Prelims 2024',meta:'100 marks · 60 min · 100 Qs',badge:'official',url:'https://sbi.co.in/web/careers',year:2024},
+    {title:'IBPS PO Prelims 2024',meta:'100 marks · 60 min · 100 Qs',badge:'official',url:'https://www.ibps.in',year:2024},
+    {title:'RBI Grade B Phase 1 2024',meta:'200 marks · 120 min',badge:'official',url:'https://www.rbi.org.in/Scripts/Careers.aspx',year:2024},
+    {title:'IBPS PO Mains 2023',meta:'200 marks · 3 hrs · Full mains',badge:'pyq',url:'https://www.ibps.in',year:2023},
+  ],
+  clat:[
+    {title:'CLAT 2024 Question Paper',meta:'120 Qs · 120 min · 150 marks',badge:'official',url:'https://consortiumofnlus.ac.in',year:2024},
+    {title:'CLAT 2023 Question Paper',meta:'120 Qs · 120 min · 150 marks',badge:'pyq',url:'https://consortiumofnlus.ac.in',year:2023},
+    {title:'CLAT 2022 Question Paper',meta:'150 Qs · 120 min',badge:'pyq',url:'https://consortiumofnlus.ac.in',year:2022},
+  ],
+  nda:[
+    {title:'NDA & NA 2024 Paper 1 (Maths)',meta:'300 marks · 2.5 hrs',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024},
+    {title:'NDA & NA 2024 Paper 2 (GAT)',meta:'600 marks · 2.5 hrs',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024},
+    {title:'NDA 2023 II Complete Paper',meta:'300+600 marks',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2023},
+  ],
+};
+
+function mockCat(cat,el){
+  document.querySelectorAll('.mock-cat-tab').forEach(b=>b.classList.remove('sel'));
+  if(el)el.classList.add('sel');
+  const papers=_MOCK_PAPERS[cat]||[];
+  const grid=document.getElementById('mock-paper-grid');
+  if(!grid)return;
+  if(!papers.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1">Papers coming soon!</div>';return;}
+  grid.innerHTML=papers.map(p=>{
+    const bc=p.badge==='official'?'official':p.badge==='new'?'new':'';
+    const bl=p.badge==='official'?'Official':p.badge==='new'?'New':'PYQ';
+    const safe=p.url.replace(/'/g,'%27');
+    const safeTitle=p.title.replace(/'/g,'').slice(0,45);
+    return '<div class="mock-paper-card '+(p.badge==='official'||p.badge==='new'?'featured':'')+'"><span class="mock-paper-badge '+bc+'">'+bl+' · '+p.year+'</span><div class="mock-paper-title">'+p.title+'</div><div class="mock-paper-meta">'+p.meta+'</div><div class="mock-paper-actions"><button class="mock-paper-btn primary" onclick="window.open(\''+safe+'\',\'_blank\',\'noopener\')">View Paper</button><button class="mock-paper-btn" onclick="mockTimedAttempt(\''+safe+'\',\''+safeTitle+'\')">Timed Attempt</button></div></div>';
+  }).join('');
+}
+
+window.mockTimedAttempt=function(url,title){
+  var mins=90;
+  testLeft=mins*60;
+  document.getElementById('m-title').textContent=title;
+  document.getElementById('m-sub').textContent=mins+' min timed attempt';
+  var tb=document.getElementById('test-body');
+  var toolbar=document.getElementById('pdf-toolbar');
+  if(tb){tb.style.padding='0';}
+  if(toolbar)toolbar.style.display='flex';
+  if(tb)tb.innerHTML='<iframe src="'+url+'" style="width:100%;height:560px;border:none;display:block"></iframe>';
+  document.getElementById('test-modal').classList.add('open');
+  document.getElementById('m-got').value='';
+  document.getElementById('m-total').value='';
+  document.getElementById('m-wrong').value='';
+  if(typeof updTestT==='function')updTestT();
+  if(window.testInt)clearInterval(window.testInt);
+  window.testInt=setInterval(function(){testLeft--;if(typeof updTestT==='function')updTestT();if(testLeft<=0)window.submitTest();},1000);
+};
+
+// ─── PANDA QUICK SEND ────────────────────────────────────────────────────────
+window.pandaQuickSend=function(btn){
+  var text=btn.textContent.trim();
+  var qa=document.getElementById('panda-quick-area');
+  if(qa)qa.style.display='none';
+  var inp=document.getElementById('ask-panda-inp');
+  if(inp){inp.value=text;window.askPanda();}
+};
+
+// ─── PANDA GIFTS ─────────────────────────────────────────────────────────────
+var _PANDA_GIFT_MSGS={
+  bamboo:['nom nom nom my fav!','bamboo!!!! omg tysm','*happy crunching noises*'],
+  tea:['ooh warm tea so cozy','tea time!! thank u bestie','sipping slowly... ahhh'],
+  star:['a STAR!!! im glowing','you think im a star? aww','*places star on forehead proudly*'],
+  flower:['flowers?? i\'m blushing','so pretty! thank you','*sniffs flower* smells amazing'],
+  cookie:['COOKIE you get me','saving half for later... maybe','*immediately eats whole cookie*'],
+};
+window.pandaGift=function(type,emoji,cost){
+  var coins=parseInt(document.getElementById('pet-coins-display')?.textContent||0);
+  if(coins<cost){window.toast('Need '+cost+' coins! Keep studying to earn more.');return;}
+  window._petCoins=(window._petCoins||coins)-cost;
+  var cd=document.getElementById('pet-coins-display');
+  if(cd)cd.textContent=window._petCoins;
+  var msgs=_PANDA_GIFT_MSGS[type]||['thanks!'];
+  var msg=msgs[Math.floor(Math.random()*msgs.length)];
+  window.toast('Panda: "'+msg+'"');
+  var pe=document.getElementById('pet-emoji');
+  if(pe){pe.style.transform='scale(1.2) rotate(5deg)';setTimeout(function(){pe.style.transform='';},500);}
+};
+
+// ─── CALM CORNER ─────────────────────────────────────────────────────────────
+window.pandaCalmBreath=function(){
+  var phases=[{label:'Breathe IN',color:'#4ade80'},{label:'Hold',color:'#facc15'},{label:'Breathe OUT',color:'#60a5fa'},{label:'Hold',color:'#f472b6'}];
+  var i=0,timer=null;
+  var ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,20,40,.94);font-family:"Nunito",sans-serif';
+  var circ=document.createElement('div');
+  circ.style.cssText='width:160px;height:160px;border-radius:50%;border:4px solid #4ade80;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;transition:all 4s ease;margin-bottom:20px;text-align:center;line-height:1.3;padding:12px;';
+  var lbl=document.createElement('div');
+  lbl.style.cssText='font-size:15px;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:28px;letter-spacing:2px;text-transform:uppercase';
+  var btn=document.createElement('button');
+  btn.textContent='Stop';
+  btn.style.cssText='background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px 24px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:700;font-family:"Nunito",sans-serif';
+  btn.onclick=function(){clearInterval(timer);document.body.removeChild(ov);};
+  ov.appendChild(circ);ov.appendChild(lbl);ov.appendChild(btn);
+  document.body.appendChild(ov);
+  var step=function(){
+    var ph=phases[i%4];
+    circ.textContent=ph.label;
+    circ.style.borderColor=ph.color;
+    circ.style.transform=ph.label.includes('IN')?'scale(1.3)':'scale(1)';
+    var t=4;
+    lbl.textContent=ph.label+' - '+t+'s';
+    var cd=setInterval(function(){t--;lbl.textContent=ph.label+' - '+t+'s';if(t<=0)clearInterval(cd);},1000);
+    i++;
+  };
+  step();
+  timer=setInterval(step,4000);
+};
+
+var _AFFIRMATIONS=[
+  'You are capable of more than you know. Every study session is a step forward.',
+  'Progress, not perfection. Small steps every day lead to big results.',
+  'Your hard work is your superpower. Rest is part of the process.',
+  'Exams test your memory, not your worth. You are more than a score.',
+  'Every expert was once a beginner. Keep going.',
+  'Struggling means you\'re learning. Your brain is literally growing.',
+  'It\'s okay to not know everything yet. Be kind to yourself.',
+];
+window.pandaAffirmation=function(){
+  var msg=_AFFIRMATIONS[Math.floor(Math.random()*_AFFIRMATIONS.length)];
+  window.switchPandaTab('ask');
+  var msgs=document.getElementById('ask-panda-msgs');
+  if(msgs){var b=document.createElement('div');b.className='ask-bubble ask-panda';b.textContent='💚 '+msg;msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;}
+};
+
+var _STUDY_JOKES=[
+  'Why did the student eat his homework? The teacher said it was a piece of cake!',
+  'What do you call a student who cheats in chemistry? A compound liar!',
+  'Why don\'t scientists trust atoms? Because they make up everything!',
+  'What did the zero say to the eight? "Nice belt!"',
+  'Why did the math book look so sad? It had too many problems.',
+  'Chemistry joke: I would tell you a sodium joke, but Na...',
+];
+window.pandaJoke=function(){
+  var joke=_STUDY_JOKES[Math.floor(Math.random()*_STUDY_JOKES.length)];
+  window.switchPandaTab('ask');
+  var msgs=document.getElementById('ask-panda-msgs');
+  if(msgs){var b=document.createElement('div');b.className='ask-bubble ask-panda';b.textContent='😄 '+joke;msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;}
+};
+
+// ── Init on DOMContentLoaded ──
+document.addEventListener('DOMContentLoaded',function(){
   atzRenderHistory();
-  // Only load daily once Tests page is first visited to avoid burning API on load
+  mockCat('jee',document.querySelector('#mock-cat-tabs .mock-cat-tab.sel'));
 });
 
-// Lazy-load daily when tests page becomes visible
-const _atzOrigShowPage=window.showPage;
+// Lazy-load GK daily when tests page becomes visible
+var _atzOrigShowPage=window.showPage;
 window.showPage=function(name,btn){
-  _atzOrigShowPage&&_atzOrigShowPage(name,btn);
-  if(name==='tests'&&!window._atz._dailyLoaded){window._atz._dailyLoaded=true;atzLoadDaily();}
+  if(_atzOrigShowPage)_atzOrigShowPage(name,btn);
+  if(name==='tests'&&!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
 };
-const _atzOrigShowPageMob=window.showPageMob;
+var _atzOrigShowPageMob=window.showPageMob;
 window.showPageMob=function(name,btn){
-  _atzOrigShowPageMob&&_atzOrigShowPageMob(name,btn);
-  if(name==='tests'&&!window._atz._dailyLoaded){window._atz._dailyLoaded=true;atzLoadDaily();}
+  if(_atzOrigShowPageMob)_atzOrigShowPageMob(name,btn);
+  if(name==='tests'&&!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
 };
 
 // ── END AI TEST ZONE ──
+
 
 </script>
 </body>
