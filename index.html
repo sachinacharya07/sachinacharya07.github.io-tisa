@@ -825,10 +825,19 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   font-size:13.5px;
 }
 .ask-thinking{
-  background:rgba(255,255,255,.5) !important;
-  backdrop-filter:blur(4px);
-  animation:pulse 1.4s ease-in-out infinite;
+  background:rgba(255,255,255,.88) !important;
+  backdrop-filter:blur(8px);
+  padding:12px 16px !important;
+  min-width:60px;
 }
+.typing-dot{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:#5c7a3e;margin:0 2px;
+  animation:typingBounce 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2){animation-delay:.2s;}
+.typing-dot:nth-child(3){animation-delay:.4s;}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
 @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
 /* mood chips in panda tab */
 .panda-mood-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;position:relative;z-index:1;}
@@ -5451,7 +5460,7 @@ window._pandaBrain=function(q){
 
   // ── Study tips ──
   if(/study tip|how to study|memorize|remember|focus|concentrate/.test(ql))return '📚 Top study techniques:\n1. Pomodoro: 25 min focus + 5 min break\n2. Active recall: test yourself, don\'t re-read\n3. Spaced repetition: review after 1d, 3d, 1w, 1m\n4. Feynman: explain it simply to understand deeply\n5. Mind maps for connecting concepts!';
-  if(/\bstressed|anxiety|overwhelmed|burnout/.test(ql))return '💙 Hey, breathe. You\'re not alone.\nTry box breathing: inhale 4s → hold 4s → exhale 4s → hold 4s\nBreak study into tiny chunks — not "study physics" but "read page 12"\nOne small step at a time. You got this 🐼';
+  if(/\bstressed?|anxiety|anxious|overwhelmed|burnout|nervous.*exam|exam.*stress/.test(ql))return '💙 Hey, breathe. You\'re not alone.\nTry box breathing: inhale 4s → hold 4s → exhale 4s → hold 4s\nBreak study into tiny chunks — not "study physics" but "read page 12"\nOne small step at a time. You got this 🐼';
   if(/procrastinat/.test(ql))return '⏰ Beat procrastination:\n1. 2-minute rule: if it takes <2 min, do it NOW\n2. Start with easiest task (momentum!)\n3. Remove distractions (phone in another room)\n4. Commit to just 5 minutes — you\'ll keep going\n5. Reward yourself after!';
 
   // ── Personal stats ──
@@ -5459,13 +5468,19 @@ window._pandaBrain=function(q){
   if(/my.*streak|how.*days/.test(ql)){let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}return 'Your current streak is '+st+' day'+(st!==1?'s':'')+(st>0?' 🔥 keep it going!':' — start today! 💪');}
   if(/how long.*today|today.*study|studied.*today/.test(ql))return todaySecs>0?'You\'ve studied '+hrs+'h '+mins+'m today! 🔥 great work'+(name?' '+name:'')+'!':'You haven\'t logged study time yet today. Open the timer and get started! ⏱️';
 
-  // ── Default: give something useful ──
-  const fallbacks=[
-    'hmm, having trouble connecting right now 🤔 check your internet and try again in a sec!',
-    'oops, AI is taking a nap 🐼 try again — if it keeps failing, check your connection',
-    'connection hiccup! 🌐 give it another try in a moment',
-  ];
-  return fallbacks[Math.floor(Date.now()/10000)%fallbacks.length];
+  // ── General knowledge catch-all ──
+  // Try to give something useful even for unknown questions
+  if(/plan.*day|schedule|routine|timetable/.test(ql))return '📅 Sample study day plan:\n6-7am: Light revision (easy topics)\n7-9am: Hard subjects (fresh brain)\n9-10am: Break + breakfast\n10am-12pm: Practice problems\n12-2pm: Lunch + rest\n2-5pm: New topics\n5-6pm: Exercise/walk\n6-8pm: Revision + notes\n9pm: Light reading\n10pm: Sleep! (crucial for memory consolidation)';
+  if(/jee|neet|upsc|boards?|cbse|competitive exam/.test(ql))return '🎯 Key strategies for competitive exams:\n1. NCERT first — foundation is everything\n2. Previous year papers (last 10 years minimum)\n3. Mock tests every week under real conditions\n4. Weak topic list — attack them early\n5. Revision > new content in last 2 months\nWhich exam are you prepping for? I can be more specific!';
+  if(/what is|explain|define|tell me about|how does/.test(ql)){
+    const topic=ql.replace(/what is|explain|define|tell me about|how does|how do|how/g,'').replace(/[?!.,]/g,'').trim();
+    if(topic.length>2)return 'I know about '+topic+' but need my AI connection for a full explanation! 🐼\nMeanwhile: search "'+topic+' explained simply" or "'+topic+' NCERT"\nOr ask me a more specific question like "'+topic+' formula" or "'+topic+' definition"';
+  }
+  if(/motivat|inspire|can.*do|give up|tired/.test(ql))return '💪 You can absolutely do this.\n\nEvery expert was once a beginner. Every person who succeeded sat in the same chair you\'re in, feeling the same doubts.\n\nThe only difference? They showed up anyway.\n\nYou showing up here, asking, trying — that\'s already more than most. Keep going. 🐼🌟';
+  if(/formula|formulas/.test(ql))return '📐 Quick formula reference:\nPhysics: F=ma, KE=½mv², PE=mgh, V=IR, E=mc²\nChemistry: PV=nRT, pH=-log[H⁺], moles=mass/MM\nMaths: Quadratic=(-b±√(b²-4ac))/2a, Pythagoras: a²+b²=c²\nBiology: Photosynthesis: 6CO₂+6H₂O→C₆H₁₂O₆+6O₂\n\nAsk me about any specific formula for details!';
+  if(/current affairs|news|today|2024|2025/.test(ql))return '📰 For current affairs I need my AI connection! 🌐\nBest sources for India current affairs:\n• PIB (pib.gov.in) — official govt news\n• The Hindu — analysis & editorials\n• Rajya Sabha TV — policy discussions\n• BYJU\'s/Unacademy daily GK\nCheck the GK Daily tab — it loads fresh questions when online!';
+  // Absolute default — still useful
+  return 'hmm, I need my AI connection for that one 🌐\n\nBut try asking me about:\n📐 Physics/Chemistry/Maths formulas\n🧬 Biology concepts\n📚 Study tips & techniques\n🇮🇳 Indian History/Polity\n⏱️ Your study stats\n\nOr check your internet and try again — AI will give a full answer!';
 };
 
 
@@ -5478,49 +5493,127 @@ window.askPanda=async function(){
   if(!q)return;
   inp.value='';
 
+  // Hide quick prompts
+  const qa=document.getElementById('panda-quick-area');
+  if(qa)qa.style.display='none';
+
+  // Disable input while thinking
+  inp.disabled=true;
+  const sendBtn=inp.nextElementSibling;
+  if(sendBtn)sendBtn.disabled=true;
+
   // User bubble
   const ub=document.createElement('div');
-  ub.className='ask-bubble user';
+  ub.className='ask-bubble ask-user';
   ub.textContent=q;
   msgs.appendChild(ub);
-
-  // Thinking bubble
-  const tb=document.createElement('div');
-  tb.className='ask-bubble panda ask-thinking';
-  tb.textContent='🐼 thinking...';
-  msgs.appendChild(tb);
   msgs.scrollTop=msgs.scrollHeight;
 
-  // Build student context
-  const name=window._uname?'@'+window._uname:(window._CU?.displayName?.split(' ')[0]||'Student');
-  const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
-  const hrs=Math.floor(todaySecs/3600),mins=Math.floor((todaySecs%3600)/60);
-  const studentCtx=`${name} | studied today: ${hrs}h ${mins}m | XP: ${window.xp||0}`;
+  // Panda response bubble
+  const tb=document.createElement('div');
+  tb.className='ask-bubble ask-panda ask-thinking';
+  tb.innerHTML='<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+  msgs.appendChild(tb);
+  msgs.scrollTop=msgs.scrollHeight;
 
   window._askHistory=window._askHistory||[];
   window._askHistory.push({role:'user',content:q});
 
+  const name=window._uname?'@'+window._uname:(window._CU?.displayName?.split(' ')[0]||'Student');
+  const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
+  const hrs=Math.floor(todaySecs/3600),mins=Math.floor((todaySecs%3600)/60);
+  const ctx='Student: '+name+', studied today: '+hrs+'h '+mins+'m';
+
+  const re_enable=()=>{inp.disabled=false;if(sendBtn)sendBtn.disabled=false;inp.focus();};
+
+  // ── Try Gemini streaming ──
+  const key=window._PANDA_KEY;
+  if(key&&key.length>10&&key.startsWith('AIza')){
+    try{
+      const sysInstruction='You are Panda, a friendly witty study buddy for Indian students (JEE/NEET/UPSC/Boards). Give accurate, helpful, concise answers. Casual tone, 1-2 emojis. For greetings be warm. For academic questions give the actual answer with key facts/formulas. Keep replies under 150 words.';
+      const contents=[];
+      // Include recent history for real conversation context
+      const hist=(window._askHistory||[]).slice(-8);
+      for(const m of hist){
+        contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});
+      }
+      // Make sure last message is the current question
+      if(!contents.length||contents[contents.length-1].role!=='user'){
+        contents.push({role:'user',parts:[{text:'['+ctx+']\n\n'+q}]});
+      }
+      const body={
+        systemInstruction:{parts:[{text:sysInstruction}]},
+        contents,
+        generationConfig:{maxOutputTokens:600,temperature:0.85}
+      };
+      const resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse&key='+key,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(body),
+        signal:AbortSignal.timeout(25000)
+      });
+      if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error('Gemini '+resp.status+': '+(e.error?.message||resp.statusText));}
+
+      // Read SSE stream
+      tb.classList.remove('ask-thinking');
+      tb.textContent='';
+      const reader=resp.body.getReader();
+      const dec=new TextDecoder();
+      let full='',buf='';
+      while(true){
+        const{done,value}=await reader.read();
+        if(done)break;
+        buf+=dec.decode(value,{stream:true});
+        const lines=buf.split('\n');
+        buf=lines.pop()||'';
+        for(const line of lines){
+          if(!line.startsWith('data: '))continue;
+          const raw=line.slice(6).trim();
+          if(!raw||raw==='[DONE]')continue;
+          try{
+            const ev=JSON.parse(raw);
+            const chunk=ev.candidates?.[0]?.content?.parts?.[0]?.text||'';
+            if(chunk){full+=chunk;tb.textContent=full;msgs.scrollTop=msgs.scrollHeight;}
+          }catch(pe){}
+        }
+      }
+      if(!full||full.trim().length<2)throw new Error('empty stream');
+      window._askHistory.push({role:'assistant',content:full});
+      re_enable();
+      msgs.scrollTop=msgs.scrollHeight;
+      return;
+    }catch(geminiErr){
+      console.warn('[Panda] Gemini stream failed:',geminiErr.message);
+      // fall through to Worker
+    }
+  }
+
+  // ── Fallback: Cloudflare Worker (non-streaming) ──
   try{
-    const data=await window._callAI({
-      question:q,
-      context:studentCtx
-      // no mode = chat path
+    const workerPayload={question:q,context:ctx};
+    const r=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(workerPayload),signal:AbortSignal.timeout(25000)
     });
-    const answer=data.answer||data.reply||data.text||data.response||data.message;
-    if(!answer)throw new Error('empty response');
-    window._askHistory.push({role:'assistant',content:answer});
+    if(!r.ok)throw new Error('Worker '+r.status);
+    const data=await r.json();
+    const answer=data.answer||data.reply||data.text||'';
+    if(!answer||answer.trim().length<4)throw new Error('empty worker response');
     tb.classList.remove('ask-thinking');
     tb.textContent=answer;
-  }catch(e){
-    console.error('[Panda] AI failed:',e.message,e);
-    window.toast&&window.toast('AI error: '+e.message.substring(0,60));
+    window._askHistory.push({role:'assistant',content:answer});
+  }catch(workerErr){
+    console.warn('[Panda] Worker failed, using offline brain:',workerErr.message);
     const fallback=window._pandaBrain(q);
-    window._askHistory.push({role:'assistant',content:fallback});
     tb.classList.remove('ask-thinking');
     tb.textContent=fallback;
+    window._askHistory.push({role:'assistant',content:fallback});
   }
+  re_enable();
   msgs.scrollTop=msgs.scrollHeight;
 };
+
+
 
 // ── VIRTUAL PET ──
 // Pet stats: hunger 0-100, happiness 0-100, energy 0-100
@@ -6223,11 +6316,82 @@ Return ONLY JSON array: [{"q":"?","opts":["(A)...","(B)...","(C)...","(D)..."],"
 ans=0-indexed. Exactly 4 opts each starting (A)(B)(C)(D).`;
 }
 
+
+// ── OFFLINE QUESTION BANK (used when AI unavailable) ──
+window._OFFLINE_QS={
+  Physics:[
+    {q:"A body of mass 5 kg is moving with velocity 10 m/s. Its kinetic energy is:",opts:["(A) 250 J","(B) 500 J","(C) 50 J","(D) 100 J"],ans:0,exp:"KE = ½mv² = ½×5×100 = 250 J"},
+    {q:"The SI unit of force is:",opts:["(A) Joule","(B) Newton","(C) Pascal","(D) Watt"],ans:1,exp:"Newton (N) is the SI unit of force. 1 N = 1 kg·m/s²"},
+    {q:"Which law states: Every action has an equal and opposite reaction?",opts:["(A) Newton's 1st Law","(B) Newton's 2nd Law","(C) Newton's 3rd Law","(D) Law of Conservation"],ans:2,exp:"Newton's 3rd Law: For every action there is an equal and opposite reaction"},
+    {q:"Speed of light in vacuum is approximately:",opts:["(A) 3×10⁶ m/s","(B) 3×10⁸ m/s","(C) 3×10¹⁰ m/s","(D) 3×10⁴ m/s"],ans:1,exp:"c = 3×10⁸ m/s in vacuum — the cosmic speed limit"},
+    {q:"Ohm's Law states that V = ?",opts:["(A) IR","(B) I/R","(C) I²R","(D) R/I"],ans:0,exp:"V = IR (Voltage = Current × Resistance). Ohm's Law."},
+    {q:"The acceleration due to gravity on Earth's surface is approximately:",opts:["(A) 9.8 m/s²","(B) 8.9 m/s²","(C) 10.8 m/s²","(D) 6.7 m/s²"],ans:0,exp:"g ≈ 9.8 m/s² (often approximated as 10 m/s²) on Earth's surface"},
+    {q:"Which phenomenon explains the formation of rainbows?",opts:["(A) Reflection","(B) Refraction and Dispersion","(C) Diffraction","(D) Interference"],ans:1,exp:"Rainbows form due to refraction and dispersion of sunlight by water droplets"},
+    {q:"Work done is zero when force and displacement are:",opts:["(A) Parallel","(B) Anti-parallel","(C) Perpendicular","(D) At 45°"],ans:2,exp:"W = F·d·cosθ. When θ=90°, cos90°=0, so W=0"},
+    {q:"Potential energy stored in a spring is:",opts:["(A) ½kx","(B) kx²","(C) ½kx²","(D) 2kx²"],ans:2,exp:"Elastic PE = ½kx², where k is spring constant and x is displacement"},
+    {q:"Which wave does NOT require a medium?",opts:["(A) Sound","(B) Water waves","(C) Electromagnetic waves","(D) Seismic waves"],ans:2,exp:"Electromagnetic waves (light, radio, X-rays) travel through vacuum"},
+  ],
+  Chemistry:[
+    {q:"The atomic number of Carbon is:",opts:["(A) 6","(B) 8","(C) 12","(D) 14"],ans:0,exp:"Carbon (C) has atomic number 6 (6 protons). Atomic mass is 12."},
+    {q:"pH of pure water at 25°C is:",opts:["(A) 0","(B) 7","(C) 14","(D) 6"],ans:1,exp:"Pure water is neutral with pH = 7 at 25°C"},
+    {q:"Avogadro's number is approximately:",opts:["(A) 6.022×10²²","(B) 6.022×10²³","(C) 6.022×10²⁴","(D) 3.011×10²³"],ans:1,exp:"Avogadro's number Nₐ = 6.022×10²³ mol⁻¹ — number of particles in 1 mole"},
+    {q:"Which gas is produced when zinc reacts with dilute H₂SO₄?",opts:["(A) CO₂","(B) SO₂","(C) H₂","(D) O₂"],ans:2,exp:"Zn + H₂SO₄ → ZnSO₄ + H₂↑. Hydrogen gas is produced."},
+    {q:"The ideal gas law is:",opts:["(A) PV = nRT","(B) PV = mRT","(C) PT = nRV","(D) P = nRT"],ans:0,exp:"PV = nRT where P=pressure, V=volume, n=moles, R=8.314 J/mol·K, T=temperature"},
+    {q:"Electronegativity generally _____ across a period (left to right):",opts:["(A) Decreases","(B) Increases","(C) Stays constant","(D) First increases then decreases"],ans:1,exp:"Electronegativity increases L→R across a period as nuclear charge increases"},
+    {q:"OIL RIG stands for:",opts:["(A) Oxidation Is Loss, Reduction Is Gain","(B) Only In Lab, Reaction Is Guaranteed","(C) Oxidation Increases Level, Reduction Improves Grade","(D) None"],ans:0,exp:"OIL RIG: Oxidation Is Loss (of electrons), Reduction Is Gain (of electrons)"},
+    {q:"Alkanes have the general formula:",opts:["(A) CₙH₂ₙ","(B) CₙH₂ₙ₋₂","(C) CₙH₂ₙ₊₂","(D) CₙHₙ"],ans:2,exp:"Alkanes (saturated hydrocarbons) have formula CₙH₂ₙ₊₂. e.g. Methane CH₄ (n=1)"},
+    {q:"The process of conversion of liquid to vapour at any temperature is called:",opts:["(A) Boiling","(B) Evaporation","(C) Sublimation","(D) Condensation"],ans:1,exp:"Evaporation occurs at any temperature from liquid surface. Boiling occurs throughout."},
+    {q:"Which element is most abundant in Earth's crust?",opts:["(A) Silicon","(B) Iron","(C) Oxygen","(D) Aluminium"],ans:2,exp:"Oxygen (~46%) is the most abundant element in Earth's crust, mostly in oxides"},
+  ],
+  Mathematics:[
+    {q:"The roots of x² - 5x + 6 = 0 are:",opts:["(A) 2 and 3","(B) -2 and -3","(C) 1 and 6","(D) -1 and -6"],ans:0,exp:"x² - 5x + 6 = (x-2)(x-3) = 0, so x = 2 or x = 3"},
+    {q:"Value of sin²θ + cos²θ is:",opts:["(A) 0","(B) 2","(C) 1","(D) -1"],ans:2,exp:"Fundamental trig identity: sin²θ + cos²θ = 1 for all values of θ"},
+    {q:"d/dx (xⁿ) = ?",opts:["(A) xⁿ⁻¹","(B) nxⁿ","(C) nxⁿ⁻¹","(D) (n-1)xⁿ"],ans:2,exp:"Power rule: d/dx(xⁿ) = nxⁿ⁻¹"},
+    {q:"∫x dx = ?",opts:["(A) x² + C","(B) x²/2 + C","(C) 2x + C","(D) 1 + C"],ans:1,exp:"∫x dx = x²/2 + C (using power rule: ∫xⁿdx = xⁿ⁺¹/(n+1) + C)"},
+    {q:"In how many ways can 5 people be arranged in a row?",opts:["(A) 25","(B) 60","(C) 120","(D) 100"],ans:2,exp:"5! = 5×4×3×2×1 = 120 ways (permutation of 5 distinct objects)"},
+    {q:"The slope of line 3x + 4y = 12 is:",opts:["(A) 3/4","(B) -3/4","(C) 4/3","(D) -4/3"],ans:1,exp:"3x + 4y = 12 → y = -3x/4 + 3. Slope = -3/4"},
+    {q:"Which of the following is NOT a rational number?",opts:["(A) 1/3","(B) √2","(C) 0.5","(D) -7"],ans:1,exp:"√2 = 1.41421... is irrational (non-terminating, non-repeating decimal)"},
+    {q:"The probability of getting heads in a fair coin toss is:",opts:["(A) 1","(B) 0","(C) 1/2","(D) 1/4"],ans:2,exp:"P(Heads) = favourable/total = 1/2 = 0.5"},
+    {q:"log₁₀(100) = ?",opts:["(A) 1","(B) 2","(C) 10","(D) 20"],ans:1,exp:"log₁₀(100) = log₁₀(10²) = 2·log₁₀(10) = 2×1 = 2"},
+    {q:"Area of a circle with radius r is:",opts:["(A) 2πr","(B) πr²","(C) 2πr²","(D) πr"],ans:1,exp:"Area = πr². Circumference = 2πr. These are different formulas!"},
+  ],
+  Biology:[
+    {q:"Photosynthesis equation: 6CO₂ + 6H₂O + light → ?",opts:["(A) C₆H₁₂O₆ + 6O₂","(B) 6CO₂ + 6O₂","(C) C₁₂H₂₂O₁₁ + O₂","(D) CH₄ + O₂"],ans:0,exp:"6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ (glucose) + 6O₂"},
+    {q:"DNA double helix base pairing: Adenine pairs with:",opts:["(A) Guanine","(B) Cytosine","(C) Thymine","(D) Uracil"],ans:2,exp:"A-T (Adenine-Thymine) and G-C (Guanine-Cytosine) base pairs in DNA"},
+    {q:"The powerhouse of the cell is:",opts:["(A) Nucleus","(B) Ribosome","(C) Mitochondria","(D) Chloroplast"],ans:2,exp:"Mitochondria produce ATP through cellular respiration — hence 'powerhouse of the cell'"},
+    {q:"Which blood group is the universal donor?",opts:["(A) AB+","(B) O-","(C) A+","(D) B-"],ans:1,exp:"O- (O negative) is universal donor as it has no A, B antigens and no Rh factor"},
+    {q:"Mitosis results in:",opts:["(A) 4 haploid cells","(B) 2 identical diploid cells","(C) 4 identical cells","(D) 2 haploid cells"],ans:1,exp:"Mitosis: 1 diploid cell → 2 identical diploid cells (for growth/repair). Meiosis→4 haploid."},
+    {q:"The functional unit of kidney is:",opts:["(A) Neuron","(B) Nephron","(C) Alveolus","(D) Villus"],ans:1,exp:"Nephron is the structural and functional unit of kidney — filters blood to form urine"},
+    {q:"Insulin is produced by which organ?",opts:["(A) Liver","(B) Kidney","(C) Pancreas","(D) Spleen"],ans:2,exp:"Insulin is produced by β-cells of islets of Langerhans in the pancreas"},
+    {q:"Evolution by natural selection was proposed by:",opts:["(A) Mendel","(B) Lamarck","(C) Darwin","(D) Watson"],ans:2,exp:"Charles Darwin proposed the theory of evolution by natural selection in 'On the Origin of Species' (1859)"},
+    {q:"Which organelle is responsible for protein synthesis?",opts:["(A) Golgi body","(B) Ribosome","(C) Lysosome","(D) Vacuole"],ans:1,exp:"Ribosomes are the site of protein synthesis (translation of mRNA to protein)"},
+    {q:"Transpiration in plants occurs mainly through:",opts:["(A) Roots","(B) Stem","(C) Stomata","(D) Flowers"],ans:2,exp:"About 90% of water loss in plants occurs through stomata (tiny pores in leaves)"},
+  ],
+  General:[
+    {q:"India's Constitution was adopted on:",opts:["(A) 15 August 1947","(B) 26 January 1950","(C) 26 November 1949","(D) 2 October 1950"],ans:1,exp:"India's Constitution came into effect on 26 January 1950 (Republic Day). Adopted 26 Nov 1949."},
+    {q:"The unit of electrical power is:",opts:["(A) Volt","(B) Ampere","(C) Watt","(D) Ohm"],ans:2,exp:"Watt (W) is the unit of power. P = VI = I²R = V²/R"},
+    {q:"GDP stands for:",opts:["(A) Gross Domestic Product","(B) General Development Plan","(C) Global Development Programme","(D) Gross Development Policy"],ans:0,exp:"GDP = Gross Domestic Product. Total monetary value of all goods/services produced in a country"},
+    {q:"Which planet is closest to the Sun?",opts:["(A) Venus","(B) Earth","(C) Mars","(D) Mercury"],ans:3,exp:"Mercury is closest to the Sun (avg 57.9 million km). Venus is 2nd closest."},
+    {q:"The speed of sound in air at 20°C is approximately:",opts:["(A) 343 m/s","(B) 300 m/s","(C) 500 m/s","(D) 1000 m/s"],ans:0,exp:"Speed of sound in air ≈ 343 m/s at 20°C. It increases with temperature."},
+  ]
+};
+
+window._getOfflineQuestions=function(subject,n){
+  const bank=window._OFFLINE_QS[subject]||window._OFFLINE_QS.General||[];
+  // Shuffle and return n questions
+  const shuffled=[...bank].sort(()=>Math.random()-0.5);
+  const result=[];
+  for(let i=0;i<n;i++){
+    const q=shuffled[i%shuffled.length];
+    result.push({...q,difficulty:'Medium',topic:subject});
+  }
+  return result;
+};
+
 window.atzLaunchTest=async function(){
   const a=window._atz;
   if(!a.exam){window.toast('Please select an exam first!');return;}
   if(!a.subject){window.toast('Please select a subject!');return;}
-  if(!_PANDA_WORKER||_PANDA_WORKER===''){window.toast('Worker URL not configured!');return;}
   if(!a.qtype) a.qtype='objective';
   const totalQ=_ATZ_QCOUNT[a.mode]||10;
   const label=_ATZ_LABELS[a.exam]||a.exam;
@@ -6325,16 +6489,24 @@ window.atzLaunchTest=async function(){
         showLoading(a.questions.length,totalQ);
       }
     }catch(e){
-      console.error(`[ATZ] Batch ${b+1} failed:`,e.message);
-      // If we already have some questions, continue; else show error
-      if(!started){
+      console.warn(`[ATZ] Batch ${b+1} AI failed:`,e.message,'. Using offline questions.');
+      // Use offline question bank as fallback
+      const subj=window._atz.subject||'General';
+      const offlineQs=window._getOfflineQuestions(subj,thisBatch);
+      if(offlineQs.length){
+        a.questions.push(...offlineQs);
+        if(!started){
+          started=true;
+          window.toast('📚 Using offline questions (AI unavailable)');
+          mcqStartTimer();
+          mcqRenderQuestion();
+        }
+      } else if(!started){
         document.getElementById('mcq-modal').classList.remove('open');
-        window.toast('⚠️ AI request failed — check your connection and try again!');
-        console.error('[ATZ] Generation failed:', e.message);
+        window.toast('⚠️ Could not generate questions. Try again!');
         return;
       }
-      // Silently skip failed batch if test already started
-      break;
+      if(a.questions.length>=totalQ)break;
     }
   }
 };
