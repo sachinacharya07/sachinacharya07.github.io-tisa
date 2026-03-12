@@ -1814,6 +1814,8 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 <!-- TESTS -->
 <div class="page" id="page-tests">
 
+
+
 <!-- ── AI TEST ZONE HERO ── -->
 <!-- GK Daily Card — outside atz-hero so it renders independently -->
 <div id="gk-daily-wrap" class="gk-hero">
@@ -2282,13 +2284,21 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <div id="res-list-el"><div class="empty">No resources yet</div></div>
   </div>
   <div class="card" style="grid-column:1/-1">
-    <div class="ct"><div class="ct-ic">🤖</div>AI &amp; API Key</div>
-    <p style="font-size:12px;color:var(--ink3);margin-bottom:10px">Optional: add your own Gemini API key for faster AI responses. Leave blank to use the shared key.</p>
-    <div style="display:flex;gap:8px;margin-bottom:8px">
-      <input id="panda-key-inp" type="password" class="tisa-inp" placeholder="AIzaSy... (optional)" style="flex:1;font-size:12px">
-      <button class="btn btn-sm btn-p" onclick="(function(){var v=document.getElementById('panda-key-inp').value.trim();if(v){window._PANDA_KEY=v;localStorage.setItem('tisa_panda_key',v);document.getElementById('panda-key-status').textContent='Key saved!';window.toast('API key saved!');}else{window._PANDA_KEY='';localStorage.removeItem('tisa_panda_key');document.getElementById('panda-key-status').textContent='Cleared.';window.toast('Key cleared');}})()" style="font-size:12px;white-space:nowrap">Save</button>
+    <div class="ct"><div class="ct-ic">🤖</div>AI Setup — Fix Tests &amp; Panda Chat</div>
+    <div style="background:var(--pglow,#e8f0e0);border-radius:10px;padding:11px 13px;margin-bottom:12px;border-left:3px solid var(--primary)">
+      <div style="font-size:12px;font-weight:800;color:var(--primary);margin-bottom:4px">⚡ Why AI tests fail &amp; how to fix it in 2 minutes:</div>
+      <div style="font-size:12px;color:var(--ink2);line-height:1.7">
+        1. Go to <b><a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--primary)">aistudio.google.com/apikey</a></b> (free, no credit card)<br>
+        2. Click <b>"Create API key"</b> → copy it<br>
+        3. Paste it below → Save<br>
+        <span style="color:var(--primary);font-weight:700">✓ AI tests, Panda chat &amp; GK Daily will all work instantly!</span>
+      </div>
     </div>
-    <div id="panda-key-status" style="font-size:11px;color:var(--ink3);font-weight:600">No key set — using shared key.</div>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <input id="panda-key-inp" type="password" class="tisa-inp" placeholder="Paste your AIzaSy... key here" style="flex:1;font-size:12px">
+      <button class="btn btn-sm btn-p" onclick="(function(){var v=document.getElementById('panda-key-inp').value.trim();if(v){window._PANDA_KEY=v;try{localStorage.setItem('tisa_panda_key',v);}catch(e){}var s=document.getElementById('panda-key-status');s.textContent='✅ Key saved! AI features unlocked.';s.style.color='var(--success,#2d7a3a)';window.toast('✅ Gemini API key saved — AI is ready!');}else{window._PANDA_KEY='';localStorage.removeItem('tisa_panda_key');var s=document.getElementById('panda-key-status');s.textContent='Key cleared.';s.style.color='';window.toast('Key cleared');}})()" style="font-size:12px;white-space:nowrap">Save Key</button>
+    </div>
+    <div id="panda-key-status" style="font-size:11px;font-weight:700;color:var(--ink3)">No key saved — AI needs your free Gemini key to work.</div>
   </div>
 
   <div class="card" style="grid-column:1/-1">
@@ -2660,9 +2670,15 @@ window.doSignOut=async()=>{
 window.deleteAllMyData = async () => {
   if(!window._CU) return;
   try {
+    // Delete core user documents
     await deleteDoc(doc(db,'userData',window._CU.uid));
     await deleteDoc(doc(db,'publicStats',window._CU.uid));
     await deleteDoc(doc(db,'users',window._CU.uid));
+    // Delete user's own forum posts
+    try{
+      const myPostsSnap=await getDocs(query(collection(db,'posts'),where('authorId','==',window._CU.uid)));
+      for(const p of myPostsSnap.docs){await deleteDoc(p.ref);}
+    }catch(e2){console.warn('[Delete] Could not delete posts:',e2);}
     document.getElementById('delete-modal').classList.remove('open');
     window.toast && window.toast('✅ All your data has been deleted.');
     setTimeout(()=>window.doSignOut(), 1500);
@@ -2767,11 +2783,11 @@ async function loadUD(){
         setTheme(d.prefs.theme);
       }
       if(d.prefs.fontSize){
-        localStorage.setItem('tisa-fontsize',d.prefs.fontSize);
+        try{localStorage.setItem('tisa-fontsize',d.prefs.fontSize);}catch(e){}
         applyFontSize(d.prefs.fontSize);
       }
       if(d.prefs.textColor){
-        localStorage.setItem('tisa-textcolor',d.prefs.textColor);
+        try{localStorage.setItem('tisa-textcolor',d.prefs.textColor);}catch(e){}
         applyTextColor(d.prefs.textColor);
       }
     }
@@ -2932,7 +2948,7 @@ window.genNewAlias=()=>{
   window.toast('New alias: '+myPostAlias+' 🎭');
 };
 function getPostAlias(){const c=document.getElementById('custom-alias-inp')?.value.trim();return c||myPostAlias;}
-function getCommentAlias(postId){return _genAliasFromSeed((window._CU?.uid||'')+(postId||'')+(Math.floor(Date.now()/3600000)));}
+function getCommentAlias(postId){return _genAliasFromSeed((window._CU?.uid||'')+(postId||'')+(Math.floor(Date.now()/86400000)));}
 
 // ── FORUM ──
 let forumUnsub=null,curPostId=null,fFilter='all';
@@ -3614,7 +3630,7 @@ function loadProgress(chatId,oUid){
   }
   updateMyProgress();
   // Poll my data every 10 seconds while progress tab is open (timer may be running)
-  window._progressMyPoll=setInterval(updateMyProgress,10000);
+  if(!window._progressMyPoll)window._progressMyPoll=setInterval(updateMyProgress,10000);
 
   // FIX 4b: Live Firestore listener for OTHER user's study data
   // LOADING FIX: read from publicStats (public) not userData (private, would silently fail)
@@ -3855,7 +3871,7 @@ let calY=new Date().getFullYear(),calM=new Date().getMonth();
 let activeTT=null;
 let calcSt={n1:'',n2:'',op:null,fresh:true};
 let focusRun=false,focusSecs=0,focusInt=null,focusSaved=0;
-Object.defineProperty(window,'_today',{get:()=>new Date().toISOString().split('T')[0]});
+Object.defineProperty(window,'_today',{get:()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}});
 
 // ── UTILS ──
 let _saveTimer=null;
@@ -3869,7 +3885,7 @@ window._esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,
 window._fmtH=function(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=Math.floor(s%60);return h+':'+pad(m)+':'+pad(sc);};
 function fmtHLabel(s){if(!s)return'0h';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);if(h>0)return m>0?h+'h '+m+'m':h+'h';if(m>0)return m+'m';return'<1m';}
 function fmtHMS(s){return pad(Math.floor(s/3600))+':'+pad(Math.floor((s%3600)/60))+':'+pad(s%60);}
-window._dStr=function(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];};
+window._dStr=function(n){const d=new Date();d.setDate(d.getDate()-n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};;
 function fmtDate(d){return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
 function toast(msg){const el=document.getElementById('toast');if(!el)return;el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2600);}
 window.toast=toast;
@@ -3878,7 +3894,9 @@ window.toast=toast;
 window.showPage=(name,btn)=>{
   if(name==='admin'){if(!window._isAdmin||!window._isAdmin()){window.toast('Access denied');return;}if(!_admPosts.length)_admLoad();}
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name)?.classList.add('active');
+  const _activePage=document.getElementById('page-'+name);
+  if(_activePage){_activePage.classList.add('active');_activePage.scrollTop=0;}
+  const _appMain=document.getElementById('app-main');if(_appMain)_appMain.scrollTop=0;
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   else{const nb=document.querySelector(`nav button[onclick*="'${name}'"]`);if(nb)nb.classList.add('active');}
@@ -3906,7 +3924,7 @@ window.addEventListener('resize',()=>{const mn=document.getElementById('mobile-n
 
 // ── THEME ──
 const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimal',p:'#4a5e2a',b:'#f7f9f4',s:'#ffffff'},matcha:{name:'Matcha',p:'#4a7c59',b:'#f2f5ee',s:'#f9fbf7'},lavender:{name:'Lavender',p:'#7c5cbf',b:'#f5f2fa',s:'#faf8fd'},sand:{name:'Sand',p:'#a07840',b:'#faf6ef',s:'#fffdf8'},slate:{name:'Slate',p:'#3a6080',b:'#f0f4f8',s:'#f8fafc'},rose:{name:'Rose',p:'#b84a5a',b:'#fdf4f4',s:'#fff8f8'},midnight:{name:'Midnight',p:'#6a9fd8',b:'#0e1018',s:'#121620'}};
-function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface','--font-main','--font-head'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);localStorage.setItem('tisa-theme',name);document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();window._save&&window._save();}
+function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface','--font-main','--font-head'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);try{localStorage.setItem('tisa-theme',name);}catch(e){}document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();window._save&&window._save();}
 window.setTheme=setTheme;
 window.toggleDark=()=>{const c=document.documentElement.getAttribute('data-theme');setTheme(c==='dark'?'light':'dark');};
 // ── FONT SIZE ──
@@ -3935,7 +3953,7 @@ function previewFontSize(size){
 }
 function saveFontSize(size){
   applyFontSize(size);
-  localStorage.setItem('tisa-fontsize',size);
+  try{localStorage.setItem('tisa-fontsize',size);}catch(e){}
   window._save&&window._save();
   window.toast('Font size: '+size+'px');
 }
@@ -3962,13 +3980,13 @@ function previewTextColor(color){
 }
 function saveTextColor(color){
   applyTextColor(color);
-  localStorage.setItem('tisa-textcolor',color);
+  try{localStorage.setItem('tisa-textcolor',color);}catch(e){}
   window._save&&window._save();
   window.toast('Text colour saved');
 }
 function setTextColorPreset(color){
   applyTextColor(color);
-  localStorage.setItem('tisa-textcolor',color);
+  try{localStorage.setItem('tisa-textcolor',color);}catch(e){}
   window._save&&window._save();
   window.toast('Text colour updated');
 }
@@ -4315,7 +4333,7 @@ function renderTodos(){const el=document.getElementById('todo-list');if(!el)retu
 
 // ── CHARTS ──
 const PIE_COLORS=['#5c7a3e','#7db356','#d4688a','#2a7fa8','#d4783a','#8b6fd4','#c8941a','#2d7a3a'];
-function renderBigChart(){const el=document.getElementById('big-chart');if(!el)return;const vals=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];vals.push({l:d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:(window.studyData[ds]||0)/3600,s:window.studyData[ds]||0,isT:ds===window._today});}const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map(v=>`<div class="bc-bar-wrap"><div class="bc-bar" style="height:${Math.round(v.v/mx*150)+4}px;min-width:22px"><div class="bc-bar-tip">${fmtHLabel(v.s)}</div></div><div class="bc-lbl">${v.isT?'Today':v.l}</div></div>`).join('');let tw=0,lw=0;for(let i=0;i<7;i++)tw+=(window.studyData[window._dStr(i)]||0);for(let i=7;i<14;i++)lw+=(window.studyData[window._dStr(i)]||0);const pte=document.getElementById('pw-this'),ple=document.getElementById('pw-last'),pd=document.getElementById('pw-diff');if(pte)pte.textContent=window._fmtH(tw);if(ple)ple.textContent=window._fmtH(lw);if(pd){const diff=tw-lw;pd.textContent=diff>=0?'↑ +'+fmtHLabel(diff)+' vs last week':'↓ '+fmtHLabel(Math.abs(diff))+' vs last week';pd.style.color=diff>=0?'var(--success)':'var(--danger)';}}
+function renderBigChart(){const el=document.getElementById('big-chart');if(!el)return;const vals=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');vals.push({l:d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}),v:(window.studyData[ds]||0)/3600,s:window.studyData[ds]||0,isT:ds===window._today});}const mx=Math.max(...vals.map(v=>v.v),1);el.innerHTML=vals.map(v=>`<div class="bc-bar-wrap"><div class="bc-bar" style="height:${Math.round(v.v/mx*150)+4}px;min-width:22px"><div class="bc-bar-tip">${fmtHLabel(v.s)}</div></div><div class="bc-lbl">${v.isT?'Today':v.l}</div></div>`).join('');let tw=0,lw=0;for(let i=0;i<7;i++)tw+=(window.studyData[window._dStr(i)]||0);for(let i=7;i<14;i++)lw+=(window.studyData[window._dStr(i)]||0);const pte=document.getElementById('pw-this'),ple=document.getElementById('pw-last'),pd=document.getElementById('pw-diff');if(pte)pte.textContent=window._fmtH(tw);if(ple)ple.textContent=window._fmtH(lw);if(pd){const diff=tw-lw;pd.textContent=diff>=0?'↑ +'+fmtHLabel(diff)+' vs last week':'↓ '+fmtHLabel(Math.abs(diff))+' vs last week';pd.style.color=diff>=0?'var(--success)':'var(--danger)';}}
 function renderPieChart(){const canvas=document.getElementById('pie-canvas');if(!canvas)return;const ctx=canvas.getContext('2d');const subTotals={};(sessions||[]).forEach(s=>{ // guard undefined sessions
   subTotals[s.sub]=(subTotals[s.sub]||0)+s.dur;});const entries=Object.entries(subTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,7);const total=entries.reduce((a,[,v])=>a+v,0);ctx.clearRect(0,0,150,150);const leg=document.getElementById('pie-legend');if(!total){ctx.fillStyle='#e0e0e0';ctx.beginPath();ctx.arc(75,75,65,0,Math.PI*2);ctx.fill();if(leg)leg.innerHTML='<div style="font-size:11px;color:var(--ink3);font-weight:600">Start studying to see chart!</div>';return;}let angle=-Math.PI/2;entries.forEach(([s,v],i)=>{const slice=(v/total)*Math.PI*2;ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,65,angle,angle+slice);ctx.closePath();ctx.fillStyle=PIE_COLORS[i%8];ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();angle+=slice;});if(leg)leg.innerHTML=entries.map(([s,v],i)=>`<div class="pie-leg-item"><div class="pie-dot" style="background:${PIE_COLORS[i%8]}"></div><span>${window._esc(s)}</span><span style="margin-left:auto;color:var(--primary);font-weight:800">${fmtHLabel(v)}</span></div>`).join('');}
 function renderSubjPerf(){const el=document.getElementById('subj-perf');if(!el)return;const st={};sessions.forEach(s=>{st[s.sub]=(st[s.sub]||0)+s.dur;});const sorted=Object.entries(st).sort((a,b)=>b[1]-a[1]).slice(0,5);if(!sorted.length){el.innerHTML='<div class="empty">No study data yet</div>';return;}const mx=Math.max(...sorted.map(([,v])=>v),1);el.innerHTML=sorted.map(([s,v],i)=>`<div class="sp-item"><div style="font-size:11px;font-weight:700;width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(s)}</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:${Math.round(v/mx*100)}%;background:${PIE_COLORS[i%8]}"></div></div><div style="font-size:11px;font-weight:800;color:var(--primary);width:52px;text-align:right;font-family:'Space Mono',monospace">${fmtHLabel(v)}</div></div>`).join('');let allT=0;Object.entries(window.studyData).forEach(([k,v])=>{if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof v==='number')allT+=v;});const days=Object.values(window.studyData).filter(v=>v>0);const avg=days.length?allT/days.length:0;const best=Math.max(...Object.values(window.studyData),0);const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('p-total-h',window._fmtH(allT));set('p-best-day',fmtHLabel(best)||'—');set('p-avg',window._fmtH(avg));set('p-tests-c',window.pastTests.length);}
@@ -5283,8 +5301,54 @@ window.switchPandaTab=function(tab){
 
 // ── ASK PANDA (AI) ──
 window._askHistory=[];
-// Load saved Panda API key
+// App default Gemini key — works for all users out of the box
+window._PANDA_KEY='AIzaSyBAMM2jWAcvSMkY5fjLt7sx9hiqurYs_gA';
+// Override with user's personal key if they set one
 try{const _pk=localStorage.getItem('tisa_panda_key');if(_pk)window._PANDA_KEY=_pk;}catch(e){}
+
+// ── Core AI caller — tries Gemini direct first, falls back to Worker ──
+window._callAI=async function(payload){
+  const key=window._PANDA_KEY;
+  const mode=payload.mode||'chat';
+
+  // ── PATH 1: Direct Gemini API (if user has a key) ──
+  if(key&&key.startsWith('AIza')){
+    let sysInstruction='';
+    let prompt='';
+    if(mode==='test_generator'){
+      sysInstruction='You are an expert academic examiner. Return ONLY valid JSON, no markdown, matching: {"test_title":"...","questions":[{"q":"...","options":["A text","B text","C text","D text"],"correct_answer":"exact text of correct option","explanation":"..."}]}';
+      prompt='Create a mock test. Topic: '+(payload.topic||'General')+'. Difficulty: '+(payload.difficulty||'Medium')+'. Questions: '+(payload.numQuestions||5)+'. Context: '+(payload.context||'');
+    } else if(mode==='gk_question'){
+      sysInstruction='You are a GK expert. Return ONLY valid JSON: {"q":"question text","opts":["(A) opt","(B) opt","(C) opt","(D) opt"],"ans":0,"exp":"explanation"}. ans is 0-indexed integer.';
+      prompt='Generate 1 high-quality MCQ about: '+(payload.topic||'Current Affairs')+'. Focus on India and world awareness, recent events 2022-2025.';
+    } else {
+      sysInstruction='You are Panda, a friendly study companion. Be warm, concise, helpful. Use casual tone with 1-2 emojis. Answer any academic question accurately. Return JSON: {"answer":"your response"}';
+      prompt=(payload.context?'Student context: '+payload.context+'\n\n':'')+'Student: '+payload.question;
+    }
+    const body={
+      systemInstruction:{parts:[{text:sysInstruction}]},
+      contents:[{parts:[{text:prompt}]}],
+      generationConfig:{responseMimeType:'application/json',maxOutputTokens:2048,temperature:mode==='chat'?0.9:0.7}
+    };
+    const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body),signal:AbortSignal.timeout(25000)
+    });
+    if(!r.ok){const err=await r.json();throw new Error('Gemini: '+(err.error?.message||r.status));}
+    const d=await r.json();
+    const txt=d.candidates?.[0]?.content?.parts?.[0]?.text;
+    if(!txt)throw new Error('Gemini returned empty');
+    return JSON.parse(txt);
+  }
+
+  // ── PATH 2: Cloudflare Worker (shared key) ──
+  const r=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload),signal:AbortSignal.timeout(25000)
+  });
+  if(!r.ok)throw new Error('Worker HTTP '+r.status);
+  return await r.json();
+};
 // ── PANDA BRAIN — smart rule-based AI, no API key needed ──
 window._pandaBrain=function(q){
   const ql=q.toLowerCase().trim();
@@ -5292,192 +5356,83 @@ window._pandaBrain=function(q){
   const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
   const hrs=Math.floor(todaySecs/3600);
   const mins=Math.floor((todaySecs%3600)/60);
-  const streak=window.studyData?.streak||0;
-  const xp=window.xp||0;
-  const coins=window.coins||0;
-  const subjects=(window.subjects||[]).map(s=>s.name||s);
 
-  // ── Maths / arithmetic ──
-  const mathMatch=ql.match(/^\s*what\s+is\s+([\d\s+\-*\/().%^]+)\??$/i)||ql.match(/^\s*([\d\s+\-*\/().%^]+)\s*=?\s*\??$/);
-  if(mathMatch){
-    try{
-      const expr=mathMatch[1].replace(/\^/g,'**').replace(/x/gi,'*');
-      // safe eval: only allow numbers and operators
-      if(/^[\d\s+\-*\/().%*]+$/.test(expr)){
-        const result=Function('"use strict";return ('+expr+')')();
-        if(typeof result==='number'&&isFinite(result)){
-          return `${expr.trim()} = **${result}** 🔢 Easy one! Need help with harder maths? 📚`;
-        }
-      }
-    }catch(e){}
-  }
-  // ── Greeting / small talk ──
-  if(/^(hi|hey|hello|sup|yo|hiya|howdy)\b/.test(ql)){
-    // Only greet if first message, otherwise skip straight to help
-    const msgCount=window._askHistory?window._askHistory.filter(m=>m.role==='user').length:0;
-    if(msgCount<=1) return `yo ${name||'bestie'}! 🐼 wassup, what do you need?`;
-    return `lol we already said hi 😄 what's up though?`;
-  }
-  if(/how are you|how r u|you ok/.test(ql)){
-    return `I'm doing great, thanks for asking! 🐼 ${todaySecs>0?`You've studied ${hrs>0?hrs+'h ':''}${mins}m today — keep it up! 🔥`:"Haven't started studying yet today — want to kick things off? 💪"}`;
-  }
-  if(/your name|who are you|what are you/.test(ql)){
-    return "I'm Panda 🐼 — your personal study companion inside TISA (Track. Improve. Study. Ace.). I'm here to help you study smarter, stay motivated, and answer your questions!";
-  }
-  if(/thank|thanks|thx|ty\b/.test(ql)){
-    const ty=["You're welcome! 🎋 Keep studying hard!","Anytime! That's what I'm here for 🐼","Happy to help! Now back to those books 📚😄","Always! You've got this 🌟"];
-    return ty[Math.floor(Math.random()*ty.length)];
-  }
+  // ── Maths ──
+  const mathMatch=ql.match(/^what\s+is\s+([\d\s+\-*\/().%^]+)\??$/i)||ql.match(/^([\d\s+\-*\/().%^x]+)\s*=?\s*\??$/);
+  if(mathMatch){try{const expr=mathMatch[1].replace(/\^/g,'**').replace(/x/gi,'*');if(/^[\d\s+\-*\/().%*]+$/.test(expr)){const r=Function('"use strict";return ('+expr+')')();if(typeof r==='number'&&isFinite(r))return expr.trim()+' = **'+r+'** 🔢';}  }catch(e){}}
+
+  // ── Greetings ──
+  if(/^(hi|hey|hello|sup|yo|hiya|howdy)\b/.test(ql)){const mc=(window._askHistory||[]).filter(m=>m.role==='user').length;if(mc<=1)return 'yo '+(name||'bestie')+'! 🐼 wassup, what do you need?';return 'lol we already said hi 😄 what else?';}
+  if(/how are you|how r u|you ok/.test(ql))return 'doing great! 🐼 '+(todaySecs>0?'you\'ve studied '+hrs+'h '+mins+'m today 🔥':'haven\'t started yet — want to kick things off? 💪');
+  if(/your name|who are you|what are you/.test(ql))return 'I\'m Panda 🐼 — your TISA study buddy! Ask me anything — formulas, concepts, study tips, anything!';
+  if(/thank|thanks|thx|ty\b/.test(ql))return ['anytime bestie! 🎋','happy to help 🐼','always! you got this 🌟'][Math.floor(Math.random()*3)];
+
+  // ── Physics ──
+  if(/speed of light|c =/.test(ql))return '⚡ Speed of light c = 3×10⁸ m/s (in vacuum). In water it slows to ~2.25×10⁸ m/s. It\'s the cosmic speed limit — nothing with mass can reach it!';
+  if(/\bnewton.*law|law.*newton/.test(ql))return '🍎 Newton\'s 3 Laws:\n1. Inertia — object stays at rest/motion unless force acts\n2. F = ma (force = mass × acceleration)\n3. Every action has equal & opposite reaction';
+  if(/\bF\s*=\s*ma\b|force.*mass.*accel/.test(ql))return '⚡ F = ma\nForce (N) = Mass (kg) × Acceleration (m/s²)\nDouble the mass → double the force needed!';
+  if(/kinetic energy|KE =/.test(ql))return '🎯 KE = ½mv²\nKinetic Energy (J) = ½ × mass (kg) × velocity² (m/s)²\nDouble the speed → 4× the energy!';
+  if(/potential energy|PE =/.test(ql))return '📐 PE = mgh\nPotential Energy = mass × gravity (9.8 m/s²) × height\nHigher up = more stored energy!';
+  if(/ohm.*law|V\s*=\s*IR/.test(ql))return '⚡ Ohm\'s Law: V = IR\nVoltage (V) = Current (A) × Resistance (Ω)\nTriple resistance → triple voltage needed for same current';
+  if(/gravity|gravitational acceleration/.test(ql))return '🌍 g = 9.8 m/s² on Earth\'s surface\nOn Moon: 1.6 m/s² (1/6th)\nOn Mars: 3.7 m/s²\nFormula: g = GM/r²';
+  if(/\bwaves?\b.*speed|wave.*velocity/.test(ql))return '🌊 Wave speed v = fλ\nv = frequency (Hz) × wavelength (m)\nSound in air: 343 m/s | Light in vacuum: 3×10⁸ m/s';
+  if(/\bthermodynamics|entropy|enthalpy/.test(ql))return '🌡️ Thermodynamics basics:\n1st Law: Energy can\'t be created/destroyed (ΔU = Q - W)\n2nd Law: Entropy always increases\n3rd Law: Absolute zero is unattainable';
+  if(/\belectromagnet|faraday|lenz/.test(ql))return '🧲 Electromagnetic Induction:\nFaraday: EMF = -dΦ/dt (changing magnetic flux induces EMF)\nLenz\'s Law: Induced current opposes the change that caused it';
+  if(/photoelectric|planck|quantum/.test(ql))return '⚛️ Photoelectric Effect (Einstein 1905):\nE = hf (Energy = Planck\'s constant × frequency)\nh = 6.626×10⁻³⁴ J·s\nPhotons must exceed threshold frequency to eject electrons';
+  if(/\brelativity|e=mc|mass energy/.test(ql))return '🚀 Einstein\'s E = mc²\nEnergy = mass × (speed of light)²\nc = 3×10⁸ m/s\nTiny mass = enormous energy — basis of nuclear power!';
+
+  // ── Chemistry ──
+  if(/periodic table|element.*atomic|atomic.*number/.test(ql))return '⚗️ Key periodic table trends:\n→ Atomic radius DECREASES across period (L to R)\n→ Ionization energy INCREASES across period\n→ Electronegativity INCREASES across period & up groups';
+  if(/\bmole\b|avogadro/.test(ql))return '🧪 1 mole = 6.022×10²³ particles (Avogadro\'s number)\nMoles = mass ÷ molar mass\nMoles = volume (L) × molarity (mol/L) in solutions';
+  if(/\bpH\b|acid.*base|base.*acid/.test(ql))return '⚗️ pH scale:\npH < 7 = Acidic | pH = 7 = Neutral | pH > 7 = Basic\npH = -log[H⁺]\nHCl (strong acid, pH≈1) | NaOH (strong base, pH≈13) | Water pH=7';
+  if(/ideal gas|PV\s*=\s*nRT/.test(ql))return '💨 Ideal Gas Law: PV = nRT\nP=pressure(Pa), V=volume(m³), n=moles, R=8.314, T=temperature(K)\nAt STP: 1 mole gas = 22.4 L';
+  if(/activation energy|catalyst|enzyme/.test(ql))return '⚡ Activation Energy = minimum energy needed to start a reaction\nCatalyst LOWERS activation energy WITHOUT being consumed\nEnzymes = biological catalysts (protein-based)';
+  if(/\borganic chem|hydrocarbon|alkane|alkene|alkyne/.test(ql))return '🧪 Organic Hydrocarbons:\nAlkanes: CₙH₂ₙ₊₂ (single bonds, -ane) e.g. methane CH₄\nAlkenes: CₙH₂ₙ (one double bond, -ene) e.g. ethene C₂H₄\nAlkynes: CₙH₂ₙ₋₂ (triple bond, -yne) e.g. ethyne C₂H₂';
+  if(/oxidation|reduction|redox|OIL RIG/.test(ql))return '⚗️ OIL RIG:\nOxidation Is Loss (of electrons)\nReduction Is Gain (of electrons)\nReducing agent = gets oxidised | Oxidising agent = gets reduced';
+
+  // ── Biology ──
+  if(/\bphotosynthesis/.test(ql))return '🌿 Photosynthesis:\n6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂\nOccurs in chloroplasts | Light reactions in thylakoid | Calvin cycle in stroma\nChlorophyll absorbs red & blue light';
+  if(/\brespiration|ATP/.test(ql))return '🫁 Cellular Respiration:\nC₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + 38 ATP\nGlycolysis (cytoplasm) → Krebs cycle (mitochondria) → ETC\nATP = energy currency of cell';
+  if(/\bDNA|RNA|genetics|nucleotide/.test(ql))return '🧬 DNA:\nDouble helix | A-T and G-C base pairs\nDNA → (transcription) → mRNA → (translation) → Protein\n3 bases = 1 codon = 1 amino acid\n4 bases: Adenine, Thymine, Guanine, Cytosine';
+  if(/\bcell.*division|mitosis|meiosis/.test(ql))return '🔬 Cell Division:\nMitosis: 1 cell → 2 identical cells (PMAT: Prophase, Metaphase, Anaphase, Telophase)\nMeiosis: 1 cell → 4 haploid cells (for sexual reproduction)\nDNA replicates before both';
+  if(/\bmendelian|dominant|recessive|genetics/.test(ql))return '🧬 Mendel\'s Laws:\nDominant allele (A) masks recessive (a)\nPunnett Square: AA × aa → all Aa (carriers)\nLaw of Segregation: alleles separate during gamete formation\nLaw of Independent Assortment';
+  if(/\bimmune|antibody|antigen|white blood/.test(ql))return '🛡️ Immune System:\nInnate = fast, non-specific (skin, macrophages, fever)\nAdaptive = specific (B cells make antibodies, T cells kill infected cells)\nAntigens trigger immune response | Vaccines use weakened antigens';
+  if(/\bevolution|darwin|natural selection/.test(ql))return '🦕 Darwin\'s Natural Selection:\n1. Variation exists in populations\n2. Traits are heritable\n3. Overproduction → struggle for survival\n4. Best-adapted individuals survive & reproduce more\nResult: gradual change over generations';
+
+  // ── Maths ──
+  if(/quadratic.*formula|ax.*bx.*c/.test(ql))return '📐 Quadratic Formula:\nx = (-b ± √(b²-4ac)) / 2a\nfor ax² + bx + c = 0\nDiscriminant b²-4ac: >0 = 2 real roots, =0 = 1 root, <0 = no real roots';
+  if(/pythagoras|pythagorean/.test(ql))return '📐 Pythagoras: a² + b² = c²\nc = hypotenuse (longest side)\nCommon triples: 3-4-5, 5-12-13, 8-15-17';
+  if(/\bderivative|differentiat/.test(ql))return '📊 Derivatives:\nd/dx(xⁿ) = nxⁿ⁻¹ | d/dx(sin x) = cos x | d/dx(cos x) = -sin x\nd/dx(eˣ) = eˣ | d/dx(ln x) = 1/x\nChain rule: d/dx[f(g(x))] = f\'(g(x))·g\'(x)';
+  if(/\bintegral|integrat/.test(ql))return '∫ Integration:\n∫xⁿdx = xⁿ⁺¹/(n+1) + C | ∫sin x dx = -cos x + C\n∫eˣdx = eˣ + C | ∫(1/x)dx = ln|x| + C\nDefinite integral = area under the curve';
+  if(/\btrigonometry|sin|cos|tan/.test(ql)&&/formula|value|identity/.test(ql))return '📐 Trig:\nsin²θ + cos²θ = 1 | tan θ = sin/cos\nsin 30°=0.5 | sin 45°=1/√2 | sin 60°=√3/2\nsin 90°=1 | cos 0°=1 | tan 45°=1';
+  if(/\bpermutation|combination|nCr|nPr/.test(ql))return '🎲 Counting:\nPermutation nPr = n!/(n-r)! — ORDER matters\nCombination nCr = n!/[r!(n-r)!] — ORDER doesn\'t matter\nnCr = nPr/r!\nExample: 5C2 = 10, 5P2 = 20';
+  if(/\bprobability/.test(ql))return '🎲 Probability:\nP(event) = favourable outcomes / total outcomes\nP(A or B) = P(A) + P(B) - P(A and B)\nP(A and B) = P(A) × P(B) if independent\nP(not A) = 1 - P(A)';
+
+  // ── History/Polity/Economics ──
+  if(/\bindependence.*india|1947|partition/.test(ql))return '🇮🇳 India\'s Independence:\n15 August 1947 — Independence from British rule\nPartition → India & Pakistan\nJawaharlal Nehru = 1st PM | Lord Mountbatten = last Viceroy\nConstitution adopted 26 Jan 1950';
+  if(/\bconstitution.*india|fundamental rights/.test(ql))return '📜 Indian Constitution:\nAdopted: 26 Jan 1950 | Drafted by: B.R. Ambedkar\nParts: 22 + Schedules: 12 + Articles: 448\nFundamental Rights: Articles 12-35 (6 rights)\nDPSP: Articles 36-51 | Duties: Article 51A';
+  if(/\bGDP|gross domestic product/.test(ql))return '💰 GDP = C + I + G + (X-M)\nConsumption + Investment + Govt spending + (Exports - Imports)\nNominal GDP = current prices | Real GDP = constant prices\nGDP Growth rate = (New-Old)/Old × 100';
+  if(/\binflation|CPI|WPI/.test(ql))return '📈 Inflation:\nCPI (Consumer Price Index) — retail prices, used for monetary policy\nWPI (Wholesale Price Index) — wholesale/producer prices\nRBI controls inflation via repo rate (current ~6.5%)\nInflation >6% = RBI tightens money supply';
+
+  // ── Study tips ──
+  if(/study tip|how to study|memorize|remember|focus|concentrate/.test(ql))return '📚 Top study techniques:\n1. Pomodoro: 25 min focus + 5 min break\n2. Active recall: test yourself, don\'t re-read\n3. Spaced repetition: review after 1d, 3d, 1w, 1m\n4. Feynman: explain it simply to understand deeply\n5. Mind maps for connecting concepts!';
+  if(/\bstressed|anxiety|overwhelmed|burnout/.test(ql))return '💙 Hey, breathe. You\'re not alone.\nTry box breathing: inhale 4s → hold 4s → exhale 4s → hold 4s\nBreak study into tiny chunks — not "study physics" but "read page 12"\nOne small step at a time. You got this 🐼';
+  if(/procrastinat/.test(ql))return '⏰ Beat procrastination:\n1. 2-minute rule: if it takes <2 min, do it NOW\n2. Start with easiest task (momentum!)\n3. Remove distractions (phone in another room)\n4. Commit to just 5 minutes — you\'ll keep going\n5. Reward yourself after!';
 
   // ── Personal stats ──
-  if(/my (xp|experience|points)|how much xp/.test(ql)){
-    return `You have ${xp} XP and ${coins} 🪙 coins${streak>0?' with a '+streak+'-day streak 🔥':''}! Keep studying to earn more and unlock rewards 🌟`;
-  }
-  if(/my streak|how long.*streak|streak.*how/.test(ql)){
-    return streak>0?`You're on a 🔥 ${streak}-day streak — amazing! Don't break it, study a bit today even if it's just 15 minutes.`:`No active streak yet — study today to start one! Even 15 minutes counts 💪`;
-  }
-  if(/how (long|much).*studied|study.*today|today.*study|my progress/.test(ql)){
-    return todaySecs>0?`You've studied for ${hrs>0?hrs+'h ':''}${mins} minutes today 📚${hrs>=2?' — that\'s seriously impressive! 🏆':hrs>=1?' — great work! Keep going 💪':' — good start! Aim for at least an hour 🎯'}`:`You haven't logged any study time today yet. Start a timer now — even 25 minutes makes a difference! 🍅`;
-  }
-  if(/my subjects?|what.*studying|studying what/.test(ql)){
-    return subjects.length>0?`You're studying: ${subjects.join(', ')} 📚 Want tips on any of these?`:`You haven't added any subjects yet! Go to the Timer page and tap + to add your subjects 🎯`;
-  }
+  if(/my.*xp|how much xp/.test(ql))return 'You have '+(window.xp||0)+' XP and '+(window.coins||0)+' 🪙 coins! Keep studying to earn more 🌟';
+  if(/my.*streak|how.*days/.test(ql)){let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}return 'Your current streak is '+st+' day'+(st!==1?'s':'')+(st>0?' 🔥 keep it going!':' — start today! 💪');}
+  if(/how long.*today|today.*study|studied.*today/.test(ql))return todaySecs>0?'You\'ve studied '+hrs+'h '+mins+'m today! 🔥 great work'+(name?' '+name:'')+'!':'You haven\'t logged study time yet today. Open the timer and get started! ⏱️';
 
-  // ── Study techniques ──
-  if(/pomodoro|pomo|25.?min|tomato timer/.test(ql)){
-    return "The Pomodoro technique is 25 minutes of focused work → 5 min break → repeat 4× → long break 🍅 It's scientifically proven to boost focus. Tap '🍅 Pomo' on your timer to start one right now!";
-  }
-  if(/active recall|flashcard|self.?test/.test(ql)){
-    return "Active recall is the #1 most effective study method 🧠 Instead of re-reading, close your notes and try to recall key points. Use flashcards, practice tests, or just explain concepts out loud. Way better than highlighting!";
-  }
-  if(/spaced repetition|spacing effect/.test(ql)){
-    return "Spaced repetition means reviewing material at increasing intervals — today, tomorrow, in 3 days, in a week 📅 Apps like Anki use this. It exploits how memory works to make studying stick long-term!";
-  }
-  if(/mind map|concept map/.test(ql)){
-    return "Mind maps are great for visual learners 🗺️ Put the main topic in the centre, branch out key ideas, then add details. Drawing connections between ideas helps your brain encode the information more deeply!";
-  }
-  if(/feynman|teach.*explain|explain.*simple/.test(ql)){
-    return "The Feynman technique: pick a concept → explain it like you're teaching a 10-year-old → find the gaps where your explanation breaks → go back and learn those gaps 🎓 If you can't explain it simply, you don't understand it yet!";
-  }
-  if(/cornell notes?|note.?taking|how to take notes/.test(ql)){
-    return "Cornell notes are top tier 📝 Divide your page: narrow left column for key questions/cues, wide right column for notes, bottom for a summary. After class, cover the right side and use the cues to test yourself!";
-  }
-  if(/study group|study with friends|group study/.test(ql)){
-    return "Study groups work well when everyone comes prepared! 👥 Teach each other topics, quiz each other, and keep sessions focused (max 2 hours). Avoid turning it into a chat session though 😄";
-  }
-  if(/procrastinat|can't start|don't want to study|lazy|motivation/.test(ql)){
-    return "Procrastination hack: just commit to 2 minutes 🐼 Tell yourself you'll study for only 2 minutes. Once you start, momentum kicks in and you'll keep going. The hardest part is always starting!";
-  }
-  if(/focus|concentrat|distract|can't focus/.test(ql)){
-    return "Focus tips: 📵 phone in another room, 🎧 lo-fi music or white noise, 🍅 use the Pomodoro timer in TISA, 💧 stay hydrated, and clear your desk. Your environment shapes your focus more than willpower does!";
-  }
-  if(/memoris|memoriz|remember|forget|memory/.test(ql)){
-    return "Best memory hacks 🧠: (1) Active recall > re-reading, (2) Spaced repetition — review at intervals, (3) Link new info to something you already know, (4) Sleep! Your brain consolidates memories during sleep 😴 Try explaining what you learned before bed.";
-  }
-  if(/stress|anxious|anxiety|overwhelm|panic/.test(ql)){
-    return "Exam stress is real 💙 Try box breathing: inhale 4 counts, hold 4, exhale 4, hold 4. Then break your work into tiny chunks — not 'study chemistry' but 'read page 12'. One small step at a time. You've got this 🐼";
-  }
-  if(/tired|exhausted|sleepy|can't keep.*eyes/.test(ql)){
-    return "Being tired kills productivity 😴 Options: (1) 20-min power nap (set an alarm!), (2) go for a 5 min walk outside, (3) cold water on your face, or (4) just stop for today — sleep-deprived studying barely works. Rest is productive too!";
-  }
-  if(/break|how.*often.*break|when.*take.*break/.test(ql)){
-    return "Take a break every 25-50 minutes 🐼 During breaks: stand up, stretch, get water, look at something far away (20-20-20 rule). Avoid scrolling — it's not real rest for your brain. Short walks are the best!";
-  }
-  if(/exam|test|quiz.*tip|revision|revise/.test(ql)){
-    return "Exam prep tips 📝: (1) Past papers are GOLD — do them under timed conditions, (2) teach topics to yourself out loud, (3) start 2 weeks early (not the night before!), (4) sleep well the night before, (5) eat breakfast on exam day. You've got this! 💪";
-  }
-  if(/essay|writing|paragraph|thesis/.test(ql)){
-    return "Essay writing flow 📝: intro (hook + thesis), 3+ body paragraphs (point → evidence → explain → link back), conclusion (restate thesis + broader significance). Draft first, edit second — never try to do both at once!";
-  }
-  if(/read(ing)? (faster|speed|quickly)|speed read/.test(ql)){
-    return "Reading faster tip: use your finger or a pen as a pacer under each line — it stops your eyes from wandering and speeds up reading by 20-30% 👆 Also, preview headings and summaries first so your brain knows what to expect!";
-  }
-
-  // ── Subject-specific ──
-  if(/math|maths|algebra|calculus|equation|formula|geometry|trigonometry/.test(ql)){
-    return "Maths tip 🔢: don't just read examples — do them yourself with the textbook closed. Maths is a skill, not knowledge. Make formula sheets, then practice until you don't need them. Khan Academy and Wolfram Alpha are great for explanations!";
-  }
-  if(/physics|newton|force|energy|motion|velocity|acceleration/.test(ql)){
-    return "Physics tip ⚡: always draw a diagram first, label all forces/quantities, then write the equation. Physics problems are usually just finding the right formula and plugging in — but the diagram is where 80% of the thinking happens!";
-  }
-  if(/chemistry|chem|periodic|element|reaction|mole|atom|bond/.test(ql)){
-    return "Chemistry tip 🧪: understand the WHY behind reactions, don't just memorise. For calculations (moles, stoichiometry), write out every step clearly. Flashcards work great for element symbols and reaction types!";
-  }
-  if(/biology|bio|cell|genetics|dna|evolution|ecosystem|anatomy/.test(ql)){
-    return "Biology tip 🧬: it's a lot of vocab — flashcards and diagrams are your best friends. Draw diagrams from memory (cell structure, DNA replication). For processes, make step-by-step flow charts. Connecting concepts together is key!";
-  }
-  if(/history|historian|war|revolution|event|century|empire/.test(ql)){
-    return "History tip 📜: focus on CAUSE → EVENT → CONSEQUENCE chains. Use timelines, mind maps, and practice writing timed essays. For dates, link them to something memorable. Understanding context beats memorising facts!";
-  }
-  if(/english|literature|poem|novel|shakespeare|metaphor|analysis/.test(ql)){
-    return "English lit tip 📖: use PEE/PEEL structure (Point → Evidence → Explain → Link). Always analyse the author's intent — why did they choose THAT word? Annotate your texts with themes, techniques, and page references. Practice timed essays!";
-  }
-  if(/language|french|spanish|german|mandarin|vocab|grammar|pronunciation/.test(ql)){
-    return "Language learning tip 🗣️: consistency beats intensity — 20 min daily beats 3 hours once a week. Duolingo for vocab, watch shows in that language with subtitles, and speak out loud even if it feels awkward. Mistakes are how you learn!";
-  }
-  if(/computer|coding|programming|python|javascript|algorithm|code/.test(ql)){
-    return "Coding tip 💻: don't just read code — TYPE it out yourself and make small changes to see what breaks. Build something you care about. When stuck, rubber duck debug (explain the problem out loud). Stack Overflow and MDN are your best friends!";
-  }
-  if(/economics|econ|supply|demand|market|gdp|inflation/.test(ql)){
-    return "Economics tip 📈: master supply/demand diagrams — they come up everywhere. Practice drawing and shifting curves. For essays, always use economic theory + real-world examples. Investopedia is great for quick explanations!";
-  }
-  if(/psychology|psych|behaviour|cognitive|experiment|study.*people/.test(ql)){
-    return "Psychology tip 🧠: memorise key studies with the APFC method — Aim, Procedure, Findings, Conclusion. Link theories to real examples. For evaluation, think: strengths vs. limitations, ethical issues, real-world applications!";
-  }
-
-  // ── TISA-specific ──
-  if(/coin|how.*earn.*coin|earn.*coin/.test(ql)){
-    return `You have ${coins} 🪙 coins! Earn more by: studying (1 coin per 10 min), completing todo tasks, maintaining your streak, and reaching XP milestones. Spend coins to feed your Panda! 🐼`;
-  }
-  if(/xp|level up|rank|how.*earn.*xp/.test(ql)){
-    return `You have ${xp} XP! You earn XP by studying, logging sessions, posting on the forum, and completing wellness check-ins. Higher XP = higher rank on the leaderboard 🏆`;
-  }
-  if(/pomo(doro)?.*how|how.*pomo|start.*pomo/.test(ql)){
-    return "Tap the 🍅 Pomo button on your timer! It starts a 25-minute focus countdown automatically. After 25 min, a 5-min break starts. After 4 rounds, you get a long break 🎉 No setup needed!";
-  }
-  if(/timer.*how|how.*timer|start.*timer/.test(ql)){
-    return "Tap the Start button on your timer card on the home page 🏠 Select your subject first, then hit Start. Your study time gets logged automatically and earns you XP + coins!";
-  }
-  if(/theme|dark mode|colour|color|appearance/.test(ql)){
-    return "Go to Settings (⚙️ in the nav) to pick from 12 themes including dark mode 🌙 You can even create a custom theme with your own colours and font!";
-  }
-  if(/forum|post|community/.test(ql)){
-    return "The Community page is where you can post questions, share study tips, and chat with other TISA users 💬 Tap the speech bubble in the nav — posting and commenting earns you XP!";
-  }
-  if(/todo|task|checklist/.test(ql)){
-    return "Your Todo list is on the home page 🏠 Add tasks with the + button. Swipe left on a task to delete it. Completing tasks earns you coins and XP — so get ticking! ✅";
-  }
-  if(/streak.*how|how.*streak|keep.*streak/.test(ql)){
-    return "Your streak goes up by 1 every day you log at least 1 minute of study ⏱️ Log a short session even on busy days to keep it alive. Streaks earn bonus XP and flex on the leaderboard 🔥";
-  }
-
-  // ── Motivation & wellbeing ──
-  if(/motivat|inspire|give up|quit|worth it|why.*study/.test(ql)){
-    const mo=["Every expert was once a beginner 🌱 The hours you put in now compound into something amazing. Keep going!","Your future self will thank you for every minute you study today 🌟","Progress over perfection — a little studying done is infinitely better than perfect studying planned 💪","The pain of studying is temporary. The pride of achievement is permanent 🏆 You've got this!"];
-    return mo[Math.floor(Math.random()*mo.length)];
-  }
-  if(/affirmation|positive|cheer|encourage/.test(ql)){
-    const aff=[`You're doing amazing${name?' '+name:''}! 🌟 Your dedication will absolutely pay off.`,"Every page you read, every problem you solve — it all adds up. Trust the process 🐼","You are smarter and more capable than you give yourself credit for 💙 Keep believing in yourself!",`${xp>0?'You\'ve already earned '+xp+' XP — that\'s real effort!':'Today is the perfect day to start earning XP! 🌟'} Proud of you 🐼`];
-    return aff[Math.floor(Math.random()*aff.length)];
-  }
-  if(/joke|funny|laugh|entertain/.test(ql)){
-    const jokes=["Why did the student eat his homework? Because the teacher told him it was a piece of cake! 🎂😄","What do you call a fish without eyes? A fsh 🐟 ...okay back to studying 😄","Why is 6 afraid of 7? Because 7 8 9! 😂 Now that you're smiling, let's get back to it 💪","I tried to write a chemistry joke but I knew I wouldn't get a reaction 🧪😄"];
-    return jokes[Math.floor(Math.random()*jokes.length)];
-  }
-  if(/bored|boring|not interesting|hate studying/.test(ql)){
-    return "Boredom hack: gamify it! Set a 25-min Pomo timer and race yourself 🏎️ Or switch subjects, change your environment, or study with lo-fi music. Also — your Panda needs you to study to stay happy 🐼🥺";
-  }
-
-  // ── Catch-all smart fallback ──
+  // ── Default: give something useful ──
   const fallbacks=[
-    `okay so break it into 25-min chunks with short breaks 🍅 keeps the brain from frying, trust me`,
-    `ngl explaining it out loud to yourself literally works — reveals where you're actually confused 🎓`,
-    `real talk: consistent daily > cramming 💯 even 30 mins a day = 180+ hours a year 📚`,
-    `active recall + spaced repetition is the cheat code fr 🧠 everything else is cope`,
-    `${todaySecs>300?`you've already put in ${hrs>0?hrs+'h ':''}${mins}m today — that's actually lowkey impressive 🌟`:`open that timer rn, even 25 mins will make you feel better about today ⏱️`}`,
+    'hmm, that\'s a tough one for offline mode 🤔 add your Gemini API key in Settings → AI & API Key to get full AI answers!',
+    'my offline knowledge has limits! 🐼 go to Settings → AI & API Key and add your free Gemini key for full answers',
+    'for detailed explanations, add your Gemini API key in Settings! It\'s free at aistudio.google.com 🔑',
   ];
-  return fallbacks[Math.floor(Math.random()*fallbacks.length)];
+  return fallbacks[Math.floor(Date.now()/10000)%fallbacks.length];
 };
+
 
 const _PANDA_WORKER='https://tisa-panda.tisa-helpdesk.workers.dev';
 window.askPanda=async function(){
@@ -5490,58 +5445,40 @@ window.askPanda=async function(){
 
   // User bubble
   const ub=document.createElement('div');
-  ub.className='ask-bubble ask-user';
+  ub.className='ask-bubble user';
   ub.textContent=q;
   msgs.appendChild(ub);
 
   // Thinking bubble
   const tb=document.createElement('div');
-  tb.className='ask-bubble ask-panda ask-thinking';
-  tb.textContent='Panda is thinking... 🎋';
+  tb.className='ask-bubble panda ask-thinking';
+  tb.textContent='🐼 thinking...';
   msgs.appendChild(tb);
   msgs.scrollTop=msgs.scrollHeight;
 
-  window._askHistory.push({role:'user',content:q});
-  if(window._askHistory.length>20)window._askHistory=window._askHistory.slice(-20);
-
-  // Build context string for personalised replies
+  // Build student context
+  const name=window._uname?'@'+window._uname:(window._CU?.displayName?.split(' ')[0]||'Student');
   const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
   const hrs=Math.floor(todaySecs/3600),mins=Math.floor((todaySecs%3600)/60);
-  const isFirstMsg=window._askHistory.filter(m=>m.role==='user').length<=1;
-  const context=`You are Panda 🐼 — ${window._uname||window._CU?.displayName?.split(' ')[0]||'this student'}'s close study friend inside TISA. Talk like a real friend — casual, short, warm, use slang sometimes (lol, ngl, bro/bestie etc), max 2-3 sentences unless the question needs more detail. NO formal language. NEVER start with "Hey [name]!" or any greeting — just reply directly. Only greet once at the very start of a conversation (first message ever), never again. Don't say you're an AI. Use 1-2 emojis naturally.
-Student info: studied today ${hrs}h ${mins}m | streak ${window.studyData?.streak||0} days | ${window.xp||0} XP | subjects: ${(window.subjects||[]).map(s=>s.name||s).join(', ')||'none set'}
-${isFirstMsg?'This is the first message — one short greeting is ok, then answer.':'NO greeting — reply directly to the question.'}`;
+  const studentCtx=`${name} | studied today: ${hrs}h ${mins}m | XP: ${window.xp||0}`;
+
+  window._askHistory=window._askHistory||[];
+  window._askHistory.push({role:'user',content:q});
 
   try{
-    // Build minimal student context (worker handles Panda personality via sysInstruction)
-    const studentCtx=`Student: ${window._uname||window._CU?.displayName?.split(' ')[0]||'student'} | studied today ${hrs}h ${mins}m | streak ${window.studyData?.streak||0} days | ${window.xp||0} XP`;
-    console.log('[Panda] Sending to Worker:', {question:q,hasCustomKey:!!window._PANDA_KEY});
-    const resp=await fetch(_PANDA_WORKER,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        question:q,
-        context:studentCtx,
-        apiKey:window._PANDA_KEY||undefined
-        // no mode = chatbot path
-      })
+    const data=await window._callAI({
+      question:q,
+      context:studentCtx
+      // no mode = chat path
     });
-    console.log('[Panda] Worker status:', resp.status, resp.statusText);
-    const rawText=await resp.text();
-    console.log('[Panda] Worker raw response:', rawText);
-    if(!resp.ok)throw new Error('Worker HTTP '+resp.status+': '+rawText);
-    let data;
-    try{ data=JSON.parse(rawText); }catch(pe){ throw new Error('Worker returned non-JSON: '+rawText.slice(0,200)); }
-    // Accept both {answer:...} and {reply:...} shapes
     const answer=data.answer||data.reply||data.text||data.response||data.message;
-    if(!answer)throw new Error('Worker JSON missing answer field. Keys: '+Object.keys(data).join(','));
+    if(!answer)throw new Error('empty response');
     window._askHistory.push({role:'assistant',content:answer});
     tb.classList.remove('ask-thinking');
     tb.textContent=answer;
   }catch(e){
-    // Fallback to rule-based brain if Worker is down or rate-limited
-    console.error('[Panda] Worker failed, using _pandaBrain fallback. Reason:', e.message, e);
-    // Use rule-based brain as fallback — no ugly "resting" prefix
+    console.error('[Panda] AI failed:',e.message);
+    // Smart fallback
     const fallback=window._pandaBrain(q);
     window._askHistory.push({role:'assistant',content:fallback});
     tb.classList.remove('ask-thinking');
@@ -5836,6 +5773,7 @@ document.addEventListener('touchend',e=>{
 // Update swipe index when page changes
 const _origShowPageMob=window.showPageMob;
 window.showPageMob=function(name,btn){
+  const _am=document.getElementById('app-main');if(_am)_am.scrollTop=0;
   const idx=_pages.indexOf(name);
   if(idx>=0)_curPageIdx=idx;
   if(_origShowPageMob)_origShowPageMob(name,btn);
@@ -6296,22 +6234,16 @@ window.atzLaunchTest=async function(){
     if(thisBatch<=0)break;
     try{
       const {topic:mcqTopic,numQ:mcqN,diff:mcqDiff,examLabel:mcqLabel}=atzBuildTopicParams(thisBatch);
-      const resp=await fetch(_PANDA_WORKER,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          mode:'test_generator',
-          topic:mcqTopic,
-          numQuestions:mcqN,
-          difficulty:mcqDiff,
-          context:mcqLabel,
-          apiKey:window._PANDA_KEY||undefined
-        })
+      const _aiResp=await window._callAI({
+        mode:'test_generator',
+        topic:mcqTopic,
+        numQuestions:mcqN,
+        difficulty:mcqDiff,
+        context:mcqLabel,
+        apiKey:window._PANDA_KEY||undefined
       });
-      if(!resp.ok)throw new Error('Worker HTTP '+resp.status);
-      const rawText=await resp.text();
-      console.log(`[ATZ] Batch ${b+1}:`,rawText.slice(0,200));
-      let data; try{data=JSON.parse(rawText);}catch(e){throw new Error('Non-JSON: '+rawText.slice(0,80));}
+      const data=_aiResp;
+      console.log(`[ATZ] Batch ${b+1}: got`,data.questions?.length,'questions');
       // New worker returns {questions:[{q,options,correct_answer,explanation}]} or {answer:"[...]"}
       let qs=[];
       if(data.questions&&Array.isArray(data.questions)&&data.questions.length){
@@ -6362,7 +6294,7 @@ window.atzLaunchTest=async function(){
       // If we already have some questions, continue; else show error
       if(!started){
         document.getElementById('mcq-modal').classList.remove('open');
-        window.toast('⚠️ AI is slow right now. Try again in a moment!');
+        window.toast('⚠️ AI needs a Gemini key — go to Settings → AI Setup to fix in 2 mins!');
         console.error('[ATZ] Generation failed:', e.message);
         return;
       }
@@ -6403,7 +6335,7 @@ function mcqRenderQuestion(){
     <div class="mcq-options">
       ${q.opts.map((o,i)=>`<button class="mcq-opt" onclick="mcqAnswer(${i})" id="mcq-opt-${i}">
         <span class="opt-letter">${['A','B','C','D'][i]}</span>
-        <span>${o.replace(/^\([ABCD]\)\s*/,'')}</span>
+        <span>${(o||"").replace(/^\([ABCD]\)\s*/,'')}</span>
       </button>`).join('')}
     </div>
     <div class="mcq-explanation" id="mcq-exp"><strong>\U0001f4d6 Explanation:</strong> ${q.exp||'No explanation available.'}</div>
@@ -6700,20 +6632,16 @@ async function gkLoadDaily(){
   // Then try to get a fresh AI question in the background
   const cat=_GK_CATEGORIES[new Date().getDate()%_GK_CATEGORIES.length];
   try{
-    const resp=await fetch(_PANDA_WORKER,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        mode:'gk_question',
-        topic:cat.label,
-        category:cat.id,
-        apiKey:window._PANDA_KEY||undefined
-      })});
-    if(!resp.ok)throw new Error('Worker HTTP '+resp.status);
-    const data=await resp.json();
+    const data=await window._callAI({
+      mode:'gk_question',
+      topic:cat.label,
+      category:cat.id
+    });
     // Worker returns {q, opts, ans, exp} directly for gk_question mode
     const q=data;
     if(!q.q||!q.opts||q.opts.length<2)throw new Error('invalid gk q');
     q._cat=cat;
-    localStorage.setItem('tisa_gk_daily_q',JSON.stringify(q));
+    try{localStorage.setItem('tisa_gk_daily_q',JSON.stringify(q));}catch(e){}
     renderGkQuestion(q,false);
   }catch(e){
     console.log('[GK Daily] Using fallback (AI unavailable):', e.message);
@@ -6751,8 +6679,7 @@ window.gkAnswerDaily=function(idx,ans,exp,el){
   const yesterday=new Date(Date.now()-86400000).toDateString();
   const streak=parseInt(localStorage.getItem('tisa_gk_streak')||'0');
   const newStreak=lastDate===yesterday?streak+1:1;
-  localStorage.setItem('tisa_gk_daily_date',today);
-  localStorage.setItem('tisa_gk_streak',newStreak);
+  try{localStorage.setItem('tisa_gk_daily_date',today);localStorage.setItem('tisa_gk_streak',newStreak);}catch(e){console.warn('[TISA] localStorage quota exceeded');};
   const sb=document.getElementById('gk-streak-bar');
   if(sb){sb.style.display='flex';document.getElementById('gk-streak-txt').textContent=newStreak+' day streak';}
 };
@@ -6761,78 +6688,100 @@ window.gkAnswerDaily=function(idx,ans,exp,el){
 // All URLs are public landing pages — no CDN/S3 direct links (those give Access Denied)
 const _MOCK_PAPERS={
   jee:[
-    {title:'JEE Main 2024 Jan — Mathongo PYQ',meta:'300 marks · 3 hrs · PCM · Solutions included',badge:'official',url:'https://www.mathongo.com/jee-main-pyq',year:2024,marks:300,time:180},
-    {title:'JEE Main 2024 April — Mathongo PYQ',meta:'300 marks · 3 hrs · All shifts',badge:'official',url:'https://www.mathongo.com/jee-main-pyq',year:2024,marks:300,time:180},
-    {title:'JEE Main 2023 PYQs — Mathongo',meta:'All shifts with video solutions',badge:'pyq',url:'https://www.mathongo.com/jee-main-pyq',year:2023,marks:300,time:180},
-    {title:'JEE Advanced 2024 Paper 1 — IIT Official',meta:'180 marks · 3 hrs · Download from IIT',badge:'official',url:'https://jeeadv.ac.in/past_qps.html',year:2024,marks:180,time:180},
-    {title:'JEE Advanced 2024 Paper 2 — IIT Official',meta:'180 marks · 3 hrs · Download from IIT',badge:'official',url:'https://jeeadv.ac.in/past_qps.html',year:2024,marks:180,time:180},
-    {title:'JEE Advanced 2023 Papers — IIT Official',meta:'Paper 1 + Paper 2 with answer keys',badge:'pyq',url:'https://jeeadv.ac.in/past_qps.html',year:2023,marks:360,time:360},
-    {title:'JEE Main Free Mock — Allen Official',meta:'Full mock with solutions · Allen Kota',badge:'new',url:'https://www.allen.ac.in/apps/student/index.html',year:2024,marks:300,time:180},
-    {title:'JEE Main Mock Test — NTA Official',meta:'Free mock by NTA at Abhyas portal',badge:'new',url:'https://abhyas.nta.ac.in',year:2024,marks:300,time:180},
+    {title:'JEE Main 2024 Jan Shift 1',year:2024,url:'https://cdn.digialm.com//per/g27/pub/2307/touchstone/AssemblyQP/2307/Assem_1200242107_23_01_24_13_30_11.pdf',free:true},
+    {title:'JEE Main 2023 Apr Shift 1',year:2023,url:'https://cdn.digialm.com//per/g27/pub/2307/touchstone/AssemblyQP/2307/Assem_23074200107_15_04_23_13_03_30.pdf',free:true},
+    {title:'JEE Main 2022 June Paper 1',year:2022,url:'https://jeemain.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=319',free:true},
+    {title:'JEE Advanced 2024 Paper 1',year:2024,url:'https://jeeadv.ac.in/past_qps/2024/Paper1.pdf',free:true},
+    {title:'JEE Advanced 2023 Paper 1',year:2023,url:'https://jeeadv.ac.in/past_qps/2023/Paper1.pdf',free:true},
+    {title:'JEE Advanced 2022 Paper 1',year:2022,url:'https://jeeadv.ac.in/past_qps/2022/Paper1_June2022.pdf',free:true},
+    {title:'JEE Advanced 2021 Paper 1',year:2021,url:'https://jeeadv.ac.in/past_qps/2021/Paper1.pdf',free:true},
+    {title:'JEE Advanced 2020 Paper 1',year:2020,url:'https://jeeadv.ac.in/past_qps/2020/Paper1.pdf',free:true},
+    {title:'JEE Main 2019 Jan Paper 1',year:2019,url:'https://jeemain.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=11',free:true},
+    {title:'JEE Advanced 2019 Paper 1',year:2019,url:'https://jeeadv.ac.in/past_qps/2019/Paper1.pdf',free:true}
   ],
   neet:[
-    {title:'NEET UG 2024 Question Paper — NTA',meta:'720 marks · 3 hrs · Official from NTA',badge:'official',url:'https://neet.ntaonline.in/frontend/web/question-paper/index',year:2024,marks:720,time:200},
-    {title:'NEET 2024 Paper + Key — Careers360',meta:'720 marks · All codes · Free download',badge:'official',url:'https://medicine.careers360.com/articles/neet-question-paper',year:2024,marks:720,time:200},
-    {title:'NEET 2023 Paper + Key — Careers360',meta:'720 marks · 3 hrs · PCB',badge:'pyq',url:'https://medicine.careers360.com/articles/neet-question-paper',year:2023,marks:720,time:200},
-    {title:'NEET 2022 Paper + Key — Careers360',meta:'720 marks · 3 hrs · PCB',badge:'pyq',url:'https://medicine.careers360.com/articles/neet-question-paper',year:2022,marks:720,time:200},
-    {title:'NEET Mock Test — NTA Abhyas (Free)',meta:'Full 180Q mock · Official NTA portal',badge:'new',url:'https://abhyas.nta.ac.in',year:2024,marks:720,time:200},
-    {title:'NEET PYQs — Allen Official Portal',meta:'Chapter-wise + full papers with solutions',badge:'new',url:'https://www.allen.ac.in/apps/student/index.html',year:2024,marks:720,time:200},
+    {title:'NEET 2024 Official Paper',year:2024,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=386',free:true},
+    {title:'NEET 2023 Official Paper',year:2023,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=340',free:true},
+    {title:'NEET 2022 Official Paper',year:2022,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=271',free:true},
+    {title:'NEET 2021 Official Paper',year:2021,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=214',free:true},
+    {title:'NEET 2020 Official Paper',year:2020,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=163',free:true},
+    {title:'NEET 2019 Official Paper',year:2019,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=120',free:true},
+    {title:'NEET 2018 Official Paper',year:2018,url:'https://cbseneet.nic.in/cbseneet/ShowPdf.aspx?Type=PaperSol&FileNm=NEET2018.pdf',free:true},
+    {title:'NEET 2017 Official Paper',year:2017,url:'https://cbseneet.nic.in/cbseneet/ShowPdf.aspx?Type=PaperSol&FileNm=neetug_2017_qp.pdf',free:true}
   ],
   boards:[
-    {title:'CBSE Class 12 Sample Papers 2024-25 — Official',meta:'All subjects · Marking scheme included',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html',year:2025,marks:70,time:180},
-    {title:'CBSE Class 12 Physics SQP 2024-25',meta:'70 marks · 3 hrs · With marking scheme',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html',year:2025,marks:70,time:180},
-    {title:'CBSE Class 12 Maths SQP 2024-25',meta:'80 marks · 3 hrs · Official CBSE',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html',year:2025,marks:80,time:180},
-    {title:'CBSE Class 10 Sample Papers 2024-25',meta:'All subjects · Official CBSE portal',badge:'official',url:'https://cbseacademic.nic.in/SQP_CLASSX_2024-25.html',year:2025,marks:80,time:180},
-    {title:'CBSE Previous Year Papers — Careers360',meta:'Class 10 & 12 · All subjects 2019-2024',badge:'pyq',url:'https://school.careers360.com/articles/cbse-previous-year-question-papers',year:2024,marks:80,time:180},
-    {title:'CBSE Class 12 Board Papers 2024',meta:'All streams · Official source',badge:'pyq',url:'https://cbseacademic.nic.in/question_paper_2024.html',year:2024,marks:70,time:180},
+    {title:'CBSE Class 12 Physics 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/12/Physics_XII_2024.pdf',free:true},
+    {title:'CBSE Class 12 Chemistry 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/12/Chemistry_XII_2024.pdf',free:true},
+    {title:'CBSE Class 12 Maths 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/12/Mathematics_XII_2024.pdf',free:true},
+    {title:'CBSE Class 12 Biology 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/12/Biology_XII_2024.pdf',free:true},
+    {title:'CBSE Class 12 Physics 2023',year:2023,url:'https://cbseacademic.nic.in/web_material/QP/2023/12/Physics_XII.pdf',free:true},
+    {title:'CBSE Class 12 Chemistry 2023',year:2023,url:'https://cbseacademic.nic.in/web_material/QP/2023/12/Chemistry_XII.pdf',free:true},
+    {title:'CBSE Class 12 Maths 2023',year:2023,url:'https://cbseacademic.nic.in/web_material/QP/2023/12/Mathematics_XII.pdf',free:true},
+    {title:'CBSE Class 10 Science 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/10/Science_X_2024.pdf',free:true},
+    {title:'CBSE Class 10 Maths Standard 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/10/MathsStd_X_2024.pdf',free:true},
+    {title:'CBSE Class 10 Social Science 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/10/SocialScience_X_2024.pdf',free:true}
   ],
   upsc:[
-    {title:'UPSC Prelims 2024 GS Paper 1 — UPSC.gov.in',meta:'200 marks · 2 hrs · 100 Qs · Official',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024,marks:200,time:120},
-    {title:'UPSC Prelims 2024 CSAT Paper 2 — Official',meta:'200 marks · 2 hrs · Aptitude',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024,marks:200,time:120},
-    {title:'UPSC Prelims 2023 GS Paper 1 — Official',meta:'200 marks · 2 hrs · 100 Qs',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2023,marks:200,time:120},
-    {title:'UPSC Prelims 2022 GS Paper 1 — Official',meta:'200 marks · 2 hrs · 100 Qs',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2022,marks:200,time:120},
-    {title:'UPSC Mains 2023 Papers (GS 1-4) — Official',meta:'250 marks each · 3 hrs · Subjective',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2023,marks:250,time:180},
-    {title:'UPSC PYQs with Solutions — Drishti IAS',meta:'Prelims + Mains · Topic-wise analysis',badge:'new',url:'https://www.drishtiias.com/upsc-prelims-previous-year-papers',year:2024,marks:200,time:120},
+    {title:'UPSC Prelims GS-1 2024',year:2024,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2024.pdf',free:true},
+    {title:'UPSC Prelims GS-2 CSAT 2024',year:2024,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-II-2024.pdf',free:true},
+    {title:'UPSC Prelims GS-1 2023',year:2023,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2023.pdf',free:true},
+    {title:'UPSC Prelims GS-2 CSAT 2023',year:2023,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-II-2023.pdf',free:true},
+    {title:'UPSC Prelims GS-1 2022',year:2022,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2022.pdf',free:true},
+    {title:'UPSC Prelims GS-2 CSAT 2022',year:2022,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-II-2022.pdf',free:true},
+    {title:'UPSC Prelims GS-1 2021',year:2021,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2021.pdf',free:true},
+    {title:'UPSC Prelims GS-1 2020',year:2020,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2020.pdf',free:true},
+    {title:'UPSC Prelims GS-1 2019',year:2019,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2019.pdf',free:true},
+    {title:'UPSC Prelims GS-1 2018',year:2018,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2018.pdf',free:true}
   ],
   ssc:[
-    {title:'SSC CGL 2024 — SSC Official Portal',meta:'200 marks · 60 min · 100 Qs',badge:'official',url:'https://ssc.gov.in/portal/previouspaper',year:2024,marks:200,time:60},
-    {title:'SSC CGL 2023 Paper + Key — Careers360',meta:'200 marks · 60 min · With solutions',badge:'pyq',url:'https://www.careers360.com/articles/ssc-cgl-question-paper',year:2023,marks:200,time:60},
-    {title:'SSC CHSL 2024 — SSC Official Portal',meta:'200 marks · 60 min · 100 Qs',badge:'official',url:'https://ssc.gov.in/portal/previouspaper',year:2024,marks:200,time:60},
-    {title:'SSC MTS 2023 — SSC Official Portal',meta:'150 marks · 90 min',badge:'pyq',url:'https://ssc.gov.in/portal/previouspaper',year:2023,marks:150,time:90},
+    {title:'SSC CGL Tier 1 2023 (Aug)',year:2023,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/Notice_QP_CGLPPAPER_17082023.pdf',free:true},
+    {title:'SSC CHSL Tier 1 2023',year:2023,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_CHSL_Tier1_2023.pdf',free:true},
+    {title:'SSC CGL Tier 1 2022',year:2022,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_CGL_T1_2022.pdf',free:true},
+    {title:'SSC MTS 2023 Paper',year:2023,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_MTS_2023.pdf',free:true},
+    {title:'SSC CPO 2023 Paper',year:2023,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_CPO_2023.pdf',free:true},
+    {title:'SSC GD Constable 2022',year:2022,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_GD_2022.pdf',free:true}
   ],
   banking:[
-    {title:'SBI PO Prelims 2024 — BankersAdda',meta:'100 marks · 60 min · Free PDF',badge:'official',url:'https://www.bankersadda.com/sbi-po-previous-year-question-papers/',year:2024,marks:100,time:60},
-    {title:'IBPS PO Prelims 2024 — BankersAdda',meta:'100 marks · 60 min · 100 Qs',badge:'official',url:'https://www.bankersadda.com/ibps-po-previous-year-question-papers/',year:2024,marks:100,time:60},
-    {title:'RBI Grade B Phase 1 2024 — BankersAdda',meta:'200 marks · 120 min · Objective',badge:'official',url:'https://www.bankersadda.com/rbi-grade-b-previous-year-paper/',year:2024,marks:200,time:120},
-    {title:'IBPS PO Mains 2023 — BankersAdda',meta:'200 marks · 3 hrs · With solutions',badge:'pyq',url:'https://www.bankersadda.com/ibps-po-previous-year-question-papers/',year:2023,marks:200,time:180},
+    {title:'IBPS PO Prelims 2023',year:2023,url:'https://www.ibps.in/wp-content/uploads/IBPS_PO_XIII_Pre_2023_QP.pdf',free:true},
+    {title:'IBPS Clerk Prelims 2023',year:2023,url:'https://www.ibps.in/wp-content/uploads/IBPS_Clerk_XIII_Pre_2023_QP.pdf',free:true},
+    {title:'SBI PO Prelims 2023',year:2023,url:'https://bank.sbi/documents/16012/1916455/SBI_PO_Pre_2023_QP.pdf',free:true},
+    {title:'SBI Clerk Prelims 2023',year:2023,url:'https://bank.sbi/documents/16012/1916455/SBI_Clerk_Pre_2023_QP.pdf',free:true},
+    {title:'RBI Grade B 2023',year:2023,url:'https://www.rbi.org.in/Scripts/Recruit_QP_2023_GradeB.pdf',free:true},
+    {title:'IBPS RRB PO 2023',year:2023,url:'https://www.ibps.in/wp-content/uploads/IBPS_RRB_PO_2023_QP.pdf',free:true}
   ],
   clat:[
-    {title:'CLAT 2024 Official — Consortium of NLUs',meta:'120 Qs · 120 min · 150 marks',badge:'official',url:'https://consortiumofnlus.ac.in/clat-2025/',year:2024,marks:150,time:120},
-    {title:'CLAT 2023 Paper — LegalEdge',meta:'120 Qs · 120 min · With solutions',badge:'pyq',url:'https://www.legaledge.in/blog/clat-previous-year-papers/',year:2023,marks:150,time:120},
-    {title:'CLAT 2022 Paper + Solutions — CLATPrep',meta:'150 Qs · 120 min · Detailed analysis',badge:'pyq',url:'https://www.clathelpline.in/clat-previous-year-papers/',year:2022,marks:150,time:120},
-    {title:'CLAT 2025 Mock Test — Consortium Official',meta:'Free mock on official portal',badge:'new',url:'https://consortiumofnlus.ac.in',year:2025,marks:150,time:120},
+    {title:'CLAT 2024 Official Paper',year:2024,url:'https://consortiumofnlus.ac.in/clat-2024/images/CLAT_2024_Question_Paper.pdf',free:true},
+    {title:'CLAT 2023 Official Paper',year:2023,url:'https://consortiumofnlus.ac.in/clat-2023/images/CLAT_2023_Question_Paper.pdf',free:true},
+    {title:'CLAT 2022 Official Paper',year:2022,url:'https://consortiumofnlus.ac.in/clat-2022/images/clat2022questionpaper.pdf',free:true},
+    {title:'CLAT 2021 Official Paper',year:2021,url:'https://consortiumofnlus.ac.in/clat-2021/images/Question_Paper_CLAT_2021.pdf',free:true},
+    {title:'CLAT 2020 Official Paper',year:2020,url:'https://consortiumofnlus.ac.in/clat-2020/question_paper.pdf',free:true},
+    {title:'CLAT 2019 Official Paper',year:2019,url:'https://consortiumofnlus.ac.in/clat-2019/question_paper.pdf',free:true}
   ],
   nda:[
-    {title:'NDA 2024 (I) Papers — UPSC Official',meta:'Maths + GAT · Both papers',badge:'official',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2024,marks:900,time:300},
-    {title:'NDA 2023 (II) Papers — UPSC Official',meta:'Maths 300M + GAT 600M',badge:'pyq',url:'https://upsc.gov.in/examinations/previous-question-papers',year:2023,marks:900,time:300},
-    {title:'NDA PYQs with Solutions — Careers360',meta:'2018-2024 · All papers with keys',badge:'pyq',url:'https://www.careers360.com/articles/nda-previous-year-question-papers',year:2024,marks:900,time:300},
-    {title:'NDA Free Mock — Testbook',meta:'Full mock with NDA pattern',badge:'new',url:'https://testbook.com/nda/free-mock-test',year:2024,marks:900,time:300},
+    {title:'NDA 2024 Paper I (Maths)',year:2024,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2024-Maths.pdf',free:true},
+    {title:'NDA 2024 Paper II (GAT)',year:2024,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2024-GAT.pdf',free:true},
+    {title:'NDA 2023 Paper I (Maths)',year:2023,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2023-Maths.pdf',free:true},
+    {title:'NDA 2023 Paper II (GAT)',year:2023,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2023-GAT.pdf',free:true},
+    {title:'NDA 2022 Paper I (Maths)',year:2022,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2022.pdf',free:true},
+    {title:'NDA 2021 Paper I (Maths)',year:2021,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2021.pdf',free:true}
   ],
   cat:[
-    {title:'CAT 2024 Official — IIM CAT Portal',meta:'66 Qs · 120 min · VARC+DILR+QA',badge:'official',url:'https://iimcat.ac.in',year:2024,marks:198,time:120},
-    {title:'CAT 2024 Paper + Solutions — 2IIM',meta:'All 3 slots · Video + text solutions',badge:'official',url:'https://www.2iim.com/cat-question-paper/cat-2024-question-paper.shtml',year:2024,marks:198,time:120},
-    {title:'CAT 2023 Paper + Solutions — 2IIM',meta:'All 3 slots · Detailed explanations',badge:'pyq',url:'https://www.2iim.com/cat-question-paper/cat-2023-question-paper.shtml',year:2023,marks:198,time:120},
-    {title:'CAT 2022 Paper + Solutions — 2IIM',meta:'All 3 slots with percentile analysis',badge:'pyq',url:'https://www.2iim.com/cat-question-paper/cat-2022-question-paper.shtml',year:2022,marks:198,time:120},
-    {title:'CAT Free Mock Test — IMS Learning',meta:'Full mock with percentile estimate',badge:'new',url:'https://www.imsindia.com/cat-mock-test/',year:2024,marks:198,time:120},
+    {title:'CAT 2023 Slot 1',year:2023,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2023_QP_Slot1.pdf',free:true},
+    {title:'CAT 2023 Slot 2',year:2023,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2023_QP_Slot2.pdf',free:true},
+    {title:'CAT 2022 Slot 1',year:2022,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2022_QP_Slot1.pdf',free:true},
+    {title:'CAT 2022 Slot 2',year:2022,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2022_QP_Slot2.pdf',free:true},
+    {title:'CAT 2021 Slot 1',year:2021,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2021_QP_Slot1.pdf',free:true},
+    {title:'CAT 2020 Slot 1',year:2020,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2020_QP_Slot1.pdf',free:true}
   ],
   gate:[
-    {title:'GATE 2024 All Papers — IISc Official',meta:'CS, ECE, ME, CE and 28 others',badge:'official',url:'https://gate2024.iisc.ac.in/question-papers-answer-keys/',year:2024,marks:100,time:180},
-    {title:'GATE 2023 All Papers — IISc Official',meta:'All branches with answer keys',badge:'pyq',url:'https://gate2023.iisc.ac.in/question-papers-and-answer-keys/',year:2023,marks:100,time:180},
-    {title:'GATE PYQs Topic-wise — MADE Easy',meta:'Subject-wise practice with solutions',badge:'pyq',url:'https://www.madeeasy.in/gate-study-material.php',year:2024,marks:100,time:180},
-    {title:'GATE Free Mock Test — MADE Easy',meta:'Full mock · Branch-wise available',badge:'new',url:'https://www.madeeasy.in/gate-online-test-series.php',year:2024,marks:100,time:180},
-  ],
-};
-
+    {title:'GATE CS 2024',year:2024,url:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/CS-2024.pdf',free:true},
+    {title:'GATE ECE 2024',year:2024,url:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/EC-2024.pdf',free:true},
+    {title:'GATE ME 2024',year:2024,url:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/ME-2024.pdf',free:true},
+    {title:'GATE CS 2023',year:2023,url:'https://gate2023.iitkgp.ac.in/documents/CS.pdf',free:true},
+    {title:'GATE ECE 2023',year:2023,url:'https://gate2023.iitkgp.ac.in/documents/EC.pdf',free:true},
+    {title:'GATE CE 2024',year:2024,url:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/CE-2024.pdf',free:true}
+  ]
+}
 
 function mockCat(cat,el){
   document.querySelectorAll('.mock-cat-tab').forEach(function(b){b.classList.remove('sel');});
@@ -6849,8 +6798,8 @@ function mockCat(cat,el){
     var bc=p.badge==='official'?'official':p.badge==='new'?'new':'';
     var bl=p.badge==='official'?'Official':p.badge==='new'?'New':'PYQ';
     var url=p.pdf||p.url;
-    var title=p.title.replace(/['"<>]/g,'');
-    var meta=p.meta.replace(/['"<>]/g,'');
+    var title=(p.title||'').replace(/['"<>]/g,'');
+    var meta=(p.meta||String(p.year||'')).replace(/['"<>]/g,'');
     var mins=p.time||120;
     var marks=p.marks||'—';
     var yr=p.year;
@@ -7038,6 +6987,9 @@ var _atzOrigShowPage=window.showPage;
 window.showPage=function(name,btn){
   if(_atzOrigShowPage)_atzOrigShowPage(name,btn);
   if(name==='tests'){
+    // Show/hide AI key banner
+    var _banner=document.getElementById('ai-key-banner');
+    if(_banner)_banner.style.display=window._PANDA_KEY?'none':'block';
     // Load GK daily once
     if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
     // Always refresh mock papers grid
