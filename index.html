@@ -1349,7 +1349,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   </div>
 
   <!-- TAB 2: ASK PANDA -->
-  <div id="panda-tab-ask" class="panda-panel" style="display:none;flex:1;padding:0;min-height:0;position:relative;flex-direction:column;display:none">
+  <div id="panda-tab-ask" class="panda-panel" style="display:none;flex:1;flex-direction:column;padding:0;min-height:0;position:relative">
     <div id="panda-chat-bg"></div>
 
     <!-- Header bar -->
@@ -5331,68 +5331,60 @@ window._callAI=async function(payload){
   const key=window._PANDA_KEY;
   const mode=payload.mode||'chat';
 
-  // ── Build prompt strings ──
+  // ── Build prompts ──
   let sysInstruction='',userPrompt='';
   if(mode==='test_generator'){
-    sysInstruction='You are an expert academic examiner for Indian competitive exams. Return ONLY valid JSON (no markdown, no backticks): {"test_title":"...","questions":[{"q":"question text","options":["option A text","option B text","option C text","option D text"],"correct_answer":"exact text of correct option","explanation":"brief explanation"}]}';
-    userPrompt='Generate a '+(payload.numQuestions||5)+'-question MCQ test. Topic: '+(payload.topic||'General')+'. Difficulty: '+(payload.difficulty||'Medium')+'. Return only JSON.';
+    sysInstruction='You are an expert academic examiner for Indian competitive exams (JEE/NEET/UPSC/SSC/CAT). Generate high-quality MCQ questions. Return ONLY valid JSON, no markdown, no explanation outside JSON.';
+    userPrompt='Generate '+( payload.numQuestions||5)+' MCQ questions for: '+( payload.topic||'General Knowledge')+'. Difficulty: '+(payload.difficulty||'Medium')+'.\nReturn this exact JSON structure:\n{"test_title":"<topic> Practice Test","questions":[{"q":"question text","options":["option A","option B","option C","option D"],"correct_answer":"exact text of correct option","explanation":"brief explanation"}]}';
   } else if(mode==='gk_question'){
-    sysInstruction='You are a GK expert for Indian competitive exams. Return ONLY valid JSON (no markdown): {"q":"question","opts":["(A) option","(B) option","(C) option","(D) option"],"ans":0,"exp":"explanation"}. ans is 0-indexed integer of correct option.';
-    userPrompt='Generate 1 current affairs / GK MCQ about: '+(payload.topic||'Current Affairs India 2024-2025')+'. Return only JSON.';
+    sysInstruction='You are a GK expert for Indian competitive exams. Return ONLY valid JSON, no markdown.';
+    userPrompt='Generate 1 MCQ about: '+(payload.topic||'Current Affairs India 2025')+'.\nReturn: {"q":"question","opts":["(A) opt","(B) opt","(C) opt","(D) opt"],"ans":0,"exp":"explanation"}\nans = 0-indexed integer of correct option.';
   } else {
-    sysInstruction='You are Panda, a friendly witty study buddy for Indian students (JEE/NEET/boards/UPSC). Answer academic questions accurately and helpfully. Be concise and warm, use 1-2 emojis. For greetings be casual. For academic questions give the actual answer with key facts.';
-    userPrompt=(payload.context?'[Student: '+payload.context+']\n\n':'')+(payload.question||'');
+    userPrompt=(payload.context?'['+payload.context+']\n\n':'')+(payload.question||'');
   }
 
-  // ── PATH 1: Direct Gemini API ──
+  // ── PATH 1: Direct Gemini (non-streaming, for structured JSON) ──
   if(key&&key.length>10&&key.startsWith('AIza')){
     try{
-      const contents=[];
-      if(sysInstruction){
-        contents.push({role:'user',parts:[{text:'[SYSTEM]: '+sysInstruction}]});
-        contents.push({role:'model',parts:[{text:'Got it, I will follow those instructions.'}]});
-      }
-      contents.push({role:'user',parts:[{text:userPrompt}]});
-      const body={
-        contents,
-        generationConfig:{
-          maxOutputTokens:2048,
-          temperature:mode==='chat'?0.85:0.7,
-          ...(mode!=='chat'?{responseMimeType:'application/json'}:{})
-        }
+      const bodyObj={
+        contents:[{role:'user',parts:[{text:userPrompt}]}],
+        generationConfig:{maxOutputTokens:2048,temperature:0.7}
       };
-      const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(body),signal:AbortSignal.timeout(20000)
-      });
-      if(!r.ok){const err=await r.json().catch(()=>({}));throw new Error('Gemini '+r.status+': '+(err.error?.message||r.statusText));}
+      if(sysInstruction) bodyObj.systemInstruction={parts:[{text:sysInstruction}]};
+      if(mode!=='chat') bodyObj.generationConfig.responseMimeType='application/json';
+      const r=await fetch(
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,
+        {method:'POST',headers:{'Content-Type':'application/json'},
+         body:JSON.stringify(bodyObj),signal:AbortSignal.timeout(22000)}
+      );
+      if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error('Gemini '+r.status+': '+(e.error?.message||r.statusText));}
       const d=await r.json();
-      const txt=d.candidates?.[0]?.content?.parts?.[0]?.text||'';
+      const txt=(d.candidates?.[0]?.content?.parts?.[0]?.text||'').trim();
       if(!txt)throw new Error('Gemini empty response');
-      if(mode==='chat')return {answer:txt.trim()};
+      if(mode==='chat')return {answer:txt};
+      // Parse JSON response
       const clean=txt.replace(/^```(?:json)?[\n]?/,'').replace(/[\n]?```$/,'').trim();
       return JSON.parse(clean);
     }catch(geminiErr){
-      console.warn('[TISA] Gemini failed, trying Worker:',geminiErr.message);
-      // fall through to Worker below
+      console.warn('[TISA] Gemini failed ('+mode+'):',geminiErr.message,'. Trying Worker...');
     }
   }
 
-  // ── PATH 2: Cloudflare Worker (fallback) ──
+  // ── PATH 2: Cloudflare Worker ──
   try{
-    // Worker uses no `mode` field for chat; explicit mode for test/gk
-    const workerPayload=Object.assign({},payload);
-    if(mode!=='chat')workerPayload.mode=mode;
+    const wp=Object.assign({},payload);
+    if(mode!=='chat')wp.mode=mode; else delete wp.mode;
     const r=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(workerPayload),signal:AbortSignal.timeout(25000)
+      body:JSON.stringify(wp),signal:AbortSignal.timeout(25000)
     });
     if(!r.ok)throw new Error('Worker HTTP '+r.status);
     return await r.json();
   }catch(workerErr){
-    throw new Error('All AI paths failed. Gemini+Worker both unreachable. Check internet connection. ('+workerErr.message+')');
+    throw new Error('AI unavailable: '+workerErr.message);
   }
 };
+
 // ── PANDA BRAIN — smart rule-based AI, no API key needed ──
 window._pandaBrain=function(q){
   const ql=q.toLowerCase().trim();
@@ -5493,69 +5485,77 @@ window.askPanda=async function(){
   if(!q)return;
   inp.value='';
 
-  // Hide quick prompts
+  // Hide quick prompts on first message
   const qa=document.getElementById('panda-quick-area');
   if(qa)qa.style.display='none';
 
-  // Disable input while thinking
+  // Lock input
   inp.disabled=true;
-  const sendBtn=inp.nextElementSibling;
+  const sendBtn=document.querySelector('#panda-tab-ask .btn-p');
   if(sendBtn)sendBtn.disabled=true;
+  const unlock=()=>{inp.disabled=false;if(sendBtn)sendBtn.disabled=false;inp.focus();};
 
   // User bubble
   const ub=document.createElement('div');
   ub.className='ask-bubble ask-user';
   ub.textContent=q;
   msgs.appendChild(ub);
-  msgs.scrollTop=msgs.scrollHeight;
 
-  // Panda response bubble
+  // Typing indicator bubble
   const tb=document.createElement('div');
   tb.className='ask-bubble ask-panda ask-thinking';
   tb.innerHTML='<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
   msgs.appendChild(tb);
   msgs.scrollTop=msgs.scrollHeight;
 
-  window._askHistory=window._askHistory||[];
-  window._askHistory.push({role:'user',content:q});
-
+  // Build context string
   const name=window._uname?'@'+window._uname:(window._CU?.displayName?.split(' ')[0]||'Student');
   const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
   const hrs=Math.floor(todaySecs/3600),mins=Math.floor((todaySecs%3600)/60);
-  const ctx='Student: '+name+', studied today: '+hrs+'h '+mins+'m';
 
-  const re_enable=()=>{inp.disabled=false;if(sendBtn)sendBtn.disabled=false;inp.focus();};
+  // Init history (push AFTER building contents, not before)
+  window._askHistory=window._askHistory||[];
 
-  // ── Try Gemini streaming ──
+  const showAnswer=(text)=>{
+    tb.classList.remove('ask-thinking');
+    tb.innerHTML='';
+    tb.textContent=text;
+    window._askHistory.push({role:'user',content:q});
+    window._askHistory.push({role:'assistant',content:text});
+    msgs.scrollTop=msgs.scrollHeight;
+    unlock();
+  };
+
   const key=window._PANDA_KEY;
+
+  // ── PATH 1: Gemini Streaming ──
   if(key&&key.length>10&&key.startsWith('AIza')){
     try{
-      const sysInstruction='You are Panda, a friendly witty study buddy for Indian students (JEE/NEET/UPSC/Boards). Give accurate, helpful, concise answers. Casual tone, 1-2 emojis. For greetings be warm. For academic questions give the actual answer with key facts/formulas. Keep replies under 150 words.';
+      const sys='You are Panda 🐼, a friendly witty study buddy for Indian students (JEE/NEET/UPSC/Boards). Give accurate helpful concise answers. Casual tone, 1-2 emojis. For greetings be warm. For academic questions give actual answer with key facts/formulas. Student: '+name+', studied today: '+hrs+'h '+mins+'m.';
+
+      // Build conversation contents from history (do NOT include current q yet)
       const contents=[];
-      // Include recent history for real conversation context
-      const hist=(window._askHistory||[]).slice(-8);
-      for(const m of hist){
+      for(const m of (window._askHistory||[]).slice(-6)){
         contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});
       }
-      // Make sure last message is the current question
-      if(!contents.length||contents[contents.length-1].role!=='user'){
-        contents.push({role:'user',parts:[{text:'['+ctx+']\n\n'+q}]});
-      }
-      const body={
-        systemInstruction:{parts:[{text:sysInstruction}]},
-        contents,
-        generationConfig:{maxOutputTokens:600,temperature:0.85}
-      };
-      const resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse&key='+key,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(body),
-        signal:AbortSignal.timeout(25000)
-      });
-      if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error('Gemini '+resp.status+': '+(e.error?.message||resp.statusText));}
+      // Add current question
+      contents.push({role:'user',parts:[{text:q}]});
 
-      // Read SSE stream
+      const resp=await fetch(
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse&key='+key,
+        {method:'POST',headers:{'Content-Type':'application/json'},
+         body:JSON.stringify({
+           systemInstruction:{parts:[{text:sys}]},
+           contents,
+           generationConfig:{maxOutputTokens:600,temperature:0.85}
+         }),
+         signal:AbortSignal.timeout(25000)}
+      );
+      if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error('Gemini '+resp.status+': '+(e.error?.message||''));}
+
+      // Stream into bubble
       tb.classList.remove('ask-thinking');
+      tb.innerHTML='';
       tb.textContent='';
       const reader=resp.body.getReader();
       const dec=new TextDecoder();
@@ -5574,44 +5574,43 @@ window.askPanda=async function(){
             const ev=JSON.parse(raw);
             const chunk=ev.candidates?.[0]?.content?.parts?.[0]?.text||'';
             if(chunk){full+=chunk;tb.textContent=full;msgs.scrollTop=msgs.scrollHeight;}
-          }catch(pe){}
+          }catch(_){}
         }
       }
       if(!full||full.trim().length<2)throw new Error('empty stream');
+      window._askHistory.push({role:'user',content:q});
       window._askHistory.push({role:'assistant',content:full});
-      re_enable();
       msgs.scrollTop=msgs.scrollHeight;
+      unlock();
       return;
-    }catch(geminiErr){
-      console.warn('[Panda] Gemini stream failed:',geminiErr.message);
-      // fall through to Worker
+    }catch(e){
+      console.warn('[Panda] Gemini stream failed:',e.message);
+      tb.classList.add('ask-thinking');
+      tb.innerHTML='<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
     }
   }
 
-  // ── Fallback: Cloudflare Worker (non-streaming) ──
+  // ── PATH 2: Cloudflare Worker ──
   try{
-    const workerPayload={question:q,context:ctx};
     const r=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(workerPayload),signal:AbortSignal.timeout(25000)
+      body:JSON.stringify({question:q,context:name+', '+hrs+'h '+mins+'m studied today'}),
+      signal:AbortSignal.timeout(25000)
     });
     if(!r.ok)throw new Error('Worker '+r.status);
-    const data=await r.json();
-    const answer=data.answer||data.reply||data.text||'';
-    if(!answer||answer.trim().length<4)throw new Error('empty worker response');
-    tb.classList.remove('ask-thinking');
-    tb.textContent=answer;
-    window._askHistory.push({role:'assistant',content:answer});
-  }catch(workerErr){
-    console.warn('[Panda] Worker failed, using offline brain:',workerErr.message);
-    const fallback=window._pandaBrain(q);
-    tb.classList.remove('ask-thinking');
-    tb.textContent=fallback;
-    window._askHistory.push({role:'assistant',content:fallback});
+    const d=await r.json();
+    const answer=(d.answer||d.reply||d.text||'').trim();
+    if(answer.length<4)throw new Error('empty worker response');
+    showAnswer(answer);
+    return;
+  }catch(e){
+    console.warn('[Panda] Worker failed:',e.message);
   }
-  re_enable();
-  msgs.scrollTop=msgs.scrollHeight;
+
+  // ── PATH 3: Offline brain ──
+  showAnswer(window._pandaBrain(q));
 };
+
 
 
 
@@ -6377,13 +6376,19 @@ window._OFFLINE_QS={
 };
 
 window._getOfflineQuestions=function(subject,n){
-  const bank=window._OFFLINE_QS[subject]||window._OFFLINE_QS.General||[];
-  // Shuffle and return n questions
+  // Normalize subject name to match bank keys
+  const s=(subject||'').toLowerCase();
+  let key='General';
+  if(s.includes('physics'))key='Physics';
+  else if(s.includes('chem'))key='Chemistry';
+  else if(s.includes('math'))key='Mathematics';
+  else if(s.includes('bio'))key='Biology';
+  else if(s.includes('physics'))key='Physics';
+  const bank=window._OFFLINE_QS[key]||window._OFFLINE_QS.General||[];
   const shuffled=[...bank].sort(()=>Math.random()-0.5);
   const result=[];
   for(let i=0;i<n;i++){
-    const q=shuffled[i%shuffled.length];
-    result.push({...q,difficulty:'Medium',topic:subject});
+    result.push({...shuffled[i%shuffled.length],difficulty:'Medium',topic:subject});
   }
   return result;
 };
@@ -6491,7 +6496,7 @@ window.atzLaunchTest=async function(){
     }catch(e){
       console.warn(`[ATZ] Batch ${b+1} AI failed:`,e.message,'. Using offline questions.');
       // Use offline question bank as fallback
-      const subj=window._atz.subject||'General';
+      const subj=window._atz.subject||window._atz.chapter||'General';
       const offlineQs=window._getOfflineQuestions(subj,thisBatch);
       if(offlineQs.length){
         a.questions.push(...offlineQs);
@@ -6812,7 +6817,6 @@ const _GK_FALLBACKS=[
 ];
 
 async function gkLoadDaily(){
-  // Safe access — _atz may not be ready yet
   try{const b=document.getElementById('bm-count-badge');if(b&&window._atz)b.textContent=window._atz.bookmarks.length;}catch(e){}
   const today=new Date().toDateString();
   const savedDate=localStorage.getItem('tisa_gk_daily_date');
@@ -6823,20 +6827,21 @@ async function gkLoadDaily(){
     const st=document.getElementById('gk-streak-txt');
     if(st)st.textContent=savedStreak+' day streak';
   }
-  // Already answered today — show saved question
+  // Already answered today — show saved question as answered
   if(savedDate===today){
     const savedQ=localStorage.getItem('tisa_gk_daily_q');
-    if(savedQ){try{renderGkQuestion(JSON.parse(savedQ),true);return;}catch(e){}}
+    if(savedQ){
+      try{renderGkQuestion(JSON.parse(savedQ),true);return;}catch(e){}
+    }
     const qEl=document.getElementById('gk-daily-q');
-    if(qEl)qEl.textContent='Answered today! Come back tomorrow for a new question.';
+    if(qEl)qEl.textContent='Answered today! Come back tomorrow.';
     return;
   }
-  // New day — reset dailyLoaded flag so it re-runs tomorrow
-  window._atz._dailyLoaded=false;
-  // Show a fallback question IMMEDIATELY so user sees something
-  const fallback=_GK_FALLBACKS[new Date().getDate()%_GK_FALLBACKS.length];
+  // New day — show fallback immediately, then try AI in background
+  const dayIdx=new Date().getDate()%_GK_FALLBACKS.length;
+  const fallback=_GK_FALLBACKS[dayIdx];
   renderGkQuestion(fallback,false);
-  // Then try to get a fresh AI question in the background
+  // Try to get fresh AI question
   const cat=_GK_CATEGORIES[new Date().getDate()%_GK_CATEGORIES.length];
   try{
     const data=await window._callAI({
@@ -6844,34 +6849,49 @@ async function gkLoadDaily(){
       topic:cat.label,
       category:cat.id
     });
-    // Worker returns {q, opts, ans, exp} directly for gk_question mode
-    const q=data;
-    if(!q.q||!q.opts||q.opts.length<2)throw new Error('invalid gk q');
-    q._cat=cat;
-    try{localStorage.setItem('tisa_gk_daily_q',JSON.stringify(q));}catch(e){}
-    renderGkQuestion(q,false);
+    // Validate response — must have q and opts array
+    if(!data||!data.q||!Array.isArray(data.opts)||data.opts.length<2){
+      throw new Error('invalid gk response: '+JSON.stringify(data).slice(0,100));
+    }
+    data._cat=cat;
+    try{localStorage.setItem('tisa_gk_daily_q',JSON.stringify(data));}catch(e){}
+    renderGkQuestion(data,false);
   }catch(e){
-    console.log('[GK Daily] Using fallback (AI unavailable):', e.message);
-    // Fallback already shown — save it as today's Q so we don't retry
-    const saved=_GK_FALLBACKS[new Date().getDate()%_GK_FALLBACKS.length];
-    localStorage.setItem('tisa_gk_daily_q',JSON.stringify(saved));
+    console.log('[GK Daily] Using fallback (AI unavailable):',e.message);
+    // fallback already shown — no action needed
   }
 }
 
 function renderGkQuestion(q,alreadyAnswered){
   if(!q||!q.q){console.warn('[GK] renderGkQuestion: no question data');return;}
+  // Store current question globally for event handlers
+  window._gkCurrentQ=q;
   const cat=q._cat||{label:'GK',color:'#2563eb'};
   const catEl=document.getElementById('gk-daily-category');
   if(catEl){catEl.textContent=cat.label;catEl.style.background=cat.color+'22';catEl.style.color='rgba(255,255,255,.85)';}
   const qEl=document.getElementById('gk-daily-q');
   if(qEl)qEl.textContent=q.q;
   const opts=q.opts||[];
-  if(alreadyAnswered){
-    document.getElementById('gk-daily-opts').innerHTML=opts.map((o,i)=>'<button class="gk-opt '+(i===q.ans?'correct':'')+'" disabled>'+o+'</button>').join('');
-    const expEl=document.getElementById('gk-daily-exp');
-    if(expEl){expEl.textContent=q.exp||'';expEl.style.display='block';}
-  } else {
-    document.getElementById('gk-daily-opts').innerHTML=opts.map((o,i)=>'<button class="gk-opt" onclick="gkAnswerDaily('+i+','+q.ans+','+JSON.stringify((q.exp||'').slice(0,300))+',this)">'+o+'</button>').join('');
+  const optsEl=document.getElementById('gk-daily-opts');
+  if(!optsEl)return;
+  optsEl.innerHTML='';
+  opts.forEach(function(o,i){
+    const btn=document.createElement('button');
+    btn.className='gk-opt'+(alreadyAnswered?(i===q.ans?' correct':''):'');
+    btn.textContent=o;
+    btn.disabled=!!alreadyAnswered;
+    if(!alreadyAnswered){
+      btn.dataset.idx=i;
+      btn.addEventListener('click',function(){
+        window.gkAnswerDaily(i, window._gkCurrentQ.ans, window._gkCurrentQ.exp||'', btn);
+      });
+    }
+    optsEl.appendChild(btn);
+  });
+  const expEl=document.getElementById('gk-daily-exp');
+  if(expEl){
+    if(alreadyAnswered&&q.exp){expEl.textContent=q.exp;expEl.style.display='block';}
+    else{expEl.textContent='';expEl.style.display='none';}
   }
 }
 
