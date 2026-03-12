@@ -5323,7 +5323,7 @@ window._callAI=async function(payload){
   const mode=payload.mode||'chat';
 
   // ── PATH 1: Direct Gemini API ──
-  if(key&&key.startsWith('AIza')){
+  if(key&&key.length>10&&key.startsWith('AIza')){
     let sysInstruction='';
     let userPrompt='';
     if(mode==='test_generator'){
@@ -5336,12 +5336,18 @@ window._callAI=async function(payload){
       sysInstruction='You are Panda 🐼, a friendly, witty study buddy for Indian students (JEE/NEET/boards/UPSC). Answer academic questions accurately. Be concise, warm, use 1-2 emojis. For greetings, be casual. For academic questions, give the actual answer with key facts/formulas.';
       userPrompt=(payload.context?'[Student context: '+payload.context+'\\n\\n':'')+( payload.question||'');
     }
+    // Build contents - include system as first message for compatibility
+    const contents=[];
+    if(sysInstruction){
+      contents.push({role:'user',parts:[{text:'[SYSTEM]: '+sysInstruction}]});
+      contents.push({role:'model',parts:[{text:'Understood. I will follow those instructions.'}]});
+    }
+    contents.push({role:'user',parts:[{text:userPrompt}]});
     const body={
-      systemInstruction:{parts:[{text:sysInstruction}]},
-      contents:[{parts:[{text:userPrompt}]}],
+      contents,
       generationConfig:{
         maxOutputTokens:2048,
-        temperature:mode==='chat'?0.9:0.7,
+        temperature:mode==='chat'?0.85:0.7,
         ...(mode!=='chat'?{responseMimeType:'application/json'}:{})
       }
     };
@@ -5382,7 +5388,7 @@ window._pandaBrain=function(q){
 
   // ── Greetings ──
   if(/^(hi|hey|hello|sup|yo|hiya|howdy)\b/.test(ql)){const mc=(window._askHistory||[]).filter(m=>m.role==='user').length;if(mc<=1)return 'yo '+(name||'bestie')+'! 🐼 wassup, what do you need?';return 'lol we already said hi 😄 what else?';}
-  if(/how are you|how r u|you ok/.test(ql))return 'doing great! 🐼 '+(todaySecs>0?'you\'ve studied '+hrs+'h '+mins+'m today 🔥':'haven\'t started yet — want to kick things off? 💪');
+  if(/how are you|how are u|how r u|you ok|how r you/.test(ql))return 'doing great! 🐼 '+(todaySecs>0?'you\'ve studied '+hrs+'h '+mins+'m today 🔥':'haven\'t started yet — want to kick things off? 💪');
   if(/your name|who are you|what are you/.test(ql))return 'I\'m Panda 🐼 — your TISA study buddy! Ask me anything — formulas, concepts, study tips, anything!';
   if(/thank|thanks|thx|ty\b/.test(ql))return ['anytime bestie! 🎋','happy to help 🐼','always! you got this 🌟'][Math.floor(Math.random()*3)];
 
@@ -5445,9 +5451,9 @@ window._pandaBrain=function(q){
 
   // ── Default: give something useful ──
   const fallbacks=[
-    'hmm, that\'s a tough one for offline mode 🤔 add your Gemini API key in Settings → AI & API Key to get full AI answers!',
-    'my offline knowledge has limits! 🐼 go to Settings → AI & API Key and add your free Gemini key for full answers',
-    'for detailed explanations, add your Gemini API key in Settings! It\'s free at aistudio.google.com 🔑',
+    'hmm, having trouble connecting right now 🤔 check your internet and try again in a sec!',
+    'oops, AI is taking a nap 🐼 try again — if it keeps failing, check your connection',
+    'connection hiccup! 🌐 give it another try in a moment',
   ];
   return fallbacks[Math.floor(Date.now()/10000)%fallbacks.length];
 };
@@ -5496,8 +5502,8 @@ window.askPanda=async function(){
     tb.classList.remove('ask-thinking');
     tb.textContent=answer;
   }catch(e){
-    console.error('[Panda] AI failed:',e.message);
-    // Smart fallback
+    console.error('[Panda] AI failed:',e.message,e);
+    window.toast&&window.toast('AI error: '+e.message.substring(0,60));
     const fallback=window._pandaBrain(q);
     window._askHistory.push({role:'assistant',content:fallback});
     tb.classList.remove('ask-thinking');
