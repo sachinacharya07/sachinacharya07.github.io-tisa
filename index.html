@@ -9405,5 +9405,90 @@ window.showPageMob=function(name,btn){
 
 
 </script>
+<script>
+// 1. Function to securely fetch from the OpenTDB database (4,000+ questions)
+async function fetchOpenTDBQuestions(amount, categoryId = '') {
+  const url = `https://opentdb.com/api.php?amount=${amount}&type=multiple${categoryId ? '&category=' + categoryId : ''}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data.response_code !== 0) return [];
+
+    // Helper to decode weird HTML symbols like &quot;
+    const decodeHTML = (html) => {
+      const txt = document.createElement("textarea");
+      txt.innerHTML = html;
+      return txt.value;
+    };
+
+    // Format the questions to perfectly match TISA's MCQ system
+    return data.results.map(item => {
+      const q = decodeHTML(item.question);
+      const correct = decodeHTML(item.correct_answer);
+      const incorrect = item.incorrect_answers.map(decodeHTML);
+      
+      const options = [...incorrect];
+      const correctIndex = Math.floor(Math.random() * 4);
+      options.splice(correctIndex, 0, correct); // Shuffle correct answer in
+      
+      const labels = ["(A)", "(B)", "(C)", "(D)"];
+      const finalOptions = options.map((opt, i) => `${labels[i]} ${opt}`);
+
+      return {
+        q: q,
+        opts: finalOptions,
+        ans: correctIndex,
+        exp: `The correct answer is ${correct}.`,
+        difficulty: item.difficulty || 'medium',
+        topic: item.category
+      };
+    });
+  } catch (e) {
+    console.error("API Error:", e);
+    return [];
+  }
+}
+
+// 2. Override the AI "Generate & Start" button to use the database instead
+window.atzLaunchTest = async function() {
+  const a = window._atz;
+  if (!a) return;
+  
+  // Show loading screen immediately
+  const modal = document.getElementById('mcq-modal');
+  const body = document.getElementById('mcq-body');
+  if(modal) modal.classList.add('open');
+  if(body) body.innerHTML = '<div class="mcq-loading"><div class="mcq-spinner"></div><div style="margin-top:15px;font-weight:bold;">Fetching fresh questions from Database...</div></div>';
+  
+  // Map TISA subjects to OpenTDB Category IDs
+  let category = ''; 
+  const subj = (a.subject || '').toLowerCase();
+  if(subj.includes('science') || subj.includes('physics') || subj.includes('chemistry') || subj.includes('biology')) category = '17';
+  if(subj.includes('math')) category = '19';
+  if(subj.includes('computer')) category = '18';
+  if(subj.includes('history')) category = '23';
+  if(subj.includes('geography')) category = '22';
+
+  // Read how many questions the user selected in the app UI
+  let amount = 10;
+  if (a.mode === 'mock30') amount = 30;
+  if (a.mode === 'full') amount = 50;
+
+  // Fetch the questions!
+  const newQuestions = await fetchOpenTDBQuestions(amount, category);
+  
+  if (newQuestions.length > 0) {
+    a.questions = newQuestions;
+    a.current = 0;
+    a.answers = {};
+    
+    // Start the test using TISA's built-in functions
+    if(typeof window.mcqStartTimer === 'function') window.mcqStartTimer();
+    if(typeof window.mcqRenderQuestion === 'function') window.mcqRenderQuestion();
+  } else {
+    if(body) body.innerHTML = '<div class="empty">Failed to load questions. Please check your internet connection or try a different subject.</div>';
+  }
+};
+</script>
 </body>
 </html>
