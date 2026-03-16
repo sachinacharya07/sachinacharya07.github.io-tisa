@@ -339,7 +339,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .t-track{fill:none;stroke:var(--bg3);stroke-width:9}
 .t-prog{fill:none;stroke:var(--primary);stroke-width:9;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset .6s ease}
 .t-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.t-digits{font-family:'Space Mono',monospace!important;font-size:42px;font-weight:700;color:var(--primary);letter-spacing:2px;line-height:1}
+.t-digits{font-family:'Space Mono',monospace!important;font-size:58px;font-weight:700;color:var(--primary);letter-spacing:3px;line-height:1}
 .t-mode{font-size:10px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-top:3px;font-weight:700}
 .t-btns{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}
 .subj-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
@@ -613,7 +613,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   /* Timer */
   .timer-ring{width:160px;height:160px}
   .tsvg{width:160px;height:160px}
-  .t-digits{font-size:36px}
+  .t-digits{font-size:48px}
   /* Todo */
   .todo-toolbar{flex-wrap:wrap;gap:6px}
   .todo-toolbar input{min-width:0;flex:1 1 100%}
@@ -640,7 +640,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .perf-grid{grid-template-columns:1fr}
   .timer-ring{width:140px;height:140px;margin:6px auto}
   .tsvg{width:140px;height:140px}
-  .t-digits{font-size:32px;letter-spacing:1px}
+  .t-digits{font-size:42px;letter-spacing:2px}
   .more-grid{grid-template-columns:repeat(2,1fr)}
   main{padding:8px 8px 80px}
   .card{padding:12px 10px;width:100%;box-sizing:border-box}
@@ -674,7 +674,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .snum{font-size:22px}
   .timer-ring{width:140px;height:140px;margin:6px auto}
   .tsvg{width:140px;height:140px}
-  .t-digits{font-size:32px;letter-spacing:1px}
+  .t-digits{font-size:42px;letter-spacing:2px}
   .prof-stats{grid-template-columns:1fr 1fr}
   .theme-grid{grid-template-columns:repeat(2,1fr)}
   .card{padding:12px 10px}
@@ -1736,6 +1736,15 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
       <div class="stat-box"><div class="snum" id="st-sess">0</div><div class="slbl">Sessions</div></div>
     </div>
     <div class="wk-chart" id="wk-chart"></div>
+    <!-- KAIZEN STREAK TRACKER -->
+    <div id="kaizen-wrap" style="margin-top:10px;display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px">🌸 Kaizen Streak</div>
+        <div id="kaizen-count" style="font-size:11px;font-weight:800;color:var(--primary)"></div>
+      </div>
+      <div id="kaizen-stones" style="display:flex;flex-wrap:wrap;gap:4px;align-items:center"></div>
+      <div id="kaizen-msg" style="font-size:10px;color:var(--ink3);font-weight:600;margin-top:5px;font-style:italic"></div>
+    </div>
   </div>
   <div class="card">
     <div class="ct"><div class="ct-ic">📅</div>Countdowns</div>
@@ -2321,6 +2330,43 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
     <div id="panda-key-status" style="font-size:11px;font-weight:700;color:var(--ink3)">No key saved — AI needs your free Gemini key to work.</div>
   </div>
 
+  <!-- GACHA SYSTEM CARD -->
+  <div class="card" style="grid-column:1/-1">
+    <div class="ct"><div class="ct-ic">🎰</div>Gacha Capsule</div>
+    <div style="font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.6">
+      Earn 🪙 coins by studying and completing tests. Spend <strong>50 coins</strong> per pull to unlock collectibles!
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:12px;padding:10px 14px;margin-bottom:10px">
+      <div style="font-size:13px;font-weight:800;color:var(--warn)">🪙 <span id="gacha-coin-disp">0</span> coins</div>
+      <button class="btn btn-sm btn-p" onclick="window.rollGacha()" style="font-size:12px">🎰 Pull (50🪙)</button>
+    </div>
+    <div style="font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Your Collection</div>
+    <div id="gacha-inventory" style="display:flex;flex-wrap:wrap;gap:8px;min-height:32px;font-size:26px;line-height:1.2"></div>
+    <div id="gacha-empty" style="font-size:12px;color:var(--ink3);font-style:italic">No collectibles yet — start studying to earn coins!</div>
+  </div>
+
+  <!-- ZEN TIMER CARD -->
+  <div class="card">
+    <div class="ct"><div class="ct-ic">⛩️</div>Zen Focus Timer</div>
+    <div style="font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.6">
+      A strict 25-minute focus session. Your 🌱 tree grows as you focus. <strong>Switch tabs and it withers.</strong> Complete it to earn +100 🪙!
+    </div>
+    <button class="btn btn-p" style="width:100%;font-size:13px" onclick="window.startZenTimer()">🌱 Start Zen Session</button>
+  </div>
+
+  <!-- LOFI PLAYER CARD -->
+  <div class="card">
+    <div class="ct"><div class="ct-ic">🎧</div>Tokyo Lofi Player</div>
+    <div style="font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.6">
+      Ambient study music. A floating player appears at the bottom of your screen.
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-p" style="font-size:12px" onclick="window.toggleLofi()">🎧 Toggle Music</button>
+      <button class="btn btn-o" style="font-size:12px" onclick="window.nextLofiTrack()">⏭ Next Track</button>
+    </div>
+    <div id="lofi-track-name" style="font-size:11px;color:var(--ink3);margin-top:8px;font-weight:600">Track: Tokyo Lofi ☕</div>
+  </div>
+
   <div class="card" style="grid-column:1/-1">
     <div class="ct"><div class="ct-ic">🔒</div>Privacy & Legal</div>
     <div style="font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:12px">
@@ -2620,7 +2666,8 @@ const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:pe
 window._db=db; window._sTs=serverTimestamp; window._addDoc=addDoc; window._collection=collection;
 window._getDocs=getDocs; window._getDoc=getDoc; window._query=query; window._orderBy=orderBy;
 window._limit=limit; window._setDoc=setDoc; window._doc=doc; window._deleteDoc=deleteDoc;
-window._where=where; window._updateDoc=updateDoc;
+window._where=where; window._updateDoc=updateDoc; window._runTransaction=runTransaction; window._increment=increment;
+window._firebaseReady=true; // signal to non-module scripts that Firebase is initialised
 
 // ── ENCRYPTION ──
 function xE(t,k){let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(unescape(encodeURIComponent(r)));}
@@ -2838,6 +2885,15 @@ window.forceSyncNow=async()=>{
 };
 window._save=async()=>{
   if(!window._CU)return;
+  // ── Quota guard: trim arrays before every save ──
+  if(window.pastTests&&window.pastTests.length>30)window.pastTests.length=30;
+  if(sessions&&sessions.length>50)sessions.length=50;
+  // Trim journal to last 90 days to prevent Firestore doc bloat
+  const jKeys=Object.keys(window.journals||{}).sort((a,b)=>b.localeCompare(a));
+  if(jKeys.length>90)jKeys.slice(90).forEach(k=>delete window.journals[k]);
+  // Cap studyData to last 365 entries
+  const sdKeys=Object.keys(window.studyData||{}).filter(k=>/^\d{4}-\d{2}-\d{2}$/.test(k)).sort((a,b)=>b.localeCompare(a));
+  if(sdKeys.length>365)sdKeys.slice(365).forEach(k=>delete window.studyData[k]);
   try{
     const papersForSave=window.papers.map(p=>({id:p.id,name:p.name,size:p.size,type:p.type,date:p.date}));
     await setDoc(doc(db,'userData',window._CU.uid),{
@@ -3281,16 +3337,22 @@ async function checkDMNotifications(){
     const chatsSnap=await getDocs(query(collection(db,'chats'),where('members','array-contains',window._CU.uid)));
     let unread=0;
     for(const chatDoc of chatsSnap.docs){
-      const msgsSnap=await getDocs(query(collection(db,'chats',chatDoc.id,'messages'),orderBy('ts','desc'),limit(10)));
+      const chatData=chatDoc.data();
+      // OPTIMISED: only fetch sub-collection when the last message was from someone else.
+      // This cuts Firebase reads from (1 + N*10) down to (1 + unread_chats*5).
+      if(chatData.lastSender&&chatData.lastSender===window._CU.uid)continue;
+      const msgsSnap=await getDocs(query(collection(db,'chats',chatDoc.id,'messages'),orderBy('ts','desc'),limit(5)));
       for(const m of msgsSnap.docs){
         const d=m.data();
         if(d.sender!==window._CU.uid&&(!d.readBy||!d.readBy.includes(window._CU.uid)))unread++;
+        else break; // messages are desc-ordered; once we hit a read/own msg, older ones are read too
       }
     }
     _dmUnreadCount=unread;
     const dot=document.getElementById('dm-notif-dot');
     if(dot)dot.style.display=unread>0?'block':'none';
-  }catch(e){}
+    if(typeof window.updateMoreBadge==='function')window.updateMoreBadge();
+  }catch(e){console.warn('[TISA] DM notif check failed:',e.message);}
 }
 window._checkDMNotifications=checkDMNotifications;
 
@@ -4781,8 +4843,16 @@ const _ADMIN_UIDS=['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2'
 let _admTab_current='reports';
 let _admReports=[],_admPosts=[],_admUsers=[],_admBanned=[],_admLog=[];
 
-function _isAdmin(){return window._CU&&_ADMIN_UIDS.includes(window._CU.uid);}
-window._isAdmin=function(){return window._CU&&_ADMIN_UIDS.includes(window._CU.uid);};
+// Admin email list — add your email here if UID is unknown
+const _ADMIN_EMAILS=['sachinacharya07@gmail.com'];
+function _isAdmin(){
+  if(!window._CU)return false;
+  return _ADMIN_UIDS.includes(window._CU.uid)||_ADMIN_EMAILS.includes((window._CU.email||'').toLowerCase());
+}
+window._isAdmin=function(){
+  if(!window._CU)return false;
+  return _ADMIN_UIDS.includes(window._CU.uid)||_ADMIN_EMAILS.includes((window._CU.email||'').toLowerCase());
+};
 
 window._showAdminButtons=function(){
   const show=window._isAdmin();
@@ -4815,9 +4885,9 @@ function _admFmt(ts){if(!ts)return 'Unknown';const d=ts.toDate?ts.toDate():new D
 // ── Admin action log ──
 function _admLogAction(action,detail){
   _admLog.unshift({action,detail,by:window._uname||window._CU?.email||'admin',ts:new Date().toISOString()});
-  if(_admLog.length>100)_admLog=_admLog.slice(0,100);
+  if(_admLog.length>30)_admLog=_admLog.slice(0,30);
   document.getElementById('adm-log-c').textContent=_admLog.length;
-  try{localStorage.setItem('tisa_adm_log',JSON.stringify(_admLog.slice(0,50)));}catch(e){}
+  try{localStorage.setItem('tisa_adm_log',JSON.stringify(_admLog.slice(0,20)));}catch(e){}
 }
 try{const sl=localStorage.getItem('tisa_adm_log');if(sl)_admLog=JSON.parse(sl);}catch(e){}
 
@@ -5321,10 +5391,11 @@ window.switchPandaTab=function(tab){
 
 // ── ASK PANDA (AI) ──
 window._askHistory=[];
-// App default Gemini key — works for all users out of the box
-window._PANDA_KEY='AIzaSyBAMM2jWAcvSMkY5fjLt7sx9hiqurYs_gA';
-// Override with user's personal key if they set one
+// Load user's personal Gemini key from localStorage (set in Settings > API Key)
+window._PANDA_KEY='';
 try{const _pk=localStorage.getItem('tisa_panda_key');if(_pk)window._PANDA_KEY=_pk;}catch(e){}
+// Reset busy flag — prevents infinite freeze if a previous session left it stuck
+window._pandaBusy=false;
 
 // ── Core AI caller — tries Gemini direct first, falls back to Worker ──
 window._callAI=async function(payload){
@@ -5335,7 +5406,9 @@ window._callAI=async function(payload){
   let sysInstruction='',userPrompt='';
   if(mode==='test_generator'){
     sysInstruction='You are an expert academic examiner for Indian competitive exams (JEE/NEET/UPSC/SSC/CAT). Generate high-quality MCQ questions. Return ONLY valid JSON, no markdown, no explanation outside JSON.';
-    userPrompt='Generate '+(payload.numQuestions||5)+' MCQ questions for: '+(payload.topic||'General Knowledge')+'. Difficulty: '+(payload.difficulty||'Medium')+'.\nReturn this exact JSON structure:\n{"test_title":"<topic> Practice Test","questions":[{"q":"question text","options":["option A","option B","option C","option D"],"correct_answer":"exact text of correct option","explanation":"brief explanation"}]}';
+    const _tp=payload.topic||'General Knowledge',_n=payload.numQuestions||5,_d=payload.difficulty||'Medium';
+    sysInstruction='You are an expert academic examiner for Indian competitive exams (JEE/NEET/UPSC/SSC/CAT). Generate high-quality MCQ questions. Output ONLY a raw JSON object — absolutely no markdown, no code fences (no ```), no text outside the JSON.';
+    userPrompt='Generate '+_n+' MCQ questions on topic: '+_tp+'. Difficulty: '+_d+'.\nYou MUST respond with ONLY this JSON structure, no backticks, no markdown:\n{"test_title":"'+_tp+' Practice Test","questions":[{"q":"question text","options":["Option A","Option B","Option C","Option D"],"correct_answer":"exact text of correct option","explanation":"brief explanation","topic":"'+_tp+'"}]}';
   } else if(mode==='gk_question'){
     sysInstruction='You are a GK expert for Indian competitive exams. Return ONLY valid JSON, no markdown.';
     userPrompt='Generate 1 MCQ about: '+(payload.topic||'Current Affairs India 2025')+'.\nReturn: {"q":"question","opts":["(A) opt","(B) opt","(C) opt","(D) opt"],"ans":0,"exp":"explanation"}\nans = 0-indexed integer of correct option.';
@@ -5382,24 +5455,8 @@ window._callAI=async function(payload){
     }
   }
 
-  // ── PATH 2: Cloudflare Worker (always sends apiKey) ──
-  try{
-    const wp=Object.assign({},payload);
-    // Always send the key to the Worker so it doesn't need env var
-    if(key) wp.apiKey=key;
-    if(mode!=='chat') wp.mode=mode; else delete wp.mode;
-    const r=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(wp),signal:AbortSignal.timeout(28000)
-    });
-    if(!r.ok){
-      const e=await r.json().catch(()=>({}));
-      throw new Error('Worker '+r.status+': '+(e.error||r.statusText));
-    }
-    return await r.json();
-  }catch(workerErr){
-    throw new Error('AI unavailable: '+workerErr.message);
-  }
+  // ── PATH 2: No valid key — throw immediately so caller uses offline fallback ──
+  throw new Error('No valid Gemini API key. Using offline mode.');
 };
 
 
@@ -5496,12 +5553,18 @@ window._pandaBrain=function(q){
 
 const _PANDA_WORKER='https://tisa-panda.tisa-helpdesk.workers.dev';
 window.askPanda=async function(){
+  // Unfreeze guard — reset any leftover busy flag before starting
+  window._pandaBusy=true;
+
   const inp=document.getElementById('ask-panda-inp');
   const msgs=document.getElementById('ask-panda-msgs');
-  if(!inp||!msgs)return;
+  if(!inp||!msgs){window._pandaBusy=false;return;}
   const q=inp.value.trim();
-  if(!q)return;
+  if(!q){window._pandaBusy=false;return;}
   inp.value='';
+
+  // Always reload key from localStorage so Settings changes take effect immediately
+  try{const _pk=localStorage.getItem('tisa_panda_key');if(_pk)window._PANDA_KEY=_pk;else window._PANDA_KEY='';}catch(e){}
 
   const qa=document.getElementById('panda-quick-area');
   if(qa)qa.style.display='none';
@@ -5509,7 +5572,7 @@ window.askPanda=async function(){
   inp.disabled=true;
   const sendBtn=document.querySelector('#panda-tab-ask .btn-p');
   if(sendBtn)sendBtn.disabled=true;
-  const unlock=()=>{inp.disabled=false;if(sendBtn)sendBtn.disabled=false;inp.focus();};
+  const unlock=()=>{inp.disabled=false;if(sendBtn)sendBtn.disabled=false;inp.focus();window._pandaBusy=false;};
 
   // User bubble
   const ub=document.createElement('div');
@@ -5612,27 +5675,29 @@ window.askPanda=async function(){
     if(streamed)return;
   }
 
-  // ── PATH 2: Cloudflare Worker (sends apiKey) ──
-  try{
-    const r=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        question:q,
-        context:name+', '+hrs+'h '+mins+'m studied today',
-        apiKey:key
-      }),
-      signal:AbortSignal.timeout(28000)
-    });
-    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error('Worker '+(e.error||r.status));}
-    const d=await r.json();
-    const answer=(d.answer||d.reply||d.text||'').trim();
-    if(answer.length>3){showAnswer(answer);return;}
-    throw new Error('empty worker response');
-  }catch(e){
-    console.warn('[Panda] Worker failed:',e.message);
+  // ── PATH 2: Cloudflare Worker — only attempt if a valid key exists ──
+  if(key&&key.length>10&&key.startsWith('AIza')){
+    try{
+      const r=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          question:q,
+          context:name+', '+hrs+'h '+mins+'m studied today',
+          apiKey:key
+        }),
+        signal:AbortSignal.timeout(12000)
+      });
+      if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error('Worker '+(e.error||r.status));}
+      const d=await r.json();
+      const answer=(d.answer||d.reply||d.text||'').trim();
+      if(answer.length>3){showAnswer(answer);return;}
+      throw new Error('empty worker response');
+    }catch(e){
+      console.warn('[Panda] Worker failed:',e.message);
+    }
   }
 
-  // ── PATH 3: Offline brain ──
+  // ── PATH 3: Offline brain (instant fallback — no API key needed) ──
   showAnswer(window._pandaBrain(q));
 };
 
@@ -8549,8 +8614,10 @@ window._getOfflineQuestions=function(subject,n){
   }
   const shuffled=[...pool].sort(()=>Math.random()-0.5);
   const result=[];
+  const ts=Date.now();
   for(let i=0;i<n;i++){
-    result.push({...shuffled[i%shuffled.length],difficulty:'Medium',topic:subject});
+    const base=shuffled[i%shuffled.length];
+    result.push({...base,id:'off_q_'+ts+'_'+i,difficulty:base.difficulty||'Medium',topic:base.topic||subject||key});
   }
   return result;
 };
@@ -8588,7 +8655,7 @@ window.atzLaunchTest=async function(){
   // Generate in batches of 5 for speed
   const batchSize=Math.min(10, totalQ);
   const batches=Math.ceil(totalQ/batchSize);
-  a.questions=[]; a.current=0; a.score=0; a.correct=0; a.wrong=0; a.skipped=0; a.marks=0;
+  a.questions=[]; a.current=0; a.score=0; a.correct=0; a.wrong=0; a.skipped=0; a.marks=0; a._answerLog=[];
   const timeMap={quick10:600,mock30:1500,full:2700,pyq:1200,revision:480};
   a.timeLeft=timeMap[a.mode]||600;
 
@@ -8599,6 +8666,8 @@ window.atzLaunchTest=async function(){
     const thisBatch=Math.min(batchSize, totalQ-a.questions.length);
     if(thisBatch<=0)break;
     try{
+      // Reload user Gemini key from localStorage before each batch
+      try{const _pk=localStorage.getItem('tisa_panda_key');if(_pk)window._PANDA_KEY=_pk;else window._PANDA_KEY='';}catch(e){}
       const {topic:mcqTopic,numQ:mcqN,diff:mcqDiff,examLabel:mcqLabel}=atzBuildTopicParams(thisBatch);
       const _aiResp=await window._callAI({
         mode:'test_generator',
@@ -8610,38 +8679,48 @@ window.atzLaunchTest=async function(){
       });
       const data=_aiResp;
       console.log(`[ATZ] Batch ${b+1}: got`,data.questions?.length,'questions');
-      // New worker returns {questions:[{q,options,correct_answer,explanation}]} or {answer:"[...]"}
+      // Worker returns {questions:[{q,options,correct_answer,explanation}]} or {answer:"[...]"}
       let qs=[];
       if(data.questions&&Array.isArray(data.questions)&&data.questions.length){
-        // New worker format: convert to internal format
-        qs=data.questions.map(q=>{
+        qs=data.questions.map((q,qi)=>{
           const letters=['A','B','C','D'];
           const rawOpts=q.options||q.opts||[];
-          // Add (A)(B)(C)(D) prefix if not already present
           const opts=rawOpts.map((o,i)=>{
             const prefix='('+letters[i]+')';
             return (typeof o==='string'&&o.trim().startsWith('('))?o:prefix+' '+o;
           });
-          // Find correct answer index
           let ans=0;
           if(q.correct_answer&&rawOpts.length){
             const idx=rawOpts.findIndex(o=>o===q.correct_answer||(o+'')===q.correct_answer);
             ans=idx>=0?idx:(parseInt(q.ans)||0);
           } else ans=parseInt(q.ans)||0;
           return {
+            id:'ai_q_'+Date.now()+'_'+b+'_'+qi,
             q:q.q||q.question||'',
             opts,
             ans,
             exp:q.explanation||q.exp||'',
             difficulty:q.difficulty||a.diff,
-            topic:q.topic||a.chapter
+            topic:q.topic||mcqTopic||a.chapter||a.subject||'General'
           };
         });
       } else {
-        // Fallback: try parsing answer field as JSON array
+        // Fallback: try stripping markdown fences and parsing JSON array directly
         const ansText=data.answer||data.reply||'';
-        const match=ansText.match(/\[[\s\S]*?\]/);
-        if(match) qs=JSON.parse(match[0]);
+        const clean=ansText.replace(/^```(?:json)?[\n]?/,'').replace(/[\n]?```$/,'').trim();
+        const match=clean.match(/\[[\s\S]*\]/);
+        if(match){
+          const parsed=JSON.parse(match[0]);
+          qs=parsed.map((q,qi)=>({
+            id:'ai_q_'+Date.now()+'_'+b+'_'+qi,
+            q:q.q||q.question||'',
+            opts:q.opts||q.options||[],
+            ans:parseInt(q.ans)||0,
+            exp:q.explanation||q.exp||'',
+            difficulty:q.difficulty||a.diff,
+            topic:q.topic||mcqTopic||a.chapter||a.subject||'General'
+          }));
+        }
       }
       if(!Array.isArray(qs)||!qs.length)throw new Error('Empty batch '+b);
       a.questions.push(...qs);
@@ -8671,9 +8750,19 @@ window.atzLaunchTest=async function(){
           mcqRenderQuestion();
         }
       } else if(!started){
-        document.getElementById('mcq-modal').classList.remove('open');
-        window.toast('⚠️ No questions available. Try again!');
-        return;
+        // Ultimate fallback — use Physics offline bank rather than blank screen
+        const emergency=window._getOfflineQuestions('Physics',totalQ);
+        if(emergency.length){
+          a.questions.push(...emergency);
+          started=true;
+          window.toast('📚 Offline mode — Physics questions loaded');
+          mcqStartTimer();
+          mcqRenderQuestion();
+        } else {
+          document.getElementById('mcq-modal').classList.remove('open');
+          window.toast('⚠️ No questions available. Please add a Gemini API key in Settings.');
+          return;
+        }
       }
       break; // filled with offline — done
     }
@@ -8695,7 +8784,7 @@ function mcqRenderQuestion(){
   document.getElementById('mcq-next-btn').style.display='none';
   document.getElementById('mcq-skip-btn').style.display='inline-flex';
   const examShort=_ATZ_LABELS[a.exam]||a.exam;
-  a.currentBmId={question:q.q,opts:q.opts,correctAnswer:q.opts[q.ans],explanation:q.exp,exam:examShort,subject:a.subject,topic:q.topic||a.chapter,qtype:'objective'};
+  a.currentBmId={id:q.id||('bm_'+Date.now()),question:q.q,opts:q.opts,correctAnswer:q.opts[q.ans],explanation:q.exp,exam:examShort,subject:a.subject,topic:q.topic||a.chapter||a.subject,qtype:'objective'};
   document.getElementById('mcq-bm-btn').textContent='\U0001f516';
   const diffColor=q.difficulty==='hard'?'rgba(192,57,43,.12)':q.difficulty==='easy'?'rgba(45,158,80,.12)':'rgba(200,150,0,.12)';
   const diffTxtColor=q.difficulty==='hard'?'var(--danger)':q.difficulty==='easy'?'var(--success)':'var(--warn)';
@@ -8794,11 +8883,13 @@ window.mcqAnswer=function(idx){
   if(idx===q.ans){
     document.getElementById('mcq-opt-'+idx).classList.add('correct');
     a.correct++; a.marks+=scheme.pos;
+    if(a._answerLog)a._answerLog[a.current]='correct';
     window.toast('✅ Correct! +'+scheme.pos+' marks');
   }else{
     document.getElementById('mcq-opt-'+idx).classList.add('wrong');
     document.getElementById('mcq-opt-'+q.ans).classList.add('reveal-correct');
     a.wrong++; a.marks+=scheme.neg;
+    if(a._answerLog)a._answerLog[a.current]='wrong';
     window.toast('❌ Wrong! '+scheme.neg+' marks');
   }
   document.getElementById('mcq-exp').style.display='block';
@@ -8808,6 +8899,7 @@ window.mcqAnswer=function(idx){
 
 window.mcqSkip=function(){
   window._atz.skipped++;
+  if(window._atz._answerLog)window._atz._answerLog[window._atz.current]='skipped';
   window._atz.current++;
   if(window._atz.current>=window._atz.questions.length) mcqShowScorecard();
   else{ if(window._atz.qtype==='subjective') mcqRenderSubjective(); else mcqRenderQuestion(); }
@@ -8822,7 +8914,7 @@ window.mcqNext=function(){
 window.mcqBookmark=function(){
   const bm=window._atz.currentBmId;
   if(!bm)return;
-  const exists=window._atz.bookmarks.some(b=>b.question===bm.question);
+  const exists=window._atz.bookmarks.some(b=>b.id===bm.id||(b.id&&b.id===bm.id)||b.question===bm.question);
   if(exists){window.toast('Already bookmarked!');return;}
   window._atz.bookmarks.unshift(bm);
   atzSaveState();
@@ -8860,14 +8952,16 @@ function mcqShowScorecard(){
   const pct=total?Math.round(a.correct/total*100):0;
   const scheme=_ATZ_MARKS[a.exam]||{pos:1,neg:0};
   const maxMarks=total*scheme.pos;
-  // Compute topic breakdown
+  // Compute per-topic breakdown using answer log
   const topicMap={};
   a.questions.forEach((q,i)=>{
-    const t=q.topic||a.subject;
-    if(!topicMap[t])topicMap[t]={total:0,seen:0};
+    const t=q.topic||a.chapter||a.subject||'General';
+    if(!topicMap[t])topicMap[t]={total:0,correct:0,wrong:0,skipped:0};
     topicMap[t].total++;
-    // We don't track per-question result easily, so just show distribution
-    topicMap[t].seen++;
+    const ans=a._answerLog?a._answerLog[i]:null;
+    if(ans==='correct')topicMap[t].correct++;
+    else if(ans==='wrong')topicMap[t].wrong++;
+    else topicMap[t].skipped++;
   });
   const circleR=54, circleC=65;
   const dash=2*Math.PI*circleR;
@@ -8911,6 +9005,7 @@ function mcqShowScorecard(){
           <div class="score-topic-name"><span>Marks scored</span><span>${a.marks.toFixed(1)} / ${maxMarks}</span></div>
           <div class="score-topic-track"><div class="score-topic-fill" style="width:${maxMarks?Math.max(0,(a.marks/maxMarks*100)).toFixed(0):0}%;background:var(--primary)"></div></div>
         </div>
+        ${(function(){var entries=Object.entries(topicMap);if(entries.length<2)return '';var h='<div class="score-analysis-title" style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border2)">By Topic</div>';entries.forEach(function(e){var t=e[0],v=e[1];var tp=v.total?Math.round(v.correct/v.total*100):0;var tc=tp>=70?'#2d9e50':tp>=40?'#c8941a':'#c0392b';h+='<div class="score-topic-bar"><div class="score-topic-name"><span>'+t+'</span><span style="color:'+tc+'">'+v.correct+'/'+v.total+' ('+tp+'%)</span></div><div class="score-topic-track"><div class="score-topic-fill" style="width:'+tp+'%;background:'+tc+'"></div></div></div>';});return h;}())}
       </div>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px">
         <button class="btn btn-p" onclick="mcqClose();atzLaunchTest()">🔄 Retry</button>
@@ -8980,6 +9075,7 @@ const _GK_FALLBACKS=[
   {q:'India’s first indigenously built aircraft carrier INS Vikrant was commissioned in?',opts:['(A) 2019','(B) 2020','(C) 2021','(D) 2022'],ans:3,exp:'INS Vikrant was commissioned on September 2, 2022 by PM Narendra Modi in Kochi. It is India’s first indigenously designed and built aircraft carrier.',_cat:{label:'Current Affairs',color:'#2563eb'}},
 ];
 
+// ── GK Daily — uses local fallback bank only (no external API dependency) ──
 async function gkLoadDaily(){
   try{const b=document.getElementById('bm-count-badge');if(b&&window._atz)b.textContent=window._atz.bookmarks.length;}catch(e){}
   const today=new Date().toDateString();
@@ -8997,33 +9093,15 @@ async function gkLoadDaily(){
     if(savedQ){
       try{renderGkQuestion(JSON.parse(savedQ),true);return;}catch(e){}
     }
-    const qEl=document.getElementById('gk-daily-q');
-    if(qEl)qEl.textContent='Answered today! Come back tomorrow.';
+    // Fallback: show today's question as "answered" without exp
+    const dayIdx=new Date().getDate()%_GK_FALLBACKS.length;
+    renderGkQuestion(_GK_FALLBACKS[dayIdx],true);
     return;
   }
-  // New day — show fallback immediately, then try AI in background
-  const dayIdx=new Date().getDate()%_GK_FALLBACKS.length;
-  const fallback=_GK_FALLBACKS[dayIdx];
-  renderGkQuestion(fallback,false);
-  // Try to get fresh AI question
-  const cat=_GK_CATEGORIES[new Date().getDate()%_GK_CATEGORIES.length];
-  try{
-    const data=await window._callAI({
-      mode:'gk_question',
-      topic:cat.label,
-      category:cat.id
-    });
-    // Validate response — must have q and opts array
-    if(!data||!data.q||!Array.isArray(data.opts)||data.opts.length<2){
-      throw new Error('invalid gk response: '+JSON.stringify(data).slice(0,100));
-    }
-    data._cat=cat;
-    try{localStorage.setItem('tisa_gk_daily_q',JSON.stringify(data));}catch(e){}
-    renderGkQuestion(data,false);
-  }catch(e){
-    console.log('[GK Daily] Using fallback (AI unavailable):',e.message);
-    // fallback already shown — no action needed
-  }
+  // New day — pick question by day-of-year so it changes daily but is deterministic
+  const doy=Math.floor((Date.now()-new Date(new Date().getFullYear(),0,0))/(1000*60*60*24));
+  const q=_GK_FALLBACKS[doy%_GK_FALLBACKS.length];
+  renderGkQuestion(q,false);
 }
 
 function renderGkQuestion(q,alreadyAnswered){
@@ -9308,7 +9386,13 @@ window.pandaCalmBreath=function(){
   var btn=document.createElement('button');
   btn.textContent='Stop';
   btn.style.cssText='background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px 24px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:700;font-family:"Nunito",sans-serif';
-  btn.onclick=function(){clearInterval(timer);document.body.removeChild(ov);};
+  btn.onclick=function(){
+    clearInterval(timer);
+    document.body.removeChild(ov);
+    // Push context into AI memory so Panda knows what we just did
+    window._askHistory=window._askHistory||[];
+    window._askHistory.push({role:'assistant',content:'We just did a 4-4-4-4 box breathing exercise together to calm down and reset focus. 🌬️'});
+  };
   ov.appendChild(circ);ov.appendChild(lbl);ov.appendChild(btn);
   document.body.appendChild(ov);
   var step=function(){
@@ -9338,7 +9422,11 @@ window.pandaAffirmation=function(){
   var msg=_AFFIRMATIONS[Math.floor(Math.random()*_AFFIRMATIONS.length)];
   window.switchPandaTab('ask');
   var msgs=document.getElementById('ask-panda-msgs');
-  if(msgs){var b=document.createElement('div');b.className='ask-bubble ask-panda';b.textContent='💚 '+msg;msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;}
+  var text='💚 '+msg;
+  if(msgs){var b=document.createElement('div');b.className='ask-bubble ask-panda';b.textContent=text;msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;}
+  // Push into AI memory so follow-up questions have context
+  window._askHistory=window._askHistory||[];
+  window._askHistory.push({role:'assistant',content:text});
 };
 
 var _STUDY_JOKES=[
@@ -9353,7 +9441,11 @@ window.pandaJoke=function(){
   var joke=_STUDY_JOKES[Math.floor(Math.random()*_STUDY_JOKES.length)];
   window.switchPandaTab('ask');
   var msgs=document.getElementById('ask-panda-msgs');
-  if(msgs){var b=document.createElement('div');b.className='ask-bubble ask-panda';b.textContent='😄 '+joke;msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;}
+  var text='😄 '+joke;
+  if(msgs){var b=document.createElement('div');b.className='ask-bubble ask-panda';b.textContent=text;msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;}
+  // Push into AI memory so follow-up questions have context
+  window._askHistory=window._askHistory||[];
+  window._askHistory.push({role:'assistant',content:text});
 };
 
 // ── Init on DOMContentLoaded ──
@@ -9403,533 +9495,405 @@ window.showPageMob=function(name,btn){
 
 // ── END AI TEST ZONE ──
 
-
 </script>
-<script>
-// 1. Function to securely fetch from the OpenTDB database (4,000+ questions)
-async function fetchOpenTDBQuestions(amount, categoryId = '') {
-  const url = `https://opentdb.com/api.php?amount=${amount}&type=multiple${categoryId ? '&category=' + categoryId : ''}`;
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data.response_code !== 0) return [];
 
-    // Helper to decode weird HTML symbols like &quot;
-    const decodeHTML = (html) => {
-      const txt = document.createElement("textarea");
-      txt.innerHTML = html;
-      return txt.value;
-    };
+<!-- ═══════════════════════════════════════════════════════
+     ZEN FOCUS TIMER MODAL
+═══════════════════════════════════════════════════════ -->
+<div id="zen-modal" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:10000;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px">
+  <div style="font-size:13px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:3px;margin-bottom:8px">⛩️ Zen Focus</div>
+  <div style="font-size:12px;color:var(--danger);font-weight:700;margin-bottom:20px;background:rgba(192,57,43,.1);padding:8px 16px;border-radius:20px">⚠️ Switch tabs and your tree withers!</div>
+  <div id="zen-tree-icon" style="font-size:100px;margin:10px 0;transition:filter .5s,transform .5s;line-height:1">🌱</div>
+  <div id="zen-clock" style="font-family:'Space Mono',monospace;font-size:52px;font-weight:700;color:var(--primary);letter-spacing:4px;margin:10px 0">25:00</div>
+  <div id="zen-msg" style="font-size:13px;color:var(--ink3);font-weight:600;margin-bottom:24px;min-height:20px">Focus. Breathe. Grow.</div>
+  <div style="display:flex;gap:12px;justify-content:center">
+    <button class="btn btn-p" onclick="window.stopZenTimer(true)" style="background:var(--danger);border-color:var(--danger)">🍂 Give Up</button>
+    <button class="btn btn-o" onclick="window.stopZenTimer(false)">✕ Close</button>
+  </div>
+</div>
 
-    // Format the questions to perfectly match TISA's MCQ system
-    return data.results.map(item => {
-      const q = decodeHTML(item.question);
-      const correct = decodeHTML(item.correct_answer);
-      const incorrect = item.incorrect_answers.map(decodeHTML);
-      
-      const options = [...incorrect];
-      const correctIndex = Math.floor(Math.random() * 4);
-      options.splice(correctIndex, 0, correct); // Shuffle correct answer in
-      
-      const labels = ["(A)", "(B)", "(C)", "(D)"];
-      const finalOptions = options.map((opt, i) => `${labels[i]} ${opt}`);
-
-      return {
-        q: q,
-        opts: finalOptions,
-        ans: correctIndex,
-        exp: `The correct answer is ${correct}.`,
-        difficulty: item.difficulty || 'medium',
-        topic: item.category
-      };
-    });
-  } catch (e) {
-    console.error("API Error:", e);
-    return [];
-  }
-}
-
-// 2. Override the AI "Generate & Start" button to use the database instead
-window.atzLaunchTest = async function() {
-  const a = window._atz;
-  if (!a) return;
-  
-  // Show loading screen immediately
-  const modal = document.getElementById('mcq-modal');
-  const body = document.getElementById('mcq-body');
-  if(modal) modal.classList.add('open');
-  if(body) body.innerHTML = '<div class="mcq-loading"><div class="mcq-spinner"></div><div style="margin-top:15px;font-weight:bold;">Fetching fresh questions from Database...</div></div>';
-  
-  // Map TISA subjects to OpenTDB Category IDs
-  let category = ''; 
-  const subj = (a.subject || '').toLowerCase();
-  if(subj.includes('science') || subj.includes('physics') || subj.includes('chemistry') || subj.includes('biology')) category = '17';
-  if(subj.includes('math')) category = '19';
-  if(subj.includes('computer')) category = '18';
-  if(subj.includes('history')) category = '23';
-  if(subj.includes('geography')) category = '22';
-
-  // Read how many questions the user selected in the app UI
-  let amount = 10;
-  if (a.mode === 'mock30') amount = 30;
-  if (a.mode === 'full') amount = 50;
-
-  // Fetch the questions!
-  const newQuestions = await fetchOpenTDBQuestions(amount, category);
-  
-  if (newQuestions.length > 0) {
-    a.questions = newQuestions;
-    a.current = 0;
-    a.answers = {};
-    
-    // Start the test using TISA's built-in functions
-    if(typeof window.mcqStartTimer === 'function') window.mcqStartTimer();
-    if(typeof window.mcqRenderQuestion === 'function') window.mcqRenderQuestion();
-  } else {
-    if(body) body.innerHTML = '<div class="empty">Failed to load questions. Please check your internet connection or try a different subject.</div>';
-  }
-};
-</script>
+<!-- ═══════════════════════════════════════════════════════
+     FLOATING LOFI PLAYER
+═══════════════════════════════════════════════════════ -->
+<div id="lofi-player-widget" style="position:fixed;bottom:72px;left:16px;z-index:500;display:flex;align-items:center;gap:0;transition:all .3s cubic-bezier(.34,1.56,.64,1)">
+  <button id="lofi-toggle-btn" onclick="window.toggleLofi()" title="Toggle music"
+    style="width:44px;height:44px;border-radius:50%;background:color-mix(in srgb,var(--surface) 85%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid var(--border);box-shadow:var(--sh);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:all .25s;color:var(--ink)">🎧</button>
+  <div id="lofi-expanded" style="display:none;align-items:center;gap:8px;background:color-mix(in srgb,var(--surface) 85%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid var(--border);border-left:none;border-radius:0 22px 22px 0;padding:0 12px 0 8px;height:44px;box-shadow:var(--sh)">
+    <span id="lofi-track-lbl" style="font-size:11px;font-weight:700;color:var(--ink);white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis">Tokyo Lofi ☕</span>
+    <button onclick="window.nextLofiTrack()" title="Next track" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--ink);padding:0;line-height:1">⏭</button>
+    <button onclick="window.toggleLofi()" title="Stop" style="background:none;border:none;cursor:pointer;font-size:14px;color:var(--ink3);padding:0;line-height:1">✕</button>
+  </div>
+  <iframe id="lofi-iframe" width="1" height="1" style="position:absolute;pointer-events:none;opacity:0;left:-9999px" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen referrerpolicy="no-referrer"></iframe>
+</div>
 
 <script>
-// 1. FIX FOR THE AI CHATBOT (ASK PANDA)
-window.askPanda = async function() {
-  // If the bot got stuck previously, force a reset
-  if (window._pandaBusy) {
-    console.log("Resetting stuck Panda...");
-    window._pandaBusy = false; 
+// ═══════════════════════════════════════════════════════
+// LOFI PLAYER — integrates with existing app
+// ═══════════════════════════════════════════════════════
+(function(){
+  var TRACKS=[
+    {name:'Tokyo Lofi ☕',url:'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&controls=0'},
+    {name:'Synthwave Drive 🌆',url:'https://www.youtube.com/embed/4xDzrJKXOOY?autoplay=1&controls=0'},
+    {name:'Rain Café 🌧️',url:'https://www.youtube.com/embed/lTRiuFIWV54?autoplay=1&controls=0'},
+    {name:'Study Beats 📚',url:'https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&controls=0'}
+  ];
+  var current=0, playing=false;
+
+  function _updateWidget(){
+    var btn=document.getElementById('lofi-toggle-btn');
+    var exp=document.getElementById('lofi-expanded');
+    var lbl=document.getElementById('lofi-track-lbl');
+    var ext=document.getElementById('lofi-track-name');// settings card label
+    var pwidget=document.getElementById('lofi-player-widget');
+    if(btn)btn.textContent=playing?'⏸':'🎧';
+    if(exp)exp.style.display=playing?'flex':'none';
+    if(lbl)lbl.textContent=TRACKS[current].name;
+    if(ext)ext.textContent='Track: '+TRACKS[current].name;
+    if(pwidget){pwidget.style.bottom=document.getElementById('mobile-nav')&&getComputedStyle(document.getElementById('mobile-nav')).display!=='none'?'70px':'16px';}
   }
-  
-  const inp = document.getElementById('ask-panda-inp');
-  const txt = inp.value.trim();
-  if (!txt) return;
 
-  // Set to busy and clear input
-  window._pandaBusy = true;
-  inp.value = '';
-  
-  const msgs = document.getElementById('ask-panda-msgs');
-  
-  // Add User Message to UI
-  const safeTxt = (typeof window._esc === 'function') ? window._esc(txt) : txt.replace(/</g, "&lt;");
-  msgs.innerHTML += `<div class="ask-bubble ask-user">${safeTxt}</div>`;
-  
-  // Add 'Thinking...' indicator to UI
-  msgs.innerHTML += `<div class="ask-bubble ask-panda ask-thinking" id="panda-thinking">🐼 Thinking...</div>`;
-  msgs.scrollTop = msgs.scrollHeight;
-
-  try {
-    let answer = "";
-    // Get the key from Settings (or use the default)
-    const key = window._PANDA_KEY || localStorage.getItem('tisa_panda_key');
-    
-    // Attempt to contact Gemini AI if a key is present
-    if (key && key.startsWith('AIza')) {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ role: "user", parts: [{ text: "You are Panda, a helpful study buddy. Answer briefly: " + txt }] }]
-        })
-      });
-      
-      if (res.ok) {
-        const data = await res.json();
-        if (data.candidates && data.candidates[0].content) {
-          answer = data.candidates[0].content.parts[0].text;
-        }
-      }
+  window.toggleLofi=function(){
+    var iframe=document.getElementById('lofi-iframe');
+    if(!iframe)return;
+    if(!playing){
+      iframe.src=TRACKS[current].url;
+      playing=true;
+    }else{
+      iframe.src='';
+      playing=false;
     }
-    
-    // If the API failed, hit a limit, or is missing, use the Offline Brain
-    if (!answer) {
-       answer = (typeof window._pandaBrain === 'function') 
-         ? window._pandaBrain(txt) 
-         : "I'm offline right now! Please add a valid Gemini API key in Settings to chat with me. 🐼";
+    _updateWidget();
+  };
+
+  window.nextLofiTrack=function(){
+    current=(current+1)%TRACKS.length;
+    var iframe=document.getElementById('lofi-iframe');
+    if(iframe&&playing)iframe.src=TRACKS[current].url;
+    _updateWidget();
+    if(window.toast)window.toast('🎵 '+TRACKS[current].name);
+  };
+
+  // Keep widget above mobile nav
+  window.addEventListener('resize',_updateWidget);
+  _updateWidget();
+})();
+
+// ═══════════════════════════════════════════════════════
+// ZEN GARDEN TIMER — strict Pomodoro with tab-wither
+// ═══════════════════════════════════════════════════════
+(function(){
+  var _int=null, _left=25*60, _active=false;
+  var STAGES=['🌱','🌿','🪴','🌳','🌸'];
+  var MSGS=['Focus. Breathe. Grow.','Keep going... the tree feels you.','Halfway there! 🌿','Almost a full tree!','You\'re almost there! 🌸'];
+
+  function _tick(){
+    _left--;
+    _updateZenUI();
+    if(_left<=0)_complete();
+  }
+
+  function _updateZenUI(){
+    var m=Math.floor(_left/60).toString().padStart(2,'0');
+    var s=(_left%60).toString().padStart(2,'0');
+    var cl=document.getElementById('zen-clock');
+    var tr=document.getElementById('zen-tree-icon');
+    var mg=document.getElementById('zen-msg');
+    if(cl)cl.textContent=m+':'+s;
+    var prog=Math.floor((1-(_left/(25*60)))*5);
+    if(tr)tr.textContent=STAGES[Math.min(prog,4)];
+    if(mg)mg.textContent=MSGS[Math.min(prog,4)];
+  }
+
+  function _complete(){
+    clearInterval(_int);_active=false;
+    var tr=document.getElementById('zen-tree-icon');
+    var mg=document.getElementById('zen-msg');
+    var cl=document.getElementById('zen-clock');
+    if(tr)tr.textContent='🌸';
+    if(cl)cl.textContent='DONE ✓';
+    if(mg)mg.textContent='🎉 Session complete! +100 coins earned!';
+    // Award coins via existing system
+    if(typeof window.coins!=='undefined'){
+      window.coins=(window.coins||0)+100;
+      if(typeof addXP==='function')addXP(0,'zen session');// triggers renderXP() which updates coin displays
+      if(typeof window._save==='function')window._save();
     }
-
-    // Remove 'Thinking...' and show Answer
-    const thinking = document.getElementById('panda-thinking');
-    if (thinking) thinking.remove();
-    
-    // Format text slightly for better reading
-    answer = answer.replace(/\n/g, '<br>');
-    msgs.innerHTML += `<div class="ask-bubble ask-panda">${answer}</div>`;
-    
-  } catch (err) {
-    const thinking = document.getElementById('panda-thinking');
-    if (thinking) thinking.remove();
-    msgs.innerHTML += `<div class="ask-bubble ask-panda" style="color:var(--danger)">Oops, my brain glitched! Please check your internet or add an API key in Settings.</div>`;
+    if(window.toast)window.toast('🌸 Zen complete! +100 🪙 coins earned!');
+    setTimeout(function(){window.stopZenTimer(false);},3500);
   }
-  
-  msgs.scrollTop = msgs.scrollHeight;
-  window._pandaBusy = false; // Free up the bot for the next question
-};
 
-// 2. FIX FOR THE AI TEST ZONE (USING FREE OPENTDB)
-window.atzLaunchTest = async function() {
-  const a = window._atz;
-  if (!a) return;
-  
-  const modal = document.getElementById('mcq-modal');
-  const body = document.getElementById('mcq-body');
-  if (modal) modal.classList.add('open');
-  if (body) body.innerHTML = '<div class="mcq-loading"><div class="mcq-spinner"></div><div style="margin-top:15px;font-weight:bold;color:var(--ink);">Fetching fresh questions from Database...</div></div>';
-  
-  // Match your app's subjects to the Database categories
-  let category = ''; 
-  const subj = (a.subject || '').toLowerCase();
-  if(subj.includes('science') || subj.includes('physics') || subj.includes('chemistry') || subj.includes('biology')) category = '17';
-  if(subj.includes('math')) category = '19';
-  if(subj.includes('computer') || subj.includes('it')) category = '18';
-  if(subj.includes('history')) category = '23';
-  if(subj.includes('geography')) category = '22';
-
-  // Determine how many questions the user wants
-  let amount = (a.mode === 'mock30') ? 30 : (a.mode === 'full' ? 50 : 10);
-
-  try {
-    const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&type=multiple${category ? '&category='+category : ''}`);
-    const data = await response.json();
-    
-    if (data.response_code !== 0 || !data.results.length) throw new Error("No questions found");
-
-    // Helper to clean up HTML symbols (like &quot;)
-    const decodeHTML = (html) => {
-      const txt = document.createElement("textarea");
-      txt.innerHTML = html;
-      return txt.value;
-    };
-
-    // Format the external questions into TISA's native MCQ format
-    const newQuestions = data.results.map(item => {
-      const correct = decodeHTML(item.correct_answer);
-      const options = item.incorrect_answers.map(decodeHTML);
-      const correctIndex = Math.floor(Math.random() * 4);
-      options.splice(correctIndex, 0, correct); // Shuffle the correct answer in
-      const labels = ["(A)", "(B)", "(C)", "(D)"];
-      
-      return {
-        q: decodeHTML(item.question),
-        opts: options.map((opt, i) => `${labels[i]} ${opt}`),
-        ans: correctIndex,
-        exp: `The correct answer is ${correct}.`,
-        difficulty: item.difficulty,
-        topic: item.category
-      };
-    });
-
-    // Load them into the app
-    a.questions = newQuestions;
-    a.current = 0;
-    a.answers = {};
-    
-    // Start TISA's native test UI
-    if(typeof window.mcqStartTimer === 'function') window.mcqStartTimer();
-    if(typeof window.mcqRenderQuestion === 'function') window.mcqRenderQuestion();
-
-  } catch (e) {
-    if (body) body.innerHTML = '<div class="empty">Failed to load questions. Please check your internet connection or try a different subject.</div>';
-  }
-};
-</script>
-<script>
-window.gkLoadDaily = async function() {
-  const today = new Date().toDateString();
-  const lastDate = localStorage.getItem('tisa_gk_daily_date');
-  const alreadyAnswered = (lastDate === today);
-
-  const qEl = document.getElementById('gk-daily-q');
-  const catEl = document.getElementById('gk-daily-category');
-  const optsEl = document.getElementById('gk-daily-opts');
-  const expEl = document.getElementById('gk-daily-exp');
-
-  if (qEl) qEl.textContent = "Fetching today's question from Database...";
-
-  let q = null;
-  
-  // Fetch from free OpenTDB (Category 9 is General Knowledge)
-  try {
-    const response = await fetch('https://opentdb.com/api.php?amount=1&category=9&type=multiple');
-    const data = await response.json();
-    
-    if (data.response_code === 0 && data.results && data.results.length > 0) {
-      const item = data.results[0];
-      const decode = (str) => { const txt = document.createElement("textarea"); txt.innerHTML = str; return txt.value; };
-      
-      const correct = decode(item.correct_answer);
-      const options = item.incorrect_answers.map(decode);
-      const correctIndex = Math.floor(Math.random() * 4);
-      options.splice(correctIndex, 0, correct); // Shuffle correct answer
-      
-      q = {
-        q: decode(item.question),
-        opts: options,
-        ans: correctIndex,
-        exp: `The correct answer is ${correct}.`,
-        _cat: {label: 'Daily Trivia 🌍', color: '#2d7a3a'} // Green badge
-      };
+  // Tab-wither detection with grace period (screen sleep = brief hide, tab switch = sustained hide)
+  var _witherTimeout=null;
+  document.addEventListener('visibilitychange',function(){
+    if(!_active)return;
+    if(document.visibilityState==='hidden'){
+      // Wait 2.5s — screen sleep comes back almost immediately, tab switches stay hidden
+      _witherTimeout=setTimeout(function(){
+        if(!_active||document.visibilityState!=='hidden')return;// came back — screen sleep, ignore
+        clearInterval(_int);_active=false;
+        _releaseWakeLock();
+        var tr=document.getElementById('zen-tree-icon');
+        var cl=document.getElementById('zen-clock');
+        var mg=document.getElementById('zen-msg');
+        if(tr){tr.textContent='🍂';tr.style.filter='grayscale(1) opacity(.5)';tr.style.transform='scale(0.85)';}
+        if(cl)cl.textContent='WITHERED';
+        if(mg)mg.textContent='You switched tabs. The tree withered. 🍂';
+        if(window.toast)window.toast('🍂 Zen broken — tree withered');
+        setTimeout(function(){window.stopZenTimer(false);},3000);
+      },2500);
+    } else {
+      // Visible again — cancel any pending wither (screen woke up)
+      if(_witherTimeout){clearTimeout(_witherTimeout);_witherTimeout=null;}
     }
-  } catch(e) {
-    console.error("Failed to fetch GK:", e);
-  }
-
-  // Fallback question just in case you are offline
-  if (!q) {
-    q = {
-      q: "What is the capital of Australia?",
-      opts: ["Sydney", "Melbourne", "Canberra", "Perth"],
-      ans: 2,
-      exp: "Canberra is the capital of Australia.",
-      _cat: {label: 'Offline GK', color: '#c8941a'}
-    };
-  }
-
-  // Save globally for the answer checking function
-  window._gkCurrentQ = q;
-
-  // Update UI
-  if (catEl) {
-    catEl.textContent = q._cat.label;
-    catEl.style.background = q._cat.color + '40';
-    catEl.style.color = '#fff';
-  }
-  
-  if (qEl) qEl.textContent = q.q;
-  
-  if (optsEl) {
-    optsEl.innerHTML = '';
-    q.opts.forEach((o, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'gk-opt' + (alreadyAnswered ? (i === q.ans ? ' correct' : '') : '');
-      
-      // Add standard A, B, C, D prefixes
-      const prefix = ["(A)", "(B)", "(C)", "(D)"][i];
-      btn.textContent = `${prefix} ${o}`;
-      btn.disabled = alreadyAnswered;
-      
-      if (!alreadyAnswered) {
-        btn.onclick = function() {
-          // Triggers your app's built-in answer checker & XP award system
-          window.gkAnswerDaily(i, q.ans, q.exp, btn);
-        };
-      }
-      optsEl.appendChild(btn);
-    });
-  }
-
-  // Show explanation if they already played today
-  if (expEl && alreadyAnswered) {
-    expEl.textContent = q.exp;
-    expEl.style.display = 'block';
-  }
-  
-  // Display streak if exists
-  const streak = parseInt(localStorage.getItem('tisa_gk_streak') || '0');
-  const sb = document.getElementById('gk-streak-bar');
-  if (sb && streak > 0) {
-    sb.style.display = 'flex';
-    document.getElementById('gk-streak-txt').textContent = streak + ' day streak';
-  }
-};
-</script>
- <script>
-// 1. AI CHATBOT (ASK PANDA)
-window.askPanda = async function() {
-  if (window._pandaBusy) { window._pandaBusy = false; }
-  const inp = document.getElementById('ask-panda-inp');
-  const txt = inp.value.trim();
-  if (!txt) return;
-  window._pandaBusy = true;
-  inp.value = '';
-  const msgs = document.getElementById('ask-panda-msgs');
-  const safeTxt = (typeof window._esc === 'function') ? window._esc(txt) : txt.replace(/</g, "&lt;");
-  msgs.innerHTML += `<div class="ask-bubble ask-user">${safeTxt}</div>`;
-  msgs.innerHTML += `<div class="ask-bubble ask-panda ask-thinking" id="panda-thinking">🐼 Thinking...</div>`;
-  msgs.scrollTop = msgs.scrollHeight;
-
-  try {
-    let answer = "";
-    const key = window._PANDA_KEY || localStorage.getItem('tisa_panda_key');
-    if (key && key.startsWith('AIza')) {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ role: "user", parts: [{ text: "You are Panda, a helpful study buddy. Answer briefly: " + txt }] }]
-        })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.candidates && data.candidates[0].content) {
-          answer = data.candidates[0].content.parts[0].text;
-        }
-      }
-    }
-    if (!answer) {
-       answer = (typeof window._pandaBrain === 'function') ? window._pandaBrain(txt) : "I'm offline right now! Please add a valid Gemini API key in Settings to chat with me. 🐼";
-    }
-    const thinking = document.getElementById('panda-thinking');
-    if (thinking) thinking.remove();
-    answer = answer.replace(/\n/g, '<br>');
-    msgs.innerHTML += `<div class="ask-bubble ask-panda">${answer}</div>`;
-  } catch (err) {
-    const thinking = document.getElementById('panda-thinking');
-    if (thinking) thinking.remove();
-    msgs.innerHTML += `<div class="ask-bubble ask-panda" style="color:var(--danger)">Oops, my brain glitched! Please check your internet or add an API key in Settings.</div>`;
-  }
-  msgs.scrollTop = msgs.scrollHeight;
-  window._pandaBusy = false;
-};
-
-// 2. DAILY GK
-window.gkLoadDaily = async function() {
-  const today = new Date().toDateString();
-  const lastDate = localStorage.getItem('tisa_gk_daily_date');
-  const alreadyAnswered = (lastDate === today);
-  const qEl = document.getElementById('gk-daily-q');
-  const catEl = document.getElementById('gk-daily-category');
-  const optsEl = document.getElementById('gk-daily-opts');
-  const expEl = document.getElementById('gk-daily-exp');
-
-  if (qEl) qEl.textContent = "Fetching today's question from Database...";
-
-  let q = null;
-  try {
-    const response = await fetch('https://opentdb.com/api.php?amount=1&category=9&type=multiple');
-    const data = await response.json();
-    if (data.response_code === 0 && data.results && data.results.length > 0) {
-      const item = data.results[0];
-      const decode = (str) => { const txt = document.createElement("textarea"); txt.innerHTML = str; return txt.value; };
-      const correct = decode(item.correct_answer);
-      const options = item.incorrect_answers.map(decode);
-      const correctIndex = Math.floor(Math.random() * 4);
-      options.splice(correctIndex, 0, correct);
-      q = {
-        q: decode(item.question),
-        opts: options,
-        ans: correctIndex,
-        exp: `The correct answer is ${correct}.`,
-        _cat: {label: 'Daily Trivia 🌍', color: '#2d7a3a'}
-      };
-    }
-  } catch(e) { console.error("Failed to fetch GK:", e); }
-
-  if (!q) {
-    q = {
-      q: "What is the capital of Australia?",
-      opts: ["Sydney", "Melbourne", "Canberra", "Perth"],
-      ans: 2,
-      exp: "Canberra is the capital of Australia.",
-      _cat: {label: 'Offline GK', color: '#c8941a'}
-    };
-  }
-
-  window._gkCurrentQ = q;
-
-  if (catEl) {
-    catEl.textContent = q._cat.label;
-    catEl.style.background = q._cat.color + '40';
-    catEl.style.color = '#fff';
-  }
-  if (qEl) qEl.textContent = q.q;
-  if (optsEl) {
-    optsEl.innerHTML = '';
-    q.opts.forEach((o, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'gk-opt' + (alreadyAnswered ? (i === q.ans ? ' correct' : '') : '');
-      const prefix = ["(A)", "(B)", "(C)", "(D)"][i];
-      btn.textContent = `${prefix} ${o}`;
-      btn.disabled = alreadyAnswered;
-      if (!alreadyAnswered) {
-        btn.onclick = function() { window.gkAnswerDaily(i, q.ans, q.exp, btn); };
-      }
-      optsEl.appendChild(btn);
-    });
-  }
-  if (expEl && alreadyAnswered) {
-    expEl.textContent = q.exp;
-    expEl.style.display = 'block';
-  }
-  const streak = parseInt(localStorage.getItem('tisa_gk_streak') || '0');
-  const sb = document.getElementById('gk-streak-bar');
-  if (sb && streak > 0) {
-    sb.style.display = 'flex';
-    document.getElementById('gk-streak-txt').textContent = streak + ' day streak';
-  }
-};
-
-// 3. ADVANCED AI TEST ZONE
-window.atzLaunchTest = async function() {
-  const a = window._atz;
-  if (!a) return;
-  const modal = document.getElementById('mcq-modal');
-  const body = document.getElementById('mcq-body');
-  if (modal) modal.classList.add('open');
-  if (body) body.innerHTML = '<div class="mcq-loading"><div class="mcq-spinner"></div><div style="margin-top:15px;font-weight:bold;color:var(--ink);">AI is crafting your specific test...</div></div>';
-  
-  const key = window._PANDA_KEY || localStorage.getItem('tisa_panda_key');
-  let newQuestions = [];
-  let amount = (a.mode === 'full') ? 15 : 5;
-  const chapterStr = a.chapter ? a.chapter : 'Mixed Chapters';
-  const topicStr = a.topic ? a.topic : 'General Topics';
-
-  if (key && key.startsWith('AIza')) {
-    try {
-      const prompt = `You are an expert exam setter. Generate ${amount} multiple-choice questions for Subject: ${a.subject}, Chapter: ${chapterStr}, Topic: ${topicStr}. 
-      Return ONLY a valid JSON array of objects. Do not use markdown blocks like \`\`\`json. 
-      Format exactly like this: [{"q":"Question text?", "opts":["(A) Option 1", "(B) Option 2", "(C) Option 3", "(D) Option 4"], "ans": 0, "exp":"Explanation of the answer."}]
-      "ans" must be an integer 0, 1, 2, or 3 representing the correct index.`;
-
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        let rawText = data.candidates[0].content.parts[0].text;
-        const jsonMatch = rawText.match(/\[[\s\S]*\]/);
-        if (jsonMatch) {
-          newQuestions = JSON.parse(jsonMatch[0]);
-        }
-      } else {
-        console.error("API Key Invalid or Quota Exceeded");
-      }
-    } catch (e) {
-      console.error("Failed to parse AI response:", e);
-    }
-  }
-
-  if (newQuestions.length === 0) {
-    newQuestions = [{
-      q: `What is a core concept of ${chapterStr} in ${a.subject}? (AI generation failed. Please check your API key in settings).`,
-      opts: ["(A) Concept 1", "(B) Concept 2", "(C) Concept 3", "(D) Concept 4"],
-      ans: 0,
-      exp: "To get real questions here, ensure you have a valid, working Gemini API key saved in the app settings."
-    }];
-  }
-
-  const formattedQuestions = newQuestions.map((q, index) => {
-    return {
-      id: 'ai_q_' + Date.now() + '_' + index, 
-      q: q.q,
-      opts: q.opts,
-      ans: q.ans,
-      exp: q.exp,
-      topic: chapterStr,
-      difficulty: 'medium'
-    };
   });
 
-  a.questions = formattedQuestions;
-  a.current = 0;
-  a.answers = {};
-  
-  if(typeof window.mcqStartTimer === 'function') window.mcqStartTimer();
-  if(typeof window.mcqRenderQuestion === 'function') window.mcqRenderQuestion();
-};
-</script> 
+  var _wakeLock=null;
+  async function _requestWakeLock(){
+    try{
+      if('wakeLock' in navigator){
+        _wakeLock=await navigator.wakeLock.request('screen');
+        _wakeLock.addEventListener('release',function(){_wakeLock=null;});
+      }
+    }catch(e){/* Wake Lock not available — silently continue */}
+  }
+  function _releaseWakeLock(){
+    if(_wakeLock){try{_wakeLock.release();}catch(e){}}_wakeLock=null;
+  }
+
+  // Re-acquire wake lock if browser releases it (e.g. on page visibility restore)
+  document.addEventListener('visibilitychange',function(){
+    if(!_active)return;
+    if(document.visibilityState==='visible'&&!_wakeLock){_requestWakeLock();}
+  });
+
+  window.startZenTimer=function(){
+    var modal=document.getElementById('zen-modal');
+    if(!modal)return;
+    _left=25*60; _active=true;
+    clearInterval(_int);
+    var tr=document.getElementById('zen-tree-icon');
+    if(tr){tr.textContent='🌱';tr.style.filter='';tr.style.transform='';}
+    _updateZenUI();
+    modal.style.display='flex';
+    _requestWakeLock();
+    _int=setInterval(_tick,1000);
+  };
+
+  window.stopZenTimer=function(isGiveUp){
+    clearInterval(_int);_active=false;
+    _releaseWakeLock();
+    var modal=document.getElementById('zen-modal');
+    if(modal)modal.style.display='none';
+    if(isGiveUp&&window.toast)window.toast('🍂 Zen session abandoned');
+  };
+})();
+
+// ═══════════════════════════════════════════════════════
+// KAIZEN STREAK TRACKER — stepping stones visualization
+// ═══════════════════════════════════════════════════════
+(function(){
+  var STONE_MILESTONES=[
+    {days:1,icon:'🪨',label:'First step'},
+    {days:3,icon:'🌱',label:'Sprouting'},
+    {days:7,icon:'🌿',label:'One week'},
+    {days:14,icon:'🌳',label:'Two weeks'},
+    {days:21,icon:'🌸',label:'Habit formed!'},
+    {days:30,icon:'🌊',label:'One month'},
+    {days:50,icon:'🐉',label:'Dragon energy'},
+    {days:100,icon:'⛩️',label:'Temple scholar'},
+    {days:365,icon:'🥷',label:'Enlightened'}
+  ];
+  var MSGS=[
+    '','Start studying to build your streak!',
+    'Day {n} — the pond stirs 🪨',
+    'Day {n} — stepping stones appear 🌱',
+    'Day {n} — a full week! Keep going 🌿',
+    'Day {n} — two weeks of Kaizen! 🌳',
+    'Day {n} — 21 days, the habit is yours! 🌸',
+    'Day {n} — one month of mastery 🌊',
+    'Day {n} — dragon energy flows 🐉',
+    'Day {n} — you are a temple scholar ⛩️',
+    'Day {n} — enlightened. Nothing can stop you 🥷'
+  ];
+
+  window.renderKaizenStreak=function(){
+    var wrap=document.getElementById('kaizen-wrap');
+    var stones=document.getElementById('kaizen-stones');
+    var countEl=document.getElementById('kaizen-count');
+    var msgEl=document.getElementById('kaizen-msg');
+    if(!wrap||!stones)return;
+
+    // Compute streak from studyData
+    var streak=0;
+    for(var i=0;i<365;i++){
+      var d=window._dStr?window._dStr(i):'';
+      if(d&&(window.studyData||{})[d]>0)streak++;
+      else if(i>0)break;
+    }
+
+    if(streak<1){wrap.style.display='none';return;}
+    wrap.style.display='block';
+    if(countEl)countEl.textContent=streak+' day'+(streak!==1?'s':'');
+
+    // Build stones — one stone per day up to 30, then milestones only
+    var html='';
+    var showDays=Math.min(streak,30);
+    for(var d2=1;d2<=showDays;d2++){
+      var milestone=STONE_MILESTONES.filter(function(m){return m.days===d2;})[0];
+      var isToday=d2===streak;
+      var isMilestone=!!milestone;
+      var ic=milestone?milestone.icon:'🪨';
+      var size=isMilestone?'22px':'14px';
+      var opacity=isToday?'1':d2<streak?'0.75':'0.35';
+      var title=milestone?milestone.label:'Day '+d2;
+      var pulse=isToday?' style="animation:pulse 1.5s ease-in-out infinite;font-size:'+size+';opacity:'+opacity+';cursor:default" ':' style="font-size:'+size+';opacity:'+opacity+';cursor:default" ';
+      html+='<span title="'+title+'"'+pulse+'>'+ic+'</span>';
+    }
+    // If streak > 30, show ellipsis and final milestone
+    if(streak>30){
+      html+='<span style="font-size:11px;color:var(--ink3);font-weight:700;align-self:center">···</span>';
+      var last=STONE_MILESTONES.filter(function(m){return m.days<=streak;}).pop();
+      if(last)html+='<span title="'+last.label+'" style="font-size:22px;opacity:1;cursor:default">'+last.icon+'</span>';
+    }
+    stones.innerHTML=html;
+
+    // Message
+    if(msgEl){
+      var tier=0;
+      for(var t=0;t<STONE_MILESTONES.length;t++){if(streak>=STONE_MILESTONES[t].days)tier=t+1;}
+      var raw=MSGS[Math.min(tier,MSGS.length-1)]||('Day '+streak+' — keep going! 🔥');
+      msgEl.textContent=raw.replace('{n}',streak);
+    }
+  };
+
+  // Hook into renderStats so it updates whenever stats refresh
+  var _origRenderStats=window.renderStats;
+  if(typeof _origRenderStats==='function'){
+    window.renderStats=function(){
+      _origRenderStats.apply(this,arguments);
+      window.renderKaizenStreak();
+    };
+  }
+  // Also run after auth loads
+  setTimeout(function(){window.renderKaizenStreak&&window.renderKaizenStreak();},1500);
+  setTimeout(function(){window.renderKaizenStreak&&window.renderKaizenStreak();},4000);
+})();
+
+// ═══════════════════════════════════════════════════════
+// PANDA OUTFIT MASCOT — changes based on streak
+// ═══════════════════════════════════════════════════════
+(function(){
+  // Outfits: [minStreak, emoji, statusText]
+  var OUTFITS=[
+    [100, '🥷🐼', 'enlightened scholar 🥷'],
+    [30,  '👘🐼', 'kimono mode activated 👘'],
+    [21,  '🎓🐼', 'graduation cap earned! 🎓'],
+    [14,  '🕶️🐼', 'cool panda vibes 🕶️'],
+    [7,   '🎋🐼', 'on a roll! 🎋'],
+    [3,   '🌱🐼', 'growing strong 🌱'],
+    [0,   '🐼',   'your study buddy ✨']
+  ];
+
+  window.updatePandaOutfit=function(){
+    var streak=0;
+    for(var i=0;i<365;i++){
+      var d=window._dStr?window._dStr(i):'';
+      if(d&&(window.studyData||{})[d]>0)streak++;
+      else if(i>0)break;
+    }
+    var outfit=OUTFITS[OUTFITS.length-1];
+    for(var o=0;o<OUTFITS.length;o++){
+      if(streak>=OUTFITS[o][0]){outfit=OUTFITS[o];break;}
+    }
+    // Update the panda emoji in the chat header
+    var headerPanda=document.querySelector('#panda-tab-ask [style*="pandaBob"]');
+    if(headerPanda)headerPanda.textContent=outfit[1];
+    // Update status line
+    var statusTxt=document.getElementById('panda-status-txt');
+    if(statusTxt)statusTxt.textContent=outfit[2];
+  };
+
+  // Hook into renderStats
+  var _origRS=window.renderStats;
+  if(typeof _origRS==='function'){
+    window.renderStats=function(){
+      _origRS.apply(this,arguments);
+      window.updatePandaOutfit();
+    };
+  }
+  setTimeout(function(){window.updatePandaOutfit&&window.updatePandaOutfit();},2000);
+})();
+
+(function(){
+  var POOL=['🍜','🍣','🍵','⛩️','👺','🌸','🎋','🍙','🎐','🐉','🎎','🏮','🗻','🌊','🎑','🦊','🐼','🎏'];
+  var RARE=['🥷','⚔️','🌙','💮','🎌'];
+  var _inv=[];
+
+  function _loadInv(){
+    try{_inv=JSON.parse(localStorage.getItem('tisa_gacha')||'[]');}catch(e){_inv=[];}
+  }
+  function _saveInv(){
+    try{localStorage.setItem('tisa_gacha',JSON.stringify(_inv.slice(0,200)));}catch(e){}
+  }
+  function _renderGacha(){
+    var disp=document.getElementById('gacha-coin-disp');
+    var inv=document.getElementById('gacha-inventory');
+    var empty=document.getElementById('gacha-empty');
+    if(disp)disp.textContent=(window.coins||0);
+    if(inv){
+      if(_inv.length){
+        inv.innerHTML=_inv.map(function(i){return'<span title="'+i+'" style="cursor:default">'+i+'</span>';}).join('');
+        if(empty)empty.style.display='none';
+      }else{
+        inv.innerHTML='';
+        if(empty)empty.style.display='block';
+      }
+    }
+  }
+
+  window.rollGacha=function(){
+    if((window.coins||0)<50){
+      if(window.toast)window.toast('Need 50 🪙 coins! Keep studying 📚');
+      return;
+    }
+    window.coins=Math.max(0,(window.coins||0)-50);
+    // Immediately persist the deduction so a refresh doesn't restore the spent coins
+    try{localStorage.setItem('tisa_coins_cache',String(window.coins));}catch(e){}
+    var isRare=Math.random()<0.15;
+    var pool=isRare?RARE:POOL;
+    var item=pool[Math.floor(Math.random()*pool.length)];
+    _inv.unshift(item);
+    _saveInv();
+    _renderGacha();
+    if(typeof addXP==='function')addXP(0,'gacha roll');// triggers renderXP coin display
+    if(typeof window._save==='function')window._save();
+    var msg=isRare?'✨ RARE pull! You got: '+item+' (15% chance!)':'🎰 You got: '+item+'!';
+    if(window.toast)window.toast(msg);
+    // Bounce the icon
+    var inv=document.getElementById('gacha-inventory');
+    if(inv){inv.style.transform='scale(1.1)';setTimeout(function(){inv.style.transform='';},300);}
+  };
+
+  // Hook into renderXP to keep gacha coin display in sync
+  var _origRenderXP=window.renderXP;
+  window.renderXP=function(){
+    if(_origRenderXP)_origRenderXP();
+    _renderGacha();
+  };
+
+  // Restore coins from local cache if Firebase hasn't loaded yet
+  (function(){
+    try{
+      var cached=parseInt(localStorage.getItem('tisa_coins_cache')||'');
+      if(!isNaN(cached)&&cached<(window.coins||0)){}// firebase value is higher — good
+      else if(!isNaN(cached))(window.coins=Math.min(window.coins||0,cached));
+    }catch(e){}
+  })();
+  // Init
+  _loadInv();
+  document.addEventListener('DOMContentLoaded',function(){_renderGacha();});
+  setTimeout(function(){_renderGacha();},1000);// post-auth sync
+})();
+</script>
 </body>
 </html>
