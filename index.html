@@ -52,111 +52,220 @@ html{overflow-x:hidden}
 ═══════════════════════════════════════════════════ */
 
 /* 🌸 WASHI — handmade paper, sumi ink, zen calm */
-[data-theme="washi"]{--bg:#f5f0e8;--bg2:#ede6d6;--bg3:#e2d8c4;--surface:#faf7f0;--surface2:#f5f0e8;--primary:#3d2b1f;--pd:#241a12;--pl:#8b6b50;--pglow:rgba(61,43,31,.12);--ink:#1a1008;--ink2:#4a3020;--ink3:#8a6a50;--danger:#8b2020;--success:#2a5a2a;--warn:#7a5010;--border:rgba(61,43,31,.18);--border2:rgba(61,43,31,.08);--sh:0 2px 14px rgba(61,43,31,.08);--shl:0 8px 32px rgba(61,43,31,.12);--font-main:'Klee One',cursive;--font-head:'Shippori Mincho',serif;}
-[data-theme="washi"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");}
-[data-theme="washi"] .card{border-radius:6px;box-shadow:2px 3px 0 rgba(61,43,31,.06);}
-[data-theme="washi"] .tisa-logo,[data-theme="washi"] .logo-tisa{font-family:'Shippori Mincho',serif;letter-spacing:12px;}
+[data-theme="washi"]{
+  /* 和紙 — Japanese paper: warm cream, ink brown, deep forest */
+  --bg:#f7f3ed;--bg2:#ede7dd;--bg3:#e0d6c8;--surface:#faf8f4;--surface2:#f4f0e8;
+  --primary:#4a3728;--pd:#2e2018;--pl:#9a7a60;--pglow:rgba(74,55,40,.1);
+  --ink:#2a1a10;--ink2:#5a4030;--ink3:#9a7a60;
+  --danger:#9a2820;--success:#3a6a30;--warn:#8a6010;
+  --border:rgba(74,55,40,.15);--border2:rgba(74,55,40,.07);
+  --sh:0 2px 12px rgba(74,55,40,.07);--shl:0 6px 28px rgba(74,55,40,.1);
+  --font-main:'Klee One',cursive;--font-head:'Shippori Mincho',serif;}
+[data-theme="washi"] .card{border-radius:6px;border:1px solid rgba(74,55,40,.12);box-shadow:1px 2px 0 rgba(74,55,40,.05);}
 [data-theme="washi"] .btn-p{border-radius:3px;}
-[data-theme="washi"] #qbanner{border-left:3px solid var(--primary);background:rgba(61,43,31,.04);}
-[data-theme="washi"] .ct-ic{display:none;}
+[data-theme="washi"] .logo-tisa{font-family:'Shippori Mincho',serif;letter-spacing:10px;}
+[data-theme="washi"] #qbanner{border-left:3px solid var(--primary);background:rgba(74,55,40,.04);}
 [data-theme="washi"] .t-digits{font-family:'Shippori Mincho',serif!important;}
 
-/* 🏮 AKARI — lantern glow, festival night */
-[data-theme="akari"]{--bg:#161210;--bg2:#1e1814;--bg3:#261e18;--surface:#1c1614;--surface2:#221a16;--primary:#e8832a;--pd:#c86018;--pl:#7a3a10;--pglow:rgba(232,131,42,.2);--ink:#f0e8d8;--ink2:#c8b090;--ink3:#806048;--danger:#e05040;--success:#50a060;--warn:#d4a030;--border:rgba(232,131,42,.22);--border2:rgba(232,131,42,.1);--sh:0 2px 14px rgba(0,0,0,.4);--shl:0 8px 40px rgba(232,131,42,.15);--font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
-[data-theme="akari"] body{background:radial-gradient(ellipse at 50% 0%,rgba(232,131,42,.08) 0%,transparent 60%),var(--bg);}
-[data-theme="akari"] .card{border:1px solid rgba(232,131,42,.15);border-radius:10px;}
-[data-theme="akari"] .card:hover{border-color:rgba(232,131,42,.35);box-shadow:0 4px 28px rgba(0,0,0,.35),0 0 16px rgba(232,131,42,.08);}
-[data-theme="akari"] .btn-p{box-shadow:0 0 12px rgba(232,131,42,.4);border-radius:6px;}
-[data-theme="akari"] .t-digits{text-shadow:0 0 30px rgba(232,131,42,.5);}
-[data-theme="akari"] .t-prog{stroke:var(--primary);filter:drop-shadow(0 0 8px rgba(232,131,42,.6));}
-[data-theme="akari"] .xpbar-f,.todo-pb{box-shadow:0 0 8px rgba(232,131,42,.5);}
-[data-theme="akari"] header{background:rgba(28,22,20,.95);border-bottom:1px solid rgba(232,131,42,.2);}
+[data-theme="akari"]{
+  /* 灯 — Lantern: warm black, amber glow, silk gold */
+  --bg:#18120e;--bg2:#221810;--bg3:#2c1e14;--surface:#1e1610;--surface2:#241c14;
+  --primary:#d4801e;--pd:#a85e10;--pl:#ffa040;--pglow:rgba(212,128,30,.25);
+  --ink:#f0e4d0;--ink2:#c8a880;--ink3:#805840;
+  --danger:#d04830;--success:#48a050;--warn:#d09818;
+  --border:rgba(212,128,30,.25);--border2:rgba(212,128,30,.1);
+  --sh:0 2px 16px rgba(0,0,0,.5);--shl:0 8px 36px rgba(212,128,30,.18);
+  --font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
+[data-theme="akari"] body{background:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(212,128,30,.1) 0%,transparent 70%),var(--bg);}
+[data-theme="akari"] .card{border:1px solid rgba(212,128,30,.18);border-radius:10px;background:rgba(26,20,14,.9);}
+[data-theme="akari"] .card:hover{border-color:rgba(212,128,30,.4);box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 20px rgba(212,128,30,.1);}
+[data-theme="akari"] .btn-p{box-shadow:0 0 16px rgba(212,128,30,.35);}
+[data-theme="akari"] .t-prog{stroke:var(--primary);filter:drop-shadow(0 0 6px rgba(212,128,30,.5));}
+[data-theme="akari"] .t-digits{text-shadow:0 0 24px rgba(212,128,30,.4);}
+[data-theme="akari"] header{background:rgba(22,16,10,.95);border-bottom:1px solid rgba(212,128,30,.2);}
 
-/* 🌊 ASAGI — Edo indigo, ukiyo-e waves */
-[data-theme="asagi"]{--bg:#f0f4f8;--bg2:#dde8f0;--bg3:#c8d8e8;--surface:#f8fbff;--surface2:#f0f4f8;--primary:#1a5a7a;--pd:#0e3d58;--pl:#5090b0;--pglow:rgba(26,90,122,.15);--ink:#0a1e2a;--ink2:#2a4a5a;--ink3:#6080a0;--danger:#c03030;--success:#1a7a50;--warn:#c08010;--border:rgba(26,90,122,.2);--border2:rgba(26,90,122,.08);--sh:0 2px 14px rgba(26,90,122,.1);--shl:0 8px 32px rgba(26,90,122,.15);--font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
-[data-theme="asagi"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='20'%3E%3Cpath d='M0 10 Q10 0 20 10 Q30 20 40 10 Q50 0 60 10 Q70 20 80 10' fill='none' stroke='%231a5a7a' stroke-width='.5' opacity='.07'/%3E%3C/svg%3E");background-size:80px 20px;}
-[data-theme="asagi"] .card{border-radius:4px;border-top:2px solid rgba(26,90,122,.12);}
-[data-theme="asagi"] .ct{font-family:'Shippori Mincho',serif;letter-spacing:1px;}
-[data-theme="asagi"] .tisa-logo,[data-theme="asagi"] .logo-tisa{font-family:'Shippori Mincho',serif;letter-spacing:14px;}
-[data-theme="asagi"] .btn-p{border-radius:2px;letter-spacing:.5px;}
+[data-theme="asagi"]{
+  /* 浅葱 — Edo blue: cool white, deep indigo, wave pattern */
+  --bg:#f4f7fb;--bg2:#e4ecf6;--bg3:#d0e0f0;--surface:#fafcff;--surface2:#f4f7fb;
+  --primary:#1e5c88;--pd:#103e60;--pl:#4a88b8;--pglow:rgba(30,92,136,.12);
+  --ink:#0a1e30;--ink2:#2a4860;--ink3:#5a80a0;
+  --danger:#b82828;--success:#1a7848;--warn:#b07008;
+  --border:rgba(30,92,136,.18);--border2:rgba(30,92,136,.07);
+  --sh:0 2px 12px rgba(30,92,136,.08);--shl:0 6px 28px rgba(30,92,136,.12);
+  --font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
+[data-theme="asagi"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='25'%3E%3Cpath d='M0 12Q12.5 0 25 12Q37.5 24 50 12Q62.5 0 75 12Q87.5 24 100 12' fill='none' stroke='%231e5c88' stroke-width='.6' opacity='.06'/%3E%3C/svg%3E");background-size:100px 25px;}
+[data-theme="asagi"] .card{border-radius:4px;border-top:2px solid rgba(30,92,136,.1);}
+[data-theme="asagi"] .logo-tisa{font-family:'Shippori Mincho',serif;letter-spacing:12px;}
+[data-theme="asagi"] .btn-p{border-radius:2px;}
 
-/* 🌿 MATCHA SEOUL — Korean café productivity */
-[data-theme="matcha_seoul"]{--bg:#f2f5f0;--bg2:#e4ece0;--bg3:#d4e2cc;--surface:#f9fbf7;--surface2:#f2f5f0;--primary:#3d6b45;--pd:#275030;--pl:#90c098;--pglow:rgba(61,107,69,.15);--ink:#1a2e1e;--ink2:#3a5a40;--ink3:#789a80;--danger:#b83030;--success:#2a6a30;--warn:#8a7010;--border:rgba(61,107,69,.2);--border2:rgba(61,107,69,.08);--sh:0 2px 14px rgba(61,107,69,.08);--shl:0 8px 32px rgba(61,107,69,.12);--font-main:'Outfit',sans-serif;--font-head:'Playfair Display',serif;}
-[data-theme="matcha_seoul"] body{background:linear-gradient(160deg,#f2f5f0 0%,#edf2e8 100%);}
-[data-theme="matcha_seoul"] .card{border-radius:20px;border:none;box-shadow:0 4px 24px rgba(61,107,69,.07);}
-[data-theme="matcha_seoul"] .btn-p{border-radius:100px;}
+[data-theme="matcha_seoul"]{
+  /* 抹茶 Seoul — Korean café: sage green, cream, clean lines */
+  --bg:#f1f5ef;--bg2:#e2eedc;--bg3:#d0e2c8;--surface:#f8fbf6;--surface2:#f1f5ef;
+  --primary:#3a6840;--pd:#254c2a;--pl:#80b888;--pglow:rgba(58,104,64,.12);
+  --ink:#182818;--ink2:#305838;--ink3:#70987a;
+  --danger:#b02828;--success:#2a6830;--warn:#807010;
+  --border:rgba(58,104,64,.18);--border2:rgba(58,104,64,.07);
+  --sh:0 2px 12px rgba(58,104,64,.07);--shl:0 6px 28px rgba(58,104,64,.1);
+  --font-main:'Outfit',sans-serif;--font-head:'Playfair Display',serif;}
+[data-theme="matcha_seoul"] body{background:linear-gradient(150deg,#f1f5ef 0%,#eaf1e6 100%);}
+[data-theme="matcha_seoul"] .card{border-radius:18px;border:none;box-shadow:0 4px 20px rgba(58,104,64,.06);}
+[data-theme="matcha_seoul"] .btn-p{border-radius:100px;letter-spacing:.3px;}
+[data-theme="matcha_seoul"] .ct{font-family:'Playfair Display',serif;letter-spacing:.5px;}
 
-/* 🌙 YORU — deep Japanese night, aurora */
-[data-theme="yoru"]{--bg:#0c0f18;--bg2:#12162a;--bg3:#181e36;--surface:#0f1220;--surface2:#141828;--primary:#a78bfa;--pd:#7c5cdf;--pl:#3d2a80;--pglow:rgba(167,139,250,.2);--ink:#e8e4ff;--ink2:#b0a8e0;--ink3:#706898;--danger:#f06060;--success:#50d080;--warn:#f0c040;--border:rgba(167,139,250,.2);--border2:rgba(167,139,250,.08);--sh:0 2px 20px rgba(0,0,0,.5);--shl:0 8px 40px rgba(167,139,250,.15);--font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
-[data-theme="yoru"] body{background:radial-gradient(ellipse at 20% 0%,rgba(167,139,250,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 0%,rgba(100,200,255,.05) 0%,transparent 50%),var(--bg);}
-[data-theme="yoru"] .card{border:1px solid rgba(167,139,250,.12);}
-[data-theme="yoru"] .t-digits{text-shadow:0 0 30px rgba(167,139,250,.6);}
-[data-theme="yoru"] .t-prog{stroke:var(--primary);filter:drop-shadow(0 0 6px rgba(167,139,250,.7));}
-[data-theme="yoru"] .btn-p{box-shadow:0 0 20px rgba(167,139,250,.3);}
-[data-theme="yoru"] header{background:rgba(12,15,24,.95);border-bottom:1px solid rgba(167,139,250,.15);}
-[data-theme="minimalist"]{
-  --primary:#4a5e2a;
-  --pd:#3a4d1f;
-  --pl:#8aab54;
-  --pglow:rgba(74,94,42,.12);
-  --bg:#f7f9f4;
-  --bg2:#edf0e8;
-  --bg3:#e2e7d8;
-  --surface:#ffffff;
-  --surface2:#f4f6f0;
-  --card:#ffffff;
-  --border:#d4dcc8;
-  --border2:#c4cfb5;
-  --shl:0 1px 4px rgba(74,94,42,.08);
-  --ink:#1e2416;
-  --ink2:#3a4530;
-  --ink3:#7a8a6a;
-  --success:#2d7a2d;
-  --danger:#a02020;
-  --warn:#7a5500;
-  --sh:0 2px 8px rgba(74,94,42,.10);
-  --font:'Inter','Helvetica Neue',Arial,sans-serif;
-}
-[data-theme="minimalist"] .tisa-logo{font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-weight:300;letter-spacing:8px;font-size:28px}
-[data-theme="minimalist"] .card{border-radius:6px;border:1px solid var(--border);box-shadow:none}
-[data-theme="minimalist"] .btn{border-radius:4px}
-[data-theme="minimalist"] .tisa-inp{border-radius:4px}
-[data-theme="minimalist"] .pill-btn{border-radius:4px}
-[data-theme="minimalist"] .badge{border-radius:4px}
-[data-theme="minimalist"] .nav-bubble{border-radius:4px}
-[data-theme="minimalist"] header{border-bottom:1px solid var(--border);box-shadow:none}
-[data-theme="minimalist"] nav{border-top:1px solid var(--border);box-shadow:none}
-[data-theme="minimalist"] .qbanner{display:none}
-[data-theme="minimalist"] .ct-ic{display:none}
-[data-theme="minimalist"] .login-blob{display:none}
+[data-theme="yoru"]{
+  /* 夜 — Japanese night: deep navy, violet aurora, star glow */
+  --bg:#0a0d1a;--bg2:#101428;--bg3:#161c38;--surface:#0d1020;--surface2:#121530;
+  --primary:#9d80f0;--pd:#7258d0;--pl:#c0a8ff;--pglow:rgba(157,128,240,.22);
+  --ink:#e8e4ff;--ink2:#a8a0d8;--ink3:#686090;
+  --danger:#e85858;--success:#48d88a;--warn:#e8c048;
+  --border:rgba(157,128,240,.22);--border2:rgba(157,128,240,.08);
+  --sh:0 2px 20px rgba(0,0,0,.6);--shl:0 8px 40px rgba(157,128,240,.18);
+  --font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
+[data-theme="yoru"] body{background:radial-gradient(ellipse 120% 60% at 50% -20%,rgba(157,128,240,.12) 0%,transparent 60%),var(--bg);}
+[data-theme="yoru"] .card{border:1px solid rgba(157,128,240,.14);background:rgba(12,14,28,.85);}
+[data-theme="yoru"] .card:hover{border-color:rgba(157,128,240,.32);box-shadow:0 4px 28px rgba(0,0,0,.5),0 0 20px rgba(157,128,240,.08);}
+[data-theme="yoru"] .btn-p{box-shadow:0 0 18px rgba(157,128,240,.3);}
+[data-theme="yoru"] .t-digits{text-shadow:0 0 24px rgba(157,128,240,.5);}
+[data-theme="yoru"] .t-prog{stroke:var(--primary);filter:drop-shadow(0 0 6px rgba(157,128,240,.5));}
+[data-theme="yoru"] header{background:rgba(10,12,22,.96);border-bottom:1px solid rgba(157,128,240,.2);}
+[data-theme="yoru"] .logo-tisa{background:linear-gradient(90deg,#a898ff,#d4c8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+/* ─────────────────────────────────────────────
+   📖 E-INK — Kindle/paper aesthetic
+   Warm cream, ink-dark text, zero distraction
+──────────────────────────────────────────────*/
+[data-theme="eink"]{
+  --bg:#f4ecd8;--bg2:#ede0c4;--bg3:#e4d0aa;--surface:#faf6ee;--surface2:#f4ecd8;
+  --primary:#2c2c2c;--pd:#000000;--pl:#666666;--pglow:rgba(44,44,44,.1);
+  --ink:#1a1410;--ink2:#3d3028;--ink3:#8a7860;
+  --danger:#8a1c1c;--success:#1c5c2a;--warn:#7a5010;
+  --border:rgba(44,44,44,.18);--border2:rgba(44,44,44,.07);
+  --sh:0 1px 4px rgba(44,44,44,.08);--shl:0 4px 16px rgba(44,44,44,.1);
+  --font-main:'Literata',Georgia,serif;--font-head:'Playfair Display',Georgia,serif;}
+[data-theme="eink"] body{background:#f4ecd8;}
+[data-theme="eink"] .card{border-radius:3px;border:1px solid rgba(44,44,44,.14);box-shadow:none;}
+[data-theme="eink"] .btn-p{border-radius:2px;border:1.5px solid var(--primary);background:var(--primary);color:#f4ecd8;box-shadow:none;}
+[data-theme="eink"] .btn-o{border-radius:2px;border:1.5px solid rgba(44,44,44,.3);}
+[data-theme="eink"] header{background:#f4ecd8;border-bottom:1.5px solid rgba(44,44,44,.2);box-shadow:none;}
+[data-theme="eink"] .t-digits{font-family:'Playfair Display',Georgia,serif!important;font-weight:900;color:#1a1410;}
+[data-theme="eink"] .t-prog{stroke:#2c2c2c;}
+[data-theme="eink"] nav button.active{background:#2c2c2c;color:#f4ecd8;border-radius:2px;}
+[data-theme="eink"] #qbanner{border-left:2px solid #2c2c2c;background:rgba(44,44,44,.04);}
+[data-theme="eink"] .xpbar-f{background:#2c2c2c;}
 
-[data-theme="minimalist"] .timer-ring svg circle.t-prog{stroke-linecap:square}
-[data-theme="minimalist"] .pomo-dots .dot{border-radius:2px}
-[data-theme="minimalist"] .xp-chip{border-radius:4px}
-[data-theme="minimalist"] *:not(.t-digits):not(code):not(pre):not([style*='monospace']){font-family:'Inter','Helvetica Neue',Arial,sans-serif}
-[data-theme="minimalist"] .t-digits{font-family:'Courier New',monospace !important;font-weight:300}
-[data-theme="minimalist"] .login-card{border:1px solid var(--border);box-shadow:none;border-radius:8px}
-[data-theme="minimalist"] .tisa-tagline{display:none}
-[data-theme="minimalist"] .welcome-note{font-size:11px;color:var(--ink3)}
+/* ─────────────────────────────────────────────
+   🌑 OLED — True black, neon green accent
+   Pure #000 bg, crisp contrast, battery-saver
+──────────────────────────────────────────────*/
+[data-theme="oled"]{
+  --bg:#000000;--bg2:#0a0a0a;--bg3:#111111;--surface:#070707;--surface2:#0d0d0d;
+  --primary:#00ff88;--pd:#00cc6a;--pl:#00ffaa;--pglow:rgba(0,255,136,.25);
+  --ink:#f0fff8;--ink2:#a0d4b8;--ink3:#407858;
+  --danger:#ff4466;--success:#00ff88;--warn:#ffcc00;
+  --border:rgba(0,255,136,.22);--border2:rgba(0,255,136,.07);
+  --sh:0 2px 20px rgba(0,0,0,.9);--shl:0 6px 32px rgba(0,255,136,.15);
+  --font-main:'JetBrains Mono','Courier New',monospace;--font-head:'JetBrains Mono',monospace;}
+[data-theme="oled"] body{background:#000;}
+[data-theme="oled"] .card{background:#070707;border:1px solid rgba(0,255,136,.12);border-radius:8px;}
+[data-theme="oled"] .card:hover{border-color:rgba(0,255,136,.35);box-shadow:0 0 20px rgba(0,255,136,.08);}
+[data-theme="oled"] .btn-p{box-shadow:0 0 16px rgba(0,255,136,.4);background:#00ff88;color:#000;border-color:#00ff88;font-weight:800;}
+[data-theme="oled"] header{background:#000;border-bottom:1px solid rgba(0,255,136,.18);}
+[data-theme="oled"] .t-digits{color:#00ff88;text-shadow:0 0 20px rgba(0,255,136,.6);font-family:'JetBrains Mono',monospace!important;}
+[data-theme="oled"] .t-prog{stroke:#00ff88;filter:drop-shadow(0 0 6px rgba(0,255,136,.8));}
+[data-theme="oled"] #qbanner{border-left:2px solid #00ff88;background:rgba(0,255,136,.04);}
+[data-theme="oled"] .lv-badge{border:1px solid rgba(0,255,136,.3);}
 
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;font-size:14px}
-body{font-family:var(--font-main,'Nunito',sans-serif);background:var(--bg);color:var(--ink);min-height:100vh;transition:background .35s,color .35s;overflow-x:hidden;overflow-y:auto;}
-input,select,textarea,button{font-family:var(--font-main,'Nunito',sans-serif);font-size:14px}
-::-webkit-scrollbar{width:3px;height:3px}
-::-webkit-scrollbar-track{background:var(--bg2)}
-::-webkit-scrollbar-thumb{background:var(--primary);border-radius:4px}
-*{scrollbar-width:thin;scrollbar-color:var(--primary) var(--bg2)}
-.snum,.t-digits,.focus-t,.cd-t,.calc-num,.test-big-t{font-family:'Space Mono',monospace!important;font-variant-numeric:tabular-nums}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes blobf{0%,100%{transform:scale(1)}50%{transform:scale(1.08) translate(20px,-15px)}}
-@keyframes loginIn{from{opacity:0;transform:translateY(40px) scale(.93)}to{opacity:1;transform:none}}
-@keyframes modalIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:none}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes pillIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
-@keyframes floatUD{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
-@keyframes sakF{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-10px) rotate(5deg)}}
-@keyframes sakS{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-7px) rotate(-3deg)}}
+/* ─────────────────────────────────────────────
+   🧊 NORD / ARCTIC — developer-favorite palette
+   Muted arctic blues, slate, frost whites
+──────────────────────────────────────────────*/
+[data-theme="nord"]{
+  --bg:#2e3440;--bg2:#3b4252;--bg3:#434c5e;--surface:#2e3440;--surface2:#3b4252;
+  --primary:#88c0d0;--pd:#5e9ab0;--pl:#a8d8e8;--pglow:rgba(136,192,208,.2);
+  --ink:#eceff4;--ink2:#d8dee9;--ink3:#9099a8;
+  --danger:#bf616a;--success:#a3be8c;--warn:#ebcb8b;
+  --border:rgba(136,192,208,.2);--border2:rgba(136,192,208,.08);
+  --sh:0 2px 14px rgba(0,0,0,.35);--shl:0 6px 28px rgba(136,192,208,.12);
+  --font-main:'IBM Plex Sans','Segoe UI',sans-serif;--font-head:'IBM Plex Sans',sans-serif;}
+[data-theme="nord"] body{background:#2e3440;}
+[data-theme="nord"] .card{background:#3b4252;border:1px solid rgba(136,192,208,.12);border-radius:8px;}
+[data-theme="nord"] .card:hover{border-color:rgba(136,192,208,.3);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+[data-theme="nord"] .btn-p{background:#88c0d0;color:#2e3440;border-color:#88c0d0;font-weight:700;}
+[data-theme="nord"] .btn-o{border-color:rgba(136,192,208,.3);color:#d8dee9;}
+[data-theme="nord"] header{background:#272c38;border-bottom:1px solid rgba(136,192,208,.15);}
+[data-theme="nord"] .t-digits{color:#88c0d0;text-shadow:0 0 16px rgba(136,192,208,.3);}
+[data-theme="nord"] .t-prog{stroke:#88c0d0;}
+[data-theme="nord"] #qbanner{border-left:3px solid #88c0d0;background:rgba(136,192,208,.06);}
+[data-theme="nord"] .tag{background:#434c5e;color:#d8dee9;}
+[data-theme="nord"] .tisa-inp{background:#434c5e;border-color:rgba(136,192,208,.2);color:#eceff4;}
+
+/* ─────────────────────────────────────────────
+   🫧 GLASS — Frosted glass, iOS-style
+   Blurred panels, gradient bg, translucency
+──────────────────────────────────────────────*/
+[data-theme="glass"]{
+  --bg:#0f1729;--bg2:rgba(255,255,255,.06);--bg3:rgba(255,255,255,.1);
+  --surface:rgba(255,255,255,.06);--surface2:rgba(255,255,255,.1);
+  --primary:#818cf8;--pd:#4f46e5;--pl:#c7d2fe;--pglow:rgba(129,140,248,.3);
+  --ink:#f1f5f9;--ink2:#cbd5e1;--ink3:#7a8899;
+  --danger:#f87171;--success:#34d399;--warn:#fbbf24;
+  --border:rgba(255,255,255,.14);--border2:rgba(255,255,255,.07);
+  --sh:0 8px 32px rgba(0,0,0,.4);--shl:0 16px 48px rgba(129,140,248,.2);
+  --font-main:'Plus Jakarta Sans',sans-serif;--font-head:'Plus Jakarta Sans',sans-serif;}
+[data-theme="glass"] body{
+  background:linear-gradient(135deg,#0f1729 0%,#1a103a 35%,#0a1f35 65%,#0f1729 100%);
+  min-height:100vh;}
+[data-theme="glass"] .card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:0 8px 32px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1);}
+[data-theme="glass"] .card:hover{
+  background:rgba(255,255,255,.09);
+  border-color:rgba(129,140,248,.35);
+  box-shadow:0 12px 40px rgba(0,0,0,.35),0 0 20px rgba(129,140,248,.1);}
+[data-theme="glass"] header{
+  background:rgba(15,23,41,.7);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);}
+[data-theme="glass"] #mobile-nav{
+  background:rgba(15,23,41,.75);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid rgba(255,255,255,.1);}
+[data-theme="glass"] .btn-p{
+  background:linear-gradient(135deg,#818cf8,#6366f1);
+  border:none;
+  box-shadow:0 4px 16px rgba(99,102,241,.4);
+  border-radius:12px;}
+[data-theme="glass"] .btn-o{
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.18);
+  border-radius:12px;
+  color:var(--ink);}
+[data-theme="glass"] .tisa-inp{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  color:#f1f5f9;border-radius:10px;}
+[data-theme="glass"] .tisa-inp:focus{
+  border-color:rgba(129,140,248,.5);
+  box-shadow:0 0 0 3px rgba(129,140,248,.15);}
+[data-theme="glass"] .t-digits{color:#818cf8;text-shadow:0 0 24px rgba(129,140,248,.5);}
+[data-theme="glass"] .t-prog{stroke:#818cf8;filter:drop-shadow(0 0 6px rgba(129,140,248,.6));}
+[data-theme="glass"] #qbanner{
+  background:rgba(255,255,255,.05);
+  border-left:3px solid #818cf8;
+  border-radius:0 12px 12px 0;}
+[data-theme="glass"] .tag{
+  background:rgba(255,255,255,.1);
+  color:#cbd5e1;
+  border:1px solid rgba(255,255,255,.12);}
+[data-theme="glass"] nav button:hover{background:rgba(255,255,255,.08);}
+[data-theme="glass"] nav button.active{
+  background:rgba(129,140,248,.2);
+  border-bottom:2px solid #818cf8;}
+
 
 /* LOADING */
 #loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:3000;flex-direction:column;gap:16px;transition:opacity .4s}
@@ -1139,6 +1248,88 @@ body.ma-mode #ma-focus-overlay{display:flex}
 @keyframes maFadeQuote{0%,100%{opacity:.4}50%{opacity:.9}}
 /* Card spacing improvements for Ma philosophy */
 .card{margin-bottom:14px}
+
+/* ═══ VISUAL HIERARCHY SYSTEM ══════════════════════════════════
+   Background → lightest | Cards → medium | Accents → strongest
+   Buttons: Primary(solid) > Secondary(outline) > Tertiary(ghost)
+══════════════════════════════════════════════════════════════ */
+
+/* ── HERO TIMER CARD ── slightly elevated, stronger shadow */
+#timer-card-main{
+  border-color:color-mix(in srgb,var(--primary) 22%,var(--border));
+  box-shadow:0 4px 24px var(--pglow),0 1px 4px rgba(0,0,0,.06);
+  background:color-mix(in srgb,var(--primary) 2.5%,var(--surface));
+}
+
+/* ── BUTTON HIERARCHY ── */
+/* Primary: full solid — only Start/Save/Submit */
+.btn-p{font-weight:700;letter-spacing:.2px;}
+
+/* Secondary/outline: Pomo, Reset, Focus toggle — already .btn-o */
+.btn-o{opacity:.9;}
+
+/* Tertiary ghost: Music, Zen — low profile tools */
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--ink3);
+  font-size:11px;font-weight:600;border-radius:8px;padding:5px 10px;cursor:pointer;
+  transition:all .2s;font-family:inherit;line-height:1;}
+.btn-ghost:hover{background:var(--bg2);color:var(--ink);border-color:var(--border);}
+
+/* ── MICRO INTERACTIONS ── */
+.card{transition:box-shadow .2s,border-color .2s;}
+.card:hover{
+  box-shadow:0 6px 28px var(--pglow);
+  border-color:color-mix(in srgb,var(--primary) 28%,var(--border));
+}
+#timer-card-main:hover{
+  box-shadow:0 8px 36px var(--pglow),0 2px 8px rgba(0,0,0,.08)!important;
+}
+/* Subtle scale on interactive cards */
+.btn,.btn-ghost{transition:transform .12s,background .15s,box-shadow .15s,opacity .15s,border-color .15s;}
+.btn:hover:not(:disabled){transform:translateY(-1px);}
+.btn:active:not(:disabled),.btn-ghost:active{transform:scale(0.96)!important;transition:transform .08s;}
+
+/* ── CARD DEPTH SYSTEM ──
+   Surfaces: bg(lightest) → bg2 → bg3 → surface → card(medium) → elevated(strongest) */
+.card{background:var(--surface);}
+
+/* ── NAV INACTIVE OPACITY ── */
+nav button{opacity:.6;transition:opacity .2s,background .2s,color .2s;}
+nav button:hover{opacity:.85;}
+nav button.active{opacity:1;font-weight:800;}
+
+/* ── TODO FILTER PILLS — smaller, lighter ── */
+.fbtn{font-size:10px!important;padding:3px 9px!important;border-radius:100px!important;font-weight:600!important;opacity:.7;transition:opacity .15s,background .15s;}
+.fbtn:hover{opacity:.9;}
+.fbtn.active{opacity:1;}
+.fbtn-clear{opacity:.45!important;font-size:10px!important;padding:3px 9px!important;border-color:var(--danger)!important;color:var(--danger)!important;border-radius:100px!important;}
+.fbtn-clear:hover{opacity:.7!important;}
+
+/* ── HEATMAP PLACEHOLDER ── */
+.heatmap-placeholder{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;gap:8px;opacity:.4;
+}
+.heatmap-placeholder-grid{
+  display:flex;gap:2px;flex-wrap:wrap;max-width:300px;
+}
+.heatmap-placeholder-grid div{
+  width:10px;height:10px;border-radius:2px;background:var(--bg3);
+}
+
+/* ── FOCUS CARD GATEWAY FEEL ── */
+#home-focus-card{
+  border:1.5px solid color-mix(in srgb,var(--primary) 20%,var(--border));
+  background:linear-gradient(135deg,var(--surface) 0%,color-mix(in srgb,var(--primary) 3%,var(--surface)) 100%);
+}
+
+/* ── SESSION LOG subtle dividers ── */
+.sess-item{border-bottom:1px solid var(--border2);padding-bottom:4px;}
+.sess-item:last-child{border-bottom:none;}
+
+/* ── HOME GRID equal-height cards ── */
+.home-grid{align-items:stretch!important;}
+.home-grid>.card{display:flex;flex-direction:column;}
+
 </style>
 <!--
   ══════════════════════════════════════════════════════════════
@@ -1306,16 +1497,19 @@ body.ma-mode #ma-focus-overlay{display:flex}
   <button onclick="showPage('performance',this)">📊 Performance</button>
   <button onclick="showPage('tests',this)">📝 Tests</button>
   <button onclick="showPage('journal',this)">📔 Journal</button>
-  <button onclick="showPage('connect',this)" style="position:relative">💬 Connect<span id="dm-notif-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:1.5px solid var(--surface)"></span></button>
-  <button onclick="showPage('community',this)">🌍 Community</button>
+  <button onclick="showPage('social',this)" style="position:relative">🤝 Social<span id="dm-notif-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:1.5px solid var(--surface)"></span></button>
   <button onclick="showPage('profile',this)">👤 Profile</button>
+  <button onclick="showPage('focus',this)">✨ Focus</button>
+  <button onclick="showPage('focus',this)">✨ Focus</button>
   <button onclick="showPage('settings',this)">⚙️ Settings</button>
   <button id="nav-admin-btn" onclick="showPage('admin',this)" style="display:none!important;color:var(--danger)">🛡️ Admin</button>
   <button id="nav-panda-btn" onclick="openWellnessSheet()" style="background:var(--primary);color:#fff;border-radius:99px;padding:6px 16px;font-weight:800;letter-spacing:.3px">🐼 Panda</button>
 </nav>
 <div class="hdr-right">
-  <div class="xp-chip" onclick="showPage('profile',null)">⚡<span id="hdr-xp">0 XP</span><span id="hdr-lv" style="opacity:.7">Lv.1</span></div>
-  <div style="font-size:12px;font-weight:800;color:var(--warn);cursor:pointer">🪙<span id="hdr-coins">0</span></div>
+  <!-- XP/coins moved to Profile page only -->
+  <span id="hdr-xp" style="display:none">0 XP</span>
+  <span id="hdr-lv" style="display:none">Lv.1</span>
+  <span id="hdr-coins" style="display:none">0</span>
   <div class="user-pill" onclick="showPage('profile',null)"><div class="uav" id="user-av">?</div><span id="user-dname" style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle">...</span></div>
   <div class="dark-toggle" id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"></div>
   <button class="hdr-btn" onclick="toggleFocus()">🎯</button>
@@ -1351,16 +1545,17 @@ body.ma-mode #ma-focus-overlay{display:flex}
   </button>
   <div class="more-list-sep"></div>
   <div class="more-cat-label">Social</div>
-  <button class="more-list-item" data-page="connect" onclick="showPageMob('connect',null);closeMoreMenu()">
-    <span class="more-list-ic">💬</span><span class="more-list-lb">Connect & Chat</span><span class="more-list-chev">›</span>
+  <button class="more-list-item" data-page="social" onclick="showPageMob('social',null);closeMoreMenu()">
+    <span class="more-list-ic">🤝</span><span class="more-list-lb">Social</span><span class="more-list-chev">›</span>
   </button>
-  <button class="more-list-item" data-page="community" onclick="showPageMob('community',null);closeMoreMenu()">
-    <span class="more-list-ic">🌍</span><span class="more-list-lb">Community</span><span class="more-list-chev">›</span>
-  </button>
+  
   <div class="more-list-sep"></div>
   <div class="more-cat-label">System</div>
   <button class="more-list-item" data-page="profile" onclick="showPageMob('profile',null);closeMoreMenu()">
     <span class="more-list-ic">👤</span><span class="more-list-lb">Profile</span><span class="more-list-chev">›</span>
+  </button>
+  <button class="more-list-item" data-page="focus" onclick="showPageMob('focus',null);closeMoreMenu()">
+    <span style="font-size:16px">✨</span><div><div style="font-size:12px;font-weight:700">Focus</div><div style="font-size:10px;color:var(--ink3)">Zen, Music, Kaizen</div></div>
   </button>
   <button class="more-list-item" data-page="settings" onclick="showPageMob('settings',null);closeMoreMenu()">
     <span class="more-list-ic">⚙️</span><span class="more-list-lb">Settings</span><span class="more-list-chev">›</span>
@@ -1724,18 +1919,18 @@ body.ma-mode #ma-focus-overlay{display:flex}
     <div class="t-inner"><div class="t-digits" id="t-digits">00:00:00</div><div class="t-mode" id="t-mode">ready</div></div>
   </div>
   <div class="t-btns">
-    <button class="btn btn-p btn-sm" id="t-btn" onclick="toggleTimer()">Start</button>
-    <button class="btn btn-o btn-sm" id="pomo-tog" onclick="quickStartPomo()">🍅 Pomo</button>
-    <button class="btn btn-o btn-sm" onclick="resetTimer()">Reset</button>
-    <button class="btn btn-sm" id="pomo-stop-btn" onclick="stopPomo()" style="display:none;background:#ef4444;color:white;border-color:#ef4444">⏹ Stop Pomo</button>
-    <button class="btn btn-o btn-sm" onclick="toggleFocus()">🎯</button>
+    <button class="btn btn-p" id="t-btn" onclick="toggleTimer()" style="min-width:88px;font-size:14px;font-weight:800;padding:10px 20px">Start</button>
+    <button class="btn btn-o btn-sm" id="pomo-tog" onclick="quickStartPomo()" title="Pomodoro Timer">🍅</button>
+    <button class="btn btn-o btn-sm" onclick="resetTimer()" title="Reset timer">↺</button>
+    <button class="btn btn-sm" id="pomo-stop-btn" onclick="stopPomo()" style="display:none;background:#ef4444;color:white;border-color:#ef4444;font-size:12px">⏹</button>
+    <button class="btn btn-o btn-sm" onclick="toggleFocus()" title="Enter deep focus mode">🎯</button>
   </div>
   <div class="sess-log" id="sess-log"></div>
-  <!-- Quick controls: Lofi + Ma Zen Mode -->
-  <div style="display:flex;gap:7px;margin-top:10px">
-    <button id="lofi-home-btn" class="btn btn-o btn-sm" onclick="window.toggleLofi&&window.toggleLofi()" style="flex:1;font-size:11px">🎧 Music</button>
-    <button id="lofi-next-btn" style="display:none;background:none;border:1.5px solid var(--border);border-radius:8px;padding:5px 8px;cursor:pointer;font-size:13px;color:var(--ink)" onclick="window.nextLofiTrack&&window.nextLofiTrack()">⏭</button>
-    <button class="btn btn-o btn-sm" onclick="window.toggleMaMode&&window.toggleMaMode()" style="flex:1;font-size:11px" title="Enter Zen Study Mode">間 Zen</button>
+  <!-- Tertiary tools: ghost buttons -->
+  <div style="display:flex;gap:6px;margin-top:8px">
+    <button id="lofi-home-btn" class="btn-ghost" onclick="window.toggleLofi&&window.toggleLofi()" style="flex:1">🎧 Music</button>
+    <button id="lofi-next-btn" style="display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:4px 8px;cursor:pointer;font-size:12px;color:var(--ink3)" onclick="window.nextLofiTrack&&window.nextLofiTrack()">⏭</button>
+    <button class="btn-ghost" onclick="window.toggleMaMode&&window.toggleMaMode()" style="flex:1" title="Zen fullscreen mode">間 Zen</button>
   </div>
   <div id="lofi-home-status" style="font-size:10px;color:var(--primary);font-weight:700;margin-top:4px;display:none">🎵 <span id="lofi-home-track">Lofi Study 🌸</span></div>
 </div>
@@ -1786,7 +1981,7 @@ body.ma-mode #ma-focus-overlay{display:flex}
     <button class="fbtn" onclick="setF('done',this)">Done</button>
     <button class="fbtn" onclick="setF('high',this)">High</button>
     <button class="fbtn" onclick="setF('overdue',this)">Overdue</button>
-    <button class="fbtn" style="margin-left:auto;border-color:var(--danger);color:var(--danger)" onclick="clearDone()">Clear Done</button>
+    <button class="fbtn fbtn-clear" style="margin-left:auto" onclick="clearDone()">Clear Done</button>
   </div>
   <div style="display:flex;gap:12px;margin-bottom:7px;font-size:11px;color:var(--ink3);font-weight:700;flex-wrap:wrap">
     <span>📋 <b id="ts-tot">0</b></span><span>✅ <b id="ts-dn">0</b></span><span>🔴 <b id="ts-hi">0</b></span><span>⚠ <b id="ts-od">0</b></span>
@@ -1794,14 +1989,15 @@ body.ma-mode #ma-focus-overlay{display:flex}
   <div class="todo-pb-w"><div class="todo-pb" id="todo-pb" style="width:0%"></div></div>
   <div class="todo-list" id="todo-list"><div class="empty">All clear! Add a task 🐼</div></div>
 </div>
-<div class="card">
+<div class="card" id="home-focus-card">
   <div class="ct"><div class="ct-ic">🎯</div>Focus Mode</div>
-  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:10px 0">
-    <div style="font-size:13px;color:var(--ink2);font-weight:600;text-align:center;line-height:1.6">Deep focus session.<br>Full screen. No distractions.</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:8px 0 4px">
+    <div style="font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:2px;text-align:center">Enter a state of deep work</div>
+    <div style="font-size:12px;color:var(--ink3);text-align:center;line-height:1.7;max-width:200px;opacity:.7">Full screen · No distractions<br>Timer runs in background</div>
     <div id="focus-home-stats" style="display:flex;gap:18px;justify-content:center">
-      <div class="stat-box"><div class="snum" id="focus-t-disp">00:00:00</div><div class="slbl">Time</div></div>
+      <div class="stat-box"><div class="snum" id="focus-t-disp" style="font-size:18px">00:00:00</div><div class="slbl">Session</div></div>
     </div>
-    <button class="btn btn-p" style="padding:12px 36px;font-size:14px;font-weight:700;letter-spacing:1px" onclick="toggleFocus()">Enter Focus 🎯</button>
+    <button class="btn btn-p" style="padding:14px 42px;font-size:14px;font-weight:800;letter-spacing:1.5px;width:100%;max-width:240px;margin-top:4px" onclick="toggleFocus()">Enter Focus →</button>
   </div>
 </div>
 </div>
@@ -1920,14 +2116,6 @@ body.ma-mode #ma-focus-overlay{display:flex}
     </div>
   </div>
 </div>
-</div>
-
-<!-- SUBJECT HEATMAP -->
-<div class="card" style="margin-bottom:14px">
-  <div class="ct"><div class="ct-ic">🎨</div>Subject Heatmap <span style="font-size:10px;color:var(--ink3);margin-left:6px;font-weight:600">deeper = more hours</span></div>
-  <div id="subj-heatmap-grid" style="display:flex;flex-direction:column;gap:10px">
-    <div class="empty">Study sessions will appear here.</div>
-  </div>
 </div>
 
 <!-- TESTS -->
@@ -2049,48 +2237,7 @@ body.ma-mode #ma-focus-overlay{display:flex}
   <div id="atz-hist-list"><div class="empty">No AI tests yet — start your first test above! 🎯</div></div>
 </div>
 
-<!-- ── REAL MOCK PAPERS LIBRARY ── -->
-<div class="card mock-papers-section">
-  <div class="ct"><div class="ct-ic">📋</div>Official PYQs & Mock Papers
-    <span style="margin-left:auto;font-size:10px;font-weight:600;color:var(--ink3)">Real papers · Official sources</span>
-  </div>
 
-  <!-- Category tabs -->
-  <div class="mock-cat-tabs" id="mock-cat-tabs">
-    <button class="mock-cat-tab sel" onclick="mockCat('jee',this)">⚗️ JEE</button>
-    <button class="mock-cat-tab" onclick="mockCat('neet',this)">🧬 NEET</button>
-    <button class="mock-cat-tab" onclick="mockCat('boards',this)">📚 Boards</button>
-    <button class="mock-cat-tab" onclick="mockCat('upsc',this)">🏛️ UPSC</button>
-    <button class="mock-cat-tab" onclick="mockCat('ssc',this)">📋 SSC</button>
-    <button class="mock-cat-tab" onclick="mockCat('banking',this)">🏦 Banking</button>
-    <button class="mock-cat-tab" onclick="mockCat('clat',this)">⚖️ CLAT</button>
-    <button class="mock-cat-tab" onclick="mockCat('nda',this)">🎖️ NDA</button>
-    <button class="mock-cat-tab" onclick="mockCat('cat',this)">📊 CAT</button>
-    <button class="mock-cat-tab" onclick="mockCat('gate',this)">🏗️ GATE</button>
-  </div>
-
-  <!-- Source notice -->
-  <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:color-mix(in srgb,var(--primary) 8%,var(--surface));margin-bottom:12px;font-size:11px;color:var(--ink2);font-weight:600">
-    <span>ℹ️</span> Papers open on official sites (NTA, CBSE, UPSC, Mathongo, Allen, etc.). Tap <strong>View PDF</strong> for direct download or <strong>Timed Attempt</strong> to start a timer while you attempt.
-  </div>
-
-  <!-- Paper cards populated by JS -->
-  <div class="mock-paper-grid" id="mock-paper-grid"></div>
-
-  <!-- Past Tests -->
-  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2)">
-    <div class="ct" style="margin-bottom:8px"><div class="ct-ic">📊</div>Your Test History</div>
-    <div id="past-tests"><div class="empty">No tests yet — attempt a paper above!</div></div>
-  </div>
-
-  <!-- Hidden upload inputs kept for backward compat with JS -->
-  <input type="file" id="fi" multiple accept=".pdf,.png,.jpg,.jpeg" onchange="handleFiles(this.files)" style="display:none">
-  <select id="tpsel" style="display:none"></select>
-  <div id="tt-lbl" style="display:none">60</div>
-  <div id="time-chips" style="display:none"></div>
-  <div id="inline-preview" style="display:none"></div>
-  <div id="paper-list" style="display:none"></div>
-</div>
 <div style="margin-top:14px"><div class="card">
   <div class="ct"><div class="ct-ic">📒</div>Assignments & Grades</div>
   <div style="display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap">
@@ -2152,7 +2299,12 @@ body.ma-mode #ma-focus-overlay{display:flex}
 </div>
 
 <!-- CONNECT -->
-<div class="page" id="page-connect">
+<div class="page" id="page-social">
+<div style="display:flex;gap:8px;margin-bottom:14px;border-bottom:2px solid var(--border2);padding-bottom:10px">
+  <button id="social-tab-connect" class="btn btn-sm btn-p" onclick="window._socialTab('connect',this)" style="font-size:12px">💬 Connect</button>
+  <button id="social-tab-community" class="btn btn-sm btn-o" onclick="window._socialTab('community',this)" style="font-size:12px">🌍 Community</button>
+</div>
+<div id="social-connect-panel">
 <div class="conn-grid">
   <div class="sidebar-card">
     <div class="sb-hdr">
@@ -2196,9 +2348,7 @@ body.ma-mode #ma-focus-overlay{display:flex}
   </div>
 </div>
 </div>
-
-<!-- COMMUNITY -->
-<div class="page" id="page-community">
+<div id="social-community-panel" style="display:none">
 <div class="forum-grid">
   <div>
     <div class="card" id="write-sec" style="margin-bottom:14px">
@@ -2285,6 +2435,10 @@ body.ma-mode #ma-focus-overlay{display:flex}
   </div>
 </div>
 </div>
+</div>
+
+<!-- COMMUNITY -->
+
 
 <!-- PROFILE -->
 <div class="page" id="page-profile">
@@ -2322,101 +2476,22 @@ body.ma-mode #ma-focus-overlay{display:flex}
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
   <div class="card"><div class="ct"><div class="ct-ic">🏆</div>Badges</div><div class="badge-scroll" id="prof-badges"></div></div>
   <div class="card"><div class="ct"><div class="ct-ic">📋</div>Recent Activity</div><div id="recent-act"><div class="empty">No activity yet</div></div></div>
+<div class="card">
+  <div class="ct"><div class="ct-ic">🎨</div>Subject Heatmap <span style="font-size:10px;color:var(--ink3);margin-left:6px;font-weight:600">14 days</span></div>
+  <div id="subj-heatmap-grid" style="display:flex;flex-direction:column;gap:8px"><div class="empty" style="font-size:11px">Study to see your heatmap</div></div>
+</div>
 </div>
 </div>
 
-<!-- SETTINGS -->
-<div class="page" id="page-settings">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-  <div class="card">
-    <div class="ct"><div class="ct-ic">🎨</div>Themes</div>
-    <div class="theme-grid" id="theme-grid-el"></div>
-    <div style="margin-top:12px;background:var(--bg);border-radius:12px;padding:12px;border:1.5px dashed var(--border)">
-      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:9px">🎨 Custom Theme</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div><div style="font-size:11px;color:var(--ink3);margin-bottom:4px;font-weight:600">Primary color</div><input type="color" id="custom-p" value="#5c7a3e" style="width:100%;height:34px;border:none;border-radius:8px;cursor:pointer;background:none"></div>
-        <div><div style="font-size:11px;color:var(--ink3);margin-bottom:4px;font-weight:600">Background</div><input type="color" id="custom-bg" value="#f8f6f0" style="width:100%;height:34px;border:none;border-radius:8px;cursor:pointer;background:none"></div>
-      </div>
-      <div style="margin-top:8px">
-        <div style="font-size:11px;color:var(--ink3);margin-bottom:5px;font-weight:600">Font Style</div>
-        <select id="custom-font" class="tisa-inp" style="width:100%;padding:7px 10px;font-size:12px">
-          <option value="'Nunito',sans-serif">Nunito — Friendly</option>
-          <option value="'Poppins',sans-serif">Poppins — Modern</option>
-          <option value="'Inter',sans-serif">Inter — Clean</option>
-          <option value="'Outfit',sans-serif">Outfit — Minimal</option>
-          <option value="'Quicksand',sans-serif">Quicksand — Soft</option>
-          <option value="'Montserrat',sans-serif">Montserrat — Bold</option>
-          <option value="'Figtree',sans-serif">Figtree — Sleek</option>
-          <option value="'Raleway',sans-serif">Raleway — Elegant</option>
-          <option value="'DM Sans',sans-serif">DM Sans — Smooth</option>
-          <option value="'Josefin Sans',sans-serif">Josefin — Minimal</option>
-          <option value="'Lora',serif">Lora — Serif Classic</option>
-          <option value="'Cormorant Garamond',serif">Cormorant — Luxury</option>
-          <option value="'Playfair Display',serif">Playfair — Editorial</option>
-        </select>
-      </div>
-      <button class="btn btn-sm btn-p" style="width:100%;margin-top:8px" onclick="applyCustom()">Apply</button>
-    </div>
-    <div style="margin-top:12px;background:var(--bg);border-radius:12px;padding:12px;border:1.5px dashed var(--border)">
-      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:9px">✏️ Text & Readability</div>
-      <div style="margin-bottom:10px">
-        <div style="font-size:11px;color:var(--ink3);margin-bottom:6px;font-weight:600">Font Size</div>
-        <div style="display:flex;gap:6px;align-items:center">
-          <span style="font-size:11px;color:var(--ink3)">A</span>
-          <input type="range" id="font-size-slider" min="12" max="20" step="1" value="14"
-            oninput="previewFontSize(this.value)"
-            onchange="saveFontSize(this.value)"
-            style="flex:1;accent-color:var(--primary)">
-          <span style="font-size:16px;color:var(--ink3);font-weight:700">A</span>
-          <span id="font-size-val" style="font-size:11px;color:var(--primary);font-weight:800;min-width:28px">14px</span>
-        </div>
-      </div>
-      <div>
-        <div style="font-size:11px;color:var(--ink3);margin-bottom:6px;font-weight:600">Text Colour</div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <input type="color" id="text-color-inp" value="#1a1c16"
-            style="width:36px;height:32px;border:none;border-radius:8px;cursor:pointer;background:none"
-            oninput="previewTextColor(this.value)"
-            onchange="saveTextColor(this.value)">
-          <div style="display:flex;gap:5px;flex-wrap:wrap">
-            <button onclick="setTextColorPreset('#1a1c16')" style="background:#1a1c16;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Dark"></button>
-            <button onclick="setTextColorPreset('#e8f0e0')" style="background:#e8f0e0;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Light"></button>
-            <button onclick="setTextColorPreset('#3a5a6a')" style="background:#3a5a6a;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Slate"></button>
-            <button onclick="setTextColorPreset('#4a2a3a')" style="background:#4a2a3a;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Plum"></button>
-            <button onclick="resetTextColor()" style="background:var(--bg2);width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer;font-size:10px;font-weight:700;color:var(--ink3)" title="Reset">↺</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="ct"><div class="ct-ic">🔔</div>Notifications & Sync</div>
-    <div style="font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:12px">Subjects and Timetable are managed in <strong>My Space</strong>. Your data syncs automatically across all devices when signed in.</div>
-    <button class="btn btn-sm btn-p" onclick="forceSyncNow()" style="margin-bottom:8px;width:100%">🔄 Force Sync Now</button>
-    <div id="sync-status" style="font-size:11px;color:var(--ink3);font-weight:600;text-align:center"></div>
-  </div>
-  <div class="card">
-    <div class="ct"><div class="ct-ic">🔗</div>Resources</div>
-    <div style="display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap">
-      <input type="text" class="tisa-inp" id="res-title" placeholder="Name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px" maxlength="150">
-      <input type="text" class="tisa-inp" id="res-url" placeholder="URL..." style="flex:3;min-width:100px;padding:8px 10px;font-size:12px" maxlength="500">
-      <select class="tisa-inp" id="res-type" style="padding:8px 10px;font-size:12px"><option value="📄">📄 PDF</option><option value="🔗">🔗 Link</option><option value="📹">📹 Video</option><option value="📝">📝 Note</option></select>
-      <button class="btn btn-sm btn-p" onclick="addResource()">+ Add</button>
-    </div>
-    <div id="res-list-el"><div class="empty">No resources yet</div></div>
-  </div>
-  <div class="card" style="grid-column:1/-1">
-    <div class="ct"><div class="ct-ic">🤖</div>AI Settings</div>
-    <p style="font-size:12px;color:var(--ink3);margin-bottom:10px">AI is pre-configured and works out of the box. Optionally use your own Gemini key for higher rate limits.</p>
-    <div style="display:flex;gap:8px;margin-bottom:8px">
-      <input id="panda-key-inp" type="password" class="tisa-inp" placeholder="Paste your AIzaSy... key here" style="flex:1;font-size:12px">
-      <button class="btn btn-sm btn-p" onclick="(function(){var v=document.getElementById('panda-key-inp').value.trim();if(v){window._PANDA_KEY=v;try{localStorage.setItem('tisa_panda_key',v);}catch(e){}var s=document.getElementById('panda-key-status');s.textContent='✅ Key saved! AI features unlocked.';s.style.color='var(--success,#2d7a3a)';window.toast('✅ Gemini API key saved — AI is ready!');}else{window._PANDA_KEY='';localStorage.removeItem('tisa_panda_key');var s=document.getElementById('panda-key-status');s.textContent='Key cleared.';s.style.color='';window.toast('Key cleared');}})()" style="font-size:12px;white-space:nowrap">Save Key</button>
-    </div>
-    <div id="panda-key-status" style="font-size:11px;font-weight:700;color:var(--ink3)">No key saved — AI needs your free Gemini key to work.</div>
-    <button class="btn btn-sm btn-o" onclick="window._reopenOnboarding&&window._reopenOnboarding()" style="margin-top:10px;font-size:12px;width:100%">🚀 Open AI Setup Guide</button>
-  </div>
 
-  <!-- GACHA -->
+<div class="page" id="page-focus">
+<div class="page-hero" style="background:linear-gradient(135deg,var(--primary) 0%,var(--pd) 100%);border-radius:20px;padding:20px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden">
+  <div style="position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none"></div>
+  <h2 style="font-size:20px;font-weight:900;margin:0 0 4px">✨ Focus & Wellness</h2>
+  <p style="font-size:12px;opacity:.85;margin:0;font-weight:600">Zen Mode · Music · Gacha · Kaizen · Oubaitori</p>
+</div>
+<div class="settings-grid">
+<!-- GACHA -->
   <div class="card">
     <div class="ct"><div class="ct-ic">🎰</div>Gacha Capsule</div>
     <div style="font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.6">Earn 🪙 coins by studying. <strong>50 coins</strong> per pull!</div>
@@ -2508,6 +2583,100 @@ body.ma-mode #ma-focus-overlay{display:flex}
 
 </div>
 </div>
+
+</div>
+
+id="page-settings">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+  <div class="card">
+    <div class="ct"><div class="ct-ic">🎨</div>Themes</div>
+    <div class="theme-grid" id="theme-grid-el"></div>
+    <div style="margin-top:12px;background:var(--bg);border-radius:12px;padding:12px;border:1.5px dashed var(--border)">
+      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:9px">🎨 Custom Theme</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div><div style="font-size:11px;color:var(--ink3);margin-bottom:4px;font-weight:600">Primary color</div><input type="color" id="custom-p" value="#5c7a3e" style="width:100%;height:34px;border:none;border-radius:8px;cursor:pointer;background:none"></div>
+        <div><div style="font-size:11px;color:var(--ink3);margin-bottom:4px;font-weight:600">Background</div><input type="color" id="custom-bg" value="#f8f6f0" style="width:100%;height:34px;border:none;border-radius:8px;cursor:pointer;background:none"></div>
+      </div>
+      <div style="margin-top:8px">
+        <div style="font-size:11px;color:var(--ink3);margin-bottom:5px;font-weight:600">Font Style</div>
+        <select id="custom-font" class="tisa-inp" style="width:100%;padding:7px 10px;font-size:12px">
+          <option value="'Nunito',sans-serif">Nunito — Friendly</option>
+          <option value="'Poppins',sans-serif">Poppins — Modern</option>
+          <option value="'Inter',sans-serif">Inter — Clean</option>
+          <option value="'Outfit',sans-serif">Outfit — Minimal</option>
+          <option value="'Quicksand',sans-serif">Quicksand — Soft</option>
+          <option value="'Montserrat',sans-serif">Montserrat — Bold</option>
+          <option value="'Figtree',sans-serif">Figtree — Sleek</option>
+          <option value="'Raleway',sans-serif">Raleway — Elegant</option>
+          <option value="'DM Sans',sans-serif">DM Sans — Smooth</option>
+          <option value="'Josefin Sans',sans-serif">Josefin — Minimal</option>
+          <option value="'Lora',serif">Lora — Serif Classic</option>
+          <option value="'Cormorant Garamond',serif">Cormorant — Luxury</option>
+          <option value="'Playfair Display',serif">Playfair — Editorial</option>
+        </select>
+      </div>
+      <button class="btn btn-sm btn-p" style="width:100%;margin-top:8px" onclick="applyCustom()">Apply</button>
+    </div>
+    <div style="margin-top:12px;background:var(--bg);border-radius:12px;padding:12px;border:1.5px dashed var(--border)">
+      <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:9px">✏️ Text & Readability</div>
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;color:var(--ink3);margin-bottom:6px;font-weight:600">Font Size</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-size:11px;color:var(--ink3)">A</span>
+          <input type="range" id="font-size-slider" min="12" max="20" step="1" value="14"
+            oninput="previewFontSize(this.value)"
+            onchange="saveFontSize(this.value)"
+            style="flex:1;accent-color:var(--primary)">
+          <span style="font-size:16px;color:var(--ink3);font-weight:700">A</span>
+          <span id="font-size-val" style="font-size:11px;color:var(--primary);font-weight:800;min-width:28px">14px</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--ink3);margin-bottom:6px;font-weight:600">Text Colour</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input type="color" id="text-color-inp" value="#1a1c16"
+            style="width:36px;height:32px;border:none;border-radius:8px;cursor:pointer;background:none"
+            oninput="previewTextColor(this.value)"
+            onchange="saveTextColor(this.value)">
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+            <button onclick="setTextColorPreset('#1a1c16')" style="background:#1a1c16;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Dark"></button>
+            <button onclick="setTextColorPreset('#e8f0e0')" style="background:#e8f0e0;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Light"></button>
+            <button onclick="setTextColorPreset('#3a5a6a')" style="background:#3a5a6a;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Slate"></button>
+            <button onclick="setTextColorPreset('#4a2a3a')" style="background:#4a2a3a;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer" title="Plum"></button>
+            <button onclick="resetTextColor()" style="background:var(--bg2);width:24px;height:24px;border-radius:50%;border:2px solid var(--border);cursor:pointer;font-size:10px;font-weight:700;color:var(--ink3)" title="Reset">↺</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct"><div class="ct-ic">🔔</div>Notifications & Sync</div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:12px">Subjects and Timetable are managed in <strong>My Space</strong>. Your data syncs automatically across all devices when signed in.</div>
+    <button class="btn btn-sm btn-p" onclick="forceSyncNow()" style="margin-bottom:8px;width:100%">🔄 Force Sync Now</button>
+    <div id="sync-status" style="font-size:11px;color:var(--ink3);font-weight:600;text-align:center"></div>
+  </div>
+  <div class="card">
+    <div class="ct"><div class="ct-ic">🔗</div>Resources</div>
+    <div style="display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap">
+      <input type="text" class="tisa-inp" id="res-title" placeholder="Name..." style="flex:2;min-width:80px;padding:8px 10px;font-size:12px" maxlength="150">
+      <input type="text" class="tisa-inp" id="res-url" placeholder="URL..." style="flex:3;min-width:100px;padding:8px 10px;font-size:12px" maxlength="500">
+      <select class="tisa-inp" id="res-type" style="padding:8px 10px;font-size:12px"><option value="📄">📄 PDF</option><option value="🔗">🔗 Link</option><option value="📹">📹 Video</option><option value="📝">📝 Note</option></select>
+      <button class="btn btn-sm btn-p" onclick="addResource()">+ Add</button>
+    </div>
+    <div id="res-list-el"><div class="empty">No resources yet</div></div>
+  </div>
+  <div class="card" style="grid-column:1/-1">
+    <div class="ct"><div class="ct-ic">🤖</div>AI Settings</div>
+    <p style="font-size:12px;color:var(--ink3);margin-bottom:10px">AI is pre-configured and works out of the box. Optionally use your own Gemini key for higher rate limits.</p>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <input id="panda-key-inp" type="password" class="tisa-inp" placeholder="Paste your AIzaSy... key here" style="flex:1;font-size:12px">
+      <button class="btn btn-sm btn-p" onclick="(function(){var v=document.getElementById('panda-key-inp').value.trim();if(v){window._PANDA_KEY=v;try{localStorage.setItem('tisa_panda_key',v);}catch(e){}var s=document.getElementById('panda-key-status');s.textContent='✅ Key saved! AI features unlocked.';s.style.color='var(--success,#2d7a3a)';window.toast('✅ Gemini API key saved — AI is ready!');}else{window._PANDA_KEY='';localStorage.removeItem('tisa_panda_key');var s=document.getElementById('panda-key-status');s.textContent='Key cleared.';s.style.color='';window.toast('Key cleared');}})()" style="font-size:12px;white-space:nowrap">Save Key</button>
+    </div>
+    <div id="panda-key-status" style="font-size:11px;font-weight:700;color:var(--ink3)">No key saved — AI needs your free Gemini key to work.</div>
+    <button class="btn btn-sm btn-o" onclick="window._reopenOnboarding&&window._reopenOnboarding()" style="margin-top:10px;font-size:12px;width:100%">🚀 Open AI Setup Guide</button>
+  </div>
+
+  
 
 <!-- ADMIN PAGE -->
 <div class="page" id="page-admin">
@@ -2890,6 +3059,10 @@ window.deleteAllMyData = async () => {
 };
 
 // ── AUTH STATE (KEY FIX: loading screen prevents login flash) ──
+
+// One-time initialization guard
+if(window._appInitialized){console.log("[TISA] Already initialized");}
+window._appInitialized=true;
 onAuthStateChanged(auth,async(user)=>{
   const ls=document.getElementById('loading-screen');
   if(ls){ls.classList.add('hide');setTimeout(()=>ls.style.display='none',400);}
@@ -4123,6 +4296,11 @@ window.showPage=(name,btn)=>{
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   else{const nb=document.querySelector(`nav button[onclick*="'${name}'"]`);if(nb)nb.classList.add('active');}
+  if(name==='focus'){
+    setTimeout(function(){
+      if(typeof window._renderKaizenBoard==='function')window._renderKaizenBoard();
+    },50);
+  }
   if(name==='settings'){
     // Pre-fill panda key input if saved
     setTimeout(()=>{
@@ -4132,10 +4310,11 @@ window.showPage=(name,btn)=>{
       if(ks)ks.textContent=window._PANDA_KEY?'✅ Key loaded — Ask Panda is ready!':'No key set yet.';
     },50);
   }
-  if(name==='connect'){window._loadMyChats&&window._loadMyChats();}
-  if(name==='community'){window.initCommunityAlias&&window.initCommunityAlias();window._loadForum&&window._loadForum();}
+  if(name==='social'){window._loadMyChats&&window._loadMyChats();window.initCommunityAlias&&window.initCommunityAlias();window._loadForum&&window._loadForum();}
+
   if(name==='connect'){window._checkDMNotifications&&window._checkDMNotifications();} // BUG3 FIX: reload forum when navigating to community page
   if(name==='performance'){renderBigChart();renderPieChart();renderSubjPerf();renderXP();renderCal();}
+  if(name==='home'){setTimeout(function(){if(typeof window.renderSubjHeatmap==='function')window.renderSubjHeatmap();},200);}
   if(name==='profile'){renderProfilePage();}
 };
 let moreOpen=false;
@@ -4146,7 +4325,7 @@ document.addEventListener('click',e=>{if(moreOpen&&!e.target.closest('#more-menu
 window.addEventListener('resize',()=>{const mn=document.getElementById('mobile-nav');if(!mn)return;const appVisible=document.getElementById('app-main')?.style.display!=='none';mn.style.display=(appVisible&&window.innerWidth<=760)?'block':'none';});
 
 // ── THEME ──
-const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimal',p:'#4a5e2a',b:'#f7f9f4',s:'#ffffff'},matcha:{name:'Matcha',p:'#4a7c59',b:'#f2f5ee',s:'#f9fbf7'},lavender:{name:'Lavender',p:'#7c5cbf',b:'#f5f2fa',s:'#faf8fd'},sand:{name:'Sand',p:'#a07840',b:'#faf6ef',s:'#fffdf8'},slate:{name:'Slate',p:'#3a6080',b:'#f0f4f8',s:'#f8fafc'},rose:{name:'Rose',p:'#b84a5a',b:'#fdf4f4',s:'#fff8f8'},midnight:{name:'Midnight',p:'#6a9fd8',b:'#0e1018',s:'#121620'},washi:{name:'和紙 Washi',p:'#3d2b1f',b:'#f5f0e8',s:'#faf7f0'},akari:{name:'灯 Akari',p:'#e8832a',b:'#161210',s:'#1c1614'},asagi:{name:'浅葱 Asagi',p:'#1a5a7a',b:'#f0f4f8',s:'#f8fbff'},matcha_seoul:{name:'抹茶 Seoul',p:'#3d6b45',b:'#f2f5f0',s:'#f9fbf7'},yoru:{name:'夜 Yoru',p:'#a78bfa',b:'#0c0f18',s:'#0f1220'}};
+const THEMES={light:{name:'Light',p:'#5c7a3e',b:'#f8f6f0',s:'#ffffff'},dark:{name:'Dark',p:'#7db356',b:'#141810',s:'#1e2419'},sakura:{name:'Sakura',p:'#c8527a',b:'#fdf0f5',s:'#fff8fb'},ocean:{name:'Ocean',p:'#1a6fa8',b:'#edf4fa',s:'#f8fcff'},sunset:{name:'Sunset',p:'#c8682a',b:'#fdf4ea',s:'#fffaf4'},minimalist:{name:'Minimal',p:'#4a5e2a',b:'#f7f9f4',s:'#ffffff'},matcha:{name:'Matcha',p:'#4a7c59',b:'#f2f5ee',s:'#f9fbf7'},lavender:{name:'Lavender',p:'#7c5cbf',b:'#f5f2fa',s:'#faf8fd'},sand:{name:'Sand',p:'#a07840',b:'#faf6ef',s:'#fffdf8'},slate:{name:'Slate',p:'#3a6080',b:'#f0f4f8',s:'#f8fafc'},rose:{name:'Rose',p:'#b84a5a',b:'#fdf4f4',s:'#fff8f8'},midnight:{name:'Midnight',p:'#6a9fd8',b:'#0e1018',s:'#121620'},washi:{name:'和紙 Washi',p:'#3d2b1f',b:'#f5f0e8',s:'#faf7f0'},akari:{name:'灯 Akari',p:'#e8832a',b:'#161210',s:'#1c1614'},asagi:{name:'浅葱 Asagi',p:'#1a5a7a',b:'#f0f4f8',s:'#f8fbff'},matcha_seoul:{name:'抹茶 Seoul',p:'#3d6b45',b:'#f2f5f0',s:'#f9fbf7'},yoru:{name:'夜 Yoru',p:'#a78bfa',b:'#0c0f18',s:'#0f1220'},eink:{name:'E-Ink',p:'#2c2c2c',b:'#f4ecd8',s:'#faf6ee'},oled:{name:'OLED',p:'#00ff88',b:'#000000',s:'#0a0a0a'},nord:{name:'Nord',p:'#88c0d0',b:'#2e3440',s:'#3b4252'},glass:{name:'Glass',p:'#6366f1',b:'#0f172a',s:'rgba(255,255,255,0.06)'}};
 function setTheme(name){const el=document.documentElement;el.removeAttribute('data-theme');['--primary','--pd','--pl','--pglow','--bg','--bg2','--bg3','--surface','--font-main','--font-head'].forEach(p=>el.style.removeProperty(p));el.setAttribute('data-theme',name);try{localStorage.setItem('tisa-theme',name);}catch(e){}document.querySelectorAll('.lt-dot').forEach(d=>d.classList.remove('active'));const dot=document.querySelector('.lt-dot[onclick*="\''+name+'\'"]');if(dot)dot.classList.add('active');renderThemeGrid();window._save&&window._save();}
 window.setTheme=setTheme;
 window.toggleDark=()=>{const c=document.documentElement.getAttribute('data-theme');setTheme(c==='dark'?'light':'dark');};
@@ -4236,56 +4415,111 @@ try{
 
 // ── QUOTES ──
 const QS=[
-{t:"The secret of getting ahead is getting started.",a:"Mark Twain"},
-{t:"It always seems impossible until it's done.",a:"Nelson Mandela"},
-{t:"Success is the sum of small efforts repeated day in and day out.",a:"Robert Collier"},
-{t:"Don't watch the clock; do what it does. Keep going.",a:"Sam Levenson"},
-{t:"The expert in anything was once a beginner.",a:"Helen Hayes"},
-{t:"An investment in knowledge pays the best interest.",a:"Benjamin Franklin"},
-{t:"The beautiful thing about learning is nobody can take it away from you.",a:"B.B. King"},
-{t:"Hard work beats talent when talent doesn't work hard.",a:"Tim Notke"},
-{t:"Education is not the filling of a pail, but the lighting of a fire.",a:"W.B. Yeats"},
-{t:"Push yourself, because no one else is going to do it for you.",a:"Unknown"},
-{t:"Your limitation—it's only your imagination.",a:"Unknown"},
-{t:"Great things never come from comfort zones.",a:"Unknown"},
-{t:"Dream it. Wish it. Do it.",a:"Unknown"},
-{t:"Success doesn't just find you. You have to go out and get it.",a:"Unknown"},
-{t:"The harder you work for something, the greater you'll feel when you achieve it.",a:"Unknown"},
-{t:"Don't stop when you're tired. Stop when you're done.",a:"Unknown"},
-{t:"Wake up with determination. Go to bed with satisfaction.",a:"Unknown"},
-{t:"Do something today that your future self will thank you for.",a:"Sean Patrick Flanery"},
-{t:"Little things make big days.",a:"Unknown"},
-{t:"It's going to be hard, but hard does not mean impossible.",a:"Unknown"},
-{t:"Don't wait for opportunity. Create it.",a:"Unknown"},
-{t:"Sometimes we're tested not to show our weaknesses, but to discover our strengths.",a:"Unknown"},
-{t:"The key to success is to focus on goals, not obstacles.",a:"Unknown"},
-{t:"Dream bigger. Do bigger.",a:"Unknown"},
-{t:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},
-{t:"Act as if what you do makes a difference. It does.",a:"William James"},
-{t:"Success is not final, failure is not fatal: it is the courage to continue that counts.",a:"Winston Churchill"},
-{t:"Believe you can and you're halfway there.",a:"Theodore Roosevelt"},
-{t:"You are never too old to set another goal or to dream a new dream.",a:"C.S. Lewis"},
-{t:"To know how much there is to know is the beginning of learning to live.",a:"Dorothy West"},
-{t:"Study while others are sleeping; work while others are loafing; prepare while others are playing.",a:"William A. Ward"},
+// Current Affairs 2024-2025
+{t:"India's Chandrayaan-3 became the first mission to land near the Moon's south pole — August 23, 2023.",a:"ISRO"},
+{t:"The Paris Olympics 2024 saw USA top the medal tally with 40 gold medals. India won 6 medals.",a:"Olympics 2024"},
+{t:"Droupadi Murmu became India's 15th President in July 2022 — first tribal woman to hold the office.",a:"Indian Polity"},
+{t:"India's GDP surpassed Japan to become the 4th largest economy in the world in 2025.",a:"Economy"},
+{t:"The 2023 ICC Cricket World Cup was won by Australia, defeating India in the final at Ahmedabad.",a:"Sports 2023"},
+{t:"GST was implemented in India on July 1, 2017, replacing multiple indirect taxes with a unified system.",a:"Economy"},
+{t:"Article 370, granting special status to Jammu & Kashmir, was abrogated in August 2019.",a:"Indian Polity"},
+{t:"INS Vikrant — India's first indigenously built aircraft carrier — was commissioned in September 2022.",a:"Defence"},
+{t:"India's population crossed 1.44 billion in 2024, overtaking China as the world's most populous nation.",a:"Demographics"},
+{t:"The James Webb Space Telescope, launched in 2021, has captured images 13.6 billion light-years away.",a:"Science"},
+{t:"Narges Mohammadi, Iranian activist, won the Nobel Peace Prize 2023 for fighting oppression of women.",a:"World Affairs"},
+{t:"The 42nd Constitutional Amendment (1976) added 'Socialist', 'Secular', and 'Integrity' to India's Preamble.",a:"Indian Polity"},
+{t:"India's PARAM 8000 (1991) was the country's first supercomputer, developed by C-DAC.",a:"Technology"},
+{t:"The Tropic of Cancer passes through 8 Indian states including Rajasthan, MP, and West Bengal.",a:"Geography"},
+{t:"Article 32, the Right to Constitutional Remedies, was called the 'Heart and Soul' of the Constitution by Dr. Ambedkar.",a:"Indian Polity"},
+{t:"The Pacific Ocean covers nearly 46% of Earth's water surface — larger than all land areas combined.",a:"Geography"},
+{t:"India's first indigenously developed COVID-19 vaccine, Covaxin, was developed by Bharat Biotech.",a:"Science"},
+{t:"The One Nation One Ration Card scheme was rolled out across India to ensure food security for migrants.",a:"Governance"},
+{t:"India ranked 132nd in the Human Development Index 2023/24 report published by UNDP.",a:"Development"},
+{t:"The National Education Policy (NEP) 2020 replaced the 34-year-old policy, introducing a 5+3+3+4 structure.",a:"Education"},
+{t:"India launched its first solar mission — Aditya-L1 — in September 2023 to study the Sun.",a:"ISRO"},
+{t:"The Semiconductor Mission was launched by India in 2022 with ₹76,000 crore to build chip fabs.",a:"Technology"},
+{t:"Digital India initiative has enabled 1.3 billion+ Aadhaar enrollments and 50Cr+ Jan Dhan accounts.",a:"Digital India"},
+{t:"India's UPI processed over 15 billion transactions per month in 2024, the world's largest digital payment system.",a:"FinTech"},
+{t:"The Agni-5 missile, with a range of 5,000+ km, makes India part of the exclusive ICBM club.",a:"Defence"},
+{t:"Operation Dost (2023) saw India provide humanitarian aid to earthquake-hit Turkey and Syria.",a:"Foreign Policy"},
+{t:"India holds the G20 Presidency from December 2022 to November 2023 — its first ever.",a:"Diplomacy"},
+{t:"The Vande Bharat Express, India's first semi-high-speed train, operates at 160 km/h.",a:"Infrastructure"},
+{t:"India's space economy is estimated to reach $44 billion by 2033, growing at 9% annually.",a:"ISRO"},
+{t:"The PM GatiShakti portal integrates 16 ministries for unified national infrastructure planning.",a:"Governance"},
+// Science & Tech Facts
+{t:"Water is the only natural substance found in all three states — solid, liquid, and gas — at normal temperatures.",a:"Science"},
+{t:"The human brain has approximately 86 billion neurons — roughly the number of stars in the Milky Way.",a:"Biology"},
+{t:"Light takes 8 minutes and 20 seconds to travel from the Sun to Earth.",a:"Physics"},
+{t:"DNA contains about 3 billion base pairs. If uncoiled, the DNA in every human cell would stretch ~2 metres.",a:"Biology"},
+{t:"The speed of light in vacuum is 299,792,458 m/s — the ultimate speed limit of the universe.",a:"Physics"},
+{t:"Quantum entanglement allows two particles to instantly affect each other regardless of distance — Einstein called it 'spooky action at a distance'.",a:"Physics"},
+{t:"CRISPR-Cas9 gene editing technology allows scientists to modify DNA sequences with unprecedented precision.",a:"Biotechnology"},
+{t:"The periodic table has 118 confirmed elements; 94 occur naturally on Earth.",a:"Chemistry"},
+{t:"Neurons fire electrical signals at speeds up to 120 m/s — faster than a Formula 1 car.",a:"Biology"},
+{t:"The Large Hadron Collider at CERN accelerates particles to 99.9999991% the speed of light.",a:"Physics"},
+// Indian History
+{t:"The Indian National Congress was founded in 1885 by A.O. Hume. Its first session was held in Bombay.",a:"History"},
+{t:"The Battle of Plassey (1757) between Siraj-ud-Daulah and the British East India Company marked the start of British rule.",a:"History"},
+{t:"Mahatma Gandhi launched the Non-Cooperation Movement in 1920, Salt March in 1930, and Quit India in 1942.",a:"History"},
+{t:"The Constituent Assembly of India took 2 years, 11 months, and 18 days to draft the Constitution.",a:"History"},
+{t:"The Green Revolution of the 1960s made India self-sufficient in food grain production.",a:"History"},
+// Economy  
+{t:"India's nominal GDP in 2024 is approximately $3.9 trillion, making it the 5th largest globally.",a:"Economy"},
+{t:"The Reserve Bank of India (RBI) was established on April 1, 1935 under the RBI Act of 1934.",a:"Economy"},
+{t:"India's forex reserves crossed $700 billion in 2024 — the 4th largest in the world.",a:"Economy"},
+{t:"SEBI (Securities and Exchange Board of India) was established in 1988 and given statutory powers in 1992.",a:"Economy"},
+{t:"India's stock market (BSE) was established in 1875 — the oldest in Asia.",a:"Economy"},
+// Environment
+{t:"India has committed to achieving Net Zero emissions by 2070 at COP26 in Glasgow.",a:"Environment"},
+{t:"The Western Ghats, recognized as a UNESCO World Heritage Site, is one of the world's 8 hottest biodiversity hotspots.",a:"Environment"},
+{t:"India is the 3rd largest emitter of CO₂ globally but has one of the lowest per-capita emissions.",a:"Environment"},
+{t:"Project Tiger was launched in 1973; India now has over 3,000 tigers — 70% of the world's wild tiger population.",a:"Conservation"},
+{t:"The Chipko Movement (1973) in Uttarakhand pioneered the concept of environmental activism through civil disobedience.",a:"Environment"},
+// Math & Logic
+{t:"The Fibonacci sequence (1,1,2,3,5,8,13...) appears throughout nature — in sunflower spirals, shell patterns, and galaxy arms.",a:"Mathematics"},
+{t:"Zero was invented in India. Brahmagupta formally defined zero as a number in 628 CE.",a:"Mathematics"},
+{t:"Pi (π) is irrational and transcendental — its decimal expansion never repeats and never ends.",a:"Mathematics"},
+{t:"The Pythagorean theorem (a²+b²=c²) was known to Indian mathematicians in the Sulba Sutras ~800 BCE.",a:"Mathematics"},
+{t:"A googol is 10^100. A googolplex is 10^(10^100) — more than the number of atoms in the observable universe.",a:"Mathematics"},
+// World Affairs
+{t:"The United Nations has 193 member states. The UN Security Council has 5 permanent members: USA, UK, France, Russia, China.",a:"World"},
+{t:"NATO was formed in 1949 with 12 founding members. It now has 32 members after Sweden joined in 2024.",a:"Geopolitics"},
+{t:"The BRICS group (Brazil, Russia, India, China, South Africa) expanded in 2024 to include 6 new nations.",a:"Geopolitics"},
+{t:"Artificial Intelligence contributed approximately $15.7 trillion to the global economy in 2024.",a:"Technology"},
+{t:"The global smartphone penetration crossed 55% in 2024, with India having 600M+ smartphone users.",a:"Technology"},
+// Indian Geography
+{t:"Rajasthan is India's largest state by area (~342,239 sq km). Goa is the smallest at ~3,702 sq km.",a:"Geography"},
+{t:"The Ganga-Brahmaputra delta is the world's largest river delta, covering 80,000 sq km.",a:"Geography"},
+{t:"India has the world's highest motorable road — Khardung La in Ladakh at ~5,359 m above sea level.",a:"Geography"},
+{t:"The Andaman and Nicobar Islands are located 1,200 km from mainland India and have over 500 islands.",a:"Geography"},
+{t:"India shares borders with 7 countries: Pakistan, China, Nepal, Bhutan, Bangladesh, Myanmar, and Afghanistan.",a:"Geography"},
+// Motivational
+{t:"Study not to be the best in the room, but to never stop being a student of the room.",a:"Wisdom"},
+{t:"Kaizen — 改善 — means continuous improvement. Progress, no matter how small, beats perfection that never arrives.",a:"Japanese Philosophy"},
+{t:"The bamboo that bends in the storm survives longer than the oak that refuses to yield.",a:"Zen Proverb"},
+{t:"知識は力なり — Knowledge is power. Every hour you study compounds like interest over a lifetime.",a:"Francis Bacon"},
 {t:"The mind is not a vessel to be filled, but a fire to be kindled.",a:"Plutarch"},
-{t:"Learning is a treasure that will follow its owner everywhere.",a:"Chinese Proverb"},
-{t:"Education is the passport to the future.",a:"Malcolm X"},
-{t:"Develop a passion for learning. If you do, you will never cease to grow.",a:"Anthony J. D'Angelo"},
-{t:"Commitment is an act, not a word.",a:"Jean-Paul Sartre"},
-{t:"A year from now you may wish you had started today.",a:"Karen Lamb"},
-{t:"You don't need to see the whole staircase. Just take the first step.",a:"Martin Luther King Jr."},
-{t:"The only way to do great work is to love what you do.",a:"Steve Jobs"},
-{t:"Opportunities don't happen, you create them.",a:"Chris Grosser"},
-{t:"Don't limit your challenges. Challenge your limits.",a:"Unknown"},
-{t:"Every accomplishment starts with the decision to try.",a:"Unknown"},
-{t:"You will never always be motivated. You have to learn to be disciplined.",a:"Unknown"},
-{t:"Discipline is choosing between what you want now and what you want most.",a:"Abraham Lincoln"},
-{t:"Small daily improvements are the key to staggering long-term results.",a:"Unknown"},
-{t:"The secret to getting ahead is getting started.",a:"Agatha Christie"},
-{t:"You don't get what you wish for. You get what you work for.",a:"Unknown"},
-{t:"There are no shortcuts to any place worth going.",a:"Beverly Sills"},
-{t:"Stay focused and never give up.",a:"Unknown"},
-{t:"The future belongs to those who believe in the beauty of their dreams.",a:"Eleanor Roosevelt"}
+{t:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},
+{t:"An investment in knowledge pays the best interest. — Start your session.",a:"Benjamin Franklin"},
+{t:"The difference between ordinary and extraordinary is that little extra effort every single day.",a:"Jimmy Johnson"},
+{t:"Success is not final; failure is not fatal. It is the courage to continue that counts.",a:"Winston Churchill"},
+{t:"Education is the most powerful weapon which you can use to change the world.",a:"Nelson Mandela"},
+{t:"Dream big, start small, act now. Every expert was once a beginner.",a:"Robin Sharma"},
+{t:"Your future self is watching you right now through your memories. Make them proud.",a:"Corey Dostie"},
+{t:"The secret to success is to start before you're ready. Start now.",a:"Marie Forleo"},
+{t:"Hard work beats talent when talent doesn't work hard.",a:"Tim Notke"},
+{t:"It does not matter how slowly you go as long as you do not stop.",a:"Confucius"},
+// JEE/NEET specific
+{t:"Newton's Second Law: F = ma. Force equals mass times acceleration. This governs all classical mechanics.",a:"Physics"},
+{t:"The ideal gas law: PV = nRT. Pressure × Volume = moles × gas constant × Temperature.",a:"Chemistry"},
+{t:"In photoelectric effect, increasing intensity increases current but not electron energy. Frequency determines energy.",a:"Physics"},
+{t:"The Henderson-Hasselbalch equation: pH = pKa + log([A⁻]/[HA]). Key for buffer problems.",a:"Chemistry"},
+{t:"Integration by parts: ∫u dv = uv − ∫v du. Choose u using ILATE: Inverse, Log, Algebra, Trig, Exp.",a:"Mathematics"},
+{t:"Mitosis produces 2 genetically identical diploid cells. Meiosis produces 4 genetically unique haploid cells.",a:"Biology"},
+{t:"The speed of sound in air at 20°C is ~343 m/s. Speed of light is ~880,000 times faster.",a:"Physics"},
+{t:"DNA replication is semi-conservative: each new double helix has one old and one new strand.",a:"Biology"},
+{t:"Hess's Law: The total enthalpy change is independent of the path taken between reactants and products.",a:"Chemistry"},
+{t:"Snell's Law: n₁ sin θ₁ = n₂ sin θ₂. Governs the bending of light at interfaces.",a:"Physics"},
 ];
 let qI=Math.floor(Math.random()*QS.length);
 window.nextQ=function(){qI=(qI+1)%QS.length;const q=QS[qI];const qt=document.getElementById('qt');const qa=document.getElementById('qa');const lq=document.getElementById('lq');if(qt)qt.textContent='"'+q.t+'"';if(qa)qa.textContent='— '+q.a;if(lq)lq.textContent='"'+q.t+'"';};
@@ -4570,7 +4804,10 @@ window.calPrev=()=>{calM--;if(calM<0){calM=11;calY--;}renderCal();};
 window.calNext=()=>{calM++;if(calM>11){calM=0;calY++;}renderCal();};
 
 // ── TODO ──
-window.addTodo=function(){const v=document.getElementById('todo-inp')?.value.trim();if(!v)return;window.todos.unshift({id:Date.now()+'-'+Math.random().toString(36).slice(2,8),text:v,done:false,priority:document.getElementById('todo-pri')?.value||'normal',subject:document.getElementById('todo-subj-sel')?.value||'General',due:document.getElementById('todo-due')?.value||'',createdAt:window._today});save();document.getElementById('todo-inp').value='';if(document.getElementById('todo-due'))document.getElementById('todo-due').value='';addXP(2,'task added');renderTodos();};
+window.addTodo=function(){const v=document.getElementById('todo-inp')?.value.trim();if(!v)return;
+  // Daily goal limit: max 5 active tasks (prevents overload)
+  const activeTodos=(window.todos||[]).filter(t=>!t.done);
+  if(activeTodos.length>=5){if(window.toast)window.toast('✋ Max 5 active goals — complete one first! Quality over quantity.');return;}window.todos.unshift({id:Date.now()+'-'+Math.random().toString(36).slice(2,8),text:v,done:false,priority:document.getElementById('todo-pri')?.value||'normal',subject:document.getElementById('todo-subj-sel')?.value||'General',due:document.getElementById('todo-due')?.value||'',createdAt:window._today});save();document.getElementById('todo-inp').value='';if(document.getElementById('todo-due'))document.getElementById('todo-due').value='';addXP(2,'task added');renderTodos();};
 window.toggleTodo=(id)=>{id=decodeURIComponent(String(id));window.todos=window.todos.map(t=>t.id===id?{...t,done:!t.done,doneAt:!t.done?window._today:null}:t);save();if(window.todos.find(t=>t.id===id)?.done)addXP(5,'task done');renderTodos();};
 window.deleteTodo=(id)=>{id=decodeURIComponent(String(id));window.todos=window.todos.filter(t=>t.id!=id);save();renderTodos();};
 window.clearDone=()=>{window.todos=window.todos.filter(t=>!t.done);save();renderTodos();toast('Done tasks cleared');};
@@ -5079,6 +5316,13 @@ async function _admLoad(){
     _admReports=rS.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.ts?.seconds||0)-(a.ts?.seconds||0));
     _admPosts=pS.docs.map(d=>({id:d.id,...d.data()}));
     _admUsers=uS.docs.map(d=>({id:d.id,...d.data()}));
+    // Merge publicStats data (has studyData, xp, coins mirrored from userData)
+    const statMap={};
+    try{
+      const stSnap=await _gD(_col(_db2,'publicStats'));
+      stSnap.docs.forEach(d=>{statMap[d.id]={...d.data()};});
+    }catch(e){}
+    _admUsers=_admUsers.map(u=>{const st=statMap[u.id]||{};return{...u,xp:u.xp||st.xp||0,coins:u.coins||st.coins||0,studyData:u.studyData||st.studyData||{},username:u.username||u.uname||st.username||''};});
     _admBanned=bS.docs.map(d=>({id:d.id,...d.data()}));
     document.getElementById('adm-rep-c').textContent=_admReports.length;
     document.getElementById('adm-post-c').textContent=_admPosts.length;
@@ -5188,36 +5432,44 @@ function _admRenderPosts(){
 
 // ── USERS — rich profiles ──
 function _admRenderUsers(){
-  if(!_admUsers.length)return '<div class="empty">No users</div>';
+  if(!_admUsers.length)return '<div class="empty">No registered users found. Users appear here after they sign in for the first time.</div>';
   const search=document.getElementById('adm-user-search')?.value?.toLowerCase()||'';
-  const filtered=search?_admUsers.filter(u=>(u.username||'').toLowerCase().includes(search)||(u.name||'').toLowerCase().includes(search)||(u.email||'').toLowerCase().includes(search)):_admUsers;
-  return `<div style="margin-bottom:10px"><input id="adm-user-search" class="tisa-inp" placeholder="Search by username, name or email..." style="width:100%" oninput="_admRender()"></div>`+
+  const filtered=search?_admUsers.filter(u=>(u.username||u.uname||'').toLowerCase().includes(search)||(u.name||u.displayName||'').toLowerCase().includes(search)||(u.email||'').toLowerCase().includes(search)):_admUsers;
+  return `<div style="margin-bottom:10px;display:flex;gap:8px"><input id="adm-user-search" class="tisa-inp" placeholder="Search by username, name or email..." style="flex:1" oninput="_admRender()"><span style="font-size:12px;font-weight:700;color:var(--ink3);padding:8px 12px;background:var(--bg3);border-radius:8px">${filtered.length}/${_admUsers.length} users</span></div>`+
   (filtered.length?filtered.map(u=>{
-    const banned=_admBanned.some(b=>b.id===u.id);
-    const postCount=_admPosts.filter(p=>p.uid===u.id||p.uid===u.uid).length;
-    const reportCount=_admReports.filter(r=>r.targetUid===u.id||r.targetUid===u.uid).length;
-    return `<div class="card" style="margin-bottom:10px;padding:12px${banned?';border-left:4px solid var(--danger)':''}">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;flex-shrink:0">
-          ${u.photo?`<img src="${_e(u.photo)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.parentElement.textContent='${_e((u.name||u.username||'?')[0].toUpperCase())}'">`:_e((u.name||u.username||'?')[0].toUpperCase())}
-        </div>
+    const uid=u.id||u.uid||'';
+    const uname=u.username||u.uname||'';
+    const name=u.name||u.displayName||'Unknown';
+    const email=u.email||'';
+    const xp=u.xp||0;
+    const coins=u.coins||0;
+    const joined=u.createdAt?.toDate?.()?.toLocaleDateString('en-IN')||u.joinedAt||'—';
+    const studyKeys=Object.keys(u.studyData||{}).filter(k=>/\d{4}-\d{2}-\d{2}/.test(k));
+    const totalStudy=studyKeys.reduce((s,k)=>s+(u.studyData[k]||0),0);
+    const totalH=Math.floor(totalStudy/3600);
+    const streak=(()=>{let s=0;for(let i=0;i<365;i++){const d=new Date();d.setDate(d.getDate()-i);const k=d.toISOString().slice(0,10);if((u.studyData||{})[k]>0)s++;else if(i>0)break;}return s;})();
+    const isBanned=_admBanned.some(b=>b.id===uid||b.uid===uid);
+    return `<div style="background:var(--bg);border:1.5px solid var(--border2);border-radius:14px;padding:14px;margin-bottom:10px">
+      <div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--primary);color:white;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${(uname||name||'?')[0].toUpperCase()}</div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:13px;font-weight:800">@${_e(u.username||'no-username')} ${banned?'<span style="color:var(--danger);font-size:11px">⛔ BANNED</span>':''}</div>
-          <div style="font-size:11px;color:var(--ink2)">${_e(u.name||'No display name')}</div>
-          <div style="font-size:10px;color:var(--ink3)">${_e(u.email||'No email')}</div>
+          <div style="font-size:13px;font-weight:800;color:var(--ink)">${window._esc(name)} <span style="font-size:11px;font-weight:600;color:var(--ink3)">@${window._esc(uname||'—')}</span>${isBanned?'<span style="background:#fdd;color:#922;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;margin-left:6px">BANNED</span>':''}</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:2px">${window._esc(email)}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+            <span style="font-size:11px;font-weight:700;background:var(--bg3);padding:3px 8px;border-radius:6px">⚡ ${xp} XP</span>
+            <span style="font-size:11px;font-weight:700;background:var(--bg3);padding:3px 8px;border-radius:6px">🪙 ${coins}</span>
+            <span style="font-size:11px;font-weight:700;background:var(--bg3);padding:3px 8px;border-radius:6px">📚 ${totalH}h studied</span>
+            <span style="font-size:11px;font-weight:700;background:var(--bg3);padding:3px 8px;border-radius:6px">🔥 ${streak}d streak</span>
+            <span style="font-size:11px;font-weight:700;background:var(--bg3);padding:3px 8px;border-radius:6px">📅 Joined ${joined}</span>
+          </div>
         </div>
-        <div style="text-align:right;font-size:10px;color:var(--ink3)">
-          <div>${postCount} post${postCount!==1?'s':''}</div>
-          ${reportCount>0?`<div style="color:var(--danger)">${reportCount} report${reportCount!==1?'s':''}</div>`:''}
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admUserDetail('${uid}')">Details</button>
+          ${isBanned
+            ?`<button class="btn btn-sm" style="font-size:11px;background:var(--success);color:white;border-color:var(--success)" onclick="window._admUnban('${uid}')">Unban</button>`
+            :`<button class="btn btn-sm" style="font-size:11px;background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser('${uid}')">Ban</button>`
+          }
         </div>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admViewUser('${_e(u.id||u.uid||'')}')">👤 Full Profile</button>
-        <button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admWarn('${_e(u.id||u.uid||'')}','${_e(u.username||'user')}')">⚠️ Warn</button>
-        ${banned
-          ?`<button class="btn btn-sm btn-o" style="font-size:11px" onclick="window._admUnban('${_e(u.id||u.uid||'')}')">✅ Unban</button>`
-          :`<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);font-size:11px" onclick="window._admBanUser('${_e(u.id||u.uid||'')}','${_e(u.username||'user')}')">⛔ Ban</button>`
-        }
       </div>
     </div>`;
   }).join(''):'<div class="empty">No matching users</div>');
@@ -5226,7 +5478,32 @@ function _admRenderUsers(){
 // ── BANNED ──
 function _admRenderBanned(){
   if(!_admBanned.length)return '<div class="empty">No banned users 🎉</div>';
-  return _admBanned.map(b=>`<div class="card" style="margin-bottom:8px;padding:12px;border-left:4px solid var(--danger)">
+  return _admBanned.map(b=>`<!-- TEST PERFORMANCE GRAPH -->
+<div class="card" style="margin-bottom:14px" id="test-perf-card">
+  <div class="ct"><div class="ct-ic">📈</div>Test Performance
+    <span style="margin-left:auto;font-size:10px;font-weight:600;color:var(--ink3)">Last 10 tests</span>
+    <button onclick="window.renderTestGraph&&window.renderTestGraph()" style="background:none;border:none;cursor:pointer;font-size:14px;padding:2px 4px;color:var(--ink3)" title="Refresh">↻</button>
+  </div>
+  <div id="test-graph-empty" class="empty" style="display:none">Take an AI test to see your performance graph.</div>
+  <div id="test-graph-wrap" style="display:grid;grid-template-columns:1fr 220px;gap:18px;align-items:start">
+    <!-- Bar chart -->
+    <div>
+      <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Score % per Test</div>
+      <svg id="test-bar-svg" viewBox="0 0 400 160" style="width:100%;height:auto;overflow:visible"></svg>
+      <div id="test-bar-labels" style="display:flex;gap:2px;margin-top:4px;overflow:hidden"></div>
+    </div>
+    <!-- Donut chart -->
+    <div style="text-align:center">
+      <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Overall Split</div>
+      <svg id="test-donut-svg" viewBox="0 0 180 180" style="width:140px;height:140px;display:block;margin:0 auto"></svg>
+      <div id="test-donut-legend" style="margin-top:10px;display:flex;flex-direction:column;gap:5px;font-size:11px"></div>
+    </div>
+  </div>
+  <!-- Summary stats -->
+  <div id="test-graph-stats" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid var(--border2)"></div>
+</div>
+
+<div class="card" style="margin-bottom:8px;padding:12px;border-left:4px solid var(--danger)">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
       <div>
         <div style="font-size:13px;font-weight:800;color:var(--danger)">@${_e(b.alias||b.id)}</div>
@@ -5561,7 +5838,9 @@ function _abortSignal(ms){
   return ctrl.signal;
 }
 window._callAI=async function(payload){
-  const key=window._PANDA_KEY;
+  // Always reload key from localStorage — persists across page refreshes
+  const key=window._PANDA_KEY||localStorage.getItem('tisa_panda_key')||'';
+  if(key&&!window._PANDA_KEY)window._PANDA_KEY=key;
   const mode=payload.mode||'chat';
 
   // ── Build prompts ──
@@ -9632,7 +9911,7 @@ document.addEventListener('DOMContentLoaded',function(){
   setTimeout(function(){
     var testsPage=document.getElementById('page-tests');
     if(testsPage&&(testsPage.classList.contains('active')||getComputedStyle(testsPage).display!=='none')){
-      if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+      gkLoadDaily();
     }
   },500);
 });
@@ -9643,7 +9922,7 @@ window.showPage=function(name,btn){
   if(_atzOrigShowPage)_atzOrigShowPage(name,btn);
   if(name==='tests'){
     // Load GK daily once
-    if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+    gkLoadDaily();
     // Always refresh mock papers grid
     setTimeout(function(){
       var activeTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
@@ -9656,7 +9935,7 @@ var _atzOrigShowPageMob=window.showPageMob;
 window.showPageMob=function(name,btn){
   if(_atzOrigShowPageMob)_atzOrigShowPageMob(name,btn);
   if(name==='tests'){
-    if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+    gkLoadDaily();
     setTimeout(function(){
       var activeTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
       var cat=window._mockCurrentCat||'jee';
@@ -9668,6 +9947,26 @@ window.showPageMob=function(name,btn){
 // ── END AI TEST ZONE ──
 
 
+
+// ── SOCIAL PAGE TAB SWITCHER ──────────────────────────────
+window._socialTab=function(tab,btn){
+  var conn=document.getElementById('social-connect-panel');
+  var comm=document.getElementById('social-community-panel');
+  var btnC=document.getElementById('social-tab-connect');
+  var btnCo=document.getElementById('social-tab-community');
+  if(!conn||!comm)return;
+  if(tab==='connect'){
+    conn.style.display=''; comm.style.display='none';
+    if(btnC){btnC.className='btn btn-sm btn-p';}
+    if(btnCo){btnCo.className='btn btn-sm btn-o';}
+    window._loadMyChats&&window._loadMyChats();
+  }else{
+    conn.style.display='none'; comm.style.display='';
+    if(btnC){btnC.className='btn btn-sm btn-o';}
+    if(btnCo){btnCo.className='btn btn-sm btn-p';}
+    window._loadForum&&window._loadForum();
+  }
+};
 </script>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -9713,7 +10012,7 @@ window.showPageMob=function(name,btn){
 </div>
 
 <!-- ZEN FOCUS TIMER MODAL -->
-<div id="zen-modal" style="display:none;position:fixed;inset:0;z-index:1800;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;flex-direction:column">
+<div id="zen-modal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;flex-direction:column">
   <div style="text-align:center;padding:40px 24px;max-width:360px;width:100%">
     <div id="zen-tree-icon" style="font-size:80px;margin-bottom:20px;transition:all 1s;display:block;animation:zenTreePulse 3s ease-in-out infinite">🌱</div>
     <div id="zen-clock" style="font-family:'Space Mono',monospace;font-size:56px;font-weight:700;color:#fff;letter-spacing:4px;margin-bottom:12px;text-shadow:0 0 40px rgba(255,255,255,.3)">25:00</div>
@@ -9727,21 +10026,19 @@ window.showPageMob=function(name,btn){
   </div>
 </div>
 
-<!-- FLOATING LOFI PLAYER -->
+<!-- FLOATING LOFI PLAYER — HTML5 Audio (reliable, no CORS blocks) -->
 <div id="lofi-player-widget" style="position:fixed;bottom:72px;left:16px;z-index:500;transition:all .3s cubic-bezier(.34,1.56,.64,1)">
   <div style="display:flex;align-items:center;gap:0">
     <button id="lofi-toggle-btn" onclick="window.toggleLofi()" title="Study Music" style="width:44px;height:44px;border-radius:50%;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid var(--border);box-shadow:var(--sh);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:all .25s;color:var(--ink)">🎧</button>
     <div id="lofi-expanded" style="display:none;align-items:center;gap:8px;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid var(--border);border-left:none;border-radius:0 22px 22px 0;padding:0 12px 0 8px;height:44px;box-shadow:var(--sh)">
       <span id="lofi-track-lbl" style="font-size:11px;font-weight:700;color:var(--ink);white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis">Lofi Study 🌸</span>
       <button onclick="window.nextLofiTrack()" title="Next track" style="background:none;border:none;cursor:pointer;font-size:15px;color:var(--ink);padding:0;line-height:1">⏭</button>
-      <input id="lofi-vol" type="range" min="0" max="100" value="70" title="Volume" oninput="window.setLofiVol(this.value)"
-        style="width:50px;height:3px;cursor:pointer;accent-color:var(--primary);opacity:.7;vertical-align:middle">
+      <input id="lofi-vol" type="range" min="0" max="100" value="70" title="Volume" oninput="window.setLofiVol(this.value)" style="width:50px;height:3px;cursor:pointer;accent-color:var(--primary);opacity:.7;vertical-align:middle">
       <button onclick="window.toggleLofi()" title="Stop" style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--ink3);padding:0;line-height:1">✕</button>
     </div>
   </div>
-  <div id="lofi-yt-wrap" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;pointer-events:none">
-    <iframe id="lofi-iframe" width="1" height="1" src="" frameborder="0" allow="autoplay;encrypted-media" referrerpolicy="no-referrer"></iframe>
-  </div>
+  <!-- Audio element: HTML5 audio with free HTTPS streams (no iframe/autoplay blocks) -->
+  <audio id="lofi-audio" preload="none" style="display:none"></audio>
 </div>
 
 <style>
@@ -9897,22 +10194,25 @@ window._reopenOnboarding=function(){
 })();
 
 // ═══════════════════════════════════════════════════════
-// LOFI PLAYER — YouTube soft Japanese study music
-// ═══════════════════════════════════════════════════════
+// LOFI PLAYER — HTML5 Audio with free internet radio streams
+// No autoplay blocks, no iframe policy issues — works on all browsers
 (function(){
   var TRACKS=[
-    {name:'Lofi Girl 🌸',         id:'jfKfPfyJRdk'},
-    {name:'Tokyo Lofi ☕',         id:'5qap5aO4i9A'},
-    {name:'Japanese Lofi 🍵',     id:'7NOSDKb0HlU'},
-    {name:'Piano & Rain 🌧️',      id:'lTRiuFIWV54'},
-    {name:'Ghibli Piano 🏡',      id:'oLjlpgjmgCw'},
-    {name:'Anime Lofi 🎌',        id:'iik25wqIuFo'},
-    {name:'Deep Focus 🧘',        id:'WPni755-Krg'},
-    {name:'Night Study 🌙',       id:'4xDzrJKXOOY'},
+    {name:'Chillhop ☕',       url:'https://streams.fluxfm.de/chillhop/mp3-128/audio/'},
+    {name:'Lofi Beats 🎋',     url:'https://streams.fluxfm.de/lofibeats/mp3-128/audio/'},
+    {name:'Ambient Focus 🧘',  url:'https://streams.fluxfm.de/ambient/mp3-128/audio/'},
+    {name:'Jazz Café 🌿',      url:'https://streams.fluxfm.de/jazzradio/mp3-128/audio/'},
+    {name:'Tokyo Radio 🗼',    url:'https://streams.fluxfm.de/tokyo/mp3-128/audio/'},
+    {name:'Night Vibes 🌙',    url:'https://streams.fluxfm.de/hippieradio/mp3-128/audio/'},
+    {name:'Piano Study 🎹',    url:'https://streams.fluxfm.de/piano/mp3-128/audio/'},
+    {name:'Indie Chill 🎸',    url:'https://streams.fluxfm.de/indie/mp3-128/audio/'},
   ];
-  var current=0,playing=false;
+  var current=0,playing=false,audio=null;
 
-  function _ytSrc(id){return 'https://www.youtube.com/embed/'+id+'?autoplay=1&controls=0&loop=1&playlist='+id+'&modestbranding=1&rel=0&fs=0&iv_load_policy=3';}
+  function _getAudio(){
+    if(!audio)audio=document.getElementById('lofi-audio');
+    return audio;
+  }
 
   function _ui(){
     var btn=document.getElementById('lofi-toggle-btn');
@@ -9929,70 +10229,59 @@ window._reopenOnboarding=function(){
     if(exp)exp.style.display=playing?'flex':'none';
     if(lbl)lbl.textContent=n;
     if(extLbl)extLbl.textContent='Now: '+n;
-    if(homeBtn){homeBtn.textContent=playing?'⏸ Stop':'🎧 Music';homeBtn.className=playing?'btn btn-p btn-sm':'btn btn-o btn-sm';}
+    if(homeBtn){homeBtn.textContent=playing?'⏸ Stop':'🎧 Music';homeBtn.className=playing?'btn btn-p':'btn-ghost';}
     if(homeStatus)homeStatus.style.display=playing?'block':'none';
     if(homeTrack)homeTrack.textContent=n;
     if(homeNext)homeNext.style.display=playing?'inline-flex':'none';
     if(pw){var nav=document.getElementById('mobile-nav');pw.style.bottom=(nav&&getComputedStyle(nav).display!=='none')?'70px':'16px';}
   }
 
+  function _play(){
+    var a=_getAudio();if(!a)return;
+    a.src=TRACKS[current].url;
+    a.volume=parseFloat(localStorage.getItem('tisa_lofi_vol')||'65')/100;
+    var p=a.play();
+    if(p&&p.catch)p.catch(function(e){
+      console.warn('[Lofi] stream error:',e.message);
+      // auto-advance on failure
+      current=(current+1)%TRACKS.length;
+      if(playing)setTimeout(_play,300);
+    });
+  }
+
   window.toggleLofi=function(){
-    var iframe=document.getElementById('lofi-iframe');if(!iframe)return;
-    if(!playing){
-      playing=true;
-      // Prevent overlap — clear src first, then set
-      iframe.src='';
-      setTimeout(function(){iframe.src=_ytSrc(TRACKS[current].id);},50);
-    }else{
-      playing=false;
-      iframe.src='';
-    }
+    var a=_getAudio();if(!a)return;
+    if(!playing){playing=true;_play();}
+    else{playing=false;a.pause();a.src='';}
     _ui();
   };
+
   window.nextLofiTrack=function(){
     current=(current+1)%TRACKS.length;
-    var iframe=document.getElementById('lofi-iframe');
-    if(iframe&&playing){
-      iframe.src='';
-      setTimeout(function(){iframe.src=_ytSrc(TRACKS[current].id);},50);
-    }
+    var a=_getAudio();
+    if(a&&playing){a.src='';setTimeout(_play,50);}
     _ui();
     if(window.toast)window.toast('🎵 '+TRACKS[current].name);
   };
+
   window.setLofiVol=function(v){
-    // YouTube iframe volume can only be set via postMessage — update slider UI only
-    var vol=document.getElementById('lofi-vol');
-    if(vol)vol.value=v;
-    // Store preference
+    var a=_getAudio();if(a)a.volume=v/100;
+    var vol=document.getElementById('lofi-vol');if(vol)vol.value=v;
     try{localStorage.setItem('tisa_lofi_vol',v);}catch(e){}
   };
-  // Restore volume preference
-  (function(){
-    var savedVol=localStorage.getItem('tisa_lofi_vol');
-    if(savedVol){var vol=document.getElementById('lofi-vol');if(vol)vol.value=savedVol;}
-  })();
+
+  // Error auto-advance
+  document.addEventListener('DOMContentLoaded',function(){
+    var a=_getAudio();
+    if(!a)return;
+    a.addEventListener('error',function(){
+      if(!playing)return;
+      current=(current+1)%TRACKS.length;
+      _play();_ui();
+    });
+  });
   window.addEventListener('resize',_ui);
   _ui();
-
-  // Media Session API — shows track info in OS media controls / lock screen
-  function _updateMediaSession(){
-    if(!('mediaSession' in navigator))return;
-    var track=TRACKS[current];
-    try{
-      navigator.mediaSession.metadata=new MediaMetadata({
-        title:track.name,
-        artist:'TISA Study Music',
-        album:'Lofi Focus Collection'
-      });
-      navigator.mediaSession.setActionHandler('nexttrack',function(){window.nextLofiTrack();});
-      navigator.mediaSession.setActionHandler('pause',function(){window.toggleLofi();});
-      navigator.mediaSession.setActionHandler('play',function(){if(!playing)window.toggleLofi();});
-    }catch(e){}
-  }
-  var _origToggleLofi=window.toggleLofi;
-  window.toggleLofi=function(){_origToggleLofi();if(playing)_updateMediaSession();};
-  var _origNextLofi=window.nextLofiTrack;
-  window.nextLofiTrack=function(){_origNextLofi();if(playing)_updateMediaSession();};
 })();
 
 // ═══════════════════════════════════════════════════════
@@ -10146,18 +10435,18 @@ window._reopenOnboarding=function(){
 })();
 </script>
 
-<!-- ═══════════════════════════════════════════════════════
-     MA (間) FOCUS OVERLAY — full-screen Zen Study Mode
-═══════════════════════════════════════════════════════ -->
-<div id="ma-focus-overlay" style="display:none;position:fixed;inset:0;z-index:150;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);gap:20px;transition:opacity .4s">
-  <div id="ma-panda-emoji" style="font-size:40px;animation:pandaBob 3s ease-in-out infinite">🐼</div>
-  <div id="ma-timer-display" style="font-family:'Space Mono',monospace;font-size:72px;font-weight:700;color:var(--primary);letter-spacing:6px;line-height:1;text-align:center;min-width:1px">00:00:00</div>
-  <div id="ma-mode-label" style="font-size:11px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:4px;margin-top:-8px">ready</div>
-  <div style="width:260px;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden">
-    <div id="ma-ring-fill" style="height:100%;width:0%;background:var(--primary);border-radius:2px;transition:width 1s linear"></div>
+<!-- MA (間) FOCUS OVERLAY — minimal zen mode -->
+<div id="ma-focus-overlay" style="display:none;position:fixed;inset:0;z-index:150;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);gap:28px">
+  <div id="ma-panda-emoji" style="font-size:32px;opacity:.6">🐼</div>
+  <div style="text-align:center">
+    <div id="ma-timer-display" style="font-family:'Space Mono',monospace;font-size:80px;font-weight:700;color:var(--primary);letter-spacing:8px;line-height:1">00:00:00</div>
+    <div id="ma-mode-label" style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:6px;margin-top:10px">ready</div>
   </div>
-  <div id="ma-quote" style="font-family:'Shippori Mincho',serif;font-size:14px;color:var(--ink3);text-align:center;max-width:300px;line-height:2;font-style:italic;animation:maFadeQuote 10s ease-in-out infinite">一歩一歩、着実に前へ。<br><span style="font-size:11px;font-family:'Nunito',sans-serif;font-style:normal">One step at a time, steadily forward.</span></div>
-  <button onclick="window.toggleMaMode()" style="background:none;border:1.5px solid var(--border);color:var(--ink3);border-radius:20px;padding:8px 24px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:4px">✕ Exit Zen Mode</button>
+  <div style="width:200px;height:2px;background:var(--border2);border-radius:1px;overflow:hidden">
+    <div id="ma-ring-fill" style="height:100%;width:0%;background:var(--primary);border-radius:1px;transition:width 1s linear"></div>
+  </div>
+  <div id="ma-quote" style="font-size:13px;color:var(--ink3);text-align:center;max-width:260px;line-height:1.9;font-style:italic;opacity:.7"></div>
+  <button onclick="window.toggleMaMode()" style="background:none;border:1px solid var(--border);color:var(--ink3);border-radius:100px;padding:8px 22px;font-size:11px;cursor:pointer;font-family:inherit;letter-spacing:1px;transition:all .2s;margin-top:8px">ESC</button>
 </div>
 
 <style>
@@ -10392,78 +10681,125 @@ window._reopenOnboarding=function(){
   ];
 
   window.renderSubjHeatmap=function(){
-    var el=document.getElementById('subj-heatmap-grid');
-    if(!el)return;
-    var sessions=window.sessions||[];
-    if(!sessions.length){el.innerHTML='<div class="empty">No study sessions yet.</div>';return;}
+  var el=document.getElementById('subj-heatmap-grid');
+  if(!el)return;
+  // GitHub-style 52-week contribution calendar
+  var WEEKS=52,DAYS=7;
+  var today=new Date();
+  // Start from 52 weeks ago, aligned to Sunday
+  var start=new Date(today);
+  start.setDate(today.getDate()-WEEKS*7+1);
+  while(start.getDay()!==0)start.setDate(start.getDate()-1);
 
-    // Build subject → last 14 days matrix
-    var subs={};
-    var days=14;
-    var today=new Date();
-    var dateLabels=[];
-    for(var i=days-1;i>=0;i--){
-      var d=new Date(today);d.setDate(today.getDate()-i);
-      dateLabels.push(d.toISOString().slice(0,10));
-    }
-
-    sessions.forEach(function(s){
-      if(!s.sub)return;
-      var dt=s.date||window._today;
-      if(!subs[s.sub])subs[s.sub]={};
-      subs[s.sub][dt]=(subs[s.sub][dt]||0)+(s.dur||0);
-    });
-
-    var subNames=Object.keys(subs).sort(function(a,b){
-      var ta=Object.values(subs[a]).reduce(function(s,v){return s+v;},0);
-      var tb=Object.values(subs[b]).reduce(function(s,v){return s+v;},0);
-      return tb-ta;
-    }).slice(0,8);
-
-    if(!subNames.length){el.innerHTML='<div class="empty">No sessions yet.</div>';return;}
-
-    // Max seconds in any cell for color scaling
-    var maxSecs=0;
-    subNames.forEach(function(s){
-      dateLabels.forEach(function(d){
-        var v=subs[s][d]||0;
-        if(v>maxSecs)maxSecs=v;
-      });
-    });
-    if(!maxSecs)maxSecs=1;
-
-    var headerCells=dateLabels.map(function(d){
-      var dt=new Date(d+'T00:00:00');
-      var isToday=d===window._today;
-      return '<div style="font-size:9px;font-weight:'+(isToday?'800':'600')+';color:'+(isToday?'var(--primary)':'var(--ink3)')+';text-align:center;line-height:1.2">'+
-        dt.toLocaleDateString('en-IN',{weekday:'short'}).slice(0,2)+'<br>'+dt.getDate()+'</div>';
+  var studyData=window.studyData||{};
+  var maxVal=0;
+  // Check if any data exists at all
+  var hasAnyData=Object.keys(studyData).some(function(k){return /\d{4}-\d{2}-\d{2}/.test(k)&&studyData[k]>0;});
+  if(!hasAnyData){
+    // Show attractive placeholder
+    var placeholderCells=Array(52*7).fill(0).map(function(_,i){
+      var opacity=Math.random()<0.15?(Math.random()<0.3?0.35:0.18):0.07;
+      return '<div style="width:11px;height:11px;border-radius:2px;background:var(--primary);opacity:'+opacity+'"></div>';
     }).join('');
-
-    var rows=subNames.map(function(sub){
-      var cells=dateLabels.map(function(d){
-        var v=subs[sub][d]||0;
-        var pct=v/maxSecs;
-        var cIdx=v===0?0:Math.min(6,Math.floor(pct*6)+1);
-        var bg=HEAT_COLORS[cIdx];
-        var label=v>0?window._fmtH(v):'';
-        var isToday=d===window._today;
-        return '<div title="'+window._esc(sub)+' · '+(v>0?window._fmtH(v):'no session')+'" style="width:24px;height:24px;border-radius:4px;background:'+bg+';border:1.5px solid '+(isToday?'var(--primary)':'transparent')+';display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:'+(pct>.5?'white':'var(--ink3)')+'">'+label+'</div>';
-      }).join('');
-      var totalSecs=Object.values(subs[sub]).reduce(function(s,v){return s+v;},0);
-      return '<div style="display:flex;align-items:center;gap:6px">'
-        +'<div style="width:72px;font-size:11px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0" title="'+window._esc(sub)+'">'+window._esc(sub)+'</div>'
-        +'<div style="display:flex;gap:3px;flex-wrap:nowrap">'+cells+'</div>'
-        +'<div style="font-size:10px;font-weight:800;color:var(--primary);white-space:nowrap;margin-left:4px">'+window._fmtH(totalSecs)+'</div>'
-        +'</div>';
-    }).join('');
-
-    el.innerHTML='<div style="display:flex;gap:6px;padding-left:78px;margin-bottom:4px">'+headerCells+'</div>'+rows
-      +'<div style="display:flex;align-items:center;gap:6px;margin-top:10px;flex-wrap:wrap">'
-      +'<span style="font-size:10px;color:var(--ink3);font-weight:600">Less</span>'
-      +HEAT_COLORS.map(function(bg){return '<div style="width:14px;height:14px;border-radius:3px;background:'+bg+'"></div>';}).join('')
-      +'<span style="font-size:10px;color:var(--ink3);font-weight:600">More</span>'
+    el.innerHTML='<div class="heatmap-placeholder">'
+      +'<div class="heatmap-placeholder-grid">'+placeholderCells+'</div>'
+      +'<div style="font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:.5px">Consistency builds mastery.</div>'
+      +'<div style="font-size:10px;color:var(--ink3);opacity:.6">Start a study session to track your progress.</div>'
       +'</div>';
-  };
+    return;
+  }
+  // Collect all values to compute colour scale
+  var grid=[];
+  for(var w=0;w<WEEKS;w++){
+    var week=[];
+    for(var d=0;d<DAYS;d++){
+      var date=new Date(start);
+      date.setDate(start.getDate()+w*7+d);
+      if(date>today){week.push({date:null,val:0});continue;}
+      var key=date.toISOString().slice(0,10);
+      var val=studyData[key]||0;
+      if(val>maxVal)maxVal=val;
+      week.push({date:key,val:val,day:date.getDate(),month:date.getMonth()});
+    }
+    grid.push(week);
+  }
+  if(!maxVal)maxVal=3600; // default 1h max for colour scale
+
+  // Colour levels: 0=none, 1=<30min, 2=<1h, 3=<2h, 4=<4h, 5=4h+
+  function getLevel(val){
+    if(!val)return 0;
+    if(val<1800)return 1;
+    if(val<3600)return 2;
+    if(val<7200)return 3;
+    if(val<14400)return 4;
+    return 5;
+  }
+
+  // Month labels
+  var monthLabels='';
+  var lastMonth=-1;
+  for(var w=0;w<WEEKS;w++){
+    var firstDay=grid[w][0];
+    if(firstDay&&firstDay.date){
+      var m=firstDay.month;
+      if(m!==lastMonth){
+        var mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m];
+        monthLabels+='<div style="grid-column:'+(w+2)+';grid-row:1;font-size:9px;color:var(--ink3);font-weight:600;white-space:nowrap">'+mn+'</div>';
+        lastMonth=m;
+      }
+    }
+  }
+
+  // Day labels
+  var dayLabels=['','Mon','','Wed','','Fri',''].map(function(d,i){
+    return d?'<div style="grid-row:'+(i+2)+';grid-column:1;font-size:8px;color:var(--ink3);line-height:1;display:flex;align-items:center;padding-right:4px">'+d+'</div>':'<div style="grid-row:'+(i+2)+';grid-column:1"></div>';
+  }).join('');
+
+  // Cells
+  var cells='';
+  var totalStudied=0,daysActive=0;
+  for(var w=0;w<WEEKS;w++){
+    for(var d=0;d<DAYS;d++){
+      var cell=grid[w][d];
+      if(!cell.date){
+        cells+='<div style="grid-column:'+(w+2)+';grid-row:'+(d+2)+';width:11px;height:11px;border-radius:2px;background:var(--bg3)"></div>';
+        continue;
+      }
+      var lv=getLevel(cell.val);
+      if(cell.val){totalStudied+=cell.val;daysActive++;}
+      var isToday=cell.date===window._today;
+      var hours=cell.val?window._fmtH(cell.val):'no study';
+      var colors=['var(--bg3)','rgba(var(--primary-rgb,92,122,62),.2)','rgba(var(--primary-rgb,92,122,62),.4)','rgba(var(--primary-rgb,92,122,62),.6)','rgba(var(--primary-rgb,92,122,62),.8)','var(--primary)'];
+      // Use actual CSS vars for colour
+      var bgMap=['var(--bg3)'];
+      var primary=getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+      // Build colour from opacity
+      var opacity=[0,.18,.36,.55,.75,1][lv];
+      var bg=lv===0?'var(--bg3)':'var(--primary)';
+      var cellStyle='grid-column:'+(w+2)+';grid-row:'+(d+2)+';width:11px;height:11px;border-radius:2px;background:'+bg+';'+(lv>0&&lv<5?'opacity:'+opacity+';':'')+(isToday?'outline:2px solid var(--primary);outline-offset:1px;opacity:1;':'');
+      cells+='<div title="'+cell.date+' · '+hours+'" style="'+cellStyle+'"></div>';
+    }
+  }
+
+  // Legend
+  var legendCells=[0,1,2,3,4,5].map(function(lv){
+    var bg=lv===0?'var(--bg3)':'var(--primary)';
+    var op=[1,.18,.36,.55,.75,1][lv];
+    return '<div style="width:11px;height:11px;border-radius:2px;background:'+bg+';opacity:'+op+'"></div>';
+  }).join('');
+
+  var html='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch">'
+    +'<div style="display:grid;grid-template-columns:24px repeat('+WEEKS+',11px);grid-template-rows:14px repeat(7,11px);gap:2px;width:max-content;margin-bottom:8px">'
+    +monthLabels+dayLabels+cells
+    +'</div></div>'
+    +'<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px">'
+    +'<span style="font-size:10px;color:var(--ink3)">Less</span>'+legendCells+'<span style="font-size:10px;color:var(--ink3)">More</span>'
+    +'<span style="flex:1"></span>'
+    +'<span style="font-size:11px;font-weight:700;color:var(--ink3)">'+daysActive+' days active · '+window._fmtH(totalStudied)+' total</span>'
+    +'</div>';
+
+  el.innerHTML=html;
+};;
 
   // Hook into performance page render
   var _origShowPage2=window.showPage;
@@ -10584,6 +10920,226 @@ window._reopenOnboarding=function(){
     window._renderRecentActivity();
   };
 })();
+
+// ── TEST PERFORMANCE GRAPH ─────────────────────────────
+window.renderTestGraph=function(){
+  var wrap=document.getElementById('test-graph-wrap');
+  var empty=document.getElementById('test-graph-empty');
+  var barSvg=document.getElementById('test-bar-svg');
+  var donutSvg=document.getElementById('test-donut-svg');
+  var legend=document.getElementById('test-donut-legend');
+  var statsEl=document.getElementById('test-graph-stats');
+  if(!wrap||!barSvg)return;
+  var tests=(window.pastTests||[]).filter(function(t){return t.marksGot&&t.marksTotal;});
+  if(!tests.length){if(empty)empty.style.display='block';if(wrap)wrap.style.display='none';return;}
+  if(empty)empty.style.display='none';if(wrap)wrap.style.display='grid';
+  var last=tests.slice(-10);
+  var primary=getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()||'#5c7a3e';
+  var ink3=getComputedStyle(document.documentElement).getPropertyValue('--ink3').trim()||'#888';
+  var bg3=getComputedStyle(document.documentElement).getPropertyValue('--bg3').trim()||'#eee';
+  var danger=getComputedStyle(document.documentElement).getPropertyValue('--danger').trim()||'#e05555';
+  var success=getComputedStyle(document.documentElement).getPropertyValue('--success').trim()||'#2d9e50';
+  var warn=getComputedStyle(document.documentElement).getPropertyValue('--warn').trim()||'#d4890a';
+
+  // ── BAR CHART ──
+  var svgW=400,svgH=160,pad=30,barGap=6;
+  var scores=last.map(function(t){
+    var g=parseFloat(t.marksGot)||0,tot=parseFloat(t.marksTotal)||1;
+    return Math.round((g/tot)*100);
+  });
+  var maxScore=Math.max.apply(null,scores.concat([100]));
+  var barW=Math.floor((svgW-pad*2-barGap*(last.length-1))/last.length);
+  var bars='';
+  // Grid lines
+  [0,25,50,75,100].forEach(function(pct){
+    var y=svgH-pad-(pct/maxScore)*(svgH-pad-10);
+    bars+='<line x1="'+pad+'" y1="'+y+'" x2="'+(svgW-4)+'" y2="'+y+'" stroke="'+bg3+'" stroke-width="0.8"/>';
+    bars+='<text x="'+(pad-4)+'" y="'+(y+3)+'" text-anchor="end" font-size="9" fill="'+ink3+'">'+pct+'%</text>';
+  });
+  scores.forEach(function(pct,i){
+    var x=pad+i*(barW+barGap);
+    var bh=Math.max(4,(pct/maxScore)*(svgH-pad-10));
+    var by=svgH-pad-bh;
+    var col=pct>=75?success:pct>=50?warn:danger;
+    // Bar with rounded top
+    bars+='<rect x="'+x+'" y="'+by+'" width="'+barW+'" height="'+bh+'" rx="3" fill="'+col+'" opacity="0.88"/>';
+    // Score label on bar
+    if(barW>20){bars+='<text x="'+(x+barW/2)+'" y="'+(by-4)+'" text-anchor="middle" font-size="9" font-weight="700" fill="'+col+'">'+pct+'%</text>';}
+  });
+  // X axis line
+  bars+='<line x1="'+pad+'" y1="'+(svgH-pad)+'" x2="'+(svgW-4)+'" y2="'+(svgH-pad)+'" stroke="'+bg3+'" stroke-width="1.5"/>';
+  barSvg.innerHTML=bars;
+
+  // Bar labels
+  var labelsEl=document.getElementById('test-bar-labels');
+  if(labelsEl){
+    labelsEl.innerHTML=last.map(function(t,i){
+      var w=barW+barGap;
+      return '<div style="width:'+w+'px;flex-shrink:0;font-size:8px;color:'+ink3+';text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-left:'+pad+'px">'+(t.name||('Test '+(i+1))).slice(0,8)+'</div>';
+    }).join('');
+  }
+
+  // ── DONUT CHART ──
+  var allG=0,allTot=0,allW=0;
+  tests.forEach(function(t){allG+=parseFloat(t.marksGot)||0;allTot+=parseFloat(t.marksTotal)||1;allW+=parseFloat(t.wrong)||0;});
+  var allSkipped=Math.max(0,allTot-allG-allW);
+  var donutData=[
+    {label:'Correct',val:allG,col:success},
+    {label:'Wrong',val:allW,col:danger},
+    {label:'Skipped',val:allSkipped,col:warn},
+  ];
+  var total=allG+allW+allSkipped||1;
+  var cx=90,cy=90,r=62,ir=38;
+  var startAngle=-Math.PI/2;
+  var donutPaths='';
+  donutData.forEach(function(seg){
+    var pct=seg.val/total;
+    if(pct<=0)return;
+    var sweep=pct*2*Math.PI;
+    var endAngle=startAngle+sweep;
+    var x1=cx+r*Math.cos(startAngle),y1=cy+r*Math.sin(startAngle);
+    var x2=cx+r*Math.cos(endAngle),y2=cy+r*Math.sin(endAngle);
+    var ix1=cx+ir*Math.cos(startAngle),iy1=cy+ir*Math.sin(startAngle);
+    var ix2=cx+ir*Math.cos(endAngle),iy2=cy+ir*Math.sin(endAngle);
+    var large=sweep>Math.PI?1:0;
+    donutPaths+='<path d="M '+x1+' '+y1+' A '+r+' '+r+' 0 '+large+' 1 '+x2+' '+y2+' L '+ix2+' '+iy2+' A '+ir+' '+ir+' 0 '+large+' 0 '+ix1+' '+iy1+' Z" fill="'+seg.col+'" opacity="0.9" stroke="'+getComputedStyle(document.documentElement).getPropertyValue('--surface').trim()+'" stroke-width="2"/>';
+    startAngle=endAngle;
+  });
+  // Center text
+  var pct=Math.round((allG/total)*100);
+  donutPaths+='<text x="'+cx+'" y="'+(cy-6)+'" text-anchor="middle" font-size="22" font-weight="800" fill="'+primary+'">'+pct+'%</text>';
+  donutPaths+='<text x="'+cx+'" y="'+(cy+12)+'" text-anchor="middle" font-size="10" fill="'+ink3+'">Correct</text>';
+  donutSvg.innerHTML=donutPaths;
+
+  if(legend){
+    legend.innerHTML=donutData.filter(function(d){return d.val>0;}).map(function(d){
+      return '<div style="display:flex;align-items:center;gap:6px;justify-content:center"><div style="width:10px;height:10px;border-radius:2px;background:'+d.col+'"></div><span style="color:'+ink3+'">'+d.label+':</span><strong>'+Math.round(d.val)+'</strong></div>';
+    }).join('');
+  }
+
+  // Summary stats
+  if(statsEl){
+    var avg=scores.length?Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length):0;
+    var best=scores.length?Math.max.apply(null,scores):0;
+    var attempted=tests.length;
+    statsEl.innerHTML=[
+      {icon:'📊',label:'Avg Score',val:avg+'%'},
+      {icon:'🏆',label:'Best Score',val:best+'%'},
+      {icon:'📝',label:'Tests Taken',val:attempted},
+      {icon:'✅',label:'Accuracy',val:pct+'%'},
+    ].map(function(s){
+      return '<div style="flex:1;min-width:90px;text-align:center;background:var(--bg);border-radius:10px;padding:8px 6px">'
+        +'<div style="font-size:18px">'+s.icon+'</div>'
+        +'<div style="font-size:15px;font-weight:800;color:var(--primary)">'+s.val+'</div>'
+        +'<div style="font-size:10px;color:var(--ink3);font-weight:600">'+s.label+'</div>'
+        +'</div>';
+    }).join('');
+  }
+};
+
+// Auto-render on Performance page visit
+(function(){
+  var _origShowPage=window.showPage;
+  window.showPage=function(name,btn){
+    if(_origShowPage)_origShowPage.apply(this,arguments);
+    if(name==='performance')setTimeout(window.renderTestGraph,100);
+  };
+})();
+
+
+// ── SESSION REFLECTION ────────────────────────────────────
+window._reflectStar=0;
+window._reflectDur=0;
+
+window._showReflect=function(durSecs){
+  window._reflectStar=0;
+  window._reflectDur=durSecs||0;
+  var modal=document.getElementById('session-reflect-modal');
+  if(!modal)return;
+  // Reset stars
+  document.querySelectorAll('#reflect-stars button').forEach(function(b){b.style.opacity='.35';b.style.transform='';b.style.color='';});
+  // Set duration
+  var h=Math.floor(durSecs/3600),m=Math.floor((durSecs%3600)/60),s=durSecs%60;
+  var label=h>0?(h+'h '+(m?m+'m ':'')):m>0?(m+'m '+(s?s+'s ':'')):s+'s';
+  var el=document.getElementById('reflect-duration');
+  if(el)el.textContent='You studied for '+label.trim();
+  var inp=document.getElementById('reflect-note');
+  if(inp)inp.value='';
+  modal.style.display='flex';
+};
+
+window._setReflectStar=function(n){
+  window._reflectStar=n;
+  var pandas=['😴','🙂','😊','😄','🔥'];
+  var panda=document.getElementById('reflect-panda');
+  if(panda)panda.textContent=pandas[n-1]||'🐼';
+  document.querySelectorAll('#reflect-stars button').forEach(function(b){
+    var s=parseInt(b.dataset.star);
+    b.style.opacity=s<=n?'1':'.3';
+    b.style.color=s<=n?'#f59e0b':'';
+    b.style.transform=s===n?'scale(1.3)':'';
+  });
+};
+
+window._closeReflect=function(){
+  var modal=document.getElementById('session-reflect-modal');
+  if(modal)modal.style.display='none';
+};
+
+window._saveReflect=function(){
+  var star=window._reflectStar;
+  var note=document.getElementById('reflect-note')?.value?.trim()||'';
+  if(star>0){
+    // Save to journal/sessions
+    var entry={date:window._today,star:star,note:note,dur:window._reflectDur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})};
+    try{
+      var prev=JSON.parse(localStorage.getItem('tisa_reflections')||'[]');
+      prev.unshift(entry);
+      localStorage.setItem('tisa_reflections',JSON.stringify(prev.slice(0,50)));
+    }catch(e){}
+    if(window.addXP&&star>=4)window.addXP(10,'great session');
+    if(window.toast){
+      var msgs=['','Keep pushing! 💪','Good effort! 👍','Solid session! 🌱','Great work! 🌟','Outstanding! 🔥'];
+      window.toast(msgs[star]||'Session saved!');
+    }
+  }
+  window._closeReflect();
+};
+
+// Hook into logSess to show reflection
+(function(){
+  var _origLogSess=window.logSess;
+  window.logSess=function(){
+    var secs=typeof tSecs!=='undefined'?tSecs:0;
+    var base=typeof tSegBase!=='undefined'?tSegBase:0;
+    var total=secs+base;
+    if(typeof _origLogSess==='function')_origLogSess.apply(this,arguments);
+    if(total>60)setTimeout(function(){window._showReflect(total);},500);
+  };
+})();
+
 </script>
+<!-- SESSION REFLECTION MODAL -->
+<div id="session-reflect-modal" style="display:none;position:fixed;inset:0;z-index:2100;background:rgba(0,0,0,.5);align-items:center;justify-content:center;backdrop-filter:blur(4px)">
+  <div style="background:var(--surface);border-radius:20px;padding:28px 24px;max-width:340px;width:90%;box-shadow:var(--shl);text-align:center;border:1.5px solid var(--border)">
+    <div style="font-size:28px;margin-bottom:8px" id="reflect-panda">🐼</div>
+    <div style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:4px">Session complete!</div>
+    <div id="reflect-duration" style="font-size:13px;color:var(--ink3);margin-bottom:18px">You studied for 00:00</div>
+    <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">How was this session?</div>
+    <div id="reflect-stars" style="display:flex;justify-content:center;gap:10px;margin-bottom:16px">
+      <button onclick="window._setReflectStar(1)" data-star="1" style="font-size:28px;background:none;border:none;cursor:pointer;transition:transform .15s;opacity:.4">★</button>
+      <button onclick="window._setReflectStar(2)" data-star="2" style="font-size:28px;background:none;border:none;cursor:pointer;transition:transform .15s;opacity:.4">★</button>
+      <button onclick="window._setReflectStar(3)" data-star="3" style="font-size:28px;background:none;border:none;cursor:pointer;transition:transform .15s;opacity:.4">★</button>
+      <button onclick="window._setReflectStar(4)" data-star="4" style="font-size:28px;background:none;border:none;cursor:pointer;transition:transform .15s;opacity:.4">★</button>
+      <button onclick="window._setReflectStar(5)" data-star="5" style="font-size:28px;background:none;border:none;cursor:pointer;transition:transform .15s;opacity:.4">★</button>
+    </div>
+    <input id="reflect-note" class="tisa-inp" placeholder="Quick note... (optional)" maxlength="80" style="width:100%;margin-bottom:14px;text-align:center;font-size:12px">
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-o" style="flex:1;font-size:13px" onclick="window._closeReflect()">Skip</button>
+      <button class="btn btn-p" style="flex:2;font-size:13px;font-weight:800" onclick="window._saveReflect()">Save ✓</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
