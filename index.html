@@ -1249,10 +1249,210 @@ body.ma-mode #ma-focus-overlay{display:flex}
 /* Card spacing improvements for Ma philosophy */
 .card{margin-bottom:14px}
 
-/* ═══ VISUAL HIERARCHY SYSTEM ══════════════════════════════════
-   Background → lightest | Cards → medium | Accents → strongest
-   Buttons: Primary(solid) > Secondary(outline) > Tertiary(ghost)
-══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL VISUAL HIERARCHY & AESTHETIC SYSTEM
+   Applied to all pages uniformly
+   Background → lightest | Cards → medium | Buttons → strongest
+═══════════════════════════════════════════════════════════════ */
+
+/* ── UNIVERSAL CARD SYSTEM ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  transition:box-shadow .25s,border-color .25s,transform .2s;
+  position:relative;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.05),0 1px 3px rgba(0,0,0,.04);
+}
+.card:hover{
+  box-shadow:0 6px 24px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.05);
+  border-color:color-mix(in srgb,var(--primary) 28%,var(--border));
+  transform:translateY(-1px);
+}
+
+/* ── HERO TIMER CARD ── top of hierarchy */
+#timer-card-main{
+  border-color:color-mix(in srgb,var(--primary) 25%,var(--border));
+  box-shadow:0 4px 28px var(--pglow),0 1px 4px rgba(0,0,0,.06)!important;
+  background:color-mix(in srgb,var(--primary) 3%,var(--surface))!important;
+}
+#timer-card-main:hover{
+  box-shadow:0 8px 40px var(--pglow),0 2px 8px rgba(0,0,0,.08)!important;
+  transform:translateY(-2px);
+}
+
+/* ── PAGE HERO BANNERS ── */
+.page-hero{
+  border-radius:20px;padding:22px 20px;color:#fff;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.page-hero h2{font-size:20px;font-weight:900;margin:0 0 4px;}
+.page-hero p{font-size:12px;opacity:.85;margin:0;font-weight:600;}
+
+/* ── UNIVERSAL SECTION HEADERS ── */
+.ct{
+  font-size:13px;font-weight:800;color:var(--ink);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+  letter-spacing:.1px;
+}
+.ct-ic{
+  width:26px;height:26px;background:color-mix(in srgb,var(--primary) 14%,var(--bg3));
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;flex-shrink:0;
+}
+
+/* ── BUTTON HIERARCHY ── */
+/* Primary — most important action on screen */
+.btn-p{
+  background:var(--primary);color:white;
+  border-color:var(--primary);font-weight:700;
+  box-shadow:0 2px 10px var(--pglow);
+  letter-spacing:.2px;
+}
+.btn-p:hover{
+  background:var(--pd);border-color:var(--pd);
+  box-shadow:0 4px 18px var(--pglow);
+  transform:translateY(-1px);
+}
+/* Secondary — supporting actions */
+.btn-o{opacity:.9;}
+.btn-o:hover{opacity:1;background:color-mix(in srgb,var(--primary) 8%,var(--surface));}
+/* Ghost — low-profile tools */
+.btn-ghost{
+  background:none;border:1px solid var(--border);
+  color:var(--ink3);font-size:11px;font-weight:600;
+  border-radius:8px;padding:6px 12px;cursor:pointer;
+  transition:all .2s;font-family:inherit;line-height:1;
+}
+.btn-ghost:hover{background:var(--bg2);color:var(--ink);border-color:var(--border);}
+/* All buttons — universal transitions + press */
+.btn,.btn-ghost{transition:transform .12s,background .15s,box-shadow .15s,opacity .15s,border-color .15s;}
+.btn:hover:not(:disabled){transform:translateY(-1px);}
+.btn:active:not(:disabled),.btn-ghost:active{transform:scale(0.96)!important;transition:transform .08s;}
+
+/* ── NAVIGATION ── */
+nav button{
+  opacity:.6;transition:opacity .2s,background .2s,color .2s,transform .15s;
+  border-radius:8px;padding:6px 12px;
+}
+nav button:hover{opacity:.85;background:color-mix(in srgb,var(--primary) 8%,transparent);}
+nav button.active{opacity:1;font-weight:800;}
+
+/* ── FORM INPUTS ── */
+.tisa-inp{
+  background:var(--bg);border:1.5px solid var(--border);
+  border-radius:10px;padding:9px 12px;
+  font-family:inherit;font-size:13px;color:var(--ink);
+  transition:border-color .2s,box-shadow .2s;
+  width:100%;box-sizing:border-box;
+}
+.tisa-inp:focus{
+  border-color:var(--primary);outline:none;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 15%,transparent);
+}
+
+/* ── TODO FILTER PILLS ── */
+.fbtn{
+  font-size:10px!important;padding:3px 10px!important;
+  border-radius:100px!important;font-weight:700!important;
+  opacity:.65;transition:opacity .15s,background .15s;
+}
+.fbtn:hover{opacity:.9;}
+.fbtn.active{opacity:1;}
+.fbtn-clear{
+  opacity:.4!important;font-size:10px!important;
+  padding:3px 10px!important;border-color:var(--danger)!important;
+  color:var(--danger)!important;border-radius:100px!important;
+}
+.fbtn-clear:hover{opacity:.7!important;}
+
+/* ── FOCUS MODE GATEWAY ── */
+#home-focus-card{
+  border:1.5px solid color-mix(in srgb,var(--primary) 22%,var(--border));
+  background:linear-gradient(135deg,var(--surface) 0%,color-mix(in srgb,var(--primary) 4%,var(--surface)) 100%);
+}
+
+/* ── SESSION LOG DIVIDERS ── */
+.sess-item{border-bottom:1px solid var(--border2);padding-bottom:4px;}
+.sess-item:last-child{border-bottom:none;}
+
+/* ── HOME GRID EQUAL HEIGHT ── */
+.home-grid{align-items:stretch!important;}
+.home-grid>.card{display:flex;flex-direction:column;}
+
+/* ── STATS BOXES ── uniform style */
+.stat-box{
+  background:var(--bg);border-radius:12px;
+  padding:10px 12px;text-align:center;flex:1;
+  border:1px solid var(--border2);
+  transition:background .2s,border-color .2s;
+}
+.stat-box:hover{background:var(--bg2);border-color:var(--border);}
+.snum{font-size:20px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace;line-height:1.1;}
+.slbl{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+
+/* ── TAG CHIPS ── */
+.tag{
+  display:inline-block;padding:2px 8px;
+  border-radius:6px;font-size:10px;font-weight:700;
+  background:color-mix(in srgb,var(--primary) 12%,var(--bg3));
+  color:var(--primary);
+}
+
+/* ── PERFORMANCE PAGE ── */
+.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* ── HEATMAP PLACEHOLDER ── */
+.heatmap-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:8px;opacity:.4;}
+.heatmap-placeholder-grid{display:flex;gap:2px;flex-wrap:wrap;max-width:300px;}
+.heatmap-placeholder-grid div{width:10px;height:10px;border-radius:2px;background:var(--primary);}
+
+/* ── PROFILE PAGE ── */
+.prof-hero{text-align:center;padding:24px 16px;}
+.lv-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:100px;font-size:12px;font-weight:800;border:1.5px solid var(--border);background:var(--bg);}
+
+/* ── JOURNAL ── */
+.mood-btn{padding:8px 12px;border-radius:12px;font-size:18px;cursor:pointer;border:2px solid transparent;transition:all .2s;background:var(--bg);}
+.mood-btn.active,.mood-btn:hover{border-color:var(--primary);background:color-mix(in srgb,var(--primary) 8%,var(--bg));}
+
+/* ── SOCIAL PAGE ── */
+.uitem{padding:10px 12px;border-radius:12px;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:10px;border:1px solid transparent;}
+.uitem:hover,.uitem.sel{background:color-mix(in srgb,var(--primary) 8%,var(--bg3));border-color:color-mix(in srgb,var(--primary) 20%,transparent);}
+
+/* ── MCQ / TEST ZONE ── */
+.mcq-opt{
+  width:100%;text-align:left;background:var(--bg);
+  border:1.5px solid var(--border);border-radius:12px;
+  padding:12px 16px;cursor:pointer;
+  font-family:inherit;font-size:13px;color:var(--ink);
+  transition:background .15s,border-color .15s,transform .1s;
+  margin-bottom:6px;
+}
+.mcq-opt:hover:not(:disabled){
+  background:color-mix(in srgb,var(--primary) 8%,var(--bg));
+  border-color:color-mix(in srgb,var(--primary) 40%,var(--border));
+  transform:translateX(2px);
+}
+
+/* ── POMO DOTS ── */
+.pdot{width:10px;height:10px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border);transition:all .3s;}
+.pdot.done{background:var(--primary);border-color:var(--primary);}
+.pdot.cur{background:color-mix(in srgb,var(--primary) 50%,var(--bg3));border-color:var(--primary);animation:pulse 1.5s ease-in-out infinite;}
+
+/* ── FOCUS MODE OVERLAY ── */
+#focus-mode{
+  background:var(--bg);transition:opacity .3s;
+}
+
+/* ── ADMIN PAGE ── */
+#page-admin .card{border-radius:14px;}
+
+/* ── SCROLLBARS ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--primary);}
 
 /* ── HERO TIMER CARD ── slightly elevated, stronger shadow */
 #timer-card-main{
@@ -1500,7 +1700,6 @@ nav button.active{opacity:1;font-weight:800;}
   <button onclick="showPage('social',this)" style="position:relative">🤝 Social<span id="dm-notif-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:1.5px solid var(--surface)"></span></button>
   <button onclick="showPage('profile',this)">👤 Profile</button>
   <button onclick="showPage('focus',this)">✨ Focus</button>
-  <button onclick="showPage('focus',this)">✨ Focus</button>
   <button onclick="showPage('settings',this)">⚙️ Settings</button>
   <button id="nav-admin-btn" onclick="showPage('admin',this)" style="display:none!important;color:var(--danger)">🛡️ Admin</button>
   <button id="nav-panda-btn" onclick="openWellnessSheet()" style="background:var(--primary);color:#fff;border-radius:99px;padding:6px 16px;font-weight:800;letter-spacing:.3px">🐼 Panda</button>
@@ -1586,14 +1785,13 @@ nav button.active{opacity:1;font-weight:800;}
 
   <!-- Tab bar -->
   <div class="panda-tabs">
-    <button class="ptab active" id="ptab-actions" onclick="switchPandaTab('actions')">⚡ Actions</button>
-    <button class="ptab" id="ptab-ask" onclick="switchPandaTab('ask')">🐼 Ask Panda</button>
-    <button class="ptab" id="ptab-pet" onclick="switchPandaTab('pet')">🎮 My Panda</button>
+    <button class="ptab active" id="ptab-ask" onclick="switchPandaTab('ask')">🐼 Ask Panda</button>
+    <button class="ptab" id="ptab-pet" onclick="switchPandaTab('pet')">🌸 My Panda</button>
   </div>
   </div><!-- end top padding div -->
 
   <!-- TAB 1: ACTIONS -->
-  <div id="panda-tab-actions" class="panda-panel" style="overflow-y:auto;padding:0 20px 24px">
+  <div id="panda-tab-actions" class="panda-panel" style="display:none" style="overflow-y:auto;padding:0 20px 24px">
     <div class="qa-grid">
       <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('performance',null):showPageMob('performance',null));toggleFocus()">
         <span class="qa-ic">⏱️</span><span class="qa-lb">Start Focus</span>
@@ -2124,22 +2322,7 @@ nav button.active{opacity:1;font-weight:800;}
 
 
 <!-- ── AI TEST ZONE HERO ── -->
-<!-- GK Daily Card — outside atz-hero so it renders independently -->
-<div id="gk-daily-wrap" class="gk-hero">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-    <div class="gk-hero-label" style="margin-bottom:0">🌍 Daily Knowledge · GK & Current Affairs</div>
-    <button onclick="window.gkRefresh()" title="New question" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">🔄 New</button>
-  </div>
-  <div id="gk-daily-category" class="gk-hero-category">Loading…</div>
-  <div id="gk-daily-q" class="gk-hero-title">Loading today's question…</div>
-  <div id="gk-daily-opts"></div>
-  <div class="gk-exp" id="gk-daily-exp"></div>
-  <div class="gk-streak" id="gk-streak-bar" style="display:none">
-    <span class="gk-streak-fire">🔥</span>
-    <span class="gk-streak-text" id="gk-streak-txt">0 day streak</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,220,100,.6);font-weight:700">Keep it up!</span>
-  </div>
-</div>
+
 
 <!-- AI Test Zone hero bar -->
 <div class="atz-hero">
@@ -2567,26 +2750,13 @@ nav button.active{opacity:1;font-weight:800;}
     </div>
     <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border2);font-size:11px;color:var(--ink3)">💡 Tip: 10 minutes of focused work = 1 Kaizen point. Consistency beats intensity.</div>
   </div>
-  <div class="card" style="grid-column:1/-1">
-    <div class="ct"><div class="ct-ic">🔒</div>Privacy & Legal</div>
-    <div style="font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:12px">
-      TISA is committed to protecting your privacy. We only collect what is necessary to run the app.
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-sm btn-o" onclick="document.getElementById('privacy-modal').classList.add('open')">📄 Privacy Policy</button>
-      <button class="btn btn-sm btn-o" onclick="document.getElementById('tos-modal').classList.add('open')">📋 Terms of Service</button>
-      <button class="btn btn-sm btn-o" onclick="document.getElementById('delete-modal').classList.add('open')">🗑️ Delete My Data</button>
-      <button id="settings-admin-btn" class="btn btn-sm btn-o" onclick="showPage('admin',null)" style="display:none;border-color:var(--danger);color:var(--danger)">🛡️ Admin Panel</button>
-    </div>
-  </div>
+  
 
 
 </div>
 </div>
 
-</div>
-
-id="page-settings">
+<div class="page" id="page-settings">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
   <div class="card">
     <div class="ct"><div class="ct-ic">🎨</div>Themes</div>
@@ -2676,7 +2846,39 @@ id="page-settings">
     <button class="btn btn-sm btn-o" onclick="window._reopenOnboarding&&window._reopenOnboarding()" style="margin-top:10px;font-size:12px;width:100%">🚀 Open AI Setup Guide</button>
   </div>
 
-  
+</div>
+
+  <!-- PRIVACY POLICY CARD -->
+  <div class="card" style="grid-column:1/-1;margin-top:4px">
+    <div class="ct"><div class="ct-ic">🔒</div>Privacy & Legal</div>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:14px">
+      <strong>Privacy Policy — TISA Study Companion</strong><br>
+      TISA is a personal study productivity app. Here's how your data is handled:
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:12px;color:var(--ink2);line-height:1.7">
+      <div style="padding:10px 12px;background:var(--bg);border-radius:10px;border-left:3px solid var(--primary)">
+        <strong>📊 Data you create</strong> — Study sessions, todos, journal entries, timetable, and test history are stored in Firebase Firestore under your account. Only you can access your private data.
+      </div>
+      <div style="padding:10px 12px;background:var(--bg);border-radius:10px;border-left:3px solid var(--primary)">
+        <strong>🌐 Shared data</strong> — Your username, avatar, and study stats (total hours) are stored in a public profile so buddies can see your progress. Community forum posts are public.
+      </div>
+      <div style="padding:10px 12px;background:var(--bg);border-radius:10px;border-left:3px solid var(--primary)">
+        <strong>🤖 AI (Gemini)</strong> — Your questions sent to Panda are processed by Google Gemini API using your own API key. TISA does not store your conversations server-side.
+      </div>
+      <div style="padding:10px 12px;background:var(--bg);border-radius:10px;border-left:3px solid var(--primary)">
+        <strong>🔑 API Keys</strong> — Your Gemini API key is stored only in your browser's localStorage and never sent to TISA servers.
+      </div>
+      <div style="padding:10px 12px;background:var(--bg);border-radius:10px;border-left:3px solid var(--primary)">
+        <strong>🗑️ Data deletion</strong> — You can delete all your data permanently from the Delete Account button below. This removes all Firestore documents linked to your account.
+      </div>
+    </div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2);display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-o btn-sm" style="font-size:12px" onclick="window.deleteAllMyData&&window.deleteAllMyData()">🗑️ Delete All My Data</button>
+      <span style="font-size:11px;color:var(--ink3);align-self:center">TISA v2.0 · Built with ❤️ · © <script>document.write(new Date().getFullYear())</script></span>
+    </div>
+  </div>
+
+</div>
 
 <!-- ADMIN PAGE -->
 <div class="page" id="page-admin">
@@ -5785,6 +5987,7 @@ window.openWellnessSheet=function(){
   const overlay=document.getElementById('wellness-sheet-overlay');
   if(sheet){
     sheet.classList.add('open');
+    switchPandaTab('ask');
     // Swipe down to close
     if(!sheet.dataset.swipeClose){
       sheet.dataset.swipeClose='1';
@@ -5806,11 +6009,12 @@ window.closeWellnessSheet=function(){
 
 // ── PANDA HUB: Tab switcher ──
 window.switchPandaTab=function(tab){
-  ['actions','ask','pet'].forEach(t=>{
+  ['ask','pet'].forEach(t=>{
     const el=document.getElementById('panda-tab-'+t);
-    // ask tab uses flex layout, others use block
+    if(!el)return;
     el.style.display=t===tab?(t==='ask'?'flex':'block'):'none';
-    document.getElementById('ptab-'+t).classList.toggle('active',t===tab);
+    const btn=document.getElementById('ptab-'+t);
+    if(btn)btn.classList.toggle('active',t===tab);
   });
   if(tab==='pet')renderPet();
   if(tab==='ask'){
@@ -6078,7 +6282,8 @@ window.askPanda=async function(){
     unlock();
   };
 
-  const key=window._PANDA_KEY;
+  const key=window._PANDA_KEY||localStorage.getItem('tisa_panda_key')||'';
+  if(key&&!window._PANDA_KEY)window._PANDA_KEY=key;
   const sys='You are Panda 🐼, a friendly witty study buddy for Indian students (JEE/NEET/UPSC/Boards). Give accurate helpful answers. Casual tone, 1-2 emojis. For greetings be warm. For academic questions give the actual answer with key facts/formulas. Keep replies concise. Student: '+name+', studied today: '+hrs+'h '+mins+'m.';
 
   // ── PATH 1: Gemini Streaming (try 2.0-flash, fallback 1.5-flash) ──
