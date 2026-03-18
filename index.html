@@ -23,7 +23,7 @@ html{overflow-x:hidden}
 [data-theme="ocean"]{--bg:#edf4fa;--bg2:#d8ecf7;--bg3:#c2e0f0;--surface:#f8fcff;--surface2:#eef6fc;--primary:#1a6fa8;--pd:#0e4e7a;--pl:#7ab8dc;--pglow:rgba(26,111,168,.15);--ink:#091828;--ink2:#2a4a62;--ink3:#6a8aa0;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(26,111,168,.22);--border2:rgba(26,111,168,.1);--sh:0 2px 14px rgba(26,111,168,.1);--shl:0 8px 32px rgba(26,111,168,.14);}
 [data-theme="sunset"]{--bg:#fdf4ea;--bg2:#fae6cc;--bg3:#f5d4aa;--surface:#fffaf4;--surface2:#fdf0e0;--primary:#c8682a;--pd:#a04a18;--pl:#f0b080;--pglow:rgba(200,104,42,.15);--ink:#2a1200;--ink2:#6a3a18;--ink3:#a07848;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(200,104,42,.22);--border2:rgba(200,104,42,.1);--sh:0 2px 14px rgba(200,104,42,.1);--shl:0 8px 32px rgba(200,104,42,.14);}
 /* Per-theme font variables */
-[data-theme="light"]{--font-main:'Nunito',sans-serif;--font-head:'Playfair Display',serif;}
+
 [data-theme="dark"]{--font-main:'DM Sans',sans-serif;--font-head:'Cormorant Garamond',serif;}
 [data-theme="sakura"]{--font-main:'Raleway',sans-serif;--font-head:'Lora',serif;}
 [data-theme="ocean"]{--font-main:'DM Sans',sans-serif;--font-head:'Josefin Sans',sans-serif;}
@@ -1145,7 +1145,7 @@ html,body{overflow-x:hidden;max-width:100vw;}
 }
 /* Smooth transitions */
 .page{transition:none;}
-.page.active{animation:fadeIn .18s ease;}
+.page.active{animation:none;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 /* Better focus outline */
 button:focus-visible,input:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
@@ -2893,17 +2893,21 @@ async function showApp(user){
     document.getElementById('user-dname').textContent='@'+uData.username;
     document.getElementById('prof-uname').textContent='@'+uData.username;
   }
-  await loadUD();
-  window.startHealth&&window.startHealth();
-  window.nextQ&&window.nextQ();
-  loadForum();
-  window.renderThemeGrid&&window.renderThemeGrid();
-  loadMyChats();
-  // Safety net: ensure admin buttons show for admin users
-  window._showAdminButtons&&window._showAdminButtons();
+  // Show home page immediately — don't wait for data load
   document.body.classList.remove('ma-mode');
   const _maOv=document.getElementById('ma-focus-overlay');if(_maOv)_maOv.style.display='none';
-  setTimeout(()=>{showPage('home',document.querySelector('nav button[onclick*="home"]'));},100);
+  // Activate home page right away so content is visible
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const _hp=document.getElementById('page-home');if(_hp)_hp.classList.add('active');
+  const _hb=document.querySelector('nav button[onclick*="home"]');if(_hb){document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));_hb.classList.add('active');}
+  // Load data in background — errors won't blank the page
+  try{await loadUD();}catch(e){console.warn('[TISA] loadUD error:',e);}
+  try{window.startHealth&&window.startHealth();}catch(e){}
+  try{window.nextQ&&window.nextQ();}catch(e){}
+  try{loadForum();}catch(e){}
+  try{window.renderThemeGrid&&window.renderThemeGrid();}catch(e){}
+  try{loadMyChats();}catch(e){}
+  try{window._showAdminButtons&&window._showAdminButtons();}catch(e){}
 }
 
 // ── USER DATA ──
