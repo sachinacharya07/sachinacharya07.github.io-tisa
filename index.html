@@ -2802,9 +2802,6 @@ window.doSignOut=async()=>{
   if(window._progressMyPoll)clearInterval(window._progressMyPoll);
   if(window._goalsUnsub){window._goalsUnsub();window._goalsUnsub=null;}
   if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}
-  if(typeof _userDataUnsub!=='undefined'&&_userDataUnsub){try{_userDataUnsub();}catch(e){}; _userDataUnsub=null;}
-  if(window._focusUnsubs&&window._focusUnsubs.length){window._focusUnsubs.forEach(u=>{try{u();}catch(e){}});window._focusUnsubs=[];}
-  if(window._buddyFocusCache)window._buddyFocusCache={};
   await fbOut(auth);
   window._CU=null; window._currentUser=null;
   document.getElementById('login-screen').classList.add('show');
@@ -2857,286 +2854,40 @@ async function showApp(user){
   document.getElementById('app-header').style.display='flex';
   document.getElementById('app-main').style.display='block';
   document.getElementById('app-footer').style.display='block';
-  window._initHeaderShrink&&window._initHeaderShrink();
-  // health-bubble hidden — wellness handled by Panda FAB
-  if(window.innerWidth<=760) document.getElementById('mobile-nav').style.display='block';
-
-  // Avatar in header
-  const av=document.getElementById('user-av');
-  const _setAv=(el,url,name)=>{
-    if(!el)return;
-    if(url){
-      const img=document.createElement('img');
-      img.src=url;
-      img.referrerPolicy='no-referrer';
-      img.style.cssText='width:100%;height:100%;object-fit:cover';
-      img.onerror=()=>{el.textContent=(name||'?')[0].toUpperCase();};
-      el.innerHTML='';
-      el.appendChild(img);
-    } else {
-      el.textContent=(name||'?')[0].toUpperCase();
-    }
-  };
-  _setAv(av,user.photoURL,user.displayName);
-  window._setAv=_setAv; // expose for reuse
-
-  // Profile name
-  document.getElementById('prof-name').textContent=user.displayName||'User';
-
-  const uSnap=await getDoc(doc(db,'users',user.uid));
-  const uData=uSnap.exists()?uSnap.data():{};
-  window._uname=uData.username||'';
-
-  if(!uData.username){
-    setTimeout(()=>document.getElementById('uname-modal').classList.add('open'),800);
-  }else{
-    document.getElementById('user-dname').textContent='@'+uData.username;
-    document.getElementById('prof-uname').textContent='@'+uData.username;
-  }
-  // Show home page immediately — don't wait for data load
   document.body.classList.remove('ma-mode');
   const _maOv=document.getElementById('ma-focus-overlay');if(_maOv)_maOv.style.display='none';
-  // Activate home page right away so content is visible
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const _hp=document.getElementById('page-home');if(_hp)_hp.classList.add('active');
-  const _hb=document.querySelector('nav button[onclick*="home"]');if(_hb){document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));_hb.classList.add('active');}
-  // Load data in background — errors won't blank the page
-  try{await loadUD();}catch(e){console.warn('[TISA] loadUD error:',e);}
-  try{window.startHealth&&window.startHealth();}catch(e){}
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  const _hb=document.querySelector('nav button[onclick*="home"]');if(_hb)_hb.classList.add('active');
+  if(window.innerWidth<=760){const mn=document.getElementById('mobile-nav');if(mn)mn.style.display='block';}
+  window._initHeaderShrink&&window._initHeaderShrink();
+  const _setAv=(el,url,name)=>{
+    if(!el)return;
+    if(url){const img=document.createElement('img');img.src=url;img.referrerPolicy='no-referrer';img.style.cssText='width:100%;height:100%;object-fit:cover';img.onerror=()=>{el.textContent=(name||'?')[0].toUpperCase();};el.innerHTML='';el.appendChild(img);}
+    else{el.textContent=(name||'?')[0].toUpperCase();}
+  };
+  window._setAv=_setAv;
+  _setAv(document.getElementById('user-av'),user.photoURL,user.displayName);
+  const pn=document.getElementById('prof-name');if(pn)pn.textContent=user.displayName||'User';
+  try{window.renderAll&&window.renderAll();}catch(e){}
   try{window.nextQ&&window.nextQ();}catch(e){}
-  try{loadForum();}catch(e){}
   try{window.renderThemeGrid&&window.renderThemeGrid();}catch(e){}
+  try{
+    const uSnap=await getDoc(doc(db,'users',user.uid));
+    const uData=uSnap.exists()?uSnap.data():{};
+    window._uname=uData.username||'';
+    if(!uData.username){setTimeout(()=>{const m=document.getElementById('uname-modal');if(m)m.classList.add('open');},800);}
+    else{const ud=document.getElementById('user-dname');if(ud)ud.textContent='@'+uData.username;const pu=document.getElementById('prof-uname');if(pu)pu.textContent='@'+uData.username;}
+  }catch(e){console.warn('[TISA] user doc:',e.code||e.message);}
+  try{await loadUD();}catch(e){console.warn('[TISA] loadUD:',e.code||e.message);}
+  try{window.startHealth&&window.startHealth();}catch(e){}
+  try{loadForum();}catch(e){}
   try{loadMyChats();}catch(e){}
   try{window._showAdminButtons&&window._showAdminButtons();}catch(e){}
 }
-
-// ── USER DATA ──
 let _userDataUnsub=null;
-async function loadUD(){
-  if(!window._CU||!window._CU.uid)return;
-  if(_userDataUnsub){_userDataUnsub();_userDataUnsub=null;}
-  _userDataUnsub=onSnapshot(doc(db,'userData',window._CU.uid),(snap)=>{
-    if(window._saveInFlight)return;
-    if(!snap.exists())return;
-    const d=snap.data();
-  {
-    window.studyData=d.studyData||{};
-    // Restore sessions log from Firestore for cross-device sync
-    if(d.sessions&&d.sessions.length){
-      sessions=d.sessions.slice(0,20);
-      renderSessLog();renderStats();
-    }
-    window.todos=d.todos||[];
-    window.countdowns=d.countdowns||[];
-    window.papers=d.papers||[];
-    window.pastTests=d.pastTests||[];
-    window.journals=d.journals||{};
-    window.assignments=d.assignments||[];
-    window.resources=d.resources||[];
-    window.timetable=d.timetable||{};
-    window.xp=d.xp||0;
-    window.coins=d.coins||0;
-    window._initPet(d.pandaPet||null);
-    window.subjects=d.subjects||[...window.defaultSubjects];
-    // Restore preferences (theme, font size, text colour)
-    if(d.prefs){
-      if(d.prefs.theme&&d.prefs.theme!==localStorage.getItem('tisa-theme')){
-        setTheme(d.prefs.theme);
-      }
-      if(d.prefs.fontSize){
-        try{localStorage.setItem('tisa-fontsize',d.prefs.fontSize);}catch(e){}
-        applyFontSize(d.prefs.fontSize);
-      }
-      if(d.prefs.textColor){
-        try{localStorage.setItem('tisa-textcolor',d.prefs.textColor);}catch(e){}
-        applyTextColor(d.prefs.textColor);
-      }
-    }
-    window.customAvatarUrl=d.avatarUrl||'';
-    if(window.customAvatarUrl){
-      ['user-av','prof-av'].forEach(id=>{
-        const el=document.getElementById(id);
-        if(el&&window._setAv) window._setAv(el,window.customAvatarUrl,'');
-        else if(el) el.innerHTML=`<img src="${window.customAvatarUrl}" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;
-      });
-    }
-  }
-  window.renderAll&&window.renderAll();
-    window._showAdminButtons&&window._showAdminButtons();
-    applyMobileUI&&applyMobileUI();
-    setTimeout(()=>{window.updateMoreBadge&&window.updateMoreBadge();},1000);
-  },(err)=>{console.warn('[TISA] loadUD error:',err.code);_userDataUnsub=null;});
-}
 
-window.forceSyncNow=async()=>{
-  const el=document.getElementById('sync-status');
-  if(el)el.textContent='⏳ Syncing...';
-  if(!window._CU){if(el)el.textContent='❌ Not signed in';return;}
-  try{
-    await window._save();
-    if(el)el.textContent='✅ Synced at '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    window.toast('✅ Data synced!');
-  }catch(e){if(el)el.textContent='❌ Sync failed';}
-};
-window._save=async()=>{
-  if(!window._CU)return;
-  window._saveInFlight=true;
-  try{
-    const papersForSave=window.papers.map(p=>({id:p.id,name:p.name,size:p.size,type:p.type,date:p.date}));
-    await setDoc(doc(db,'userData',window._CU.uid),{
-      studyData:window.studyData,todos:window.todos,countdowns:window.countdowns,
-      sessions:sessions.slice(0,20),
-      papers:papersForSave,pastTests:window.pastTests,journals:window.journals,
-      assignments:window.assignments,resources:window.resources,timetable:window.timetable,
-      xp:window.xp,coins:window.coins,subjects:window.subjects,pandaPet:window._pet,
-      prefs:{
-        theme:localStorage.getItem('tisa-theme')||'light',
-        fontSize:localStorage.getItem('tisa-fontsize')||'14',
-        textColor:localStorage.getItem('tisa-textcolor')||''
-      }
-    },{merge:true});
-    // LOADING FIX: mirror study hours into publicStats (any auth user can read)
-    // userData is owner-private, so buddy's listener was silently failing -> "Loading..."
-    await setDoc(doc(db,'publicStats',window._CU.uid),{
-      studyData:window.studyData,
-      username:window._uname||'',
-      updatedAt:serverTimestamp()
-    },{merge:true});
-  }catch(e){console.warn('Save error:',e);window.toast('⚠️ Save failed — check connection');}
-  finally{setTimeout(()=>{window._saveInFlight=false;},2000);}
-};
-window.save=window._save;
-
-window.uploadAvatar=async(files)=>{
-  if(!files[0]||!window._CU)return;
-  const r=new FileReader();
-  r.onload=async(e)=>{
-    // Compress to max 400px to stay within Firestore 1MB limit
-    window.customAvatarUrl=await compressImage(e.target.result,400);
-    ['user-av','prof-av'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(el) el.innerHTML=`<img src="${window.customAvatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;
-    });
-    await setDoc(doc(db,'userData',window._CU.uid),{avatarUrl:window.customAvatarUrl},{merge:true});
-    window.toast('Photo updated! 📸');
-  };
-  r.readAsDataURL(files[0]);
-};
-
-// ── USERNAME ──
-let _uVld=false,_uT=null;
-const _RESERVED=['admin','tisa','sachin','support','help','mod','moderator','staff',
-  'official','root','superuser','system','null','undefined','anonymous','guest',
-  'owner','creator','dev','developer','test','bot','api','security','abuse'];
-function isReserved(u){return _RESERVED.includes(u.toLowerCase());}
-window.checkUname=async(val)=>{
-  const fb=document.getElementById('uname-fb'),btn=document.getElementById('uname-btn');
-  _uVld=false; btn.disabled=true;
-  const c=val.toLowerCase().replace(/[^a-z0-9_]/g,'');
-  document.getElementById('uname-inp').value=c;
-  if(c.length<3){fb.textContent=c.length>0?'Too short (min 3)':'';fb.style.color='var(--danger)';return;}
-  if(isReserved(c)){fb.textContent='@'+c+' is reserved';fb.style.color='var(--danger)';return;}
-  fb.textContent='Checking...';fb.style.color='var(--ink3)';
-  clearTimeout(_uT);
-  _uT=setTimeout(async()=>{
-    const snap=await getDocs(query(collection(db,'users'),where('username','==',c)));
-    const taken=snap.docs.some(d=>d.id!==window._CU.uid);
-    if(taken){fb.textContent='@'+c+' is taken';fb.style.color='var(--danger)';}
-    else{fb.textContent='✓ @'+c+' is available!';fb.style.color='var(--success)';_uVld=true;btn.disabled=false;}
-  },600);
-};
-
-window.confirmUname=async()=>{
-  if(!_uVld)return;
-  const un=document.getElementById('uname-inp').value.trim().toLowerCase();
-  await setDoc(doc(db,'users',window._CU.uid),{username:un,usernameSet:true,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG2 FIX: save uid so self-search check works
-  window._uname=un;
-  document.getElementById('uname-modal').classList.remove('open');
-  document.getElementById('user-dname').textContent='@'+un;
-  document.getElementById('prof-uname').textContent='@'+un;
-  window.initCommunityAlias&&window.initCommunityAlias();
-  window.toast('Welcome to TISA, @'+un+' 🐼');
-};
-
-window.startUsernameEdit=()=>{
-  document.getElementById('uname-display-row').style.display='none';
-  document.getElementById('uname-edit-row').style.display='flex';
-  document.getElementById('uname-edit-inp').value=window._uname||'';
-};
-window.cancelUsernameEdit=()=>{
-  document.getElementById('uname-display-row').style.display='flex';
-  document.getElementById('uname-edit-row').style.display='none';
-  document.getElementById('uname-edit-fb').textContent='';
-};
-window.saveNewUsername=async()=>{
-  const val=document.getElementById('uname-edit-inp').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
-  const fb=document.getElementById('uname-edit-fb');
-  if(val.length<3){fb.textContent='Min 3 chars';fb.style.color='var(--danger)';return;}
-  if(isReserved(val)){fb.textContent='@'+val+' is reserved';fb.style.color='var(--danger)';return;}
-  fb.textContent='Checking...';fb.style.color='var(--ink3)';
-  const snap=await getDocs(query(collection(db,'users'),where('username','==',val)));
-  if(snap.docs.some(d=>d.id!==window._CU.uid)){fb.textContent='@'+val+' is taken';fb.style.color='var(--danger)';return;}
-  await setDoc(doc(db,'users',window._CU.uid),{username:val,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG9 FIX: keep uid in sync when username changes
-  window._uname=val;
-  document.getElementById('prof-uname').textContent='@'+val;
-  document.getElementById('user-dname').textContent='@'+val;
-  window.cancelUsernameEdit();
-  fb.textContent='✓ Updated!';fb.style.color='var(--success)';
-  window.toast('Username updated to @'+val);
-  setTimeout(()=>{fb.textContent='';},3000);
-};
-
-// ── COMMUNITY ALIAS SYSTEM ──
-const aAdj=['Curious','Bright','Focused','Clever','Quiet','Bold','Wise','Swift','Calm','Eager','Sharp','Steady','Gentle','Vivid','Keen'];
-const aAni=['Panda','Fox','Owl','Wolf','Bear','Lynx','Hawk','Crow','Moth','Hare','Deer','Eagle','Otter','Raven','Tiger'];
-function _genAliasFromSeed(s){const n=Math.abs(s.split('').reduce((a,c)=>a+c.charCodeAt(0),0));return aAdj[n%aAdj.length]+' '+aAni[Math.floor(n/aAdj.length)%aAni.length];}
-function _genRandAlias(){return aAdj[Math.floor(Math.random()*aAdj.length)]+' '+aAni[Math.floor(Math.random()*aAni.length)];}
-let myPostAlias='';
-window.initCommunityAlias=()=>{
-  if(!window._CU)return;
-  myPostAlias=_genAliasFromSeed(window._CU.uid+window._today);
-  const inp=document.getElementById('custom-alias-inp');
-  if(inp)inp.value='';
-  window.updateAliasPreview();
-};
-window.updateAliasPreview=()=>{
-  const inp=document.getElementById('custom-alias-inp');
-  const custom=inp?inp.value.trim():'';
-  const el=document.getElementById('alias-prev');
-  if(el) el.textContent='🎭 '+(custom||myPostAlias);
-};
-window.genNewAlias=()=>{
-  myPostAlias=_genRandAlias();
-  const inp=document.getElementById('custom-alias-inp');
-  if(inp)inp.value='';
-  window.updateAliasPreview();
-  window.toast('New alias: '+myPostAlias+' 🎭');
-};
-function getPostAlias(){const c=document.getElementById('custom-alias-inp')?.value.trim();return c||myPostAlias;}
-function getCommentAlias(postId){return _genAliasFromSeed((window._CU?.uid||'')+(postId||'')+(Math.floor(Date.now()/86400000)));}
-
-// ── FORUM ──
-let forumUnsub=null,curPostId=null,fFilter='all';
-let postAttachData=null,postAttachType=null,postAttachName='';
-
-let _allForumPosts=[]; // cache for search
-function _renderFcard(p,pinned=false){
-  return`<div class="fcard${pinned?' pinned-card':''}" onclick="openPost('${p.id}')" style="${pinned?'border-color:var(--primary);background:var(--surface2)':''}">
-    <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
-      ${pinned?'<span style="font-size:10px;font-weight:800;color:var(--primary);background:rgba(92,122,62,.12);padding:2px 7px;border-radius:20px">📌 Pinned</span>':''}
-      <span class="cat-tag">${window._esc(p.category||'Post')}</span>
-      ${p.hasAttachment?'<span style="font-size:10px;color:var(--ink3);font-weight:700">📎</span>':''}
-      <button onclick="event.stopPropagation();window._reportForumPost(this)" data-pid="${p.id}" data-uid="${p.uid||''}" data-alias="${window._esc(p.alias||'Anonymous')}" data-title="${window._esc(p.title||'').substring(0,30)}" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--ink3);padding:2px 6px;border-radius:6px;font-weight:700" title="Report post">🚩</button>
-    </div>
-    <div class="ft">${window._esc(p.title||'')}</div>
-    <div class="fb2">${window._esc(p.body||'')}</div>
-    <div class="fmeta">
-      <div class="anon-badge">🎭 ${window._esc(p.alias||'Anonymous')}</div>
-      <span>▲ ${p.ups||0}</span><span>💬 ${p.commentCount||0}</span>
-      <span>${p.ts?new Date(p.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</span>
-    </div>
-  </div>`;
-}
 
 function loadForum(){
   if(!window._CU)return;
@@ -3164,6 +2915,88 @@ function loadForum(){
       el.innerHTML=[...recent,...rest].map(p=>_renderFcard(p,false)).join('');
     }
   );
+}
+
+async function loadUD(){
+  if(!window._CU||!window._CU.uid){console.warn('[TISA] loadUD: no current user');return;}
+  if(_userDataUnsub){try{_userDataUnsub();}catch(e){} _userDataUnsub=null;}
+  // First: one-shot getDoc to render page immediately without waiting for socket
+  try{
+    const _snap0=await getDoc(doc(db,'userData',window._CU.uid));
+    const _d0=_snap0.exists()?_snap0.data():{};
+    window.studyData=_d0.studyData||{};
+    window.todos=_d0.todos||[];
+    window.countdowns=_d0.countdowns||[];
+    window.papers=_d0.papers||[];
+    window.pastTests=_d0.pastTests||[];
+    window.journals=_d0.journals||{};
+    window.assignments=_d0.assignments||[];
+    window.resources=_d0.resources||[];
+    window.timetable=_d0.timetable||{};
+    window.xp=_d0.xp||0;
+    window.coins=_d0.coins||0;
+    try{if(window._initPet)window._initPet(_d0.pandaPet||null);}catch(e){}
+    window.subjects=_d0.subjects||[...window.defaultSubjects];
+    if(_d0.prefs){
+      if(_d0.prefs.theme&&_d0.prefs.theme!==localStorage.getItem('tisa-theme'))setTheme(_d0.prefs.theme);
+      try{if(_d0.prefs.fontSize){localStorage.setItem('tisa-fontsize',_d0.prefs.fontSize);if(typeof applyFontSize=='function')applyFontSize(_d0.prefs.fontSize);}}catch(e){}
+      try{if(_d0.prefs.textColor){localStorage.setItem('tisa-textcolor',_d0.prefs.textColor);if(typeof applyTextColor=='function')applyTextColor(_d0.prefs.textColor);}}catch(e){}
+    }
+    window.customAvatarUrl=_d0.avatarUrl||'';
+    if(window.customAvatarUrl){
+      ['user-av','prof-av'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el&&window._setAv)window._setAv(el,window.customAvatarUrl,'');
+        else if(el)el.innerHTML=`<img src="${window.customAvatarUrl}" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;
+      });
+    }
+    try{window.renderAll&&window.renderAll();}catch(e){console.warn('[TISA] renderAll:',e.message);}
+    try{window._showAdminButtons&&window._showAdminButtons();}catch(e){}
+    try{if(typeof applyMobileUI=='function')applyMobileUI();}catch(e){}
+    setTimeout(()=>{try{window.updateMoreBadge&&window.updateMoreBadge();}catch(e){}},1000);
+  }catch(e){
+    console.warn('[TISA] initial getDoc error:',e.code||e.message);
+    // Still render page with empty data so it's not blank
+    try{window.renderAll&&window.renderAll();}catch(re){}
+  }
+  // Then subscribe for real-time updates
+  try{
+    _userDataUnsub=onSnapshot(doc(db,'userData',window._CU.uid),(snap)=>{
+      if(window._saveInFlight)return;
+      if(!snap.exists())return;
+      const d=snap.data();
+      window.studyData=d.studyData||{};
+      if(d.sessions&&d.sessions.length){sessions=d.sessions.slice(0,20);if(typeof renderSessLog=='function')renderSessLog();if(typeof renderStats=='function')renderStats();}
+      window.todos=d.todos||[];
+      window.countdowns=d.countdowns||[];
+      window.papers=d.papers||[];
+      window.pastTests=d.pastTests||[];
+      window.journals=d.journals||{};
+      window.assignments=d.assignments||[];
+      window.resources=d.resources||[];
+      window.timetable=d.timetable||{};
+      window.xp=d.xp||0; window.coins=d.coins||0;
+      try{if(window._initPet)window._initPet(d.pandaPet||null);}catch(e){}
+      window.subjects=d.subjects||[...window.defaultSubjects];
+      if(d.prefs){
+        if(d.prefs.theme&&d.prefs.theme!==localStorage.getItem('tisa-theme'))setTheme(d.prefs.theme);
+        try{if(d.prefs.fontSize){localStorage.setItem('tisa-fontsize',d.prefs.fontSize);if(typeof applyFontSize=='function')applyFontSize(d.prefs.fontSize);}}catch(e){}
+        try{if(d.prefs.textColor){localStorage.setItem('tisa-textcolor',d.prefs.textColor);if(typeof applyTextColor=='function')applyTextColor(d.prefs.textColor);}}catch(e){}
+      }
+      window.customAvatarUrl=d.avatarUrl||'';
+      if(window.customAvatarUrl){
+        ['user-av','prof-av'].forEach(id=>{
+          const el=document.getElementById(id);
+          if(el&&window._setAv)window._setAv(el,window.customAvatarUrl,'');
+          else if(el)el.innerHTML=`<img src="${d.avatarUrl}" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;
+        });
+      }
+      try{window.renderAll&&window.renderAll();}catch(e){}
+      try{window._showAdminButtons&&window._showAdminButtons();}catch(e){}
+      try{if(typeof applyMobileUI=='function')applyMobileUI();}catch(e){}
+      setTimeout(()=>{try{window.updateMoreBadge&&window.updateMoreBadge();}catch(e){}},1000);
+    },(err)=>{console.warn('[TISA] userData listener:',err.code);_userDataUnsub=null;});
+  }catch(e){console.warn('[TISA] subscribe error:',e.code||e.message);}
 }
 
 window.filterForumSearch=()=>{
@@ -3421,7 +3254,7 @@ let _dmUnreadCount=0;
 async function checkDMNotifications(){
   if(!window._CU)return;
   // If a chat is currently open with a live listener, skip — onSnapshot handles it
-  if(window._chatUnsub&&(window.aChatId||aChatId))return;
+  if(window._chatUnsub&&window.aChatId)return;
   try{
     const chatsSnap=await getDocs(query(collection(db,'chats'),where('members','array-contains',window._CU.uid)));
     let unread=0;
@@ -4539,7 +4372,7 @@ function checkXP(){
   if(ts>=10800&&!f.h3){f.h3=true;addXP(100,'3 hours! 🥈');}
   if(ts>=18000&&!f.h5){f.h5=true;addXP(200,'5 hours! 🥇');}
 }
-function renderXP(){const lv=getLevel(),lvN=lvNames[lv],lvC=lvCls[lv],cur=lvThresh[lv],nxt=lvThresh[lv+1]||cur;const pct=nxt>cur?Math.min(100,Math.round((window.xp-cur)/(nxt-cur)*100)):100;['xpbar','prof-xpbar'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=pct+'%';});const xl=document.getElementById('xp-lbl');if(xl)xl.textContent=window.xp+' XP';const xn=document.getElementById('xp-next');if(xn)xn.textContent=(nxt-window.xp)+' XP to next';document.getElementById('hdr-xp').textContent=window.xp+' XP';document.getElementById('hdr-lv').textContent='Lv.'+(lv+1);['coins-d','hdr-coins','prof-coins'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=window.coins;});const badge=`<div class="lv-badge ${lvC}">⭐ Lv.${lv+1} ${lvN}</div>`;['lv-badge-el','prof-lv-badge'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=badge;});}
+function renderXP(){const lv=getLevel(),lvN=lvNames[lv],lvC=lvCls[lv],cur=lvThresh[lv],nxt=lvThresh[lv+1]||cur;const pct=nxt>cur?Math.min(100,Math.round((window.xp-cur)/(nxt-cur)*100)):100;['xpbar','prof-xpbar'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=pct+'%';});const xl=document.getElementById('xp-lbl');if(xl)xl.textContent=window.xp+' XP';const xn=document.getElementById('xp-next');if(xn)xn.textContent=(nxt-window.xp)+' XP to next';const _xpe=document.getElementById('hdr-xp');if(_xpe)_xpe.textContent=window.xp+' XP';const _lve=document.getElementById('hdr-lv');if(_lve)_lve.textContent='Lv.'+(lv+1);['coins-d','hdr-coins','prof-coins'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=window.coins;});const badge=`<div class="lv-badge ${lvC}">⭐ Lv.${lv+1} ${lvN}</div>`;['lv-badge-el','prof-lv-badge'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=badge;});}
 const allBadges=[{id:'h1',icon:'🥉',name:'1h Day',check:()=>Object.values(window.studyData).some(v=>v>=3600)},{id:'h3',icon:'🥈',name:'3h Day',check:()=>Object.values(window.studyData).some(v=>v>=10800)},{id:'h5',icon:'🥇',name:'5h Day',check:()=>Object.values(window.studyData).some(v=>v>=18000)},{id:'s3',icon:'🔥',name:'3 Streak',check:()=>{let s=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)s++;else if(i>0)break;}return s>=3;}},{id:'s7',icon:'⚡',name:'Week Streak',check:()=>{let s=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)s++;else if(i>0)break;}return s>=7;}},{id:'t1',icon:'📝',name:'First Test',check:()=>window.pastTests.length>0},{id:'j7',icon:'📔',name:'Journaler',check:()=>Object.keys(window.journals).length>=7},{id:'f10',icon:'🌟',name:'Focused',check:()=>sessions.length>=10},{id:'panda',icon:'🐼',name:'Panda Fan',check:()=>window.xp>=500}];
 function renderBadges(){['badge-grid','prof-badges'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=allBadges.map(b=>`<div class="badge-it ${b.check()?'earned':'locked'}" title="${b.name}"><div class="badge-ic">${b.icon}</div><div class="badge-nm">${b.name}</div></div>`).join('');});}
 
@@ -4662,17 +4495,39 @@ window.toggleHealth=()=>{healthOpen=!healthOpen;const pills=document.getElementB
 
 // ── RENDER ALL ──
 window.renderAll=function(){
-  window.renderSubjSels();renderTodos();renderCDs();renderStats();renderWkChart();
-  renderPapers();renderPastTests();renderJSidebar();openJ(window._today);
-  renderXP();renderCal();renderBadges();renderAssignments();renderResources();
-  renderSubjList();renderSubjListMS();renderTT();renderProfilePage();
-  renderBigChart();renderPieChart();renderSubjPerf();
-  window.renderThemeGrid();
-  setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();window.renderTestGraph&&window.renderTestGraph();},300);
+  var fns=[
+    ()=>window.renderSubjSels&&window.renderSubjSels(),
+    ()=>renderTodos&&renderTodos(),
+    ()=>renderCDs&&renderCDs(),
+    ()=>renderStats&&renderStats(),
+    ()=>renderWkChart&&renderWkChart(),
+    ()=>renderPapers&&renderPapers(),
+    ()=>renderPastTests&&renderPastTests(),
+    ()=>renderJSidebar&&renderJSidebar(),
+    ()=>openJ&&openJ(window._today),
+    ()=>renderXP&&renderXP(),
+    ()=>renderCal&&renderCal(),
+    ()=>renderBadges&&renderBadges(),
+    ()=>renderAssignments&&renderAssignments(),
+    ()=>renderResources&&renderResources(),
+    ()=>renderSubjList&&renderSubjList(),
+    ()=>renderSubjListMS&&renderSubjListMS(),
+    ()=>renderTT&&renderTT(),
+    ()=>renderProfilePage&&renderProfilePage(),
+    ()=>renderBigChart&&renderBigChart(),
+    ()=>renderPieChart&&renderPieChart(),
+    ()=>renderSubjPerf&&renderSubjPerf(),
+    ()=>window.renderThemeGrid&&window.renderThemeGrid(),
+  ];
+  fns.forEach(fn=>{try{fn();}catch(e){console.warn('[TISA] renderAll error:',e.message);}});
+  setTimeout(()=>{
+    try{window.renderSubjHeatmap&&window.renderSubjHeatmap();}catch(e){}
+    try{window.renderTestGraph&&window.renderTestGraph();}catch(e){}
+  },300);
 };
 
 // ── NOTIFICATIONS ──
-setTimeout(()=>{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission();},5000);;
+setTimeout(()=>{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission();},5000);
 </script>
   
 
