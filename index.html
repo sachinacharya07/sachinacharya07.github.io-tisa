@@ -1191,7 +1191,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 [data-theme="saffron"] .t-digits{color:#f59e0b;text-shadow:0 0 20px rgba(245,158,11,.5);}
 [data-theme="saffron"] .t-prog{stroke:#f59e0b;filter:drop-shadow(0 0 6px rgba(245,158,11,.6));}
 [data-theme="eink"]{
-  --bg:#f4ecd8;--bg2:#ede0c4;--bg3:#e4d0aa;--surface:#faf6ee;--surface2:#f4ecd8;
+  --bg:#f0e8d0;--bg2:#e8dcc0;--bg3:#ddd0ae;--surface:#fdfaf4;--surface2:#f5efe0;
   --primary:#2c2c2c;--pd:#000000;--pl:#666666;--pglow:rgba(44,44,44,.1);
   --ink:#1a1410;--ink2:#3d3028;--ink3:#8a7860;
   --danger:#8a1c1c;--success:#1c5c2a;--warn:#7a5010;
@@ -1199,7 +1199,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   --sh:0 1px 4px rgba(44,44,44,.08);--shl:0 4px 16px rgba(44,44,44,.1);
   --font-main:'Literata',Georgia,serif;--font-head:'Playfair Display',Georgia,serif;}
 [data-theme="eink"] body{background:#f4ecd8;}
-[data-theme="eink"] .card{border-radius:3px;border:1px solid rgba(44,44,44,.14);box-shadow:none;}
+[data-theme="eink"] .card{border-radius:3px;border:1.5px solid rgba(44,44,44,.25);box-shadow:0 1px 6px rgba(44,44,44,.08);background:#faf6ee;}
 [data-theme="eink"] .btn-p{border-radius:2px;border:1.5px solid var(--primary);background:var(--primary);color:#f4ecd8;box-shadow:none;}
 [data-theme="eink"] .btn-o{border-radius:2px;border:1.5px solid rgba(44,44,44,.3);}
 [data-theme="eink"] header{background:#f4ecd8;border-bottom:1.5px solid rgba(44,44,44,.2);box-shadow:none;}
@@ -3722,17 +3722,18 @@ async function showApp(user){
     document.getElementById('user-dname').textContent='@'+uData.username;
     document.getElementById('prof-uname').textContent='@'+uData.username;
   }
-  await loadUD();
+  // Show page immediately, load data in background
+  document.body.classList.remove('ma-mode');
+  const _maOv=document.getElementById('ma-focus-overlay');if(_maOv)_maOv.style.display='none';
+  showPage('home',document.querySelector('nav button[onclick*="home"]'));
+  // Load data async (don't block UI)
+  setTimeout(()=>{loadUD().catch(e=>console.warn('[TISA] loadUD error:',e));},50);
   window.startHealth&&window.startHealth();
   window.nextQ&&window.nextQ();
   loadForum();
   window.renderThemeGrid&&window.renderThemeGrid();
   loadMyChats();
-  // Safety net: ensure admin buttons show for admin users
   window._showAdminButtons&&window._showAdminButtons();
-  document.body.classList.remove('ma-mode');
-  const _maOv=document.getElementById('ma-focus-overlay');if(_maOv)_maOv.style.display='none';
-  setTimeout(()=>{showPage('home',document.querySelector('nav button[onclick*="home"]'));},100);
   setTimeout(()=>{window.updateGreeting&&window.updateGreeting();window.nextHomeFactoz&&window.nextHomeFactoz();},300);
 }
 
