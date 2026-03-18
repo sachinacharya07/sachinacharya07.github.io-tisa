@@ -2794,14 +2794,25 @@ window.doSignOut=async()=>{
   if(typeof tRun!=='undefined'&&tRun){clearInterval(tInt);tRun=false;}
   if(typeof focusRun!=='undefined'&&focusRun){clearInterval(focusInt);focusRun=false;}
   if(typeof testInt!=='undefined'&&testInt){clearInterval(testInt);testInt=null;}
-  if(window._chatUnsub)window._chatUnsub();
-  if(window._forumUnsub)window._forumUnsub();
-  if(window._chatListUnsub)window._chatListUnsub();
-  if(window._progressUnsub)window._progressUnsub();
-  if(window._progressUnsub2)window._progressUnsub2();
-  if(window._progressMyPoll)clearInterval(window._progressMyPoll);
-  if(window._goalsUnsub){window._goalsUnsub();window._goalsUnsub=null;}
-  if(window._cmtUnsub){window._cmtUnsub();window._cmtUnsub=null;}
+  // Clear ALL Firestore listeners — prevent memory leaks and permission errors on re-login
+  const _unsubs=[
+    '_chatUnsub','_forumUnsub','_chatListUnsub','_progressUnsub',
+    '_progressUnsub2','_goalsUnsub','_cmtUnsub'
+  ];
+  _unsubs.forEach(key=>{
+    if(window[key]){try{window[key]();}catch(e){}window[key]=null;}
+  });
+  if(window._progressMyPoll){clearInterval(window._progressMyPoll);window._progressMyPoll=null;}
+  if(typeof _userDataUnsub!=='undefined'&&_userDataUnsub){
+    try{_userDataUnsub();}catch(e){}
+    _userDataUnsub=null;
+  }
+  if(window._focusUnsubs&&window._focusUnsubs.length){
+    window._focusUnsubs.forEach(u=>{try{u();}catch(e){}});
+    window._focusUnsubs=[];
+  }
+  if(window._buddyFocusCache)window._buddyFocusCache={};
+  if(window._buddyFocusCache)window._buddyFocusCache={};
   await fbOut(auth);
   window._CU=null; window._currentUser=null;
   document.getElementById('login-screen').classList.add('show');
@@ -2834,10 +2845,13 @@ window.deleteAllMyData = async () => {
 };
 
 // ── AUTH STATE (KEY FIX: loading screen prevents login flash) ──
+
+// One-time initialization guard
+if(window._appInitialized){console.log("[TISA] Already initialized");}
+window._appInitialized=true;
 onAuthStateChanged(auth,async(user)=>{
   const ls=document.getElementById('loading-screen');
-  ls.classList.add('hide');
-  setTimeout(()=>ls.style.display='none',400);
+  if(ls){ls.classList.add('hide');setTimeout(()=>ls.style.display='none',400);}
   if(user){
     window._currentUser=user; window._CU=user;
     await setDoc(doc(db,'users',user.uid),{uid:user.uid,name:user.displayName,email:user.email,photo:user.photoURL,lastSeen:serverTimestamp()},{merge:true});
@@ -2850,18 +2864,24 @@ onAuthStateChanged(auth,async(user)=>{
 });
 
 async function showApp(user){
+  // ── Show UI immediately ──
   document.getElementById('login-screen').classList.remove('show');
   document.getElementById('app-header').style.display='flex';
   document.getElementById('app-main').style.display='block';
   document.getElementById('app-footer').style.display='block';
   document.body.classList.remove('ma-mode');
-  const _maOv=document.getElementById('ma-focus-overlay');if(_maOv)_maOv.style.display='none';
+  const _maOv=document.getElementById('ma-focus-overlay');
+  if(_maOv)_maOv.style.display='none';
+  // Activate home page NOW before any async
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const _hp=document.getElementById('page-home');if(_hp)_hp.classList.add('active');
+  const _hp=document.getElementById('page-home');
+  if(_hp)_hp.classList.add('active');
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  const _hb=document.querySelector('nav button[onclick*="home"]');if(_hb)_hb.classList.add('active');
+  const _hb=document.querySelector('nav button[onclick*="home"]');
+  if(_hb)_hb.classList.add('active');
   if(window.innerWidth<=760){const mn=document.getElementById('mobile-nav');if(mn)mn.style.display='block';}
   window._initHeaderShrink&&window._initHeaderShrink();
+  // Set avatar & name from auth (no network needed)
   const _setAv=(el,url,name)=>{
     if(!el)return;
     if(url){const img=document.createElement('img');img.src=url;img.referrerPolicy='no-referrer';img.style.cssText='width:100%;height:100%;object-fit:cover';img.onerror=()=>{el.textContent=(name||'?')[0].toUpperCase();};el.innerHTML='';el.appendChild(img);}
@@ -2870,9 +2890,10 @@ async function showApp(user){
   window._setAv=_setAv;
   _setAv(document.getElementById('user-av'),user.photoURL,user.displayName);
   const pn=document.getElementById('prof-name');if(pn)pn.textContent=user.displayName||'User';
+  // Render immediately with defaults so page isn't blank
   try{window.renderAll&&window.renderAll();}catch(e){}
   try{window.nextQ&&window.nextQ();}catch(e){}
-  try{window.renderThemeGrid&&window.renderThemeGrid();}catch(e){}
+  // Load user doc (username etc)
   try{
     const uSnap=await getDoc(doc(db,'users',user.uid));
     const uData=uSnap.exists()?uSnap.data():{};
@@ -2880,14 +2901,222 @@ async function showApp(user){
     if(!uData.username){setTimeout(()=>{const m=document.getElementById('uname-modal');if(m)m.classList.add('open');},800);}
     else{const ud=document.getElementById('user-dname');if(ud)ud.textContent='@'+uData.username;const pu=document.getElementById('prof-uname');if(pu)pu.textContent='@'+uData.username;}
   }catch(e){console.warn('[TISA] user doc:',e.code||e.message);}
+  // Load user data (Firestore)
   try{await loadUD();}catch(e){console.warn('[TISA] loadUD:',e.code||e.message);}
   try{window.startHealth&&window.startHealth();}catch(e){}
   try{loadForum();}catch(e){}
+  try{window.renderThemeGrid&&window.renderThemeGrid();}catch(e){}
   try{loadMyChats();}catch(e){}
   try{window._showAdminButtons&&window._showAdminButtons();}catch(e){}
 }
-let _userDataUnsub=null;
 
+// ── USER DATA ──
+// ── REAL-TIME SYNC: onSnapshot replaces one-shot getDoc ──
+// This prevents the "stale overwrite" bug where laptop kills phone changes
+let _userDataUnsub=null;
+async function loadUD(){
+  if(!window._CU||!window._CU.uid){console.warn('[TISA] loadUD: no user');return;}
+  if(_userDataUnsub){try{_userDataUnsub();}catch(e){}_userDataUnsub=null;}
+  function _apply(d){
+    window.studyData=d.studyData||{};
+    if(d.sessions&&d.sessions.length){sessions=d.sessions.slice(0,20);try{renderSessLog&&renderSessLog();renderStats&&renderStats();}catch(e){}}
+    window.todos=d.todos||[];window.countdowns=d.countdowns||[];window.papers=d.papers||[];
+    window.pastTests=d.pastTests||[];window.journals=d.journals||{};window.assignments=d.assignments||[];
+    window.resources=d.resources||[];window.timetable=d.timetable||{};
+    window.xp=d.xp||0;window.coins=d.coins||0;
+    try{if(window._initPet)window._initPet(d.pandaPet||null);}catch(e){}
+    window.subjects=d.subjects||[...window.defaultSubjects];
+    if(d.prefs){
+      try{if(d.prefs.theme&&d.prefs.theme!==localStorage.getItem('tisa-theme'))setTheme(d.prefs.theme);}catch(e){}
+      try{if(d.prefs.fontSize){localStorage.setItem('tisa-fontsize',d.prefs.fontSize);applyFontSize&&applyFontSize(d.prefs.fontSize);}}catch(e){}
+      try{if(d.prefs.textColor){localStorage.setItem('tisa-textcolor',d.prefs.textColor);applyTextColor&&applyTextColor(d.prefs.textColor);}}catch(e){}
+    }
+    window.customAvatarUrl=d.avatarUrl||'';
+    if(window.customAvatarUrl){['user-av','prof-av'].forEach(id=>{const el=document.getElementById(id);if(el&&window._setAv)window._setAv(el,window.customAvatarUrl,'');else if(el)el.innerHTML=`<img src="${window.customAvatarUrl}" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;});}
+    try{window.renderAll&&window.renderAll();}catch(e){console.warn('[TISA] renderAll:',e.message);}
+    try{window._showAdminButtons&&window._showAdminButtons();}catch(e){}
+    try{applyMobileUI&&applyMobileUI();}catch(e){}
+    setTimeout(()=>{try{window.updateMoreBadge&&window.updateMoreBadge();}catch(e){}},1000);
+  }
+  // Phase 1: immediate getDoc
+  try{const snap=await getDoc(doc(db,'userData',window._CU.uid));_apply(snap.exists()?snap.data():{});}
+  catch(e){console.warn('[TISA] getDoc:',e.code||e.message);try{window.renderAll&&window.renderAll();}catch(re){}}
+  // Phase 2: real-time listener
+  try{_userDataUnsub=onSnapshot(doc(db,'userData',window._CU.uid),(snap)=>{if(window._saveInFlight)return;_apply(snap.exists()?snap.data():{});},
+    (err)=>{console.warn('[TISA] onSnapshot:',err.code);_userDataUnsub=null;});}
+  catch(e){console.warn('[TISA] subscribe:',e.code||e.message);}
+}
+
+window.forceSyncNow=async()=>{
+  const el=document.getElementById('sync-status');
+  if(el)el.textContent='⏳ Syncing...';
+  if(!window._CU){if(el)el.textContent='❌ Not signed in';return;}
+  try{
+    await window._save();
+    if(el)el.textContent='✅ Synced at '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    window.toast('✅ Data synced!');
+  }catch(e){if(el)el.textContent='❌ Sync failed';}
+};
+window._save=async()=>{
+  if(!window._CU)return;
+  window._saveInFlight=true; // prevent onSnapshot from overwriting in-flight save
+  try{
+    const papersForSave=window.papers.map(p=>({id:p.id,name:p.name,size:p.size,type:p.type,date:p.date}));
+    await setDoc(doc(db,'userData',window._CU.uid),{
+      studyData:window.studyData,todos:window.todos,countdowns:window.countdowns,
+      sessions:(sessions||[]).slice(0,20),
+      papers:papersForSave,pastTests:window.pastTests,journals:window.journals,
+      assignments:window.assignments,resources:window.resources,timetable:window.timetable,
+      xp:window.xp,coins:window.coins,subjects:window.subjects,pandaPet:window._pet,
+      prefs:{
+        theme:localStorage.getItem('tisa-theme')||'light',
+        fontSize:localStorage.getItem('tisa-fontsize')||'14',
+        textColor:localStorage.getItem('tisa-textcolor')||''
+      }
+    },{merge:true});
+    // LOADING FIX: mirror study hours into publicStats (any auth user can read)
+    // userData is owner-private, so buddy's listener was silently failing -> "Loading..."
+    await setDoc(doc(db,'publicStats',window._CU.uid),{
+      studyData:window.studyData,
+      username:window._uname||'',
+      updatedAt:serverTimestamp()
+    },{merge:true});
+  }catch(e){console.warn('Save error:',e);window.toast('⚠️ Save failed — check connection');}
+  finally{setTimeout(()=>{window._saveInFlight=false;},2000);}
+};
+// Shim: window.save always resolves to _save (backward compat)
+window.save=window._save;
+
+window.uploadAvatar=async(files)=>{
+  if(!files[0]||!window._CU)return;
+  const r=new FileReader();
+  r.onload=async(e)=>{
+    // Compress to max 400px to stay within Firestore 1MB limit
+    window.customAvatarUrl=await compressImage(e.target.result,400);
+    ['user-av','prof-av'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.innerHTML=`<img src="${window.customAvatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;
+    });
+    await setDoc(doc(db,'userData',window._CU.uid),{avatarUrl:window.customAvatarUrl},{merge:true});
+    window.toast('Photo updated! 📸');
+  };
+  r.readAsDataURL(files[0]);
+};
+
+// ── USERNAME ──
+let _uVld=false,_uT=null;
+const _RESERVED=['admin','tisa','sachin','support','help','mod','moderator','staff',
+  'official','root','superuser','system','null','undefined','anonymous','guest',
+  'owner','creator','dev','developer','test','bot','api','security','abuse'];
+function isReserved(u){return _RESERVED.includes(u.toLowerCase());}
+window.checkUname=async(val)=>{
+  const fb=document.getElementById('uname-fb'),btn=document.getElementById('uname-btn');
+  _uVld=false; btn.disabled=true;
+  const c=val.toLowerCase().replace(/[^a-z0-9_]/g,'');
+  document.getElementById('uname-inp').value=c;
+  if(c.length<3){fb.textContent=c.length>0?'Too short (min 3)':'';fb.style.color='var(--danger)';return;}
+  if(isReserved(c)){fb.textContent='@'+c+' is reserved';fb.style.color='var(--danger)';return;}
+  fb.textContent='Checking...';fb.style.color='var(--ink3)';
+  clearTimeout(_uT);
+  _uT=setTimeout(async()=>{
+    const snap=await getDocs(query(collection(db,'users'),where('username','==',c)));
+    const taken=snap.docs.some(d=>d.id!==window._CU.uid);
+    if(taken){fb.textContent='@'+c+' is taken';fb.style.color='var(--danger)';}
+    else{fb.textContent='✓ @'+c+' is available!';fb.style.color='var(--success)';_uVld=true;btn.disabled=false;}
+  },600);
+};
+
+window.confirmUname=async()=>{
+  if(!_uVld)return;
+  const un=document.getElementById('uname-inp').value.trim().toLowerCase();
+  await setDoc(doc(db,'users',window._CU.uid),{username:un,usernameSet:true,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG2 FIX: save uid so self-search check works
+  window._uname=un;
+  document.getElementById('uname-modal').classList.remove('open');
+  document.getElementById('user-dname').textContent='@'+un;
+  document.getElementById('prof-uname').textContent='@'+un;
+  window.initCommunityAlias&&window.initCommunityAlias();
+  window.toast('Welcome to TISA, @'+un+' 🐼');
+};
+
+window.startUsernameEdit=()=>{
+  document.getElementById('uname-display-row').style.display='none';
+  document.getElementById('uname-edit-row').style.display='flex';
+  document.getElementById('uname-edit-inp').value=window._uname||'';
+};
+window.cancelUsernameEdit=()=>{
+  document.getElementById('uname-display-row').style.display='flex';
+  document.getElementById('uname-edit-row').style.display='none';
+  document.getElementById('uname-edit-fb').textContent='';
+};
+window.saveNewUsername=async()=>{
+  const val=document.getElementById('uname-edit-inp').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+  const fb=document.getElementById('uname-edit-fb');
+  if(val.length<3){fb.textContent='Min 3 chars';fb.style.color='var(--danger)';return;}
+  if(isReserved(val)){fb.textContent='@'+val+' is reserved';fb.style.color='var(--danger)';return;}
+  fb.textContent='Checking...';fb.style.color='var(--ink3)';
+  const snap=await getDocs(query(collection(db,'users'),where('username','==',val)));
+  if(snap.docs.some(d=>d.id!==window._CU.uid)){fb.textContent='@'+val+' is taken';fb.style.color='var(--danger)';return;}
+  await setDoc(doc(db,'users',window._CU.uid),{username:val,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG9 FIX: keep uid in sync when username changes
+  window._uname=val;
+  document.getElementById('prof-uname').textContent='@'+val;
+  document.getElementById('user-dname').textContent='@'+val;
+  window.cancelUsernameEdit();
+  fb.textContent='✓ Updated!';fb.style.color='var(--success)';
+  window.toast('Username updated to @'+val);
+  setTimeout(()=>{fb.textContent='';},3000);
+};
+
+// ── COMMUNITY ALIAS SYSTEM ──
+const aAdj=['Curious','Bright','Focused','Clever','Quiet','Bold','Wise','Swift','Calm','Eager','Sharp','Steady','Gentle','Vivid','Keen'];
+const aAni=['Panda','Fox','Owl','Wolf','Bear','Lynx','Hawk','Crow','Moth','Hare','Deer','Eagle','Otter','Raven','Tiger'];
+function _genAliasFromSeed(s){const n=Math.abs(s.split('').reduce((a,c)=>a+c.charCodeAt(0),0));return aAdj[n%aAdj.length]+' '+aAni[Math.floor(n/aAdj.length)%aAni.length];}
+function _genRandAlias(){return aAdj[Math.floor(Math.random()*aAdj.length)]+' '+aAni[Math.floor(Math.random()*aAni.length)];}
+let myPostAlias='';
+window.initCommunityAlias=()=>{
+  if(!window._CU)return;
+  myPostAlias=_genAliasFromSeed(window._CU.uid+window._today);
+  const inp=document.getElementById('custom-alias-inp');
+  if(inp)inp.value='';
+  window.updateAliasPreview();
+};
+window.updateAliasPreview=()=>{
+  const inp=document.getElementById('custom-alias-inp');
+  const custom=inp?inp.value.trim():'';
+  const el=document.getElementById('alias-prev');
+  if(el) el.textContent='🎭 '+(custom||myPostAlias);
+};
+window.genNewAlias=()=>{
+  myPostAlias=_genRandAlias();
+  const inp=document.getElementById('custom-alias-inp');
+  if(inp)inp.value='';
+  window.updateAliasPreview();
+  window.toast('New alias: '+myPostAlias+' 🎭');
+};
+function getPostAlias(){const c=document.getElementById('custom-alias-inp')?.value.trim();return c||myPostAlias;}
+function getCommentAlias(postId){return _genAliasFromSeed((window._CU?.uid||'')+(postId||'')+(Math.floor(Date.now()/86400000)));}
+
+// ── FORUM ──
+let forumUnsub=null,curPostId=null,fFilter='all';
+let postAttachData=null,postAttachType=null,postAttachName='';
+
+let _allForumPosts=[]; // cache for search
+function _renderFcard(p,pinned=false){
+  return`<div class="fcard${pinned?' pinned-card':''}" onclick="openPost('${p.id}')" style="${pinned?'border-color:var(--primary);background:var(--surface2)':''}">
+    <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
+      ${pinned?'<span style="font-size:10px;font-weight:800;color:var(--primary);background:rgba(92,122,62,.12);padding:2px 7px;border-radius:20px">📌 Pinned</span>':''}
+      <span class="cat-tag">${window._esc(p.category||'Post')}</span>
+      ${p.hasAttachment?'<span style="font-size:10px;color:var(--ink3);font-weight:700">📎</span>':''}
+      <button onclick="event.stopPropagation();window._reportForumPost(this)" data-pid="${p.id}" data-uid="${p.uid||''}" data-alias="${window._esc(p.alias||'Anonymous')}" data-title="${window._esc(p.title||'').substring(0,30)}" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:11px;color:var(--ink3);padding:2px 6px;border-radius:6px;font-weight:700" title="Report post">🚩</button>
+    </div>
+    <div class="ft">${window._esc(p.title||'')}</div>
+    <div class="fb2">${window._esc(p.body||'')}</div>
+    <div class="fmeta">
+      <div class="anon-badge">🎭 ${window._esc(p.alias||'Anonymous')}</div>
+      <span>▲ ${p.ups||0}</span><span>💬 ${p.commentCount||0}</span>
+      <span>${p.ts?new Date(p.ts.toDate()).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</span>
+    </div>
+  </div>`;
+}
 
 function loadForum(){
   if(!window._CU)return;
@@ -2915,88 +3144,6 @@ function loadForum(){
       el.innerHTML=[...recent,...rest].map(p=>_renderFcard(p,false)).join('');
     }
   );
-}
-
-async function loadUD(){
-  if(!window._CU||!window._CU.uid){console.warn('[TISA] loadUD: no current user');return;}
-  if(_userDataUnsub){try{_userDataUnsub();}catch(e){} _userDataUnsub=null;}
-  // First: one-shot getDoc to render page immediately without waiting for socket
-  try{
-    const _snap0=await getDoc(doc(db,'userData',window._CU.uid));
-    const _d0=_snap0.exists()?_snap0.data():{};
-    window.studyData=_d0.studyData||{};
-    window.todos=_d0.todos||[];
-    window.countdowns=_d0.countdowns||[];
-    window.papers=_d0.papers||[];
-    window.pastTests=_d0.pastTests||[];
-    window.journals=_d0.journals||{};
-    window.assignments=_d0.assignments||[];
-    window.resources=_d0.resources||[];
-    window.timetable=_d0.timetable||{};
-    window.xp=_d0.xp||0;
-    window.coins=_d0.coins||0;
-    try{if(window._initPet)window._initPet(_d0.pandaPet||null);}catch(e){}
-    window.subjects=_d0.subjects||[...window.defaultSubjects];
-    if(_d0.prefs){
-      if(_d0.prefs.theme&&_d0.prefs.theme!==localStorage.getItem('tisa-theme'))setTheme(_d0.prefs.theme);
-      try{if(_d0.prefs.fontSize){localStorage.setItem('tisa-fontsize',_d0.prefs.fontSize);if(typeof applyFontSize=='function')applyFontSize(_d0.prefs.fontSize);}}catch(e){}
-      try{if(_d0.prefs.textColor){localStorage.setItem('tisa-textcolor',_d0.prefs.textColor);if(typeof applyTextColor=='function')applyTextColor(_d0.prefs.textColor);}}catch(e){}
-    }
-    window.customAvatarUrl=_d0.avatarUrl||'';
-    if(window.customAvatarUrl){
-      ['user-av','prof-av'].forEach(id=>{
-        const el=document.getElementById(id);
-        if(el&&window._setAv)window._setAv(el,window.customAvatarUrl,'');
-        else if(el)el.innerHTML=`<img src="${window.customAvatarUrl}" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;
-      });
-    }
-    try{window.renderAll&&window.renderAll();}catch(e){console.warn('[TISA] renderAll:',e.message);}
-    try{window._showAdminButtons&&window._showAdminButtons();}catch(e){}
-    try{if(typeof applyMobileUI=='function')applyMobileUI();}catch(e){}
-    setTimeout(()=>{try{window.updateMoreBadge&&window.updateMoreBadge();}catch(e){}},1000);
-  }catch(e){
-    console.warn('[TISA] initial getDoc error:',e.code||e.message);
-    // Still render page with empty data so it's not blank
-    try{window.renderAll&&window.renderAll();}catch(re){}
-  }
-  // Then subscribe for real-time updates
-  try{
-    _userDataUnsub=onSnapshot(doc(db,'userData',window._CU.uid),(snap)=>{
-      if(window._saveInFlight)return;
-      if(!snap.exists())return;
-      const d=snap.data();
-      window.studyData=d.studyData||{};
-      if(d.sessions&&d.sessions.length){sessions=d.sessions.slice(0,20);if(typeof renderSessLog=='function')renderSessLog();if(typeof renderStats=='function')renderStats();}
-      window.todos=d.todos||[];
-      window.countdowns=d.countdowns||[];
-      window.papers=d.papers||[];
-      window.pastTests=d.pastTests||[];
-      window.journals=d.journals||{};
-      window.assignments=d.assignments||[];
-      window.resources=d.resources||[];
-      window.timetable=d.timetable||{};
-      window.xp=d.xp||0; window.coins=d.coins||0;
-      try{if(window._initPet)window._initPet(d.pandaPet||null);}catch(e){}
-      window.subjects=d.subjects||[...window.defaultSubjects];
-      if(d.prefs){
-        if(d.prefs.theme&&d.prefs.theme!==localStorage.getItem('tisa-theme'))setTheme(d.prefs.theme);
-        try{if(d.prefs.fontSize){localStorage.setItem('tisa-fontsize',d.prefs.fontSize);if(typeof applyFontSize=='function')applyFontSize(d.prefs.fontSize);}}catch(e){}
-        try{if(d.prefs.textColor){localStorage.setItem('tisa-textcolor',d.prefs.textColor);if(typeof applyTextColor=='function')applyTextColor(d.prefs.textColor);}}catch(e){}
-      }
-      window.customAvatarUrl=d.avatarUrl||'';
-      if(window.customAvatarUrl){
-        ['user-av','prof-av'].forEach(id=>{
-          const el=document.getElementById(id);
-          if(el&&window._setAv)window._setAv(el,window.customAvatarUrl,'');
-          else if(el)el.innerHTML=`<img src="${d.avatarUrl}" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="">`;
-        });
-      }
-      try{window.renderAll&&window.renderAll();}catch(e){}
-      try{window._showAdminButtons&&window._showAdminButtons();}catch(e){}
-      try{if(typeof applyMobileUI=='function')applyMobileUI();}catch(e){}
-      setTimeout(()=>{try{window.updateMoreBadge&&window.updateMoreBadge();}catch(e){}},1000);
-    },(err)=>{console.warn('[TISA] userData listener:',err.code);_userDataUnsub=null;});
-  }catch(e){console.warn('[TISA] subscribe error:',e.code||e.message);}
 }
 
 window.filterForumSearch=()=>{
@@ -3806,11 +3953,18 @@ function loadMyChats(){
         const oName=(ch.memberNames||{})[oId]||'Unknown';
         const dispN=oUname?(oUname.startsWith('@')?oUname:'@'+oUname):oName;
         window._chatMap[d.id]={oId,oName,oUname};
-        return`<div class="uitem ${d.id===aChatId?'sel':''}" id="ci-${d.id}" onclick="window._openChatSafe('${d.id}')">
-          <div class="av" style="background:var(--primary);color:white;font-weight:800;font-size:15px">${(oUname||oName||'?')[0].toUpperCase()}</div>
+        // Check focus status from cache
+        const focusInfo=window._buddyFocusCache&&window._buddyFocusCache[oId];
+        const isFocused=focusInfo&&focusInfo.isStudying;
+        const focusMins=isFocused&&focusInfo.studyStarted?Math.floor((Date.now()-focusInfo.studyStarted)/60000):0;
+        return`<div class="uitem ${d.id===aChatId?'sel':''}" id="ci-${d.id}" onclick="window._openChatSafe('${d.id}')" style="${isFocused?'border-left:3px solid #e8832a;':''}">
+          <div style="position:relative;flex-shrink:0">
+            <div class="av" style="background:${isFocused?'linear-gradient(135deg,#e8832a,#c86018)':'var(--primary)'};color:white;font-weight:800;font-size:15px">${(oUname||oName||'?')[0].toUpperCase()}</div>
+            ${isFocused?'<span style="position:absolute;bottom:-2px;right:-2px;font-size:12px;animation:pandaBob 1.5s ease-in-out infinite">🔥</span>':''}
+          </div>
           <div style="min-width:0;flex:1">
             <div style="font-size:12px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(dispN)}</div>
-            <div style="font-size:10px;color:var(--ink3);font-weight:500">🔒 encrypted</div>
+            <div style="font-size:10px;color:${isFocused?'#e8832a':'var(--ink3)'};font-weight:${isFocused?'700':'500'}">${isFocused?(focusMins>0?'🔥 Studying for '+focusMins+'m':'🔥 Just started studying'):'🔒 encrypted'}</div>
           </div>
         </div>`;
       }).join('');
