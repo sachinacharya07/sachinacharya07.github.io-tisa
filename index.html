@@ -268,8 +268,8 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .mcq-wrap{width:100%;max-width:680px;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;background:var(--bg);display:flex;flex-direction:column;border-radius:0;overflow:hidden}
 @media(min-width:700px){.mcq-wrap{height:92vh;max-height:720px;border-radius:24px}}
 .mcq-topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-.mcq-progress-bar{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
-.mcq-progress-fill{height:100%;background:var(--primary);border-radius:3px;transition:width .4s ease}
+.mcq-progress-bar{flex:1;height:6px;background:var(--bg3);border-radius:6px;overflow:hidden}
+.mcq-progress-fill{height:100%;background:var(--primary);border-radius:6px;transition:width .4s ease}
 .mcq-timer{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--ink);min-width:42px;text-align:right}
 .mcq-timer.urgent{color:var(--danger);animation:pulse .6s infinite}
 .mcq-body{flex:1;overflow-y:auto;padding:20px 16px}
@@ -333,7 +333,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .forum-grid{display:grid;grid-template-columns:1fr 240px;gap:14px}
 
 /* TIMER */
-.timer-ring{position:relative;width:280px;height:280px;margin:8px auto}
+.timer-ring{position:relative;width:220px;height:220px;margin:12px auto}
 .tsvg{width:280px;height:280px;transform:rotate(-90deg);display:block}
 .t-track{fill:none;stroke:var(--bg3);stroke-width:9}
 .t-prog{fill:none;stroke:var(--primary);stroke-width:9;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset .6s ease}
@@ -377,7 +377,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .todo-item:hover{border-color:var(--border)}
 .todo-item.done{opacity:.42}
 .todo-item.overdue{border-left:3px solid var(--danger)}
-.tcheck{width:20px;height:20px;border:2px solid var(--primary);border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;min-width:20px;min-height:20px}
+.tcheck{width:22px;height:22px;border:2px solid var(--primary);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;min-width:22px;min-height:22px;pointer-events:all;position:relative;z-index:2;-webkit-tap-highlight-color:transparent}
 .todo-item.done .tcheck{background:var(--primary)}
 .ttw{flex:1;min-width:0}
 .ttext{font-size:12px;font-weight:600}
@@ -456,7 +456,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .cpanel.active{display:flex}
 .chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg);min-height:200px;max-height:360px}
 .msg{max-width:76%;padding:9px 13px;border-radius:14px;font-size:12px;line-height:1.6;font-weight:600;word-break:break-word}
-.msg.them{background:var(--surface);border:1px solid var(--border2);align-self:flex-start;border-radius:4px 14px 14px 14px}
+.msg.them{background:var(--surface);border:1px solid var(--border2);align-self:flex-start;border-radius:16px 14px 14px 14px}
 .msg.me{background:var(--primary);color:white;align-self:flex-end;border-radius:14px 4px 14px 14px}
 .msg-t{font-size:9px;opacity:.6;margin-top:3px}
 .chat-inp-row{display:flex;border-top:1px solid var(--border2)}
@@ -610,7 +610,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .tt-grid{font-size:9px;grid-template-columns:40px repeat(7,1fr)}
   .tt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
   /* Timer */
-  .timer-ring{width:160px;height:160px}
+  /* timer-ring 160px removed */
   .tsvg{width:160px;height:160px}
   .t-digits{font-size:36px}
   /* Todo */
@@ -637,7 +637,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .home-grid>*{grid-column:1 !important}
   .myspace-grid{grid-template-columns:1fr}
   .perf-grid{grid-template-columns:1fr}
-  .timer-ring{width:140px;height:140px;margin:6px auto}
+  /* timer-ring 140px removed */
   .tsvg{width:140px;height:140px}
   .t-digits{font-size:32px;letter-spacing:1px}
   .more-grid{grid-template-columns:repeat(2,1fr)}
@@ -670,7 +670,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   /* Stat cards */
   .stat-grid{grid-template-columns:1fr 1fr}
   .snum{font-size:22px}
-  .timer-ring{width:140px;height:140px;margin:6px auto}
+  /* timer-ring 140px removed */
   .tsvg{width:140px;height:140px}
   .t-digits{font-size:32px;letter-spacing:1px}
   .prof-stats{grid-template-columns:1fr 1fr}
@@ -1075,7 +1075,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   --sh:0 1px 8px rgba(92,61,46,.06);--shl:0 4px 20px rgba(92,61,46,.10);
   --font-main:'Shippori Mincho',serif;--font-head:'Shippori Mincho',serif;}
 [data-theme="washi"] body{background:linear-gradient(150deg,#f7f2e8 0%,#f0e8d8 100%);}
-[data-theme="washi"] .card{border-radius:4px;border:1px solid rgba(92,61,46,.12);box-shadow:1px 2px 8px rgba(92,61,46,.06);background:#fdfaf4;}
+[data-theme="washi"] .card{border-radius:18px;border:1px solid rgba(92,61,46,.12);box-shadow:1px 2px 8px rgba(92,61,46,.06);background:#fdfaf4;}
 [data-theme="washi"] .card:hover{border-color:rgba(92,61,46,.28);box-shadow:2px 4px 16px rgba(92,61,46,.1);}
 [data-theme="washi"] .btn-p{border-radius:3px;background:#5c3d2e;box-shadow:none;letter-spacing:.5px;}
 [data-theme="washi"] .logo-tisa{font-family:'Shippori Mincho',serif;letter-spacing:12px;color:#5c3d2e;}
@@ -1199,7 +1199,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   --sh:0 1px 4px rgba(44,44,44,.08);--shl:0 4px 16px rgba(44,44,44,.1);
   --font-main:'Literata',Georgia,serif;--font-head:'Playfair Display',Georgia,serif;}
 [data-theme="eink"] body{background:#f4ecd8;}
-[data-theme="eink"] .card{border-radius:3px;border:1.5px solid rgba(44,44,44,.25);box-shadow:0 1px 6px rgba(44,44,44,.08);background:#faf6ee;}
+[data-theme="eink"] .card{border-radius:14px;border:1.5px solid rgba(44,44,44,.25);box-shadow:0 1px 6px rgba(44,44,44,.08);background:#faf6ee;}
 [data-theme="eink"] .btn-p{border-radius:2px;border:1.5px solid var(--primary);background:var(--primary);color:#f4ecd8;box-shadow:none;}
 [data-theme="eink"] .btn-o{border-radius:2px;border:1.5px solid rgba(44,44,44,.3);}
 [data-theme="eink"] header{background:#f4ecd8;border-bottom:1.5px solid rgba(44,44,44,.2);box-shadow:none;}
@@ -1389,7 +1389,7 @@ html,body{overflow-x:hidden;max-width:100vw;}
   .home-grid{grid-template-columns:1fr!important;gap:12px;}
   .timer-ring{width:220px!important;height:220px!important;}
   .tsvg{width:220px!important;height:220px!important;}
-  .t-digits{font-size:28px!important;}
+  .t-digits{font-size:clamp(44px,5vw,60px)!important;}
   .t-inner{top:0;left:0;width:100%;height:100%;}
   nav{display:none!important;}
 }
@@ -1414,7 +1414,7 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 
 /* ════════════════════════════════════════════════════════
    TISA — Japanese/Korean Design System
-   Ma · Shibumi · Kaizen · Yeolpumta · Oubaitori
+   Ma · Shibumi · Kaizen · Champs · Oubaitori
    ════════════════════════════════════════════════════════ */
 
 /* ── 1. MA (間) — NEGATIVE SPACE & BREATHING ROOM ── */
@@ -1475,9 +1475,10 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 }
 .t-digits{
   font-family:"Space Mono",monospace!important;
-  font-size:clamp(32px,7vw,48px);
+  font-size:clamp(52px,8vw,64px) !important;
   font-weight:700;color:var(--ink);
-  letter-spacing:-1px;
+  letter-spacing:-2px;
+  line-height:1;
 }
 [data-theme="oled"] .focus-t{
   text-shadow:0 0 60px rgba(0,255,136,.4),0 0 120px rgba(0,255,136,.15);
@@ -1979,6 +1980,61 @@ body.ma-mode #ma-focus-overlay{display:flex;}
 #reflect-stars button{color:var(--warn);}
 #reflect-stars button.star-lit{opacity:1!important;transform:scale(1.2)!important;}
 #reflect-stars button:hover{opacity:.6!important;}
+
+/* ── ZEN SESSION ── */
+#zen-session-overlay.active{display:flex!important;}
+.zen-chip{background:rgba(255,255,255,.08);border:1px solid rgba(116,198,157,.3);color:rgba(116,198,157,.8);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;}
+.zen-chip:hover,.zen-chip.sel{background:rgba(116,198,157,.2);border-color:#52b788;color:#74c69d;}
+@keyframes zenLeafFall{0%{transform:translateY(-20px) rotate(0deg);opacity:.8;}100%{transform:translateY(160px) rotate(360deg);opacity:0;}}
+
+/* Timer digit size - final override */
+.t-digits{font-size:clamp(48px,8vw,64px)!important;font-family:'Space Mono',monospace!important;font-weight:700;letter-spacing:-2px;line-height:1;}
+
+/* Timer ring sizing for large digits */
+.timer-ring{position:relative;width:220px;height:220px;margin:12px auto;}
+.tsvg{width:220px!important;height:220px!important;display:block;}
+.t-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+@media(max-width:600px){
+  .timer-ring{width:200px;height:200px;}
+  .tsvg{width:200px!important;height:200px!important;}
+}
+
+/* ══ GLOBAL ROUNDED CORNERS — no sharp boxes ══ */
+.btn{border-radius:12px!important;}
+.btn-p,.btn-o,.btn-d,.btn-sm{border-radius:12px!important;}
+.tisa-inp, input[type="text"], input[type="password"], input[type="email"],
+input[type="number"], input[type="date"], select, textarea{border-radius:12px!important;}
+.card{border-radius:20px!important;}
+.modal-box{border-radius:24px!important;}
+.pill-btn{border-radius:100px!important;}
+.tag,.cat-tag,.anon-badge{border-radius:8px!important;}
+.atz-chip{border-radius:20px!important;}
+.msg{border-radius:16px!important;}
+.msg.me{border-bottom-right-radius:4px!important;}
+.msg.them{border-bottom-left-radius:4px!important;}
+.todo-item{border-radius:14px!important;}
+.uitem{border-radius:12px!important;}
+.stat-box{border-radius:14px!important;}
+.stat-tile{border-radius:16px!important;}
+.sidebar-card{border-radius:18px!important;}
+.xpbar-w, .todo-pb-w, .pt-bar-w, .mcq-progress-bar{border-radius:100px!important;}
+.xpbar-f, .todo-pb, .pt-bar, .mcq-progress-fill{border-radius:100px!important;}
+.pomo-opt-btn, .pomo-brk-btn, .pomo-cyc-btn{border-radius:10px!important;}
+.time-chip{border-radius:20px!important;}
+.fbtn{border-radius:20px!important;}
+.ctab{border-radius:0;}
+.tcheck{border-radius:6px!important;}
+.ic-btn{border-radius:8px!important;}
+.skel{border-radius:12px!important;}
+.score-topic-track, .score-topic-fill{border-radius:100px!important;}
+.kaizen-item{border-radius:12px!important;}
+.atz-sel-card{border-radius:16px!important;}
+.badge-it{border-radius:14px!important;}
+.mcq-wrap{border-radius:20px!important;}
+.test-win{border-radius:20px!important;}
+[data-theme="eink"] .card{border-radius:18px!important;}
+[data-theme="washi"] .card,[data-theme="akari"] .card{border-radius:18px!important;}
+/* ══ END ROUNDED ══ */
 </style>
 <!--
   ══════════════════════════════════════════════════════════════
@@ -2250,110 +2306,110 @@ body.ma-mode #ma-focus-overlay{display:flex;}
   </div>
 
   <!-- TAB 3: MY PANDA (Virtual Pet) -->
-  <div id="panda-tab-pet" class="panda-panel" style="display:none;overflow-y:auto;padding:0 20px 24px">
-    <div class="pet-stage">
-  <!-- Buddha Meditation Scene -->
-  <div style="text-align:center;padding:16px 0 8px">
-    <svg viewBox="0 0 240 220" width="240" height="220" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 6px 20px rgba(0,0,0,.12))">
-      <!-- Sky gradient -->
-      <defs>
-        <linearGradient id="skyBuddha" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#f8e8c8"/>
-          <stop offset="100%" stop-color="#fdf3e3"/>
-        </linearGradient>
-        <linearGradient id="groundB" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#c8e0a8"/>
-          <stop offset="100%" stop-color="#a8c888"/>
-        </linearGradient>
-        <radialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#ffd700" stop-opacity=".35"/>
-          <stop offset="100%" stop-color="#ffd700" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <!-- Background -->
-      <rect width="240" height="220" fill="url(#skyBuddha)" rx="16"/>
-      <!-- Clouds -->
-      <ellipse cx="40" cy="35" rx="28" ry="10" fill="white" opacity=".7"/>
-      <ellipse cx="60" cy="30" rx="22" ry="8" fill="white" opacity=".7"/>
-      <ellipse cx="190" cy="45" rx="24" ry="9" fill="white" opacity=".6"/>
-      <ellipse cx="208" cy="40" rx="18" ry="7" fill="white" opacity=".6"/>
-      <!-- Lotus pond ground -->
-      <ellipse cx="120" cy="195" rx="110" ry="25" fill="url(#groundB)"/>
-      <!-- Lotus flowers -->
-      <g transform="translate(45,168)">
-        <ellipse cx="0" cy="0" rx="8" ry="12" fill="#f9a8c9" transform="rotate(-30)"/>
-        <ellipse cx="0" cy="0" rx="8" ry="12" fill="#f9a8c9" transform="rotate(30)"/>
-        <ellipse cx="0" cy="0" rx="8" ry="12" fill="#f9c4da" transform="rotate(90)"/>
-        <circle cx="0" cy="0" r="5" fill="#ffe4ee"/>
-      </g>
-      <g transform="translate(190,172)">
-        <ellipse cx="0" cy="0" rx="7" ry="10" fill="#f9a8c9" transform="rotate(-30)"/>
-        <ellipse cx="0" cy="0" rx="7" ry="10" fill="#f9a8c9" transform="rotate(30)"/>
-        <ellipse cx="0" cy="0" rx="7" ry="10" fill="#f9c4da" transform="rotate(90)"/>
-        <circle cx="0" cy="0" r="4" fill="#ffe4ee"/>
-      </g>
-      <!-- Halo glow -->
-      <circle cx="120" cy="75" r="52" fill="url(#haloGrad)"/>
-      <!-- Halo ring -->
-      <circle cx="120" cy="75" r="48" fill="none" stroke="#ffd700" stroke-width="1.5" opacity=".4"/>
-      <circle cx="120" cy="75" r="44" fill="none" stroke="#ffd700" stroke-width=".8" opacity=".25"/>
-      <!-- Buddha body — saffron robe -->
-      <ellipse cx="120" cy="158" rx="46" ry="32" fill="#e8a020"/>
-      <!-- Robe folds -->
-      <path d="M80 160 Q95 145 120 155 Q145 145 160 160" fill="none" stroke="#c07818" stroke-width="1.5" opacity=".5"/>
-      <path d="M86 170 Q103 158 120 165 Q137 158 154 170" fill="none" stroke="#c07818" stroke-width="1.5" opacity=".5"/>
-      <!-- Torso -->
-      <ellipse cx="120" cy="140" rx="28" ry="24" fill="#e8a020"/>
-      <!-- Arms in meditation mudra -->
-      <ellipse cx="87" cy="155" rx="16" ry="8" fill="#e8a020" transform="rotate(-15 87 155)"/>
-      <ellipse cx="153" cy="155" rx="16" ry="8" fill="#e8a020" transform="rotate(15 153 155)"/>
-      <!-- Hands clasped (dhyana mudra) -->
-      <ellipse cx="110" cy="162" rx="12" ry="6" fill="#d4901c"/>
-      <ellipse cx="130" cy="162" rx="12" ry="6" fill="#d4901c"/>
-      <!-- Neck -->
-      <rect x="113" y="110" width="14" height="16" rx="4" fill="#c8a060"/>
-      <!-- Head -->
-      <ellipse cx="120" cy="95" rx="28" ry="30" fill="#c8a060"/>
-      <!-- Ushnisha (topknot) -->
-      <ellipse cx="120" cy="66" rx="14" ry="10" fill="#b89050"/>
-      <ellipse cx="120" cy="60" rx="10" ry="7" fill="#a88040"/>
-      <circle cx="120" cy="55" r="4" fill="#906030"/>
-      <!-- Face — serene expression -->
-      <ellipse cx="111" cy="93" rx="6" ry="3" fill="#8a6030" opacity=".4"/>
-      <ellipse cx="129" cy="93" rx="6" ry="3" fill="#8a6030" opacity=".4"/>
-      <!-- Closed eyes (meditation) -->
-      <path d="M106 92 Q111 89 116 92" fill="none" stroke="#5a3820" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M124 92 Q129 89 134 92" fill="none" stroke="#5a3820" stroke-width="1.8" stroke-linecap="round"/>
-      <!-- Gentle smile -->
-      <path d="M113 103 Q120 108 127 103" fill="none" stroke="#5a3820" stroke-width="1.5" stroke-linecap="round"/>
-      <!-- Bindi / urna -->
-      <circle cx="120" cy="87" r="2.5" fill="#d4400a" opacity=".8"/>
-      <!-- Ears -->
-      <ellipse cx="92" cy="97" rx="5" ry="9" fill="#c0985a"/>
-      <ellipse cx="148" cy="97" rx="5" ry="9" fill="#c0985a"/>
-      <!-- Earlobes -->
-      <ellipse cx="92" cy="105" rx="4" ry="5" fill="#b08848"/>
-      <ellipse cx="148" cy="105" rx="4" ry="5" fill="#b08848"/>
-      <!-- Floating particles / aura -->
-      <circle cx="72" cy="60" r="2.5" fill="#ffd700" opacity=".5"/>
-      <circle cx="168" cy="55" r="2" fill="#ffd700" opacity=".4"/>
-      <circle cx="80" cy="100" r="1.5" fill="#ffd700" opacity=".35"/>
-      <circle cx="162" cy="105" r="1.5" fill="#ffd700" opacity=".35"/>
-      <circle cx="100" cy="45" r="2" fill="#f9c4da" opacity=".5"/>
-      <circle cx="145" cy="42" r="1.8" fill="#f9c4da" opacity=".45"/>
-      <!-- Lotus seat -->
-      <ellipse cx="120" cy="178" rx="42" ry="12" fill="#e8a0a0" opacity=".7"/>
-      <ellipse cx="120" cy="174" rx="35" ry="9" fill="#f4b8b8" opacity=".8"/>
+  <div id="panda-tab-pet" class="panda-panel" style="display:none;overflow-y:auto;padding:0">
+
+<!-- ── MY BUDDHA — Buddhist Wellness Section ── -->
+<div style="padding:0 20px 28px">
+
+<!-- Buddha SVG Scene -->
+<div style="text-align:center;padding:20px 0 10px;position:relative">
+  <div style="display:inline-block;position:relative">
+    <svg viewBox="0 0 200 180" width="180" height="162" xmlns="http://www.w3.org/2000/svg">
+      <!-- Lotus base -->
+      <ellipse cx="100" cy="155" rx="55" ry="12" fill="#e8c4a0" opacity=".5"/>
       <!-- Lotus petals -->
-      <path d="M85 174 Q98 162 110 172" fill="#f9c4c4" stroke="#e08888" stroke-width=".8"/>
-      <path d="M130 172 Q142 162 155 174" fill="#f9c4c4" stroke="#e08888" stroke-width=".8"/>
-      <path d="M103 168 Q120 154 137 168" fill="#fdd8d8" stroke="#e89898" stroke-width=".8"/>
+      <ellipse cx="100" cy="148" rx="30" ry="10" fill="#f4b8c8" opacity=".8"/>
+      <ellipse cx="75" cy="150" rx="20" ry="8" fill="#f4b8c8" opacity=".7" transform="rotate(-20,75,150)"/>
+      <ellipse cx="125" cy="150" rx="20" ry="8" fill="#f4b8c8" opacity=".7" transform="rotate(20,125,150)"/>
+      <!-- Body / robe -->
+      <ellipse cx="100" cy="120" rx="38" ry="35" fill="#e8901e" opacity=".95"/>
+      <!-- Head -->
+      <circle cx="100" cy="72" r="26" fill="#c8966c"/>
+      <!-- Halo -->
+      <circle cx="100" cy="72" r="35" fill="none" stroke="#f0c040" stroke-width="2.5" opacity=".8"/>
+      <circle cx="100" cy="72" r="38" fill="none" stroke="#f0c040" stroke-width=".8" opacity=".4"/>
+      <!-- Eyes closed — peaceful -->
+      <path d="M91 72 Q94 69 97 72" fill="none" stroke="#5a3a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M103 72 Q106 69 109 72" fill="none" stroke="#5a3a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Smile -->
+      <path d="M94 79 Q100 84 106 79" fill="none" stroke="#5a3a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Bindi -->
+      <circle cx="100" cy="62" r="3" fill="#e8301e" opacity=".9"/>
+      <!-- Hands in dhyana mudra -->
+      <ellipse cx="88" cy="132" rx="12" ry="7" fill="#c8966c"/>
+      <ellipse cx="112" cy="132" rx="12" ry="7" fill="#c8966c"/>
+      <!-- Floating sparkles -->
+      <circle cx="55" cy="60" r="2.5" fill="#f0c040" opacity=".7">
+        <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="148" cy="45" r="2" fill="#f0c040" opacity=".5">
+        <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3.1s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="45" cy="100" r="1.5" fill="#f4b8c8" opacity=".8">
+        <animate attributeName="opacity" values="0.8;0.2;0.8" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="158" cy="90" r="2" fill="#f4b8c8" opacity=".6">
+        <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.7s" repeatCount="indefinite"/>
+      </circle>
     </svg>
   </div>
-  <!-- Mood / energy -->
-  <div id="pet-speech" class="pet-speech" style="font-size:13px;font-style:italic;color:var(--ink2);margin:4px 0 10px;min-height:20px">🙏 Peace begins within...</div>
+  <!-- Dharma wheel indicator -->
+  <div id="pet-speech" style="font-size:12px;font-style:italic;color:var(--ink2);margin:4px 0 6px;text-align:center;min-height:18px;padding:0 10px;line-height:1.6">🙏 Still your mind. Begin within.</div>
+  <!-- Study streak blessing -->
+  <div id="buddha-streak-msg" style="font-size:11px;font-weight:700;color:var(--primary);text-align:center;margin-bottom:4px"></div>
 </div>
+
+<!-- ── DAILY DHARMA ── -->
+<div style="background:linear-gradient(135deg,rgba(240,192,64,.12),rgba(232,144,30,.08));border:1px solid rgba(240,192,64,.3);border-radius:14px;padding:14px 16px;margin-bottom:12px">
+  <div style="font-size:9px;font-weight:800;color:rgba(180,120,20,.8);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">☸️ Daily Dharma</div>
+  <div id="dharma-quote" style="font-size:13px;font-style:italic;color:var(--ink);line-height:1.8;font-family:'Playfair Display',serif">Loading...</div>
+  <div id="dharma-source" style="font-size:10px;color:var(--ink3);margin-top:6px;font-weight:700">— The Buddha</div>
+  <button onclick="window._nextDharma&&window._nextDharma()" style="margin-top:8px;background:rgba(240,192,64,.15);border:1px solid rgba(240,192,64,.3);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;color:rgba(160,100,10,1);cursor:pointer;font-family:inherit">↻ New Teaching</button>
 </div>
+
+<!-- ── MINDFULNESS BELL ── -->
+<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;margin-bottom:12px">
+  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🔔 Mindfulness Bell</div>
+  <div style="font-size:11px;color:var(--ink3);margin-bottom:10px;line-height:1.6">Ring the bell to pause, breathe, and return to the present moment.</div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <button onclick="window._ringBell&&window._ringBell()" style="background:var(--primary);color:white;border:none;border-radius:100px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .2s" id="bell-btn">🔔 Ring Bell</button>
+    <span id="bell-msg" style="font-size:11px;font-weight:600;color:var(--ink3);font-style:italic"></span>
+  </div>
+</div>
+
+<!-- ── BREATH MEDITATION TIMER ── -->
+<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;margin-bottom:12px">
+  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🫁 Breath Meditation</div>
+  <div style="text-align:center;padding:10px 0">
+    <div id="breath-circle" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--primary);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--primary);transition:transform 4s ease-in-out,opacity 1s;opacity:.7">Inhale</div>
+    <div id="breath-label" style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px">4-7-8 Breathing</div>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button onclick="window._startBreath&&window._startBreath()" id="breath-btn" style="background:var(--primary);color:white;border:none;border-radius:8px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">▶ Begin</button>
+      <button onclick="window._stopBreath&&window._stopBreath()" style="background:transparent;color:var(--ink3);border:1.5px solid var(--border);border-radius:8px;padding:8px 16px;font-size:12px;cursor:pointer;font-family:inherit">■ Stop</button>
+    </div>
+    <div id="breath-count" style="font-size:11px;color:var(--ink3);margin-top:8px;font-weight:600"></div>
+  </div>
+</div>
+
+<!-- ── FIVE PRECEPTS CHECK ── -->
+<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;margin-bottom:12px">
+  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🙏 Daily Intentions</div>
+  <div style="font-size:11px;color:var(--ink3);margin-bottom:8px;line-height:1.6">Inspired by the Five Precepts — set your intentions for today:</div>
+  <div id="precepts-list" style="display:flex;flex-direction:column;gap:8px"></div>
+</div>
+
+<!-- ── MERIT COUNTER ── -->
+<div style="background:linear-gradient(135deg,rgba(92,122,62,.08),rgba(45,106,79,.05));border:1px solid var(--border2);border-radius:14px;padding:14px 16px">
+  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px">☸️ Dharma Path</div>
+  <div style="display:flex;gap:12px;text-align:center;flex-wrap:wrap;justify-content:center">
+    <div><div style="font-size:22px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace" id="merit-sessions">0</div><div style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Sessions</div></div>
+    <div><div style="font-size:22px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace" id="merit-streak">0</div><div style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Day Streak</div></div>
+    <div><div style="font-size:22px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace" id="merit-hrs">0h</div><div style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Total Hours</div></div>
+  </div>
+  <div id="buddha-wisdom-msg" style="font-size:11px;color:var(--ink2);text-align:center;margin-top:10px;font-style:italic;line-height:1.6">Each moment of study is an act of merit. 🪷</div>
+</div>
+
+</div></div>
 </div>
 
 
@@ -2383,11 +2439,52 @@ body.ma-mode #ma-focus-overlay{display:flex;}
 </div>
 
 <!-- Factoz rotating fact banner -->
-<div id="home-factoz-banner" style="background:linear-gradient(120deg,var(--surface),var(--bg2));border:1px solid var(--border);border-radius:16px;padding:14px 50px 14px 28px;margin-bottom:16px;position:relative;cursor:pointer;transition:background .2s" onclick="window.nextHomeFactoz()">
-  <div style="position:absolute;left:8px;top:6px;font-size:28px;color:var(--pl);opacity:.6;line-height:1">📰</div>
-  <div style="font-size:13px;font-weight:700;color:var(--ink);line-height:1.6" id="home-factoz-text">Loading...</div>
-  <div style="font-size:10px;color:var(--ink3);margin-top:3px;font-weight:700;letter-spacing:1px;text-transform:uppercase" id="home-factoz-src">— FACTOZ</div>
-  <button onclick="event.stopPropagation();window.nextHomeFactoz()" style="position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;font-size:18px;color:var(--ink3);padding:6px;border-radius:8px;transition:all .25s;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center">↻</button>
+<div id="home-quote-card" onclick="window.nextHomeFactoz()" style="
+  background: linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--primary) 4%, var(--surface)) 100%);
+  border: 1px solid color-mix(in srgb, var(--primary) 20%, var(--border));
+  border-radius: 20px;
+  padding: 24px 60px 20px 28px;
+  margin-bottom: 18px;
+  position: relative;
+  cursor: pointer;
+  transition: all .25s;
+  overflow: hidden;
+" onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 32px var(--pglow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+  <!-- Decorative quotation mark -->
+  <div style="position:absolute;top:-8px;left:12px;font-size:80px;color:var(--primary);opacity:.08;font-family:'Playfair Display',serif;line-height:1;pointer-events:none;user-select:none">"</div>
+  <!-- Subtle shimmer line -->
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--primary),transparent);opacity:.3"></div>
+  <!-- Label -->
+  <div style="font-size:9px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:3px;margin-bottom:10px;opacity:.7">✦ Daily Wisdom</div>
+  <!-- Quote text in cursive -->
+  <div id="home-factoz-text" style="
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(15px, 2.2vw, 19px);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.75;
+    min-height: 48px;
+    transition: opacity .35s;
+  ">Loading a thought for you...</div>
+  <!-- Author -->
+  <div id="home-factoz-src" style="
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12px;
+    color: var(--primary);
+    margin-top: 10px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    opacity: .8;
+  ">— TISA</div>
+  <!-- Refresh button -->
+  <button onclick="event.stopPropagation();window.nextHomeFactoz()" title="Next quote" style="
+    position:absolute;top:14px;right:14px;
+    background:none;border:1px solid color-mix(in srgb,var(--primary) 25%,transparent);
+    cursor:pointer;font-size:14px;color:var(--primary);
+    padding:6px 8px;border-radius:9px;transition:all .2s;
+    opacity:.6;line-height:1;
+  " onmouseenter="this.style.opacity='1';this.style.background='var(--pglow)'" onmouseleave="this.style.opacity='.6';this.style.background='none'">↻</button>
 </div>
 
 <!-- Quick stats row -->
@@ -2428,6 +2525,7 @@ body.ma-mode #ma-focus-overlay{display:flex;}
     <button class="btn btn-o btn-sm" onclick="resetTimer()">Reset</button>
     <button class="btn btn-sm" id="pomo-stop-btn" onclick="stopPomo()" style="display:none;background:#ef4444;color:white;border-color:#ef4444">⏹ Stop Pomo</button>
     <button class="btn btn-o btn-sm" onclick="toggleFocus()" title="Full-screen focus overlay">🎯</button>
+    <button class="btn btn-o btn-sm" onclick="window.startZenTimer&&window.startZenTimer()" title="Zen session">🌱</button>
   </div>
   <div class="sess-log" id="sess-log"></div>
 </div>
@@ -2670,13 +2768,49 @@ body.ma-mode #ma-focus-overlay{display:flex;}
 
 
 <!-- FACTOZ CARD -->
-<div class="gk-hero" id="factoz-wrap" style="margin-bottom:16px">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-    <div style="font-size:9px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:2px">📰 FACTOZ · CURRENT AFFAIRS & GK</div>
-    <button onclick="window.nextFactoz&&window.nextFactoz()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:white;border-radius:10px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">🔄 New</button>
+<div id="factoz-wrap" style="
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #0f2744 100%);
+  border-radius: 20px;
+  padding: 26px 28px 22px;
+  margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+" onclick="window.nextFactoz&&window.nextFactoz()">
+  <!-- Background shimmer -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(99,179,237,.08) 0%,transparent 70%);pointer-events:none"></div>
+  <!-- Stars -->
+  <div style="position:absolute;top:10px;right:60px;font-size:7px;color:rgba(255,255,255,.2);letter-spacing:8px">✦ ✦ ✦ ✦ ✦</div>
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div style="font-size:9px;font-weight:800;color:rgba(99,179,237,.7);text-transform:uppercase;letter-spacing:3px">📰 Factoz · Current Affairs & GK</div>
+    <button onclick="event.stopPropagation();window.nextFactoz&&window.nextFactoz()" style="
+      background:rgba(99,179,237,.12);border:1px solid rgba(99,179,237,.25);
+      color:rgba(255,255,255,.8);border-radius:8px;padding:5px 12px;
+      font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;
+      transition:all .2s;
+    ">🔄 Next</button>
   </div>
-  <div id="factoz-text" style="font-size:16px;font-weight:800;color:#fff;line-height:1.5;margin-bottom:6px">Loading...</div>
-  <div id="factoz-source" style="font-size:11px;font-weight:600;color:rgba(255,255,255,.5)">— Source</div>
+  <!-- Fact text in cursive -->
+  <div id="factoz-text" style="
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-style: italic;
+    font-weight: 600;
+    color: #e2e8f0;
+    line-height: 1.7;
+    min-height: 50px;
+    transition: opacity .35s;
+  ">Loading current affairs...</div>
+  <!-- Source -->
+  <div id="factoz-source" style="
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 11px;
+    color: rgba(99,179,237,.6);
+    margin-top: 12px;
+    font-weight: 600;
+    letter-spacing: .5px;
+  ">— Source</div>
 </div>
 <!-- ── AI TEST ZONE HERO ── -->
 <!-- GK Daily removed — Factoz replaces it -->
@@ -2856,12 +2990,12 @@ body.ma-mode #ma-focus-overlay{display:flex;}
   <button id="social-tab-community" class="social-tab-btn" onclick="window._socialTab('community',this)">🌍 Community</button>
 </div>
 <div id="social-connect-panel">
-<!-- Yeolpumta Live Status Banner -->
+<!-- Champs Live Status Banner -->
 <div style="background:linear-gradient(135deg,rgba(255,107,53,.08),rgba(255,159,67,.06));border:1px solid rgba(255,107,53,.2);border-radius:14px;padding:10px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
   <span style="font-size:18px">🔥</span>
   <div style="flex:1">
-    <div style="font-size:11px;font-weight:800;color:#ff6b35;text-transform:uppercase;letter-spacing:1px">Yeolpumta — Live</div>
-    <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-top:1px" id="yeolpumta-count">Loading buddy status...</div>
+    <div style="font-size:11px;font-weight:800;color:#ff6b35;text-transform:uppercase;letter-spacing:1px">Champs — Live</div>
+    <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-top:1px" id="champs-count">Loading buddy status...</div>
   </div>
   <div style="font-size:10px;color:var(--ink3);font-weight:600">Live 🟢</div>
 </div>
@@ -3684,6 +3818,12 @@ onAuthStateChanged(auth,async(user)=>{
 });
 
 async function showApp(user){
+  // Load saved Gemini key immediately
+  try{const _sk=localStorage.getItem('tisa_panda_key');
+    if(_sk&&_sk.startsWith('AIza')&&_sk.length>20){
+      window._PANDA_KEY=_sk;
+    }
+  }catch(_ke){}
   document.getElementById('login-screen').classList.remove('show');
   document.getElementById('app-header').style.display='flex';
   document.getElementById('app-main').style.display='block';
@@ -3736,7 +3876,20 @@ async function showApp(user){
   window.renderThemeGrid&&window.renderThemeGrid();
   loadMyChats();
   window._showAdminButtons&&window._showAdminButtons();
-  setTimeout(()=>{window.updateGreeting&&window.updateGreeting();window.nextHomeFactoz&&window.nextHomeFactoz();},300);
+  (function(){
+    var _tries=0;
+    function _tryNextFact(){
+      if(window.nextHomeFactoz&&window.QS&&window.QS.length){
+        window.updateGreeting&&window.updateGreeting();
+        window.nextHomeFactoz();
+        window.nextFactoz&&window.nextFactoz();
+      } else if(_tries<20){
+        _tries++;
+        setTimeout(_tryNextFact, 200);
+      }
+    }
+    setTimeout(_tryNextFact, 400);
+  })();
 }
 
 // ── USER DATA ──
@@ -4817,11 +4970,11 @@ function loadMyChats(){
           </div>
         </div>`;
       }).join('');
-      // Update Yeolpumta studying count
+      // Update Champs studying count
       (function(){
         const cache=window._buddyFocusCache||{};
         const studying=Object.values(cache).filter(b=>b.isStudying).length;
-        const ypEl=document.getElementById('yeolpumta-count');
+        const ypEl=document.getElementById('champs-count');
         if(ypEl){
           ypEl.textContent=studying>0?`🔥 ${studying} studying now`:'No one studying right now';
           ypEl.style.color=studying>0?'#ff6b35':'var(--ink3)';
@@ -4889,7 +5042,11 @@ let _saveTimer=null;
 function save(){
   if(!window._save)return;
   clearTimeout(_saveTimer);
-  _saveTimer=setTimeout(()=>window._save(),1500);
+  _saveTimer=setTimeout(async()=>{
+    try{await window._save();}catch(e){console.warn('[TISA] save failed:',e.message);}
+    // Update UI after save
+    renderStats&&renderStats();
+  },1500);
 }
 function pad(n){return String(n).padStart(2,'0');}
 window._esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
@@ -4923,10 +5080,11 @@ window.showPage=(name,btn)=>{
   if(name==='social'){window._loadMyChats&&window._loadMyChats();window._loadForum&&window._loadForum();}
   if(name==='tests'){setTimeout(()=>{window.nextFactoz&&window.nextFactoz();},100);}
   if(name==='profile'){renderProfilePage();setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();},100);}
+    if(name==='myspace'){setTimeout(function(){typeof renderTT==='function'&&renderTT();typeof renderStats==='function'&&renderStats();},100);}
   if(name==='home'){setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();},200);}
   
   if(name==='connect'){window._checkDMNotifications&&window._checkDMNotifications();} // BUG3 FIX: reload forum when navigating to community page
-  if(name==='performance'){renderBigChart();renderPieChart();renderSubjPerf();renderXP();renderCal();}
+  if(name==='performance'){renderBigChart();renderPieChart();renderSubjPerf();renderXP();renderCal();setTimeout(function(){window.renderTestGraph&&window.renderTestGraph();},200);}
   if(name==='profile'){renderProfilePage();setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();},100);}
   if(name==='tests'){setTimeout(()=>{window.nextFactoz&&window.nextFactoz();},100);}
   if(name==='home'){setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();},200);}
@@ -5137,7 +5295,61 @@ const QS=[
 {t:"You are never too old to set another goal or to dream a new dream.",a:"C.S. Lewis"},
 {t:"To handle yourself, use your head; to handle others, use your heart.",a:"Eleanor Roosevelt"},
 {t:"Keep your face always toward the sunshine — and shadows will fall behind you.",a:"Walt Whitman"}
+// Life, Love, Philosophy, Motivation — extended
+,{t:"The purpose of our lives is to be happy.",a:"Dalai Lama"}
+,{t:"Life is what happens when you're busy making other plans.",a:"John Lennon"}
+,{t:"In the middle of every difficulty lies opportunity.",a:"Albert Einstein"}
+,{t:"It is during our darkest moments that we must focus to see the light.",a:"Aristotle"}
+,{t:"The unexamined life is not worth living.",a:"Socrates"}
+,{t:"He who has a why to live can bear almost any how.",a:"Friedrich Nietzsche"}
+,{t:"The only way to do great work is to love what you do.",a:"Steve Jobs"}
+,{t:"Happiness is not something ready-made. It comes from your own actions.",a:"Dalai Lama"}
+,{t:"We know what we are, but know not what we may be.",a:"William Shakespeare"}
+,{t:"I am not afraid of storms, for I am learning how to sail my ship.",a:"Louisa May Alcott"}
+,{t:"The greatest glory in living lies not in never falling, but in rising every time we fall.",a:"Nelson Mandela"}
+,{t:"Love is not about how many days, months, or years you have been together. It's about how much you love each other every day.",a:"Unknown"}
+,{t:"To love and be loved is to feel the sun from both sides.",a:"David Viscott"}
+,{t:"The best and most beautiful things in this world cannot be seen or even heard, but must be felt with the heart.",a:"Helen Keller"}
+,{t:"Wonder is the beginning of wisdom.",a:"Socrates"}
+,{t:"I think, therefore I am.",a:"René Descartes"}
+,{t:"Not all those who wander are lost.",a:"J.R.R. Tolkien"}
+,{t:"We accept the love we think we deserve.",a:"Stephen Chbosky"}
+,{t:"To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.",a:"Ralph Waldo Emerson"}
+,{t:"Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",a:"Albert Einstein"}
+,{t:"It does not matter how slowly you go as long as you do not stop.",a:"Confucius"}
+,{t:"Our greatest fear is not that we are inadequate, but that we are powerful beyond measure.",a:"Marianne Williamson"}
+,{t:"The journey of a thousand miles begins with one step.",a:"Lao Tzu"}
+,{t:"You miss 100% of the shots you don't take.",a:"Wayne Gretzky"}
+,{t:"Whether you think you can or you think you can't, you're right.",a:"Henry Ford"}
+,{t:"I have not failed. I've just found 10,000 ways that won't work.",a:"Thomas Edison"}
+,{t:"The only impossible journey is the one you never begin.",a:"Tony Robbins"}
+,{t:"In three words I can sum up everything I've learned about life: it goes on.",a:"Robert Frost"}
+,{t:"To live is the rarest thing in the world. Most people exist, that is all.",a:"Oscar Wilde"}
+,{t:"The good life is one inspired by love and guided by knowledge.",a:"Bertrand Russell"}
+,{t:"Live as if you were to die tomorrow. Learn as if you were to live forever.",a:"Mahatma Gandhi"}
+,{t:"Education is the most powerful weapon which you can use to change the world.",a:"Nelson Mandela"}
+,{t:"The more that you read, the more things you will know. The more that you learn, the more places you'll go.",a:"Dr. Seuss"}
+,{t:"A reader lives a thousand lives before he dies. The man who never reads lives only one.",a:"George R.R. Martin"}
+,{t:"An investment in knowledge pays the best interest.",a:"Benjamin Franklin"}
+,{t:"Be the change you wish to see in the world.",a:"Mahatma Gandhi"}
+,{t:"Darkness cannot drive out darkness; only light can do that.",a:"Martin Luther King Jr."}
+,{t:"No one can make you feel inferior without your consent.",a:"Eleanor Roosevelt"}
+,{t:"We are what we repeatedly do. Excellence, then, is not an act, but a habit.",a:"Aristotle"}
+,{t:"Success is not final, failure is not fatal: it is the courage to continue that counts.",a:"Winston Churchill"}
+,{t:"You only live once, but if you do it right, once is enough.",a:"Mae West"}
+,{t:"Be yourself; everyone else is already taken.",a:"Oscar Wilde"}
+,{t:"A room without books is like a body without a soul.",a:"Marcus Tullius Cicero"}
+,{t:"You've gotta dance like there's nobody watching, love like you'll never be hurt.",a:"William W. Purkey"}
+,{t:"You can't use up creativity. The more you use, the more you have.",a:"Maya Angelou"}
+,{t:"I've learned that people will forget what you said, people will forget what you did, but people will never forget how you made them feel.",a:"Maya Angelou"}
+,{t:"It's not the years in your life that count. It's the life in your years.",a:"Abraham Lincoln"}
+,{t:"The secret of change is to focus all your energy not on fighting the old, but on building the new.",a:"Socrates"}
+,{t:"When you reach the end of your rope, tie a knot in it and hang on.",a:"Franklin D. Roosevelt"}
+,{t:"Always remember that you are absolutely unique. Just like everyone else.",a:"Margaret Mead"}
+,{t:"Do not go where the path may lead, go instead where there is no path and leave a trail.",a:"Ralph Waldo Emerson"}
+
 ];
+window.QS=QS; // expose for nextFactoz/nextHomeFactoz
 let qI=Math.floor(Math.random()*QS.length);
 window.nextQ=function(){qI=(qI+1)%QS.length;const q=QS[qI];const qt=document.getElementById('qt');const qa=document.getElementById('qa');const lq=document.getElementById('lq');if(qt)qt.textContent='"'+q.t+'"';if(qa)qa.textContent='— '+q.a;if(lq)lq.textContent='"'+q.t+'"';};
 nextQ();
@@ -5265,7 +5477,19 @@ function logSessDisplay(){
 }
 function logSess(){if(tSecs<5)return;const sub=document.getElementById('subj-sel')?.value||'General',dur=tSecs;saveSecs(dur);sessions.unshift({sub,dur,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),date:window._today});if(sessions.length>100)sessions.length=100;tSecs=0;tTotal=0;tSaved=0;updTD();updTRing();renderSessLog();renderStats();renderSubjPerf();}
 function renderSessLog(){const el=document.getElementById('sess-log');if(!el)return;const todayLog=sessions.filter(s=>!s.date||s.date===window._today);if(!todayLog.length){el.innerHTML='';return;}el.innerHTML=todayLog.slice(0,4).map(s=>`<div class="sess-item"><span class="tag" style="font-size:10px">${window._esc(s.sub)}</span><span style="font-weight:800;color:var(--primary);font-family:'Space Mono',monospace">${fmtHLabel(s.dur)}</span><span style="color:var(--ink3)">${s.time}</span></div>`).join('');}
-function renderStats(){const ts=window.studyData[window._today]||0;const stdEl=document.getElementById('st-today');if(stdEl)stdEl.textContent=window._fmtH(ts);let ws=0;for(let i=0;i<7;i++)ws+=(window.studyData[window._dStr(i)]||0);const swEl=document.getElementById('st-week');if(swEl)swEl.textContent=window._fmtH(ws);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const ssEl=document.getElementById('st-streak');if(ssEl)ssEl.textContent=st;const seEl=document.getElementById('st-sess');if(seEl)seEl.textContent=sessions.length;renderRecentActivity();}
+function renderStats(){const ts=window.studyData[window._today]||0;const stdEl=document.getElementById('st-today');if(stdEl)stdEl.textContent=window._fmtH(ts);let ws=0;for(let i=0;i<7;i++)ws+=(window.studyData[window._dStr(i)]||0);const swEl=document.getElementById('st-week');if(swEl)swEl.textContent=window._fmtH(ws);let st=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)st++;else if(i>0)break;}const ssEl=document.getElementById('st-streak');if(ssEl)ssEl.textContent=st;const seEl=document.getElementById('st-sess');if(seEl)seEl.textContent=sessions.length;renderRecentActivity();
+  // ── Home stat tiles ──
+  try{
+    const _ts2=window.studyData[window._today]||0;
+    const _th=Math.floor(_ts2/3600),_tm=Math.floor((_ts2%3600)/60);
+    const _hst=document.getElementById('hs-today');
+    if(_hst)_hst.textContent=_th>0?_th+'h '+(_tm>0?_tm+'m':''):_tm+'m';
+    let _stk=0;for(let _i=0;_i<365;_i++){if((window.studyData[window._dStr(_i)]||0)>0)_stk++;else if(_i>0)break;}
+    const _hss=document.getElementById('hs-streak');if(_hss)_hss.textContent=_stk+' 🔥';
+    const _hsk=document.getElementById('hs-tasks');if(_hsk)_hsk.textContent=(window.todos||[]).filter(function(t){return !t.done;}).length;
+    const _hsx=document.getElementById('hs-xp');if(_hsx)_hsx.textContent=window.xp||0;
+  }catch(_e){}
+}
 function renderRecentActivity(){
   const el=document.getElementById('recent-act');if(!el)return;
   // Build activity from sessions + studyData
@@ -5405,7 +5629,7 @@ window.deleteTodo=(id)=>{window.todos=window.todos.filter(t=>t.id!=id);save();re
 window.clearDone=()=>{window.todos=window.todos.filter(t=>!t.done);save();renderTodos();toast('Done tasks cleared');};
 window.setF=(f,btn)=>{todoFilter=f;document.querySelectorAll('.f-row .fbtn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderTodos();};
 function isOD(t){return t.due&&!t.done&&t.due<window._today;}
-function renderTodos(){const el=document.getElementById('todo-list');if(!el)return;const dn=window.todos.filter(t=>t.done).length;const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('ts-tot',window.todos.length);set('ts-dn',dn);set('ts-hi',window.todos.filter(t=>t.priority==='high'&&!t.done).length);set('ts-od',window.todos.filter(isOD).length);const pb=document.getElementById('todo-pb');if(pb)pb.style.width=(window.todos.length?Math.round(dn/window.todos.length*100):0)+'%';let fl=[...window.todos];if(todoFilter==='active')fl=fl.filter(t=>!t.done);else if(todoFilter==='done')fl=fl.filter(t=>t.done);else if(todoFilter==='high')fl=fl.filter(t=>t.priority==='high');else if(todoFilter==='overdue')fl=fl.filter(isOD);fl.sort((a,b)=>{if(!a.done&&b.done)return-1;if(a.done&&!b.done)return 1;return({high:0,normal:1,low:2}[a.priority]||1)-({high:0,normal:1,low:2}[b.priority]||1);});if(!fl.length){el.innerHTML=`<div class="empty">${todoFilter==='all'?'All clear! 🐼':'Nothing here'}</div>`;return;}el.innerHTML=fl.map(t=>{const od=isOD(t);const dl=t.due?(od?`<div class="tmeta ol">⚠ overdue · ${fmtDate(t.due)}</div>`:t.due===window._today?`<div class="tmeta" style="color:var(--primary);font-weight:800">Due today!</div>`:`<div class="tmeta">Due ${fmtDate(t.due)}</div>`):'';const pt=t.priority==='high'?`<span class="tag" style="background:#fdd;color:#922;font-size:9px">HIGH</span>`:t.priority==='low'?`<span class="tag" style="background:#dfd;color:#292;font-size:9px">LOW</span>`:'';return`<div class="todo-item ${t.done?'done':''} ${od?'overdue':''}" data-id="${t.id}"><div class="tcheck" onclick="toggleTodo(${t.id})">${t.done?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div class="ttw"><div class="ttext">${window._esc(t.text)}</div>${dl}</div><span class="tag" style="font-size:9px">${window._esc(t.subject||'')}</span>${pt}<button class="ic-btn" onclick="deleteTodo(${t.id})" style="font-size:14px">×</button></div>`;}).join('');}
+function renderTodos(){const el=document.getElementById('todo-list');if(!el)return;const dn=window.todos.filter(t=>t.done).length;const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('ts-tot',window.todos.length);set('ts-dn',dn);set('ts-hi',window.todos.filter(t=>t.priority==='high'&&!t.done).length);set('ts-od',window.todos.filter(isOD).length);const pb=document.getElementById('todo-pb');if(pb)pb.style.width=(window.todos.length?Math.round(dn/window.todos.length*100):0)+'%';let fl=[...window.todos];if(todoFilter==='active')fl=fl.filter(t=>!t.done);else if(todoFilter==='done')fl=fl.filter(t=>t.done);else if(todoFilter==='high')fl=fl.filter(t=>t.priority==='high');else if(todoFilter==='overdue')fl=fl.filter(isOD);fl.sort((a,b)=>{if(!a.done&&b.done)return-1;if(a.done&&!b.done)return 1;return({high:0,normal:1,low:2}[a.priority]||1)-({high:0,normal:1,low:2}[b.priority]||1);});if(!fl.length){el.innerHTML=`<div class="empty">${todoFilter==='all'?'All clear! 🐼':'Nothing here'}</div>`;return;}el.innerHTML=fl.map(t=>{const od=isOD(t);const dl=t.due?(od?`<div class="tmeta ol">⚠ overdue · ${fmtDate(t.due)}</div>`:t.due===window._today?`<div class="tmeta" style="color:var(--primary);font-weight:800">Due today!</div>`:`<div class="tmeta">Due ${fmtDate(t.due)}</div>`):'';const pt=t.priority==='high'?`<span class="tag" style="background:#fdd;color:#922;font-size:9px">HIGH</span>`:t.priority==='low'?`<span class="tag" style="background:#dfd;color:#292;font-size:9px">LOW</span>`:'';return`<div class="todo-item ${t.done?'done':''} ${od?'overdue':''}" data-id="${t.id}"><div class="tcheck" onclick="event.stopPropagation();toggleTodo(${t.id})" ontouchend="event.stopPropagation();toggleTodo(${t.id});event.preventDefault()">${t.done?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div class="ttw"><div class="ttext">${window._esc(t.text)}</div>${dl}</div><span class="tag" style="font-size:9px">${window._esc(t.subject||'')}</span>${pt}<button class="ic-btn" onclick="deleteTodo(${t.id})" style="font-size:14px">×</button></div>`;}).join('');}
 
 // ── CHARTS ──
 const PIE_COLORS=['#5c7a3e','#7db356','#d4688a','#2a7fa8','#d4783a','#8b6fd4','#c8941a','#2d7a3a'];
@@ -6040,89 +6264,70 @@ window._admViewUser=async function(uid){
   if(!uid||!_isAdmin())return;
   const modal=document.getElementById('adm-user-modal');
   const content=document.getElementById('adm-user-modal-content');
-  content.innerHTML='<div class="empty">Loading...</div>';
+  content.innerHTML='<div class="empty">Loading user info...</div>';
   modal.style.display='block';
   try{
-    const _gD=window._getDocs||getDocs,_gDc=window._getDoc||getDoc,
-          _col=window._collection||collection,_qr=window._query||query,
-          _wh=window._where||where,_ob=window._orderBy||orderBy,
-          _dc=window._doc||doc,_db2=window._db||db;
-    const [uSnap,postsSnap,reportsSnap,warnSnap]=await Promise.all([
+    const _gDc=window._getDoc||getDoc;
+    const _gD=window._getDocs||getDocs;
+    const _col=window._collection||collection;
+    const _qr=window._query||query;
+    const _wh=window._where||where;
+    const _ob=window._orderBy||orderBy;
+    const _dc=window._doc||doc;
+    const _db2=window._db||db;
+    // Only read from PUBLIC collections — 'users' and 'posts'
+    // Avoid 'userData/{uid}' (private, permission denied)
+    const [uSnap, postsSnap]=await Promise.all([
       _gDc(_dc(_db2,'users',uid)),
-      _gD(_qr(_col(_db2,'posts'),_wh('uid','==',uid),_ob('ts','desc'))),
-      _gD(_qr(_col(_db2,'reports'),_wh('targetUid','==',uid))),
-      _gD(_qr(_col(_db2,'warnings'),_wh('uid','==',uid)))
+      _gD(_qr(_col(_db2,'posts'),_wh('uid','==',uid),_ob('ts','desc')))
     ]);
-    const u=uSnap.exists()?{id:uid,...uSnap.data()}:{id:uid,username:'unknown'};
+    const u=uSnap.exists()?uSnap.data():{};
     const posts=postsSnap.docs.map(d=>({id:d.id,...d.data()}));
-    const reports=reportsSnap.docs.map(d=>({id:d.id,...d.data()}));
-    const warns=warnSnap.docs.map(d=>({id:d.id,...d.data()}));
-    const banned=_admBanned.find(b=>b.id===uid||b.uid===uid);
-    const joinDate=u.createdAt?_admFmt(u.createdAt):(u.lastSeen?'Active: '+_admFmt(u.lastSeen):'Unknown');
-
+    const banned=_admBanned.find(b=>b.uid===uid);
+    const reports=_admReports.filter(r=>r.targetUid===uid);
+    const joined=u.createdAt?(new Date(u.createdAt.toDate?u.createdAt.toDate():u.createdAt)).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}):'Unknown';
+    const totalH=Math.round((u.totalStudySecs||0)/3600);
     content.innerHTML=`
-      <!-- Profile header -->
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
-        <div style="width:52px;height:52px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:20px;flex-shrink:0;overflow:hidden">
-          ${u.photo?`<img src="${_e(u.photo)}" style="width:100%;height:100%;object-fit:cover">`:_e((u.name||u.username||'?')[0].toUpperCase())}
-        </div>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap">
+        <div style="width:52px;height:52px;border-radius:50%;background:${u.av?'url('+u.av+') center/cover':'var(--primary)'};color:white;font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">${u.av?'':((u.username||u.name||'?')[0].toUpperCase())}</div>
         <div>
-          <div style="font-size:16px;font-weight:900">@${_e(u.username||'no-username')}</div>
-          <div style="font-size:13px;color:var(--ink2)">${_e(u.name||'No display name')}</div>
-          <div style="font-size:11px;color:var(--ink3)">${_e(u.email||'No email')}</div>
-          ${banned?'<div style="margin-top:4px;font-size:11px;font-weight:700;color:var(--danger)">⛔ BANNED — '+_e(banned.reason||'')+'</div>':''}
+          <div style="font-size:18px;font-weight:800;color:var(--ink)">${_e(u.name||'Unknown')}</div>
+          <div style="font-size:13px;color:var(--primary);font-weight:700">@${_e(u.username||uid.slice(0,8))}</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:2px">Joined ${joined}</div>
+        </div>
+        ${banned?'<div style="background:var(--danger);color:white;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800">🚫 BANNED</div>':''}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">
+        <div style="background:var(--bg);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:var(--primary)">${totalH}h</div>
+          <div style="font-size:9px;color:var(--ink3);font-weight:700;text-transform:uppercase">Study Hours</div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:var(--primary)">${posts.length}</div>
+          <div style="font-size:9px;color:var(--ink3);font-weight:700;text-transform:uppercase">Posts</div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:${reports.length?'var(--danger)':'var(--primary)'}">${reports.length}</div>
+          <div style="font-size:9px;color:var(--ink3);font-weight:700;text-transform:uppercase">Reports</div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:20px;font-weight:900;color:var(--primary)">${u.xp||0}</div>
+          <div style="font-size:9px;color:var(--ink3);font-weight:700;text-transform:uppercase">XP</div>
         </div>
       </div>
-
-      <!-- Stats grid -->
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
-        <div style="text-align:center;background:var(--bg);border-radius:8px;padding:8px">
-          <div style="font-size:16px;font-weight:900;color:var(--primary)">${posts.length}</div>
-          <div style="font-size:10px;color:var(--ink3);text-transform:uppercase">Posts</div>
-        </div>
-        <div style="text-align:center;background:var(--bg);border-radius:8px;padding:8px">
-          <div style="font-size:16px;font-weight:900;color:var(--danger)">${reports.length}</div>
-          <div style="font-size:10px;color:var(--ink3);text-transform:uppercase">Reports</div>
-        </div>
-        <div style="text-align:center;background:var(--bg);border-radius:8px;padding:8px">
-          <div style="font-size:16px;font-weight:900;color:#f59e0b">${warns.length}</div>
-          <div style="font-size:10px;color:var(--ink3);text-transform:uppercase">Warnings</div>
-        </div>
-        <div style="text-align:center;background:var(--bg);border-radius:8px;padding:8px">
-          <div style="font-size:11px;font-weight:700;color:var(--ink2)">${joinDate.slice(0,10)}</div>
-          <div style="font-size:10px;color:var(--ink3);text-transform:uppercase">Last seen</div>
-        </div>
-      </div>
-
-      <!-- UID -->
-      <div style="background:var(--bg);border-radius:8px;padding:8px 10px;margin-bottom:12px;font-size:10px;font-family:monospace;color:var(--ink3);word-break:break-all">UID: ${_e(uid)}</div>
-
-      <!-- Warnings history -->
-      ${warns.length?`<div style="margin-bottom:12px">
-        <div style="font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;margin-bottom:6px">⚠️ Warning History</div>
-        ${warns.map(w=>`<div style="background:#fffbeb;border-radius:8px;padding:8px;margin-bottom:4px;font-size:12px;border-left:3px solid #f59e0b">${_e(w.message||'No message')} <span style="color:var(--ink3);font-size:10px">— ${_admFmt(w.ts)}</span></div>`).join('')}
-      </div>`:''}
-
-      <!-- Recent posts -->
-      ${posts.length?`<div style="margin-bottom:14px">
-        <div style="font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;margin-bottom:6px">📝 Recent Posts (${posts.length})</div>
-        ${posts.slice(0,5).map(p=>`<div style="background:var(--bg);border-radius:8px;padding:8px;margin-bottom:4px;font-size:12px;display:flex;justify-content:space-between;gap:8px;align-items:center">
-          <div style="color:var(--ink2);word-break:break-word;flex:1">${_e((p.text||'').slice(0,120))}</div>
-          <button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);font-size:10px;flex-shrink:0;padding:3px 7px" onclick="window._admDeletePost('${p.id}')">🗑</button>
-        </div>`).join('')}
-      </div>`:''}
-
-      <!-- Action buttons -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border)">
-        <button class="btn btn-sm btn-o" onclick="window._admWarn('${uid}','${_e(u.username||'user')}')">⚠️ Send Warning</button>
+      ${reports.length?`<div style="background:rgba(224,90,74,.08);border:1px solid rgba(224,90,74,.2);border-radius:10px;padding:10px 12px;margin-bottom:12px"><div style="font-size:11px;font-weight:800;color:var(--danger);margin-bottom:6px">🚩 Reports against this user (${reports.length})</div>${reports.slice(0,5).map(r=>`<div style="font-size:11px;color:var(--ink2);padding:3px 0;border-bottom:1px solid var(--border2)">${_e(r.reason||'—')} · ${_admFmt(r.ts)}</div>`).join('')}</div>`:''}
+      ${posts.length?`<div style="margin-bottom:12px"><div style="font-size:11px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Recent Posts</div>${posts.slice(0,5).map(p=>`<div style="padding:6px 8px;background:var(--bg);border-radius:8px;margin-bottom:4px;font-size:12px"><strong>${_e(p.title||'Untitled')}</strong><span style="color:var(--ink3);margin-left:6px">${_admFmt(p.ts)}</span></div>`).join('')}</div>`:'<div style="font-size:12px;color:var(--ink3);margin-bottom:12px">No posts yet.</div>'}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border2)">
         ${banned
-          ?`<button class="btn btn-sm btn-o" onclick="window._admUnban('${uid}');document.getElementById('adm-user-modal').style.display='none'">✅ Unban</button>`
-          :`<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser('${uid}','${_e(u.username||'user')}');document.getElementById('adm-user-modal').style.display='none'">⛔ Ban User</button>`
+          ?`<button class="btn btn-sm btn-p" onclick="window._admUnban('${uid}');document.getElementById('adm-user-modal').style.display='none'">✅ Unban User</button>`
+          :`<button class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger)" onclick="window._admBanUser('${uid}','${_e(u.username||'user')}','')">🚫 Ban User</button>`
         }
         <button class="btn btn-sm btn-o" style="color:var(--danger);border-color:var(--danger)" onclick="window._admNukeUser('${uid}','${_e(u.username||'user')}')">💥 Delete All Posts</button>
+        <button class="btn btn-sm btn-o" onclick="document.getElementById('adm-user-modal').style.display='none'">Close</button>
       </div>`;
   }catch(e){
-    content.innerHTML=`<div class="empty" style="color:var(--danger)">Failed to load: ${_e(e.message)}</div>`;
+    console.error('[TISA Admin] _admViewUser error:', e);
+    content.innerHTML=`<div class="empty" style="color:var(--danger)">❌ Failed to load: ${_e(e.message)}<br><br><small>This may be a Firestore permissions issue. Make sure your account has admin privileges.</small></div>`;
   }
 };
 
@@ -6713,7 +6918,7 @@ window.renderPet=function(){
   else if(avg>=65){emoji='😊';mood='Doing well!';moodColor='var(--primary)';speech=_petSpeech('ok');}
   else if(avg>=45){emoji='😐';mood='Could be better...';moodColor='#f59e0b';speech=_petSpeech('ok');}
   else if(avg>=25){emoji='😴';mood='Getting tired...';moodColor='#f97316';speech=_petSpeech('tired');}
-  else if(h<15){emoji='🤤';mood='SO hungry!!';moodColor='#ef4444';speech='Feed me bamboo!! 🎋🎋🎋';}
+  else if(h<15){emoji='🤤';mood='SO hungry!!';moodColor='#ef4444';speech='🙏 Breathe. Focus. Flow. 🎋🎋🎋';}
   else if(e<10){emoji='💤';mood='Exhausted...';moodColor='#8b5cf6';speech='Need to recharge... 🔋';}
   else{emoji='😢';mood='Needs attention!';moodColor='#ef4444';speech=_petSpeech('sad');}
 
@@ -6807,10 +7012,10 @@ window.renderPet=function(){
 
 window._petSpeech=function(mood){
   const lines={
-    happy:["Let's study something awesome! 📚","I love bamboo and you! 🎋","Keep going, you're crushing it!","Top of the class, here we come! 🏆"],
-    ok:["I'm doing alright! Feed me soon? 🎋","A little bamboo would be nice...","Let's keep the streak going! 🔥","Study time = happy Panda time!"],
-    tired:["I'm getting a bit tired... 😴","Could use some bamboo energy...","A study session would cheer me up!","Please don't forget about me! 🥺"],
-    sad:["I miss you! Come study! 😢","I'm hungry and sad... 🥺","Feed me bamboo? Please? 🎋","I need attention! Let's study together!"]
+    happy:["Let's study something awesome! 📚","Knowledge is your superpower! 📚","Keep going, you're crushing it!","Top of the class, here we come! 🏆"],
+    ok:["I'm doing alright! Seek wisdom within 🙏","A moment of focus changes everything...","Let's keep the streak going! 🔥","Study time = happy Panda time!"],
+    tired:["I'm getting a bit tired... 😴","Channel your inner wisdom...","A study session would cheer me up!","Please don't forget about me! 🥺"],
+    sad:["I miss you! Come study! 😢","I'm hungry and sad... 🥺","Seek wisdom? Please? 🎋","I need attention! Let's study together!"]
   };
   const arr=lines[mood]||lines.ok;
   return arr[Math.floor(Math.random()*arr.length)];
@@ -6824,7 +7029,7 @@ window.petFeed=function(){
   // Bounce animation
   const e=document.getElementById('pet-emoji');
   if(e){e.style.transform='scale(1.4)';setTimeout(()=>e.style.transform='',400);}
-  toast('🎋 Panda munches bamboo happily! (+25 hunger)');
+  toast('☸️ Mindful moment earned! (+25 energy)');
   renderPet();_savePet();save();
 };
 
@@ -7283,6 +7488,11 @@ function atzPickExam(exam, el){
   document.getElementById('atz-chap-row').style.display='none';
   document.getElementById('atz-mode-row').style.display='none';
   window._atz.subject=null; window._atz.chapter=null;
+  // Scroll to subject row smoothly
+  setTimeout(function(){
+    var sr=document.getElementById('atz-subj-row');
+    if(sr)sr.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },100);
 }
 
 function atzSetQtype(type, el){
@@ -10100,7 +10310,7 @@ window.pandaQuickSend=function(btn){
 
 // ─── PANDA GIFTS ─────────────────────────────────────────────────────────────
 var _PANDA_GIFT_MSGS={
-  bamboo:['nom nom nom my fav!','bamboo!!!! omg tysm','*happy crunching noises*'],
+  incense:['🙏 Thank you for the offering','☸️ The dharma thanks you','*peaceful breathing*'],
   tea:['ooh warm tea so cozy','tea time!! thank u bestie','sipping slowly... ahhh'],
   star:['a STAR!!! im glowing','you think im a star? aww','*places star on forehead proudly*'],
   flower:['flowers?? i\'m blushing','so pretty! thank you','*sniffs flower* smells amazing'],
@@ -11086,8 +11296,497 @@ window.toggleFocus = function(){
   }
 };
 
+
+// ── HOME FACTOZ / QUOTES ──────────────────────────────────────
+window.nextHomeFactoz = function(){
+  var qs = window.QS || [];
+  if(!qs.length) return;
+  var item = qs[Math.floor(Math.random() * qs.length)];
+  var el = document.getElementById('home-factoz-text');
+  var src = document.getElementById('home-factoz-src');
+  if(el){
+    el.style.opacity = '0';
+    el.style.transition = 'opacity .35s';
+    setTimeout(function(){
+      el.textContent = '"' + item.t + '"';
+      el.style.opacity = '1';
+    }, 200);
+  }
+  if(src) src.textContent = '— ' + item.a;
+};
+// Auto-cycle home quote every 30s
+window._homeQuoteInt && clearInterval(window._homeQuoteInt);
+window._homeQuoteInt = setInterval(function(){
+  if(document.getElementById('page-home') && document.getElementById('page-home').classList.contains('active')){
+    window.nextHomeFactoz();
+  }
+}, 30000);
+
+
+// ══════════════════════════════════════════════════════════════
+// BUDDHIST FEATURES — My Buddha tab
+// ══════════════════════════════════════════════════════════════
+(function(){
+  var DHARMA_QUOTES = [
+    {q:"Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.",s:"The Buddha"},
+    {q:"The mind is everything. What you think you become.",s:"The Buddha"},
+    {q:"Peace comes from within. Do not seek it without.",s:"The Buddha"},
+    {q:"Three things cannot be long hidden: the sun, the moon, and the truth.",s:"The Buddha"},
+    {q:"In the sky there is no distinction of east and west; people create distinctions out of their own minds.",s:"The Buddha"},
+    {q:"You yourself must strive. The Buddhas only point the way.",s:"Dhammapada"},
+    {q:"Just as a candle cannot burn without fire, men cannot live without a spiritual life.",s:"The Buddha"},
+    {q:"What you think, you become. What you feel, you attract. What you imagine, you create.",s:"Buddhist wisdom"},
+    {q:"Health is the greatest gift, contentment the greatest wealth, faithfulness the best relationship.",s:"The Buddha"},
+    {q:"If you light a lamp for someone else, it will also brighten your own path.",s:"The Buddha"},
+    {q:"With our thoughts we make the world.",s:"Dhammapada"},
+    {q:"Understanding is the heartwood of well-spoken words.",s:"The Buddha"},
+    {q:"Pain is certain, suffering is optional.",s:"Buddhist teaching"},
+    {q:"Your work is to discover your world and then with all your heart give yourself to it.",s:"The Buddha"},
+    {q:"Every morning we are born again. What we do today is what matters most.",s:"Buddhist wisdom"},
+    {q:"The way is not in the sky. The way is in the heart.",s:"Dhammapada"},
+    {q:"Radiate boundless love towards the entire world.",s:"The Buddha"},
+    {q:"An idea that is developed and put into action is more important than an idea that exists only as an idea.",s:"The Buddha"},
+  ];
+
+  var PRECEPTS_TEXT = [
+    "I will practice non-harm — in thoughts, words and actions.",
+    "I will be honest and truthful in all I say.",
+    "I will act with generosity, not taking what is not given.",
+    "I will cultivate mindfulness and keep the mind clear.",
+    "I will speak kindly and avoid harsh or idle words.",
+  ];
+
+  var BELL_MESSAGES = [
+    "Breathe in peace. Breathe out tension. 🪷",
+    "This moment is enough. Be here. 🙏",
+    "Stillness is the language of wisdom. ☸️",
+    "The present moment is always sufficient. 🌸",
+    "Return to your breath. Return to now. 🫧",
+    "Let go of what was. Be here, fully. 🌿",
+  ];
+
+  // Render dharma quote
+  window._nextDharma = function(){
+    var d = DHARMA_QUOTES[Math.floor(Math.random() * DHARMA_QUOTES.length)];
+    var q = document.getElementById('dharma-quote');
+    var s = document.getElementById('dharma-source');
+    if(q){ q.style.opacity='0'; setTimeout(function(){q.textContent='"'+d.q+'"';q.style.opacity='1';q.style.transition='opacity .4s';},200); }
+    if(s){ s.textContent='— ' + d.s; }
+  };
+
+  // Mindfulness bell
+  window._ringBell = function(){
+    var btn = document.getElementById('bell-btn');
+    var msg = document.getElementById('bell-msg');
+    var m = BELL_MESSAGES[Math.floor(Math.random() * BELL_MESSAGES.length)];
+    if(btn){ btn.style.transform='scale(1.15)'; setTimeout(function(){btn.style.transform='';},300); }
+    if(msg){ msg.textContent = m; msg.style.opacity='0'; msg.style.transition='opacity .3s'; setTimeout(function(){msg.style.opacity='1';},100); }
+    // Try to play bell sound
+    try{
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.setValueAtTime(528, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 2.5);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.5);
+      osc.start(); osc.stop(ctx.currentTime + 2.5);
+    }catch(e){}
+  };
+
+  // 4-7-8 Breathing
+  var _breathRunning = false;
+  var _breathPhase = 0;
+  var _breathCycleCount = 0;
+  var _breathTimers = [];
+  var BREATH_PHASES = [
+    {label:'Inhale',duration:4000,scale:1.6,opacity:1},
+    {label:'Hold',duration:7000,scale:1.6,opacity:.9},
+    {label:'Exhale',duration:8000,scale:1,opacity:.5},
+  ];
+
+  function _clearBreathTimers(){
+    _breathTimers.forEach(function(t){clearTimeout(t);});
+    _breathTimers = [];
+  }
+
+  function _runBreathPhase(){
+    if(!_breathRunning) return;
+    var phase = BREATH_PHASES[_breathPhase % 3];
+    var circle = document.getElementById('breath-circle');
+    var label = document.getElementById('breath-label');
+    var count = document.getElementById('breath-count');
+    if(!circle) return;
+    circle.textContent = phase.label;
+    circle.style.transform = 'scale('+phase.scale+')';
+    circle.style.opacity = phase.opacity;
+    circle.style.borderColor = _breathPhase%3===0?'var(--primary)':(_breathPhase%3===1?'#f0c040':'var(--ink3)');
+    if(label) label.textContent = ['4-7-8 Breathing','Hold breath — 7 counts','Exhale fully — 8 counts'][_breathPhase%3];
+    if(count) count.textContent = 'Cycle ' + (_breathCycleCount + 1) + ' · ' + ['Breathe in for 4 counts','Hold for 7 counts','Exhale for 8 counts'][_breathPhase%3];
+    _breathPhase++;
+    if(_breathPhase % 3 === 0) _breathCycleCount++;
+    var t = setTimeout(_runBreathPhase, phase.duration);
+    _breathTimers.push(t);
+  }
+
+  window._startBreath = function(){
+    _breathRunning = true;
+    _breathPhase = 0;
+    _breathCycleCount = 0;
+    _clearBreathTimers();
+    var btn = document.getElementById('breath-btn');
+    if(btn){ btn.style.opacity='.5'; btn.disabled=true; }
+    _runBreathPhase();
+  };
+
+  window._stopBreath = function(){
+    _breathRunning = false;
+    _clearBreathTimers();
+    var circle = document.getElementById('breath-circle');
+    var label = document.getElementById('breath-label');
+    var count = document.getElementById('breath-count');
+    var btn = document.getElementById('breath-btn');
+    if(circle){ circle.textContent='Inhale'; circle.style.transform=''; circle.style.opacity='.7'; circle.style.borderColor=''; }
+    if(label) label.textContent='4-7-8 Breathing';
+    if(count) count.textContent='';
+    if(btn){ btn.style.opacity='1'; btn.disabled=false; }
+  };
+
+  // Render precepts checkboxes
+  function _renderPrecepts(){
+    var el = document.getElementById('precepts-list');
+    if(!el) return;
+    var saved = {}; try{ saved=JSON.parse(localStorage.getItem('tisa_precepts_'+window._today)||'{}'); }catch(e){}
+    el.innerHTML = PRECEPTS_TEXT.map(function(p,i){
+      var checked = !!saved[i];
+      return '<label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:6px 0;border-bottom:1px solid var(--border2)">'
+        +'<input type="checkbox" '+(checked?'checked':'')
+        +' onchange="window._savePrecept('+i+',this.checked)" style="width:16px;height:16px;accent-color:var(--primary);flex-shrink:0;margin-top:2px">'
+        +'<span style="font-size:11px;font-weight:600;color:var(--ink);line-height:1.5">'+p+'</span></label>';
+    }).join('');
+  }
+  window._savePrecept = function(i, val){
+    var saved={}; try{saved=JSON.parse(localStorage.getItem('tisa_precepts_'+window._today)||'{}');}catch(e){}
+    saved[i]=val;
+    try{localStorage.setItem('tisa_precepts_'+window._today, JSON.stringify(saved));}catch(e){}
+  };
+
+  // Update merit counter from study data
+  function _updateMerit(){
+    var sessions = window.sessions ? window.sessions.length : 0;
+    var streak = 0;
+    if(window.studyData && window._dStr){
+      for(var i=0;i<365;i++){ if((window.studyData[window._dStr(i)]||0)>0)streak++;else if(i>0)break; }
+    }
+    var totalSecs = Object.values(window.studyData||{}).reduce(function(a,b){return a+(b||0);},0);
+    var hrs = Math.floor(totalSecs/3600);
+    var sel = document.getElementById('merit-sessions'); if(sel) sel.textContent = sessions;
+    var sst = document.getElementById('merit-streak'); if(sst) sst.textContent = streak;
+    var shr = document.getElementById('merit-hrs'); if(shr) shr.textContent = hrs+'h';
+    // Wisdom message based on streak
+    var msg = streak>=30?'🏅 A bodhisattva of consistency! 30+ days of merit.':
+              streak>=14?'🌟 Two weeks of dharma practice. Remarkable.':
+              streak>=7?'🌿 A full week of mindful study. Well done.':
+              streak>=3?'🌱 Three days strong. The path unfolds.':
+              'Each moment of study is an act of merit. 🪷';
+    var wm = document.getElementById('buddha-wisdom-msg'); if(wm) wm.textContent = msg;
+    // Streak blessing
+    var bm = document.getElementById('buddha-streak-msg');
+    if(bm) bm.textContent = streak>0 ? '🙏 '+streak+'-day dharma streak — keep the flame lit' : '';
+  }
+
+  // Init when pet tab opens
+  var _origSwitchPandaTab = window.switchPandaTab;
+  window.switchPandaTab = function(tab){
+    if(_origSwitchPandaTab) _origSwitchPandaTab.apply(this, arguments);
+    if(tab === 'pet'){
+      setTimeout(function(){
+        window._nextDharma && window._nextDharma();
+        _renderPrecepts();
+        _updateMerit();
+      }, 100);
+    }
+  };
+
+  // Also init on wellness sheet open
+  var _origOpenWS = window.openWellnessSheet;
+  window.openWellnessSheet = function(){
+    if(_origOpenWS) _origOpenWS.apply(this, arguments);
+    // Show dharma quote after 300ms
+    setTimeout(function(){
+      if(document.getElementById('dharma-quote') && 
+         document.getElementById('dharma-quote').textContent === 'Loading...'){
+        window._nextDharma && window._nextDharma();
+      }
+    }, 300);
+  };
+})();
+
+
+// ══════════════════════════════════════════════════════════════
+// ZEN TIMER — Full-screen 25-min focus with tree animation
+// ══════════════════════════════════════════════════════════════
+(function(){
+  var _zenDur = 25 * 60; // default 25 min in seconds
+  var _zenSecs = _zenDur;
+  var _zenTotal = _zenDur;
+  var _zenRunning = false;
+  var _zenInt = null;
+  var _zenTabBlur = false;
+  var _zenGrowthLevel = 0;
+
+  window._setZenDur = function(min, btn){
+    _zenDur = min * 60;
+    _zenSecs = _zenDur;
+    _zenTotal = _zenDur;
+    var disp = document.getElementById('zen-timer-display');
+    if(disp) disp.textContent = String(Math.floor(min/60)).padStart(2,'0')+':'+String(min%60).padStart(2,'0');
+    document.querySelectorAll('.zen-chip').forEach(function(c){c.classList.remove('sel');});
+    if(btn) btn.classList.add('sel');
+    _resetZenTree();
+  };
+
+  // Open zen overlay
+  window.startZenTimer = function(){
+    var overlay = document.getElementById('zen-session-overlay');
+    if(overlay){ overlay.style.display='flex'; overlay.classList.add('active'); }
+    _zenRunning = false;
+    _zenSecs = _zenDur;
+    _zenTotal = _zenDur;
+    _resetZenTree();
+    _updateZenDisplay();
+    var btn = document.getElementById('zen-start-btn');
+    if(btn){ btn.textContent='🌱 Begin'; btn.onclick=window._beginZen; }
+    var chips = document.getElementById('zen-chip-row');
+    if(chips) chips.style.display='flex';
+    var lbl = document.getElementById('zen-timer-label');
+    if(lbl) lbl.textContent='choose duration';
+    // Tab visibility tracking
+    document.addEventListener('visibilitychange', _zenVisChange);
+  };
+
+  window._beginZen = function(){
+    if(_zenRunning) return;
+    _zenRunning = true;
+    _zenSecs = _zenDur;
+    _zenTotal = _zenDur;
+    _zenGrowthLevel = 0;
+    var chips = document.getElementById('zen-chip-row');
+    if(chips) chips.style.display='none';
+    var btn = document.getElementById('zen-start-btn');
+    if(btn) btn.style.display='none';
+    var lbl = document.getElementById('zen-timer-label');
+    if(lbl) lbl.textContent='stay focused · do not leave this tab';
+    var warn = document.getElementById('zen-warning');
+    if(warn) warn.style.opacity='0';
+    _startZenTick();
+    // Grow tree immediately to level 1
+    setTimeout(function(){_growZenTree(1);}, 500);
+  };
+
+  function _startZenTick(){
+    clearInterval(_zenInt);
+    _zenInt = setInterval(function(){
+      if(!_zenRunning){ clearInterval(_zenInt); return; }
+      _zenSecs--;
+      _updateZenDisplay();
+      // Grow tree at 25%, 50%, 75%, 100%
+      var pct = 1 - _zenSecs/_zenTotal;
+      var targetLevel = Math.floor(pct * 4) + 1;
+      if(targetLevel > _zenGrowthLevel && targetLevel <= 4){
+        _zenGrowthLevel = targetLevel;
+        _growZenTree(targetLevel);
+      }
+      if(_zenSecs <= 0){
+        _zenComplete();
+      }
+    }, 1000);
+  }
+
+  function _updateZenDisplay(){
+    var m = Math.floor(_zenSecs/60), s = _zenSecs%60;
+    var disp = document.getElementById('zen-timer-display');
+    if(disp) disp.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    // Progress ring
+    var ring = document.getElementById('zen-ring');
+    if(ring){
+      var pct = _zenTotal > 0 ? _zenSecs/_zenTotal : 1;
+      var circ = 2 * Math.PI * 90; // r=90
+      ring.setAttribute('stroke-dashoffset', String(circ * pct));
+    }
+    // Color shift as time passes
+    var progress = 1 - _zenSecs/_zenTotal;
+    var r = Math.round(116 + progress * 40);
+    var g = Math.round(198 - progress * 30);
+    var b = Math.round(157 - progress * 20);
+    if(disp) disp.style.color = 'rgb('+r+','+g+','+b+')';
+  }
+
+  function _growZenTree(level){
+    var radii = [[0,0],[18,12],[26,18],[32,22],[38,26]];
+    var ids = ['zen-leaf3','zen-leaf2','zen-leaf1','zen-leaf0'];
+    var cys = [112, 92, 70, 52];
+    for(var i=0; i<ids.length; i++){
+      var el = document.getElementById(ids[i]);
+      if(!el) continue;
+      if(i >= 4 - level){
+        var r = radii[Math.min(level, radii.length-1)];
+        el.setAttribute('rx', r[0]);
+        el.setAttribute('ry', r[1]);
+      }
+    }
+    // Spawn leaf particles
+    for(var j=0;j<3;j++){
+      (function(delay){
+        setTimeout(function(){_spawnLeaf();}, delay);
+      })(j * 300);
+    }
+  }
+
+  function _spawnLeaf(){
+    var wrap = document.getElementById('zen-leaves');
+    if(!wrap) return;
+    var leaf = document.createElement('div');
+    var x = 30 + Math.random() * 60;
+    leaf.style.cssText = 'position:absolute;left:'+x+'px;top:0;font-size:'+(10+Math.random()*8)+'px;animation:zenLeafFall '+(2+Math.random()*2)+'s ease forwards;pointer-events:none';
+    leaf.textContent = ['🍃','🌿','🍀'][Math.floor(Math.random()*3)];
+    wrap.appendChild(leaf);
+    setTimeout(function(){leaf.remove();}, 4000);
+  }
+
+  function _resetZenTree(){
+    ['zen-leaf3','zen-leaf2','zen-leaf1','zen-leaf0'].forEach(function(id){
+      var el=document.getElementById(id); if(el){el.setAttribute('rx','0');el.setAttribute('ry','0');}
+    });
+    var bl = document.getElementById('zen-blossom'); if(bl){bl.setAttribute('r','0');}
+    _zenGrowthLevel = 0;
+  }
+
+  function _zenComplete(){
+    clearInterval(_zenInt);
+    _zenRunning = false;
+    document.removeEventListener('visibilitychange', _zenVisChange);
+    // Full tree + blossom
+    _growZenTree(4);
+    var bl = document.getElementById('zen-blossom'); if(bl) bl.setAttribute('r','10');
+    var disp = document.getElementById('zen-timer-display');
+    if(disp){ disp.textContent='Done!'; disp.style.color='#f4b8c8'; }
+    var lbl = document.getElementById('zen-timer-label');
+    if(lbl) lbl.textContent='🌸 session complete — merit earned!';
+    // Celebration leaves
+    for(var i=0;i<15;i++) setTimeout(_spawnLeaf, i*150);
+    // Save to study log
+    if(typeof saveSecs==='function') saveSecs(_zenDur - _zenSecs > 60 ? (_zenDur - _zenSecs) : _zenTotal);
+    if(typeof window.addXP==='function') window.addXP(100, 'zen session');
+    if(typeof window.toast==='function') window.toast('🌸 Zen session complete! +100 XP earned.');
+    // Show close button
+    var btn = document.getElementById('zen-start-btn');
+    if(btn){ btn.textContent='Close'; btn.style.display='block'; btn.onclick=window._stopZen; }
+  }
+
+  window._stopZen = function(){
+    clearInterval(_zenInt);
+    _zenRunning = false;
+    document.removeEventListener('visibilitychange', _zenVisChange);
+    var overlay = document.getElementById('zen-session-overlay');
+    if(overlay){ overlay.style.display='none'; overlay.classList.remove('active'); }
+    // Partial credit if >5 min
+    var done = _zenTotal - _zenSecs;
+    if(done > 300 && typeof saveSecs==='function') saveSecs(done);
+    _resetZenTree();
+    var btn = document.getElementById('zen-start-btn');
+    if(btn){ btn.style.display='block'; btn.textContent='🌱 Begin'; btn.onclick=window._beginZen; }
+    var chips = document.getElementById('zen-chip-row');
+    if(chips) chips.style.display='flex';
+  };
+
+  function _zenVisChange(){
+    if(!_zenRunning) return;
+    if(document.hidden){
+      _zenTabBlur = true;
+      // Wither the tree
+      var ids = ['zen-leaf0','zen-leaf1','zen-leaf2','zen-leaf3'];
+      ids.forEach(function(id){
+        var el=document.getElementById(id);
+        if(el){ el.style.fill='#5a3a1a'; }
+      });
+      var warn = document.getElementById('zen-warning');
+      if(warn){ warn.textContent='⚠ You left the tab — tree withers!'; warn.style.opacity='1'; }
+    } else {
+      if(_zenTabBlur){
+        _zenTabBlur = false;
+        // End the session on tab return
+        clearInterval(_zenInt);
+        _zenRunning = false;
+        var disp = document.getElementById('zen-timer-display');
+        if(disp){ disp.textContent='⚠ Focus lost'; disp.style.color='#e57373'; }
+        var lbl = document.getElementById('zen-timer-label');
+        if(lbl) lbl.textContent='leaving the tab ended your zen session';
+        var btn = document.getElementById('zen-start-btn');
+        if(btn){ btn.textContent='Try Again'; btn.style.display='block'; btn.onclick=function(){_resetZenTree();window._beginZen();}; }
+        var warn = document.getElementById('zen-warning');
+        if(warn) warn.style.opacity='0';
+        // Wither animation
+        setTimeout(function(){
+          ['zen-leaf0','zen-leaf1','zen-leaf2','zen-leaf3'].forEach(function(id){
+            var el=document.getElementById(id);
+            if(el){ el.setAttribute('rx','0'); el.setAttribute('ry','0'); }
+          });
+        }, 1000);
+      }
+    }
+  }
+})();
+
 </script>
 
+
+
+<!-- ── ZEN TIMER OVERLAY ── -->
+<div id="zen-session-overlay" style="display:none;position:fixed;inset:0;z-index:9100;background:#0a0f0a;flex-direction:column;align-items:center;justify-content:center;gap:24px">
+  <!-- Exit -->
+  <button onclick="window._stopZen()" style="position:absolute;top:20px;right:20px;background:none;border:none;color:rgba(255,255,255,.3);font-size:22px;cursor:pointer">✕</button>
+  <!-- Tree animation -->
+  <div id="zen-tree-wrap" style="position:relative;width:120px;height:140px;margin-bottom:-10px">
+    <svg id="zen-tree-svg" viewBox="0 0 120 140" width="120" height="140" xmlns="http://www.w3.org/2000/svg">
+      <!-- Trunk -->
+      <rect id="zen-trunk" x="55" y="100" width="10" height="40" rx="4" fill="#5a3a1a"/>
+      <!-- Tree layers - grow from bottom up -->
+      <ellipse id="zen-leaf3" cx="60" cy="110" rx="0" ry="0" fill="#2d6a4f" style="transition:all 2s ease"/>
+      <ellipse id="zen-leaf2" cx="60" cy="90" rx="0" ry="0" fill="#3a8c6e" style="transition:all 2s ease"/>
+      <ellipse id="zen-leaf1" cx="60" cy="68" rx="0" ry="0" fill="#52b788" style="transition:all 2s ease"/>
+      <ellipse id="zen-leaf0" cx="60" cy="50" rx="0" ry="0" fill="#74c69d" style="transition:all 2s ease"/>
+      <!-- Blossom (appears at completion) -->
+      <circle id="zen-blossom" cx="60" cy="35" r="0" fill="#f4b8c8" style="transition:all 1s ease"/>
+    </svg>
+    <!-- Falling leaves animation -->
+    <div id="zen-leaves" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+  </div>
+  <!-- Timer -->
+  <div style="text-align:center">
+    <div id="zen-timer-display" style="font-family:'Space Mono',monospace;font-size:clamp(52px,12vw,80px);font-weight:700;color:#74c69d;letter-spacing:4px;line-height:1;text-shadow:0 0 40px rgba(116,198,157,.3)">25:00</div>
+    <div id="zen-timer-label" style="font-size:11px;font-weight:700;color:rgba(116,198,157,.5);letter-spacing:4px;text-transform:uppercase;margin-top:6px">focus session</div>
+  </div>
+  <!-- Progress ring -->
+  <svg width="200" height="200" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.15;pointer-events:none">
+    <circle cx="100" cy="100" r="90" fill="none" stroke="#52b788" stroke-width="1"/>
+    <circle id="zen-ring" cx="100" cy="100" r="90" fill="none" stroke="#52b788" stroke-width="2"
+      stroke-dasharray="565" stroke-dashoffset="565" stroke-linecap="round"
+      transform="rotate(-90,100,100)" style="transition:stroke-dashoffset 1s linear"/>
+  </svg>
+  <!-- Warning text -->
+  <div id="zen-warning" style="color:rgba(255,100,80,.7);font-size:12px;font-weight:700;letter-spacing:1px;opacity:0;transition:opacity .3s"></div>
+  <!-- Duration chips -->
+  <div id="zen-chip-row" style="display:flex;gap:8px">
+    <button onclick="window._setZenDur(10,this)" class="zen-chip">10m</button>
+    <button onclick="window._setZenDur(25,this)" class="zen-chip sel">25m</button>
+    <button onclick="window._setZenDur(45,this)" class="zen-chip">45m</button>
+    <button onclick="window._setZenDur(60,this)" class="zen-chip">60m</button>
+  </div>
+  <!-- Start button -->
+  <button id="zen-start-btn" onclick="window._beginZen()" style="background:#52b788;color:white;border:none;border-radius:100px;padding:16px 48px;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:.5px;font-family:inherit;transition:all .2s">🌱 Begin</button>
+</div>
 <!-- SESSION REFLECTION MODAL -->
 <div id="session-reflect-modal" style="display:none;position:fixed;inset:0;z-index:2100;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);align-items:center;justify-content:center">
   <div class="reflect-box">
