@@ -5078,7 +5078,7 @@ window.showPage=(name,btn)=>{
     },50);
   }
   if(name==='social'){window._loadMyChats&&window._loadMyChats();window._loadForum&&window._loadForum();}
-  if(name==='tests'){setTimeout(()=>{window.nextFactoz&&window.nextFactoz();},100);}
+  if(name==='tests'){(function(){var _t=0;function _tf(){if(window.nextFactoz){window.nextFactoz();}else if(_t<10){_t++;setTimeout(_tf,200);}}setTimeout(_tf,100);})();}
   if(name==='profile'){renderProfilePage();setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();},100);}
     if(name==='myspace'){setTimeout(function(){typeof renderTT==='function'&&renderTT();typeof renderStats==='function'&&renderStats();},100);}
   if(name==='home'){setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();},200);}
@@ -5086,7 +5086,7 @@ window.showPage=(name,btn)=>{
   if(name==='connect'){window._checkDMNotifications&&window._checkDMNotifications();} // BUG3 FIX: reload forum when navigating to community page
   if(name==='performance'){renderBigChart();renderPieChart();renderSubjPerf();renderXP();renderCal();setTimeout(function(){window.renderTestGraph&&window.renderTestGraph();},200);}
   if(name==='profile'){renderProfilePage();setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();},100);}
-  if(name==='tests'){setTimeout(()=>{window.nextFactoz&&window.nextFactoz();},100);}
+  if(name==='tests'){(function(){var _t=0;function _tf(){if(window.nextFactoz){window.nextFactoz();}else if(_t<10){_t++;setTimeout(_tf,200);}}setTimeout(_tf,100);})();}
   if(name==='home'){setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();},200);}
 };
 let moreOpen=false;
@@ -6273,13 +6273,14 @@ window._admViewUser=async function(uid){
     const _qr=window._query||query;
     const _wh=window._where||where;
     const _ob=window._orderBy||orderBy;
+    const _lm=window._limit||limit;
     const _dc=window._doc||doc;
     const _db2=window._db||db;
     // Only read from PUBLIC collections — 'users' and 'posts'
     // Avoid 'userData/{uid}' (private, permission denied)
     const [uSnap, postsSnap]=await Promise.all([
       _gDc(_dc(_db2,'users',uid)),
-      _gD(_qr(_col(_db2,'posts'),_wh('uid','==',uid),_ob('ts','desc')))
+      _gD(_qr(_col(_db2,'posts'),_wh('uid','==',uid),_lm(10)))
     ]);
     const u=uSnap.exists()?uSnap.data():{};
     const posts=postsSnap.docs.map(d=>({id:d.id,...d.data()}));
@@ -11125,22 +11126,74 @@ window._saveReflect=function(){
 
 
 // ── FACTOZ — Current Affairs rotating display in Tests ───
-window.nextFactoz=function(){
-  if(!window.QS||!window.QS.length)return;
-  var idx=Math.floor(Math.random()*window.QS.length);
-  var item=window.QS[idx];
-  var el=document.getElementById('factoz-text');
-  var src=document.getElementById('factoz-source');
+
+// ── FACTOZ DATA — Current Affairs & GK Facts for Tests page ──
+window.FACTOZ_DATA = [
+  {t:"The first UPSC Civil Services Exam was held in 1950. It has 3 stages: Prelims, Mains, and Interview.",a:"UPSC History"},
+  {t:"India's GDP is approximately $3.7 trillion (2024), making it the 5th largest economy in the world.",a:"Indian Economy"},
+  {t:"The Chandrayaan-3 mission successfully landed on the Moon's south pole on August 23, 2023.",a:"ISRO 2023"},
+  {t:"Photosynthesis equation: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂. Chlorophyll absorbs red and blue light.",a:"Biology — Photosynthesis"},
+  {t:"Newton's Second Law: F = ma. Force equals mass times acceleration. Unit of force is Newton (N).",a:"Physics — Laws of Motion"},
+  {t:"The Indian Constitution came into effect on January 26, 1950. It is the longest written constitution in the world.",a:"Indian Polity"},
+  {t:"Mitochondria is called the 'powerhouse of the cell' — it produces ATP through cellular respiration.",a:"Biology — Cell Biology"},
+  {t:"The Mole concept: 1 mole = 6.022 × 10²³ particles (Avogadro's number). Molar mass = mass in grams of 1 mole.",a:"Chemistry — Mole Concept"},
+  {t:"Integration by parts: ∫u·dv = uv − ∫v·du. Used when the integrand is a product of two functions.",a:"Maths — Integration"},
+  {t:"The Quit India Movement was launched on August 8, 1942. Gandhi gave the call: 'Do or Die'.",a:"Indian History"},
+  {t:"Article 370 of the Indian Constitution was abrogated on August 5, 2019, restructuring J&K into two UTs.",a:"Indian Polity 2019"},
+  {t:"JEE Main 2024: 14.1 lakh candidates appeared. Top 2.5 lakh qualify for JEE Advanced.",a:"JEE Statistics"},
+  {t:"The Doppler Effect: frequency increases when source approaches observer, decreases when moving away. Used in RADAR.",a:"Physics — Waves"},
+  {t:"Ohm's Law: V = IR. Voltage = Current × Resistance. Power P = VI = I²R = V²/R.",a:"Physics — Electricity"},
+  {t:"Entropy (S) measures disorder in a system. ΔG = ΔH − TΔS. Spontaneous if ΔG < 0.",a:"Chemistry — Thermodynamics"},
+  {t:"India has 28 states and 8 Union Territories after the reorganization of Jammu & Kashmir in 2019.",a:"Indian Geography"},
+  {t:"The Fundamental Rights are guaranteed in Articles 12–35 of the Indian Constitution (Part III).",a:"Indian Polity"},
+  {t:"NEET UG 2024: Over 24 lakh candidates appeared, the largest medical entrance exam globally.",a:"NEET Statistics"},
+  {t:"Benzene (C₆H₆) has a resonance structure. All C-C bond lengths are equal (1.40 Å). It is aromatic.",a:"Chemistry — Organic"},
+  {t:"The speed of sound in air at 20°C is 343 m/s. In water it's 1482 m/s. In steel it's 5960 m/s.",a:"Physics — Sound"},
+  {t:"Green Revolution (1960s–70s) was led by M.S. Swaminathan. Wheat production tripled using HYV seeds.",a:"Indian Agriculture"},
+  {t:"Kinetic Energy = ½mv². Potential Energy = mgh. Total Mechanical Energy = KE + PE (conserved in closed system).",a:"Physics — Energy"},
+  {t:"The Human Genome Project was completed in 2003. It mapped all ~20,000–25,000 human genes.",a:"Biology — Genetics"},
+  {t:"Simple Harmonic Motion: x = A sin(ωt + φ). Time period T = 2π√(l/g) for a simple pendulum.",a:"Physics — Oscillations"},
+  {t:"India's Literacy Rate (Census 2011): 74.04%. Male: 82.14%, Female: 65.46%. Kerala tops at 93.9%.",a:"Indian Census"},
+  {t:"Carbon dating uses C-14 (half-life ~5730 years) to determine the age of organic materials.",a:"Chemistry — Nuclear"},
+  {t:"The Directive Principles of State Policy (DPSP) are in Part IV (Articles 36–51) of the Constitution.",a:"Indian Polity"},
+  {t:"ISRO's PSLV (Polar Satellite Launch Vehicle) has a 96% success rate. It launched Chandrayaan-1 in 2008.",a:"ISRO"},
+  {t:"Le Chatelier's Principle: If a system at equilibrium is disturbed, it shifts to counteract the disturbance.",a:"Chemistry — Equilibrium"},
+  {t:"Mendel's Law of Segregation: Each organism carries 2 alleles for each trait; they separate during gamete formation.",a:"Biology — Genetics"},
+  {t:"India's Pradhan Mantri Jan Dhan Yojana (PMJDY) launched 2014 — world's largest financial inclusion program.",a:"Government Schemes"},
+  {t:"The First Battle of Panipat (1526) was fought between Babur and Ibrahim Lodi. It established the Mughal Empire.",a:"Medieval History"},
+  {t:"Integration: ∫xⁿdx = xⁿ⁺¹/(n+1) + C. ∫eˣdx = eˣ + C. ∫(1/x)dx = ln|x| + C.",a:"Maths — Integration"},
+  {t:"National Income: GDP (Gross Domestic Product) = C + I + G + (X−M). Measured at market prices.",a:"Economics"},
+  {t:"The Ozone Layer is in the stratosphere, 15–35 km above Earth. CFC gases deplete it via catalytic reactions.",a:"Environmental Science"},
+];
+window.nextFactoz = function(){
+  var data = window.FACTOZ_DATA || window.QS || [];
+  if(!data.length) return;
+  var item = data[Math.floor(Math.random() * data.length)];
+  var el = document.getElementById('factoz-text');
+  var src = document.getElementById('factoz-source');
   if(el){
     el.style.opacity='0';
+    el.style.transition='opacity .35s';
     setTimeout(function(){
-      el.textContent=item.t;
+      el.textContent = item.t;
       el.style.opacity='1';
-      el.style.transition='opacity .4s';
-    },200);
+    }, 200);
   }
-  if(src){src.textContent='— '+item.a;}
+  if(src){
+    src.style.opacity='0';
+    setTimeout(function(){
+      src.textContent = '— ' + item.a;
+      src.style.opacity='1';
+    }, 200);
+  }
 };
+
+// Auto-cycle factoz every 20s when tests page is visible
+window._testsFactozInt && clearInterval(window._testsFactozInt);
+window._testsFactozInt = setInterval(function(){
+  var tp = document.getElementById('page-tests');
+  if(tp && tp.classList.contains('active')) window.nextFactoz && window.nextFactoz();
+}, 20000);
 // Init on tests page visit
 (function(){
   var _origSP=window.showPage;
@@ -11444,13 +11497,13 @@ window._homeQuoteInt = setInterval(function(){
     _breathRunning = false;
     _clearBreathTimers();
     var circle = document.getElementById('breath-circle');
-    var label = document.getElementById('breath-label');
-    var count = document.getElementById('breath-count');
-    var btn = document.getElementById('breath-btn');
-    if(circle){ circle.textContent='Inhale'; circle.style.transform=''; circle.style.opacity='.7'; circle.style.borderColor=''; }
-    if(label) label.textContent='4-7-8 Breathing';
-    if(count) count.textContent='';
-    if(btn){ btn.style.opacity='1'; btn.disabled=false; }
+    var label  = document.getElementById('breath-label');
+    var count  = document.getElementById('breath-count');
+    var btn    = document.getElementById('breath-btn');
+    if(circle){ circle.textContent='Inhale'; circle.style.transform='scale(1)'; circle.style.opacity='.7'; circle.style.borderColor='var(--primary)'; }
+    if(label)  label.textContent  = '4-7-8 Breathing';
+    if(count)  count.textContent  = '';
+    if(btn){   btn.style.opacity  = '1'; btn.disabled = false; btn.textContent = '▶ Begin'; btn.onclick = window._startBreath; }
   };
 
   // Render precepts checkboxes
