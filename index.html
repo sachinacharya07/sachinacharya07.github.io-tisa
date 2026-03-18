@@ -34,7 +34,6 @@ html{overflow-x:hidden}
 [data-theme="slate"]{--font-main:'Figtree',sans-serif;--font-head:'Josefin Sans',sans-serif;}
 [data-theme="rose"]{--font-main:'Quicksand',sans-serif;--font-head:'Lora',serif;}
 [data-theme="midnight"]{--font-main:'DM Sans',sans-serif;--font-head:'Cormorant Garamond',serif;}
-[data-theme="minimalist"]{--font-main:'Inter',sans-serif;--font-head:'Inter',sans-serif;}
 [data-theme="matcha"]{--bg:#f2f5ee;--bg2:#e6ecdf;--bg3:#d8e2cf;--surface:#f9fbf7;--surface2:#f2f5ee;--primary:#4a7c59;--pd:#2e5c3e;--pl:#a8c8b0;--pglow:rgba(74,124,89,.15);--ink:#1a2e20;--ink2:#3d5c45;--ink3:#7a9c82;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(74,124,89,.2);--border2:rgba(74,124,89,.1);--sh:0 2px 14px rgba(74,124,89,.1);--shl:0 8px 32px rgba(74,124,89,.14);}
 [data-theme="lavender"]{--bg:#f5f2fa;--bg2:#ede8f5;--bg3:#e2daf0;--surface:#faf8fd;--surface2:#f5f2fa;--primary:#7c5cbf;--pd:#5a3a9e;--pl:#c0a8e8;--pglow:rgba(124,92,191,.15);--ink:#1e1530;--ink2:#4a3870;--ink3:#8a78a8;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(124,92,191,.2);--border2:rgba(124,92,191,.1);--sh:0 2px 14px rgba(124,92,191,.1);--shl:0 8px 32px rgba(124,92,191,.14);}
 [data-theme="sand"]{--bg:#faf6ef;--bg2:#f2ebe0;--bg3:#e8dece;--surface:#fffdf8;--surface2:#faf6ef;--primary:#a07840;--pd:#7a5820;--pl:#d4b880;--pglow:rgba(160,120,64,.15);--ink:#2a1e0a;--ink2:#5a4020;--ink3:#9a8060;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(160,120,64,.2);--border2:rgba(160,120,64,.1);--sh:0 2px 14px rgba(160,120,64,.1);--shl:0 8px 32px rgba(160,120,64,.14);}
@@ -42,6 +41,7 @@ html{overflow-x:hidden}
 [data-theme="rose"]{--bg:#fdf4f4;--bg2:#f8e8e8;--bg3:#f0d8d8;--surface:#fff8f8;--surface2:#fdf4f4;--primary:#b84a5a;--pd:#8e2838;--pl:#e0a0a8;--pglow:rgba(184,74,90,.15);--ink:#2a0e12;--ink2:#602030;--ink3:#a07080;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(184,74,90,.2);--border2:rgba(184,74,90,.1);--sh:0 2px 14px rgba(184,74,90,.1);--shl:0 8px 32px rgba(184,74,90,.14);}
 [data-theme="midnight"]{--bg:#0e1018;--bg2:#161a24;--bg3:#1c2230;--surface:#121620;--surface2:#181e2a;--primary:#6a9fd8;--pd:#4a7fb8;--pl:#2a4f78;--pglow:rgba(106,159,216,.18);--ink:#e0eaf8;--ink2:#a0b8d8;--ink3:#607898;--danger:#e05a4a;--success:#4db360;--warn:#e0a830;--border:rgba(106,159,216,.2);--border2:rgba(106,159,216,.1);--sh:0 2px 14px rgba(0,0,0,.4);--shl:0 8px 32px rgba(0,0,0,.5);}
 [data-theme="minimalist"]{
+  --font-main:'Inter',sans-serif;--font-head:'Inter',sans-serif;
   --primary:#4a5e2a;
   --pd:#3a4d1f;
   --pl:#8aab54;
@@ -106,7 +106,7 @@ input,select,textarea,button{font-family:var(--font-main,'Nunito',sans-serif);fo
 @keyframes sakS{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-7px) rotate(-3deg)}}
 
 /* LOADING */
-#loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:3000;flex-direction:column;gap:16px;transition:opacity .4s}
+#loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:10000;flex-direction:column;gap:16px;transition:opacity .4s}
 #loading-screen.hide{opacity:0;pointer-events:none}
 .ls-logo{font-family:'Playfair Display',serif;font-size:56px;font-weight:400;color:var(--primary);letter-spacing:20px;text-indent:20px}
 .ls-spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite}
@@ -557,7 +557,7 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 #focus-mode{display:none;position:fixed;inset:0;background:var(--bg);z-index:9000;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:20px}
 #focus-mode.active{display:flex}
 .focus-t{font-family:'Space Mono',monospace!important;font-size:72px;font-weight:700;color:var(--primary);letter-spacing:4px;line-height:1}
-#toast{position:fixed;bottom:100px;right:16px;background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;font-size:12px;font-weight:700;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;z-index:9999;max-width:300px;box-shadow:var(--shl);display:flex;align-items:center;gap:6px;word-break:normal;white-space:normal;line-height:1.4}
+#toast{position:fixed;bottom:100px;right:16px;background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;font-size:12px;font-weight:700;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;z-index:9500;max-width:300px;box-shadow:var(--shl);display:flex;align-items:center;gap:6px;word-break:normal;white-space:normal;line-height:1.4}
 #toast.show{opacity:1;transform:none}
 
 /* FOOTER */
@@ -644,7 +644,6 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   main{padding:8px 8px 80px}
   .card{padding:12px 10px;width:100%;box-sizing:border-box}
   .ld1,.ld4{display:none}
-  .ld2{width:60px;height:60px}
   .ld3{width:20px;height:56px}
   /* Better touch targets */
   .btn{min-height:40px;font-size:13px}
@@ -676,9 +675,9 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .t-digits{font-size:32px;letter-spacing:1px}
   .prof-stats{grid-template-columns:1fr 1fr}
   .theme-grid{grid-template-columns:repeat(2,1fr)}
-  .card{padding:12px 10px}
+  /* card padding set above */
   .ct{font-size:12px}
-  main{padding:8px 8px 76px}
+  /* main padding set above */
   .login-card{padding:28px 18px;margin:10px}
   .ld1,.ld2,.ld4{display:none}
   .ld3{width:20px;height:56px}
@@ -1066,101 +1065,100 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 .badge-scroll>*{flex-shrink:0;}
 
 @media(min-width:761px){#todo-add-btn-mob{display:none!important;}#todo-add-wrap{max-height:300px!important;opacity:1!important;}#mob-greeting{display:none!important;}}
-[data-theme="washi"]{--font-main:'Klee One',cursive;--font-head:'Shippori Mincho',serif;}
-[data-theme="akari"]{--font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
-[data-theme="asagi"]{--font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
-[data-theme="matcha_seoul"]{--font-main:'Outfit',sans-serif;--font-head:'Playfair Display',serif;}
-[data-theme="yoru"]{--font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
-[data-theme="minimalist"]{--font-main:'Inter',sans-serif;--font-head:'Inter',sans-serif;}
-[data-theme="matcha"]{--bg:#f2f5ee;--bg2:#e6ecdf;--bg3:#d8e2cf;--surface:#f9fbf7;--surface2:#f2f5ee;--primary:#4a7c59;--pd:#2e5c3e;--pl:#a8c8b0;--pglow:rgba(74,124,89,.15);--ink:#1a2e20;--ink2:#3d5c45;--ink3:#7a9c82;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(74,124,89,.2);--border2:rgba(74,124,89,.1);--sh:0 2px 14px rgba(74,124,89,.1);--shl:0 8px 32px rgba(74,124,89,.14);}
-[data-theme="lavender"]{--bg:#f5f2fa;--bg2:#ede8f5;--bg3:#e2daf0;--surface:#faf8fd;--surface2:#f5f2fa;--primary:#7c5cbf;--pd:#5a3a9e;--pl:#c0a8e8;--pglow:rgba(124,92,191,.15);--ink:#1e1530;--ink2:#4a3870;--ink3:#8a78a8;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(124,92,191,.2);--border2:rgba(124,92,191,.1);--sh:0 2px 14px rgba(124,92,191,.1);--shl:0 8px 32px rgba(124,92,191,.14);}
-[data-theme="sand"]{--bg:#faf6ef;--bg2:#f2ebe0;--bg3:#e8dece;--surface:#fffdf8;--surface2:#faf6ef;--primary:#a07840;--pd:#7a5820;--pl:#d4b880;--pglow:rgba(160,120,64,.15);--ink:#2a1e0a;--ink2:#5a4020;--ink3:#9a8060;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(160,120,64,.2);--border2:rgba(160,120,64,.1);--sh:0 2px 14px rgba(160,120,64,.1);--shl:0 8px 32px rgba(160,120,64,.14);}
-[data-theme="slate"]{--bg:#f0f4f8;--bg2:#e2eaf2;--bg3:#d0dce8;--surface:#f8fafc;--surface2:#f0f4f8;--primary:#3a6080;--pd:#1e4060;--pl:#90b8d0;--pglow:rgba(58,96,128,.15);--ink:#0e2030;--ink2:#2a4860;--ink3:#6a8898;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(58,96,128,.2);--border2:rgba(58,96,128,.1);--sh:0 2px 14px rgba(58,96,128,.1);--shl:0 8px 32px rgba(58,96,128,.14);}
-[data-theme="rose"]{--bg:#fdf4f4;--bg2:#f8e8e8;--bg3:#f0d8d8;--surface:#fff8f8;--surface2:#fdf4f4;--primary:#b84a5a;--pd:#8e2838;--pl:#e0a0a8;--pglow:rgba(184,74,90,.15);--ink:#2a0e12;--ink2:#602030;--ink3:#a07080;--danger:#c0392b;--success:#2d7a3a;--warn:#c8941a;--border:rgba(184,74,90,.2);--border2:rgba(184,74,90,.1);--sh:0 2px 14px rgba(184,74,90,.1);--shl:0 8px 32px rgba(184,74,90,.14);}
-[data-theme="midnight"]{--bg:#0e1018;--bg2:#161a24;--bg3:#1c2230;--surface:#121620;--surface2:#181e2a;--primary:#6a9fd8;--pd:#4a7fb8;--pl:#2a4f78;--pglow:rgba(106,159,216,.18);--ink:#e0eaf8;--ink2:#a0b8d8;--ink3:#607898;--danger:#e05a4a;--success:#4db360;--warn:#e0a830;--border:rgba(106,159,216,.2);--border2:rgba(106,159,216,.1);--sh:0 2px 14px rgba(0,0,0,.4);--shl:0 8px 32px rgba(0,0,0,.5);}
-
-/* ═══════════════════════════════════════════════════
-   JAPANESE & KOREAN PRODUCTIVITY THEMES
-═══════════════════════════════════════════════════ */
-
-/* 🌸 WASHI — handmade paper, sumi ink, zen calm */
 [data-theme="washi"]{
-  /* 和紙 — Japanese paper: warm cream, ink brown, deep forest */
-  --bg:#f7f3ed;--bg2:#ede7dd;--bg3:#e0d6c8;--surface:#faf8f4;--surface2:#f4f0e8;
-  --primary:#4a3728;--pd:#2e2018;--pl:#9a7a60;--pglow:rgba(74,55,40,.1);
-  --ink:#2a1a10;--ink2:#5a4030;--ink3:#9a7a60;
-  --danger:#9a2820;--success:#3a6a30;--warn:#8a6010;
-  --border:rgba(74,55,40,.15);--border2:rgba(74,55,40,.07);
-  --sh:0 2px 12px rgba(74,55,40,.07);--shl:0 6px 28px rgba(74,55,40,.1);
-  --font-main:'Klee One',cursive;--font-head:'Shippori Mincho',serif;}
-[data-theme="washi"] .card{border-radius:6px;border:1px solid rgba(74,55,40,.12);box-shadow:1px 2px 0 rgba(74,55,40,.05);}
-[data-theme="washi"] .btn-p{border-radius:3px;}
-[data-theme="washi"] .logo-tisa{font-family:'Shippori Mincho',serif;letter-spacing:10px;}
-[data-theme="washi"] #qbanner{border-left:3px solid var(--primary);background:rgba(74,55,40,.04);}
-[data-theme="washi"] .t-digits{font-family:'Shippori Mincho',serif!important;}
-
+  /* 和紙 — Washi paper: warm cream, sumi ink, serene elegance */
+  --bg:#f7f2e8;--bg2:#ede5d4;--bg3:#e0d5c0;--surface:#fdfaf4;--surface2:#f7f2e8;
+  --primary:#5c3d2e;--pd:#3d2820;--pl:#a07858;--pglow:rgba(92,61,46,.1);
+  --ink:#1a1008;--ink2:#4a3020;--ink3:#8a7060;
+  --danger:#a82a20;--success:#2a5c30;--warn:#8a6818;
+  --border:rgba(92,61,46,.14);--border2:rgba(92,61,46,.07);
+  --sh:0 1px 8px rgba(92,61,46,.06);--shl:0 4px 20px rgba(92,61,46,.10);
+  --font-main:'Shippori Mincho',serif;--font-head:'Shippori Mincho',serif;}
+[data-theme="washi"] body{background:linear-gradient(150deg,#f7f2e8 0%,#f0e8d8 100%);}
+[data-theme="washi"] .card{border-radius:4px;border:1px solid rgba(92,61,46,.12);box-shadow:1px 2px 8px rgba(92,61,46,.06);background:#fdfaf4;}
+[data-theme="washi"] .card:hover{border-color:rgba(92,61,46,.28);box-shadow:2px 4px 16px rgba(92,61,46,.1);}
+[data-theme="washi"] .btn-p{border-radius:3px;background:#5c3d2e;box-shadow:none;letter-spacing:.5px;}
+[data-theme="washi"] .logo-tisa{font-family:'Shippori Mincho',serif;letter-spacing:12px;color:#5c3d2e;}
+[data-theme="washi"] header{background:rgba(253,250,244,.94);border-bottom:1px solid rgba(92,61,46,.12);}
+[data-theme="washi"] #qbanner{border-left:3px solid #5c3d2e;background:rgba(92,61,46,.04);border-radius:0 8px 8px 0;}
+[data-theme="washi"] .t-digits{font-family:'Shippori Mincho',serif!important;color:#5c3d2e;}
+[data-theme="washi"] .t-prog{stroke:#5c3d2e;}
+[data-theme="washi"] nav button.active{background:#5c3d2e;color:#fdfaf4!important;}
 [data-theme="akari"]{
-  /* 灯 — Lantern: warm black, amber glow, silk gold */
-  --bg:#18120e;--bg2:#221810;--bg3:#2c1e14;--surface:#1e1610;--surface2:#241c14;
-  --primary:#d4801e;--pd:#a85e10;--pl:#ffa040;--pglow:rgba(212,128,30,.25);
-  --ink:#f0e4d0;--ink2:#c8a880;--ink3:#805840;
-  --danger:#d04830;--success:#48a050;--warn:#d09818;
-  --border:rgba(212,128,30,.25);--border2:rgba(212,128,30,.1);
-  --sh:0 2px 16px rgba(0,0,0,.5);--shl:0 8px 36px rgba(212,128,30,.18);
+  /* 灯 Akari — Lantern glow: warm charcoal, amber, silk gold */
+  --bg:#18120e;--bg2:#221810;--bg3:#2e1e12;--surface:#1e1610;--surface2:#241c14;
+  --primary:#e8901e;--pd:#b86c0a;--pl:#ffc060;--pglow:rgba(232,144,30,.22);
+  --ink:#f0e0c8;--ink2:#c8a870;--ink3:#806040;
+  --danger:#e04830;--success:#40a048;--warn:#e0a018;
+  --border:rgba(232,144,30,.22);--border2:rgba(232,144,30,.1);
+  --sh:0 2px 16px rgba(0,0,0,.55);--shl:0 8px 36px rgba(232,144,30,.2);
   --font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
-[data-theme="akari"] body{background:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(212,128,30,.1) 0%,transparent 70%),var(--bg);}
-[data-theme="akari"] .card{border:1px solid rgba(212,128,30,.18);border-radius:10px;background:rgba(26,20,14,.9);}
-[data-theme="akari"] .card:hover{border-color:rgba(212,128,30,.4);box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 20px rgba(212,128,30,.1);}
-[data-theme="akari"] .btn-p{box-shadow:0 0 16px rgba(212,128,30,.35);}
-[data-theme="akari"] .t-prog{stroke:var(--primary);filter:drop-shadow(0 0 6px rgba(212,128,30,.5));}
-[data-theme="akari"] .t-digits{text-shadow:0 0 24px rgba(212,128,30,.4);}
-[data-theme="akari"] header{background:rgba(22,16,10,.95);border-bottom:1px solid rgba(212,128,30,.2);}
-
+[data-theme="akari"] body{background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(232,144,30,.12) 0%,transparent 70%),#18120e;}
+[data-theme="akari"] .card{border:1px solid rgba(232,144,30,.16);border-radius:10px;background:rgba(28,22,16,.92);}
+[data-theme="akari"] .card:hover{border-color:rgba(232,144,30,.38);box-shadow:0 4px 24px rgba(0,0,0,.45),0 0 20px rgba(232,144,30,.08);}
+[data-theme="akari"] .btn-p{box-shadow:0 0 18px rgba(232,144,30,.3);background:#e8901e;border-color:#e8901e;}
+[data-theme="akari"] .t-prog{stroke:#e8901e;filter:drop-shadow(0 0 6px rgba(232,144,30,.55));}
+[data-theme="akari"] .t-digits{text-shadow:0 0 24px rgba(232,144,30,.4);color:#ffc060;}
+[data-theme="akari"] header{background:rgba(22,16,10,.96);border-bottom:1px solid rgba(232,144,30,.18);}
+[data-theme="akari"] .logo-tisa{font-family:'Shippori Mincho',serif;letter-spacing:10px;color:#e8901e;}
+[data-theme="akari"] nav button.active{background:#e8901e;color:#18120e!important;}
+[data-theme="akari"] .tisa-inp{background:rgba(40,30,20,.8);border-color:rgba(232,144,30,.2);color:#f0e0c8;}
+[data-theme="akari"] #mobile-nav{background:rgba(18,12,8,.92);border-top:1px solid rgba(232,144,30,.15);}
 [data-theme="asagi"]{
-  /* 浅葱 — Edo blue: cool white, deep indigo, wave pattern */
-  --bg:#f4f7fb;--bg2:#e4ecf6;--bg3:#d0e0f0;--surface:#fafcff;--surface2:#f4f7fb;
-  --primary:#1e5c88;--pd:#103e60;--pl:#4a88b8;--pglow:rgba(30,92,136,.12);
-  --ink:#0a1e30;--ink2:#2a4860;--ink3:#5a80a0;
-  --danger:#b82828;--success:#1a7848;--warn:#b07008;
-  --border:rgba(30,92,136,.18);--border2:rgba(30,92,136,.07);
-  --sh:0 2px 12px rgba(30,92,136,.08);--shl:0 6px 28px rgba(30,92,136,.12);
+  /* 浅葱 — Edo Asagi: Japanese indigo blue, fresh and serene */
+  --bg:#f2f6fb;--bg2:#e4edf7;--bg3:#d0e0f0;--surface:#f8fbff;--surface2:#f2f6fb;
+  --primary:#1a5c88;--pd:#103e60;--pl:#4a90b8;--pglow:rgba(26,92,136,.1);
+  --ink:#08182e;--ink2:#1e3c58;--ink3:#4a7090;
+  --danger:#b02828;--success:#1a6838;--warn:#8a6808;
+  --border:rgba(26,92,136,.16);--border2:rgba(26,92,136,.07);
+  --sh:0 2px 12px rgba(26,92,136,.07);--shl:0 6px 28px rgba(26,92,136,.12);
   --font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
-[data-theme="asagi"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='25'%3E%3Cpath d='M0 12Q12.5 0 25 12Q37.5 24 50 12Q62.5 0 75 12Q87.5 24 100 12' fill='none' stroke='%231e5c88' stroke-width='.6' opacity='.06'/%3E%3C/svg%3E");background-size:100px 25px;}
-[data-theme="asagi"] .card{border-radius:4px;border-top:2px solid rgba(30,92,136,.1);}
+[data-theme="asagi"] body{background:linear-gradient(170deg,#f2f6fb 0%,#eaf2fa 100%);}
+[data-theme="asagi"] .card{border-radius:8px;border:1px solid rgba(26,92,136,.14);box-shadow:0 2px 12px rgba(26,92,136,.06);}
+[data-theme="asagi"] .card:hover{border-color:rgba(26,92,136,.3);box-shadow:0 4px 20px rgba(26,92,136,.1);}
+[data-theme="asagi"] .btn-p{background:#1a5c88;border-radius:4px;letter-spacing:.5px;}
 [data-theme="asagi"] .logo-tisa{font-family:'Shippori Mincho',serif;letter-spacing:12px;}
-[data-theme="asagi"] .btn-p{border-radius:2px;}
-
+[data-theme="asagi"] header{background:rgba(248,251,255,.95);border-bottom:1px solid rgba(26,92,136,.12);}
+[data-theme="asagi"] nav button.active{background:#1a5c88;color:#f8fbff!important;}
+[data-theme="asagi"] .t-prog{stroke:#1a5c88;}
+[data-theme="asagi"] #qbanner{border-left:3px solid #1a5c88;background:rgba(26,92,136,.04);}
 [data-theme="matcha_seoul"]{
-  /* 抹茶 Seoul — Korean café: sage green, cream, clean lines */
-  --bg:#f1f5ef;--bg2:#e2eedc;--bg3:#d0e2c8;--surface:#f8fbf6;--surface2:#f1f5ef;
-  --primary:#3a6840;--pd:#254c2a;--pl:#80b888;--pglow:rgba(58,104,64,.12);
-  --ink:#182818;--ink2:#305838;--ink3:#70987a;
-  --danger:#b02828;--success:#2a6830;--warn:#807010;
-  --border:rgba(58,104,64,.18);--border2:rgba(58,104,64,.07);
-  --sh:0 2px 12px rgba(58,104,64,.07);--shl:0 6px 28px rgba(58,104,64,.1);
+  /* 抹茶 Seoul — Korean café matcha: sage green, warm cream, clean minimalism */
+  --bg:#f0f5ed;--bg2:#e2eed8;--bg3:#cce2c0;--surface:#f8fbf6;--surface2:#f0f5ed;
+  --primary:#3a6840;--pd:#254c2a;--pl:#7ab888;--pglow:rgba(58,104,64,.12);
+  --ink:#182818;--ink2:#2e5236;--ink3:#60987a;
+  --danger:#b02828;--success:#2a6830;--warn:#7a6010;
+  --border:rgba(58,104,64,.18);--border2:rgba(58,104,64,.08);
+  --sh:0 2px 12px rgba(58,104,64,.07);--shl:0 6px 28px rgba(58,104,64,.11);
   --font-main:'Outfit',sans-serif;--font-head:'Playfair Display',serif;}
-[data-theme="matcha_seoul"] body{background:linear-gradient(150deg,#f1f5ef 0%,#eaf1e6 100%);}
-[data-theme="matcha_seoul"] .card{border-radius:18px;border:none;box-shadow:0 4px 20px rgba(58,104,64,.06);}
-[data-theme="matcha_seoul"] .btn-p{border-radius:100px;letter-spacing:.3px;}
-[data-theme="matcha_seoul"] .ct{font-family:'Playfair Display',serif;letter-spacing:.5px;}
-
+[data-theme="matcha_seoul"] body{background:linear-gradient(145deg,#f0f5ed 0%,#e8f2e2 100%);}
+[data-theme="matcha_seoul"] .card{border-radius:18px;border:none;box-shadow:0 4px 20px rgba(58,104,64,.07),0 1px 4px rgba(58,104,64,.04);}
+[data-theme="matcha_seoul"] .card:hover{box-shadow:0 8px 32px rgba(58,104,64,.12),0 2px 8px rgba(58,104,64,.06);}
+[data-theme="matcha_seoul"] .btn-p{border-radius:100px;letter-spacing:.4px;font-weight:800;}
+[data-theme="matcha_seoul"] .ct{font-family:'Playfair Display',serif;letter-spacing:.3px;}
+[data-theme="matcha_seoul"] header{background:rgba(240,245,237,.94);border-bottom:1px solid rgba(58,104,64,.1);}
+[data-theme="matcha_seoul"] .logo-tisa{font-family:'Playfair Display',serif;letter-spacing:10px;}
+[data-theme="matcha_seoul"] .tisa-inp{background:#f8fbf6;border-color:rgba(58,104,64,.18);}
+[data-theme="matcha_seoul"] nav button.active{background:#3a6840;color:#f8fbf6!important;border-radius:100px!important;}
 [data-theme="yoru"]{
-  /* 夜 — Japanese night: deep navy, violet aurora, star glow */
-  --bg:#0a0d1a;--bg2:#101428;--bg3:#161c38;--surface:#0d1020;--surface2:#121530;
-  --primary:#9d80f0;--pd:#7258d0;--pl:#c0a8ff;--pglow:rgba(157,128,240,.22);
-  --ink:#e8e4ff;--ink2:#a8a0d8;--ink3:#686090;
-  --danger:#e85858;--success:#48d88a;--warn:#e8c048;
-  --border:rgba(157,128,240,.22);--border2:rgba(157,128,240,.08);
-  --sh:0 2px 20px rgba(0,0,0,.6);--shl:0 8px 40px rgba(157,128,240,.18);
+  /* 夜 — Japanese night sky: deep navy, soft violet aurora, stars */
+  --bg:#080c18;--bg2:#0e1428;--bg3:#141c38;--surface:#0c1020;--surface2:#101428;
+  --primary:#9880e8;--pd:#7058c0;--pl:#c0a8ff;--pglow:rgba(152,128,232,.18);
+  --ink:#e8e4ff;--ink2:#a8a0d8;--ink3:#687090;
+  --danger:#e05858;--success:#48d888;--warn:#e8c048;
+  --border:rgba(152,128,232,.18);--border2:rgba(152,128,232,.07);
+  --sh:0 2px 20px rgba(0,0,0,.7);--shl:0 8px 40px rgba(152,128,232,.15);
   --font-main:'Zen Kaku Gothic New',sans-serif;--font-head:'Shippori Mincho',serif;}
-[data-theme="yoru"] body{background:radial-gradient(ellipse 120% 60% at 50% -20%,rgba(157,128,240,.12) 0%,transparent 60%),var(--bg);}
-[data-theme="yoru"] .card{border:1px solid rgba(157,128,240,.14);background:rgba(12,14,28,.85);}
-[data-theme="yoru"] .card:hover{border-color:rgba(157,128,240,.32);box-shadow:0 4px 28px rgba(0,0,0,.5),0 0 20px rgba(157,128,240,.08);}
-[data-theme="yoru"] .btn-p{box-shadow:0 0 18px rgba(157,128,240,.3);}
-[data-theme="yoru"] .t-digits{text-shadow:0 0 24px rgba(157,128,240,.5);}
-[data-theme="yoru"] .t-prog{stroke:var(--primary);filter:drop-shadow(0 0 6px rgba(157,128,240,.5));}
-[data-theme="yoru"] header{background:rgba(10,12,22,.96);border-bottom:1px solid rgba(157,128,240,.2);}
+[data-theme="yoru"] body{background:radial-gradient(ellipse 120% 60% at 50% -10%,rgba(152,128,232,.1) 0%,rgba(80,40,160,.05) 40%,transparent 70%),#080c18;}
+[data-theme="yoru"] .card{border:1px solid rgba(152,128,232,.12);background:rgba(10,12,24,.9);border-radius:14px;backdrop-filter:blur(4px);}
+[data-theme="yoru"] .card:hover{border-color:rgba(152,128,232,.28);box-shadow:0 4px 28px rgba(0,0,0,.6),0 0 24px rgba(152,128,232,.07);}
+[data-theme="yoru"] .btn-p{background:linear-gradient(135deg,#9880e8,#7058c0);box-shadow:0 2px 18px rgba(152,128,232,.25);border:none;}
+[data-theme="yoru"] .t-digits{color:#c0a8ff;text-shadow:0 0 30px rgba(152,128,232,.5);}
+[data-theme="yoru"] .t-prog{stroke:#9880e8;filter:drop-shadow(0 0 8px rgba(152,128,232,.5));}
+[data-theme="yoru"] header{background:rgba(8,10,20,.96);border-bottom:1px solid rgba(152,128,232,.15);}
+[data-theme="yoru"] nav button.active{background:#9880e8;color:#080c18!important;}
 [data-theme="yoru"] .logo-tisa{background:linear-gradient(90deg,#a898ff,#d4c8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+[data-theme="yoru"] #qbanner{background:rgba(152,128,232,.06);border-color:rgba(152,128,232,.18);}
 /* ── Forest Theme ── */
 [data-theme="forest"]{--bg:#f0f7f4;--bg2:#e0f0e8;--bg3:#c8e4d4;--surface:#f8fcfa;--surface2:#f0f7f4;--primary:#2d6a4f;--pd:#1a4a38;--pl:#52b788;--pglow:rgba(45,106,79,.15);--ink:#0a1e15;--ink2:#1b4332;--ink3:#52796f;--danger:#9b2226;--success:#40916c;--warn:#a7742a;--border:rgba(45,106,79,.2);--border2:rgba(45,106,79,.08);--sh:0 2px 12px rgba(45,106,79,.08);--shl:0 6px 28px rgba(45,106,79,.14);--font-main:'Libre Baskerville',Georgia,serif;--font-head:'Fraunces',serif;}
 [data-theme="forest"] body{background:linear-gradient(150deg,#f0f7f4 0%,#e8f5ee 100%);}
@@ -1192,42 +1190,6 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 [data-theme="saffron"] header{background:rgba(12,10,6,.96);border-bottom:1px solid rgba(245,158,11,.2);}
 [data-theme="saffron"] .t-digits{color:#f59e0b;text-shadow:0 0 20px rgba(245,158,11,.5);}
 [data-theme="saffron"] .t-prog{stroke:#f59e0b;filter:drop-shadow(0 0 6px rgba(245,158,11,.6));}
-/* ── Forest Theme ── */
-[data-theme="forest"]{--bg:#f0f7f4;--bg2:#e0f0e8;--bg3:#c8e4d4;--surface:#f8fcfa;--surface2:#f0f7f4;--primary:#2d6a4f;--pd:#1a4a38;--pl:#52b788;--pglow:rgba(45,106,79,.15);--ink:#0a1e15;--ink2:#1b4332;--ink3:#52796f;--danger:#9b2226;--success:#40916c;--warn:#a7742a;--border:rgba(45,106,79,.2);--border2:rgba(45,106,79,.08);--sh:0 2px 12px rgba(45,106,79,.08);--shl:0 6px 28px rgba(45,106,79,.14);--font-main:'Libre Baskerville',Georgia,serif;--font-head:'Fraunces',serif;}
-[data-theme="forest"] body{background:linear-gradient(150deg,#f0f7f4 0%,#e8f5ee 100%);}
-[data-theme="forest"] .card{border-radius:14px;border-color:rgba(45,106,79,.15);}
-
-/* ── Amber Theme ── */
-[data-theme="amber"]{--bg:#fffbf0;--bg2:#fef3c7;--bg3:#fde68a;--surface:#fffff8;--surface2:#fffbf0;--primary:#b45309;--pd:#92400e;--pl:#d97706;--pglow:rgba(180,83,9,.15);--ink:#1c1008;--ink2:#44200a;--ink3:#92502a;--danger:#b91c1c;--success:#15803d;--warn:#b45309;--border:rgba(180,83,9,.2);--border2:rgba(180,83,9,.08);--sh:0 2px 12px rgba(180,83,9,.07);--shl:0 6px 28px rgba(180,83,9,.12);--font-main:'Crimson Pro',Georgia,serif;--font-head:'Fraunces',serif;}
-[data-theme="amber"] body{background:#fffbf0;}
-[data-theme="amber"] .card{border-radius:10px;}
-[data-theme="amber"] .btn-p{border-radius:6px;}
-
-/* ── Indigo Theme ── */
-[data-theme="indigo"]{--bg:#f5f3ff;--bg2:#ede9fe;--bg3:#ddd6fe;--surface:#fdfcff;--surface2:#f5f3ff;--primary:#4338ca;--pd:#312e81;--pl:#6366f1;--pglow:rgba(67,56,202,.15);--ink:#0a0820;--ink2:#1e1b4b;--ink3:#6860c8;--danger:#be123c;--success:#047857;--warn:#b45309;--border:rgba(67,56,202,.2);--border2:rgba(67,56,202,.08);--sh:0 2px 12px rgba(67,56,202,.08);--shl:0 6px 28px rgba(67,56,202,.14);--font-main:'Space Grotesk',sans-serif;--font-head:'Syne',sans-serif;}
-[data-theme="indigo"] .btn-p{border-radius:8px;letter-spacing:.5px;}
-
-/* ── Graphite Dark ── */
-[data-theme="graphite"]{--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--surface:#0f172a;--surface2:#1e293b;--primary:#94a3b8;--pd:#64748b;--pl:#cbd5e1;--pglow:rgba(148,163,184,.15);--ink:#f1f5f9;--ink2:#cbd5e1;--ink3:#64748b;--danger:#f87171;--success:#34d399;--warn:#fbbf24;--border:rgba(148,163,184,.2);--border2:rgba(148,163,184,.08);--sh:0 2px 16px rgba(0,0,0,.4);--shl:0 6px 28px rgba(148,163,184,.1);--font-main:'Space Grotesk',sans-serif;--font-head:'Syne',sans-serif;}
-[data-theme="graphite"] .card{background:#1e293b;border-color:rgba(148,163,184,.12);}
-[data-theme="graphite"] header{background:rgba(15,23,42,.95);border-bottom:1px solid rgba(148,163,184,.15);}
-
-/* ── Sakura 2 ── */
-[data-theme="sakura2"]{--bg:#fff1f6;--bg2:#fce7ef;--bg3:#fbd0e4;--surface:#fff8fb;--surface2:#fff1f6;--primary:#be185d;--pd:#9d174d;--pl:#ec4899;--pglow:rgba(190,24,93,.15);--ink:#1a0010;--ink2:#4a0028;--ink3:#a83870;--danger:#b91c1c;--success:#047857;--warn:#b45309;--border:rgba(190,24,93,.18);--border2:rgba(190,24,93,.07);--sh:0 2px 12px rgba(190,24,93,.08);--shl:0 6px 28px rgba(190,24,93,.13);--font-main:'Crimson Pro',Georgia,serif;--font-head:'Fraunces',serif;}
-[data-theme="sakura2"] body{background:linear-gradient(150deg,#fff1f6 0%,#fdf0f7 100%);}
-
-/* ── Saffron Dark ── */
-[data-theme="saffron"]{--bg:#0c0a06;--bg2:#1a1408;--bg3:#241c0a;--surface:#0e0c07;--surface2:#181208;--primary:#f59e0b;--pd:#d97706;--pl:#fcd34d;--pglow:rgba(245,158,11,.25);--ink:#fef3c7;--ink2:#fde68a;--ink3:#92702a;--danger:#f87171;--success:#34d399;--warn:#f59e0b;--border:rgba(245,158,11,.25);--border2:rgba(245,158,11,.1);--sh:0 2px 20px rgba(0,0,0,.6);--shl:0 6px 32px rgba(245,158,11,.2);--font-main:'Crimson Pro',Georgia,serif;--font-head:'Fraunces',serif;}
-[data-theme="saffron"] body{background:#0c0a06;}
-[data-theme="saffron"] .card{background:#1a1408;border-color:rgba(245,158,11,.18);}
-[data-theme="saffron"] header{background:rgba(12,10,6,.96);border-bottom:1px solid rgba(245,158,11,.2);}
-[data-theme="saffron"] .t-digits{color:#f59e0b;text-shadow:0 0 20px rgba(245,158,11,.5);}
-[data-theme="saffron"] .t-prog{stroke:#f59e0b;filter:drop-shadow(0 0 6px rgba(245,158,11,.6));}
-
-/* ─────────────────────────────────────────────
-   📖 E-INK — Kindle/paper aesthetic
-   Warm cream, ink-dark text, zero distraction
-──────────────────────────────────────────────*/
 [data-theme="eink"]{
   --bg:#f4ecd8;--bg2:#ede0c4;--bg3:#e4d0aa;--surface:#faf6ee;--surface2:#f4ecd8;
   --primary:#2c2c2c;--pd:#000000;--pl:#666666;--pglow:rgba(44,44,44,.1);
@@ -1362,198 +1324,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   border-bottom:2px solid #818cf8;}
 
 
-/* LOADING */
-#loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:3000;flex-direction:column;gap:16px;transition:opacity .4s}
-#loading-screen.hide{opacity:0;pointer-events:none}
-.ls-logo{font-family:'Playfair Display',serif;font-size:56px;font-weight:400;color:var(--primary);letter-spacing:20px;text-indent:20px}
-.ls-spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite}
 
-/* LOGIN */
-#login-screen{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:1000;overflow:hidden}
-#login-screen.show{display:flex}
-.login-deco{position:absolute;inset:0;pointer-events:none}
-.ld-svg{position:absolute;pointer-events:none}
-.ld1{width:110px;height:110px;top:5%;right:6%;opacity:1}
-.ld2{width:130px;height:130px;bottom:8%;left:4%;opacity:1}
-.ld3{width:36px;height:100px;top:18%;left:8%;opacity:1}
-.ld4{width:70px;height:70px;bottom:22%;right:10%;opacity:.9}
-[data-theme="dark"] .ld-svg{opacity:.25}
-[data-theme="minimalist"] .ld-svg{display:none}
-.login-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.12}
-.lb1{width:600px;height:600px;background:var(--primary);top:-150px;right:-150px;animation:blobf 9s ease-in-out infinite}
-.lb2{width:400px;height:400px;background:var(--pl);bottom:-100px;left:-100px;animation:blobf 12s ease-in-out infinite reverse}
-.login-card{background:var(--surface);border:1.5px solid var(--border);border-radius:28px;padding:52px 44px 40px;text-align:center;max-width:400px;width:92%;position:relative;box-shadow:var(--shl);animation:loginIn .7s cubic-bezier(.34,1.56,.64,1)}
-.tisa-logo{font-family:'Playfair Display',serif;font-size:58px;font-weight:400;color:var(--primary);line-height:1;margin-bottom:8px;letter-spacing:22px;text-transform:uppercase;text-indent:22px}
-.tisa-tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--ink3);letter-spacing:2px;margin-bottom:16px;text-align:center}
-.login-quote-box{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--ink2);margin-bottom:22px;line-height:1.7;padding:12px 16px;border-left:3px solid var(--pl);background:var(--bg);border-radius:0 10px 10px 0;text-align:left}
-.welcome-note{background:var(--pglow);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:12px;color:var(--ink2);line-height:1.7;font-weight:500}
-.google-btn{display:flex;align-items:center;gap:12px;justify-content:center;width:100%;padding:14px 24px;background:var(--primary);color:white;border:none;border-radius:14px;cursor:pointer;font-size:13px;font-weight:700;transition:all .25s;box-shadow:0 4px 18px var(--pglow)}
-.google-btn:hover{background:var(--pd);transform:translateY(-2px)}
-.google-btn:disabled{opacity:.7;transform:none;cursor:not-allowed}
-.login-theme-row{display:flex;gap:8px;justify-content:center;margin-top:18px;align-items:center;flex-wrap:wrap;max-width:280px;margin-left:auto;margin-right:auto}
-.lt-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;transition:all .2s;border:2.5px solid transparent}
-.lt-dot:hover{transform:scale(1.2)}
-.lt-dot.active{border-color:var(--ink);transform:scale(1.15)}
-
-/* MODALS */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:2000;backdrop-filter:blur(6px);padding:16px;pointer-events:none}
-.modal-overlay.open{display:flex;pointer-events:all}
-.modal-box{background:var(--surface);border:1.5px solid var(--border);border-radius:24px;padding:36px;max-width:430px;width:100%;box-shadow:var(--shl);animation:modalIn .35s cubic-bezier(.34,1.56,.64,1)}
-.modal-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--primary);margin-bottom:5px}
-.modal-sub{font-size:12px;color:var(--ink3);margin-bottom:20px;line-height:1.7;font-weight:500}
-.pfx-wrap{position:relative;margin-bottom:8px}
-.pfx{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-weight:800;color:var(--primary);pointer-events:none;font-size:15px}
-.tisa-inp{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;transition:border-color .2s;font-weight:500}
-.tisa-inp:focus{border-color:var(--primary)}
-.pfx-inp{padding-left:30px}
-.fb{font-size:11px;margin-bottom:10px;min-height:16px;font-weight:600}
-
-/* HEADER */
-header{background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,0.06);padding:0 16px;height:54px;transition:height .25s,box-shadow .25s;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:8px;box-shadow:var(--sh)}
-.logo-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.logo-icon-svg{width:36px;height:36px;flex-shrink:0}
-.logo-tisa{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--primary);line-height:1;letter-spacing:8px;text-transform:uppercase;text-indent:8px}
-.logo-sub{font-size:7px;color:var(--ink3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:2px;white-space:nowrap;text-align:center}
-nav{display:flex;gap:2px}
-nav button{background:none;border:none;padding:7px 12px;font-size:13px;font-weight:700;color:var(--ink3);cursor:pointer;border-radius:10px;transition:all .2s;white-space:nowrap;font-family:'Nunito',sans-serif}
-nav button:hover{color:var(--primary);background:var(--pglow)}
-
-.hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.user-pill{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border:1.5px solid var(--border);border-radius:30px;cursor:pointer;transition:all .2s;background:var(--bg);font-size:12px;font-weight:700}
-.user-pill:hover{border-color:var(--primary)}
-.uav{width:28px;height:28px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:white;flex-shrink:0;overflow:hidden}
-.uav img{width:100%;height:100%;object-fit:cover}
-.xp-chip{display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--pglow);border:1px solid var(--border);border-radius:20px;font-size:11px;font-weight:800;color:var(--primary);cursor:pointer;white-space:nowrap}
-.dark-toggle{width:36px;height:20px;border-radius:10px;background:var(--bg3);border:1.5px solid var(--border);cursor:pointer;position:relative;transition:background .3s;flex-shrink:0;min-width:36px}
-.dark-toggle::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:var(--primary);top:1px;left:1px;transition:transform .3s}
-html[data-theme="dark"] .dark-toggle{background:var(--primary)}
-html[data-theme="dark"] .dark-toggle::after{transform:translateX(16px);background:white}
-.hdr-btn{background:none;border:1.5px solid var(--border);padding:5px 10px;border-radius:9px;font-size:11px;font-weight:700;color:var(--ink3);cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif}
-.hdr-btn:hover{border-color:var(--primary);color:var(--primary)}
-
-/* MOBILE NAV */
-#mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid color-mix(in srgb,var(--border) 60%,transparent);padding:4px 0 env(safe-area-inset-bottom,4px);box-shadow:0 -4px 24px rgba(0,0,0,.08)}
-.mob-nav-inner{display:flex;justify-content:space-around;align-items:center}
-.mnb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;border-radius:12px;transition:all .2s;min-width:48px;color:var(--ink3);font-size:10px;font-weight:700;position:relative;flex:1}
-.mnb.active{color:var(--primary)}
-.mnb.active .mni{transform:scale(1.15);filter:drop-shadow(0 0 6px var(--pglow))}
-.mnb:not(.active):hover{color:var(--ink2);background:rgba(var(--primary-rgb,192,84,106),.06)}
-.mni{font-size:20px;line-height:1;transition:transform .2s,filter .2s}
-.mnl{font-size:10px;font-weight:700;letter-spacing:.3px;transition:color .2s}
-.mnb .mni{font-size:20px;line-height:1}
-.mnb .mnl{font-size:8px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.3px;opacity:0;max-height:0;overflow:hidden;transition:all .2s}
-.mnb.active .mnl{color:var(--primary);opacity:1;max-height:12px}
-.mnb:hover .mnl{opacity:.7;max-height:12px}
-#more-menu{display:none;position:fixed;bottom:65px;right:0;left:0;z-index:300;background:var(--surface);border-top:1.5px solid var(--border);padding:12px;box-shadow:0 -8px 30px rgba(0,0,0,.15);border-radius:20px 20px 0 0;max-height:75vh;overflow-y:auto}
-#more-menu.open{display:block}
-.more-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.more-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--bg);border:1.5px solid var(--border2);border-radius:12px;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
-.more-btn:active,.more-btn.active{background:var(--pglow);border-color:var(--primary)}
-.more-btn .mbi{font-size:22px}
-.more-btn .mbl{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase}
-.more-btn.active .mbl{color:var(--primary)}
-
-/* LAYOUT */
-main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px;overflow-x:hidden;overflow-y:auto;}
-.page{display:none}.page.active{display:block}
-/* .card defined in VH system below */
-.ct{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.ct-ic{width:26px;height:26px;border-radius:8px;background:var(--pglow);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.btn{padding:9px 18px;font-size:12px;font-weight:700;border-radius:10px;cursor:pointer;transition:all .2s;border:1.5px solid var(--primary);font-family:'Nunito',sans-serif;touch-action:manipulation}
-.btn-p{background:var(--primary);color:white;box-shadow:0 2px 10px var(--pglow)}
-.btn-p:hover{background:var(--pd);transform:translateY(-1px)}
-.btn-o{background:transparent;color:var(--primary)}
-.btn-o:hover{background:var(--pglow)}
-.btn-sm{padding:6px 12px;font-size:11px}
-.btn-d{background:transparent;border-color:var(--danger);color:var(--danger)}
-.btn-d:hover{background:rgba(192,57,43,.07)}
-.ic-btn{background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--ink3);font-size:15px;transition:all .2s;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;min-width:32px;min-height:32px}
-.ic-btn:hover{color:var(--primary);background:var(--pglow)}
-.pill-btn{padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid var(--primary);background:transparent;color:var(--primary);transition:all .2s;font-family:'Nunito',sans-serif;min-height:36px;touch-action:manipulation}
-.pill-btn:hover{background:var(--primary);color:white}
-.empty{text-align:center;padding:22px;color:var(--ink3);font-size:12px;font-weight:600}
-.tag{display:inline-block;padding:2px 7px;background:var(--pglow);color:var(--primary);border-radius:20px;font-size:10px;font-weight:700}
-
-/* QBANNER */
-#qbanner{background:linear-gradient(120deg,var(--pglow),var(--bg2));border:1px solid var(--border);border-radius:16px;padding:14px 50px 14px 28px;margin-bottom:16px;position:relative}
-#qbanner::before{content:'❝';position:absolute;left:8px;top:2px;font-size:36px;color:var(--pl);opacity:.5;line-height:1;font-family:'Playfair Display',serif}
-.qt{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--ink);line-height:1.6}
-.qa{font-size:10px;color:var(--ink3);margin-top:4px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
-.qrefresh{position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;font-size:18px;color:var(--ink3);padding:6px;border-radius:8px;transition:all .25s;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center}
-.qrefresh:hover{color:var(--primary);transform:rotate(90deg)}
-
-/* GRIDS */
-.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
-.myspace-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.tt-full-card{grid-column:1/-1}
-.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.test-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-
-/* ── AI TEST ZONE ── */
-.atz-hero{background:linear-gradient(135deg,var(--primary) 0%,var(--pd) 100%);border-radius:20px;padding:20px;color:#fff;position:relative;overflow:hidden;margin-bottom:14px}
-.atz-hero::before{content:'';position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
-.atz-hero::after{content:'';position:absolute;bottom:-20px;right:30px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
-.atz-hero h2{font-size:20px;font-weight:900;margin:0 0 4px;letter-spacing:-.3px}
-.atz-hero p{font-size:12px;opacity:.85;margin:0 0 14px;font-weight:600}
-.atz-daily{background:rgba(255,255,255,.15);border-radius:14px;padding:12px 14px;margin-bottom:14px;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2)}
-.atz-daily-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;opacity:.75;font-weight:700;margin-bottom:5px}
-.atz-daily-q{font-size:13px;font-weight:700;line-height:1.5;margin-bottom:10px}
-.atz-daily-opts{display:flex;flex-direction:column;gap:5px}
-.atz-daily-opt{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:9px;padding:7px 11px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;text-align:left;transition:all .2s;font-family:'Nunito',sans-serif}
-.atz-daily-opt:hover{background:rgba(255,255,255,.25)}
-.atz-daily-opt.correct{background:rgba(50,200,80,.4);border-color:rgba(50,200,80,.6)}
-.atz-daily-opt.wrong{background:rgba(220,60,60,.35);border-color:rgba(220,60,60,.5)}
-.atz-daily-opt:disabled{cursor:default}
-.atz-exp{font-size:11px;margin-top:8px;opacity:.85;line-height:1.5;padding:8px 10px;background:rgba(0,0,0,.15);border-radius:8px;display:none}
-.atz-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-@media(max-width:480px){.atz-selector{grid-template-columns:1fr 1fr}}
-.atz-sel-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:12px 8px;cursor:pointer;transition:all .18s;text-align:center}
-.atz-sel-card:hover,.atz-sel-card.sel{border-color:var(--primary);background:var(--pglow)}
-.atz-sel-card .atz-ic{font-size:22px;margin-bottom:4px}
-.atz-sel-card .atz-lbl{font-size:11px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.3px;line-height:1.3}
-.atz-sel-card .atz-sub{font-size:9px;color:var(--ink3);margin-top:2px;font-weight:600}
-.atz-filters{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
-.atz-filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.atz-filter-label{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;min-width:58px;flex-shrink:0}
-.atz-chip{padding:6px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);font-size:11px;font-weight:700;cursor:pointer;color:var(--ink3);transition:all .2s;font-family:'Nunito',sans-serif;white-space:nowrap}
-.atz-chip:hover,.atz-chip.sel{background:var(--primary);color:#fff;border-color:var(--primary)}
-.atz-chip.danger.sel{background:var(--danger);border-color:var(--danger)}
-
-/* MCQ Quiz Modal */
-#mcq-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:0}
-#mcq-modal.open{display:flex}
-.mcq-wrap{width:100%;max-width:680px;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;background:var(--bg);display:flex;flex-direction:column;border-radius:0;overflow:hidden}
-@media(min-width:700px){.mcq-wrap{height:92vh;max-height:720px;border-radius:24px}}
-.mcq-topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-.mcq-progress-bar{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
-.mcq-progress-fill{height:100%;background:var(--primary);border-radius:3px;transition:width .4s ease}
-.mcq-timer{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--ink);min-width:42px;text-align:right}
-.mcq-timer.urgent{color:var(--danger);animation:pulse .6s infinite}
-.mcq-body{flex:1;overflow-y:auto;padding:20px 16px}
-.mcq-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.mcq-tag{background:var(--pglow);color:var(--primary);font-size:10px;font-weight:800;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
-.mcq-qnum{font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:6px}
-.mcq-question{font-size:15px;font-weight:700;color:var(--ink);line-height:1.6;margin-bottom:18px}
-.mcq-options{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-.mcq-opt{padding:13px 16px;border:1.5px solid var(--border);border-radius:14px;background:var(--surface);cursor:pointer;font-size:13px;font-weight:600;color:var(--ink);text-align:left;transition:all .2s;line-height:1.5;font-family:'Nunito',sans-serif;display:flex;gap:10px;align-items:flex-start}
-.mcq-opt:hover:not(:disabled){border-color:var(--primary);background:var(--pglow)}
-.mcq-opt .opt-letter{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px;transition:all .2s}
-.mcq-opt:hover .opt-letter{border-color:var(--primary);background:var(--primary);color:#fff}
-.mcq-opt.correct{border-color:#2d9e50;background:rgba(45,158,80,.1)}
-.mcq-opt.correct .opt-letter{background:#2d9e50;border-color:#2d9e50;color:#fff}
-.mcq-opt.wrong{border-color:var(--danger);background:rgba(192,57,43,.08)}
-.mcq-opt.wrong .opt-letter{background:var(--danger);border-color:var(--danger);color:#fff}
-.mcq-opt.reveal-correct{border-color:#2d9e50;background:rgba(45,158,80,.07)}
-.mcq-opt:disabled{cursor:default}
-.mcq-explanation{background:var(--surface2);border:1.5px solid var(--border);border-radius:14px;padding:14px;font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:14px;display:none}
-.mcq-explanation strong{color:var(--ink);font-weight:800}
-.mcq-marks-chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;margin-left:4px}
-.mcq-marks-chip.pos{background:rgba(45,158,80,.15);color:#2d9e50}
-.mcq-marks-chip.neg{background:rgba(192,57,43,.12);color:var(--danger)}
-.mcq-footer{padding:12px 16px;border-top:1px solid var(--border);background:var(--surface);display:flex;gap:8px;align-items:center;flex-shrink:0}
-.mcq-loading{text-align:center;padding:40px 20px;color:var(--ink3)}
-.mcq-loading .mcq-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
-}
 /* ══ VISUAL HIERARCHY ══════════════════════════════ */
 .card{
   background:var(--surface);border:1px solid var(--border);
@@ -1597,6 +1368,8 @@ nav button.active{opacity:1!important;font-weight:800;background:var(--ink);colo
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 ::-webkit-scrollbar-thumb:hover{background:var(--primary);}
 
+.focus-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.focus-grid{grid-template-columns:1fr;}}
 /* ══ MA (間) ZEN MODE ══ */
 body.ma-mode #app-header nav,body.ma-mode #mobile-nav,.ma-mode .panda-fab{display:none!important}
 body.ma-mode #app-main{padding:0!important}
@@ -1638,6 +1411,574 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--primary);outlin
 /* Better input styling on mobile */
 input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 @media(min-width:480px){input,select,textarea{font-size:13px!important;}}
+
+/* ════════════════════════════════════════════════════════
+   TISA — Japanese/Korean Design System
+   Ma · Shibumi · Kaizen · Yeolpumta · Oubaitori
+   ════════════════════════════════════════════════════════ */
+
+/* ── 1. MA (間) — NEGATIVE SPACE & BREATHING ROOM ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  position:relative;overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.03);
+  transition:box-shadow .25s,border-color .25s,transform .2s;
+}
+.card:hover{
+  box-shadow:0 4px 20px rgba(0,0,0,.08);
+  border-color:color-mix(in srgb,var(--primary) 30%,var(--border));
+  transform:translateY(-2px);
+}
+.card.elevated{
+  box-shadow:0 6px 30px var(--pglow)!important;
+  border-color:color-mix(in srgb,var(--primary) 35%,var(--border))!important;
+}
+.ct{
+  font-size:11px;font-weight:800;color:var(--ink3);
+  margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  text-transform:uppercase;letter-spacing:1.5px;
+}
+.ct-ic{
+  width:28px;height:28px;border-radius:9px;
+  background:var(--pglow);display:flex;align-items:center;
+  justify-content:center;font-size:14px;flex-shrink:0;
+}
+
+/* ── 2. SHIBUMI (渋み) — ELEGANT RESTRAINT ── */
+/* Bold numbers, clean containers */
+.snum{
+  font-size:28px;font-weight:900;color:var(--primary);
+  font-family:"Space Mono",monospace;line-height:1;
+  letter-spacing:-1px;
+}
+.slbl{
+  font-size:9px;font-weight:700;color:var(--ink3);
+  text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;
+}
+.stat-box{
+  background:var(--bg);border-radius:14px;padding:14px 12px;
+  text-align:center;flex:1;border:1px solid var(--border2);
+  transition:background .2s,border-color .2s;cursor:default;
+}
+.stat-box:hover{background:var(--bg2);border-color:var(--border);}
+
+/* ── 3. BOLD TYPOGRAPHY — Large key numbers ── */
+.focus-t{
+  font-family:"Space Mono",monospace!important;
+  font-size:clamp(52px,14vw,92px);
+  font-weight:700;color:var(--primary);
+  letter-spacing:2px;line-height:1;
+  text-shadow:0 0 40px var(--pglow);
+}
+.t-digits{
+  font-family:"Space Mono",monospace!important;
+  font-size:clamp(32px,7vw,48px);
+  font-weight:700;color:var(--ink);
+  letter-spacing:-1px;
+}
+[data-theme="oled"] .focus-t{
+  text-shadow:0 0 60px rgba(0,255,136,.4),0 0 120px rgba(0,255,136,.15);
+  color:#00ff88;
+}
+[data-theme="yoru"] .focus-t{text-shadow:0 0 40px rgba(152,128,232,.5);}
+[data-theme="eink"] .focus-t{font-family:"Playfair Display",serif!important;text-shadow:none;color:#2c2c2c;}
+
+/* ── 4. MA/ZEN FOCUS OVERLAY — Ultra-clean ── */
+#focus-mode{
+  display:none;position:fixed;inset:0;z-index:9000;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:28px;padding:40px 24px;
+  background:var(--bg);
+}
+#focus-mode.active{display:flex;}
+#focus-mode #focus-subj{
+  font-size:10px;font-weight:700;color:var(--ink3);
+  letter-spacing:4px;text-transform:uppercase;
+  background:var(--bg2);padding:6px 18px;border-radius:20px;
+  border:1px solid var(--border2);
+}
+#focus-mode #focus-lbl{
+  font-size:10px;font-weight:700;color:var(--ink3);
+  letter-spacing:5px;text-transform:uppercase;opacity:.6;
+}
+#focus-mode .focus-micro-quote-text{
+  font-size:13px;color:var(--ink3);font-style:italic;
+  opacity:.45;max-width:280px;text-align:center;line-height:1.9;
+  font-family:"Playfair Display",serif;
+}
+#focus-mode .focus-action-row{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+#focus-mode #focus-btn{
+  border-radius:100px;min-width:180px;
+  padding:17px 44px;font-size:16px;font-weight:800;letter-spacing:.8px;
+}
+#focus-mode .focus-exit-btn{
+  position:absolute;top:24px;right:24px;
+  background:none;border:none;color:var(--ink3);
+  font-size:20px;cursor:pointer;opacity:.35;
+  transition:opacity .2s;padding:8px;border-radius:8px;
+}
+#focus-mode .focus-exit-btn:hover{opacity:.7;}
+#focus-mode .focus-reset-lnk{
+  background:none;border:none;color:var(--ink3);
+  font-size:11px;cursor:pointer;opacity:.4;
+  font-family:inherit;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;padding:4px;
+  transition:opacity .2s;
+}
+#focus-mode .focus-reset-lnk:hover{opacity:.7;}
+
+/* ── 5. MA TIMER OVERLAY ── */
+#ma-focus-overlay{
+  display:none;position:fixed;inset:0;z-index:2000;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:32px;
+  background:var(--bg);
+}
+body.ma-mode #ma-focus-overlay{display:flex;}
+#ma-timer-display{
+  font-family:"Space Mono",monospace!important;
+  font-size:clamp(60px,16vw,100px);font-weight:700;
+  color:var(--primary);letter-spacing:4px;line-height:1;
+}
+#ma-mode-label{
+  font-size:9px;font-weight:700;color:var(--ink3);
+  text-transform:uppercase;letter-spacing:8px;
+}
+#ma-ring-fill{height:100%;width:0%;background:var(--primary);border-radius:1px;transition:width 1s linear;}
+#ma-quote{
+  font-family:"Playfair Display",serif;font-style:italic;
+  font-size:14px;color:var(--ink3);text-align:center;
+  max-width:300px;line-height:2;opacity:.5;
+}
+
+/* ── 6. YEOLPUMTA — Buddy Focus Flames ── */
+.buddy-studying-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:linear-gradient(135deg,#ff6b35,#ff9f43);
+  color:white;border-radius:20px;padding:3px 9px;
+  font-size:10px;font-weight:800;letter-spacing:.5px;
+  animation:flamePulse 2s ease-in-out infinite;
+}
+@keyframes flamePulse{
+  0%,100%{box-shadow:0 0 8px rgba(255,107,53,.4);}
+  50%{box-shadow:0 0 16px rgba(255,107,53,.7),0 0 30px rgba(255,107,53,.2);}
+}
+.buddy-idle-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--bg2);color:var(--ink3);
+  border-radius:20px;padding:3px 9px;
+  font-size:10px;font-weight:700;
+}
+.buddy-focus-timer{
+  font-family:"Space Mono",monospace;
+  font-size:11px;font-weight:700;color:#ff6b35;
+}
+.uitem{
+  padding:12px 14px;border-radius:14px;cursor:pointer;
+  transition:background .15s;display:flex;align-items:center;
+  gap:12px;border:1px solid transparent;margin-bottom:2px;
+}
+.uitem:hover,.uitem.sel{
+  background:color-mix(in srgb,var(--primary) 6%,var(--bg));
+  border-color:color-mix(in srgb,var(--primary) 15%,transparent);
+}
+.uitem.sel{border-left:3px solid var(--primary);}
+
+/* ── 7. SUBJECT HEATMAP — Enhanced ── */
+.heatmap-month-label{font-size:9px;color:var(--ink3);font-weight:600;}
+.heatmap-day-label{font-size:8px;color:var(--ink3);font-weight:600;opacity:.6;}
+.heatmap-cell{
+  border-radius:3px;transition:opacity .2s;cursor:default;
+}
+.heatmap-cell:hover{opacity:.7!important;}
+
+/* ── 8. KAIZEN BOARD — Refined ── */
+.kaizen-pip{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--primary);opacity:.2;
+  transition:opacity .3s;
+}
+.kaizen-pip.done{opacity:1;}
+
+/* ── 9. PAGE HERO — Consistent & Beautiful ── */
+.page-hero{
+  background:linear-gradient(135deg,var(--primary) 0%,var(--pd) 100%);
+  border-radius:22px;padding:22px 24px 20px;
+  color:#fff;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.page-hero::before{
+  content:"";position:absolute;top:-40px;right:-20px;
+  width:140px;height:140px;border-radius:50%;
+  background:rgba(255,255,255,.07);pointer-events:none;
+}
+.page-hero::after{
+  content:"";position:absolute;bottom:-24px;right:40px;
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(255,255,255,.05);pointer-events:none;
+}
+.page-hero h2{
+  font-size:22px;font-weight:900;margin:0 0 4px;
+  letter-spacing:-.5px;color:#fff!important;
+}
+.page-hero p{
+  font-size:12px;opacity:.8;margin:0;
+  font-weight:600;color:#fff!important;letter-spacing:.2px;
+}
+
+/* ── 10. HOME STAT TILES ── */
+.stat-row{display:flex;gap:10px;margin-bottom:18px;}
+.stat-tile{
+  flex:1;min-width:70px;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:16px;padding:14px 10px;text-align:center;
+  transition:all .2s;cursor:pointer;
+}
+.stat-tile:hover{
+  border-color:var(--primary);background:var(--pglow);
+  transform:translateY(-2px);
+}
+.st-val{
+  font-size:20px;font-weight:900;color:var(--primary);
+  font-family:"Space Mono",monospace;line-height:1.1;
+  letter-spacing:-1px;
+}
+.st-lbl{
+  font-size:9px;font-weight:700;color:var(--ink3);
+  text-transform:uppercase;letter-spacing:1px;margin-top:4px;
+}
+
+/* ── 11. MOBILE NAV — Shibumi ── */
+#mobile-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:color-mix(in srgb,var(--surface) 88%,transparent);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-top:1px solid color-mix(in srgb,var(--border) 50%,transparent);
+  padding:6px 0 env(safe-area-inset-bottom,8px);
+}
+.mob-nav-inner{display:flex;justify-content:space-around;align-items:center;}
+.mnb{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 12px;background:none;border:none;cursor:pointer;
+  font-family:inherit;border-radius:14px;transition:all .2s;
+  min-width:52px;color:var(--ink3);flex:1;
+  touch-action:manipulation;
+}
+.mni{font-size:22px;line-height:1;transition:transform .2s;}
+.mnl{
+  font-size:9px;font-weight:700;letter-spacing:.5px;
+  color:var(--ink3);text-transform:uppercase;
+  opacity:.6;transition:opacity .2s;
+}
+.mnb.active .mni{transform:scale(1.15);}
+.mnb.active .mnl{color:var(--primary);opacity:1;}
+.mnb.active{color:var(--primary);}
+#mob-panda-fab{
+  width:54px;height:54px;border-radius:50%;
+  background:var(--primary);border:3px solid var(--surface);
+  box-shadow:0 4px 20px var(--pglow);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;cursor:pointer;
+  transform:translateY(-10px);
+  transition:transform .2s,box-shadow .2s;
+  position:relative;z-index:5;flex-shrink:0;
+}
+#mob-panda-fab:active{transform:translateY(-10px) scale(.93);}
+
+/* ── 12. BUTTONS — Clean & Tactile ── */
+.btn{
+  padding:10px 20px;font-size:13px;font-weight:700;border-radius:12px;
+  cursor:pointer;transition:all .15s;border:1.5px solid var(--primary);
+  font-family:inherit;touch-action:manipulation;letter-spacing:.2px;
+}
+.btn-p{background:var(--primary);color:white;box-shadow:0 2px 12px var(--pglow);}
+.btn-p:hover{background:var(--pd);transform:translateY(-1px);box-shadow:0 4px 18px var(--pglow);}
+.btn-o{background:transparent;color:var(--primary);}
+.btn-o:hover{background:var(--pglow);}
+.btn:active{transform:scale(.96)!important;}
+.btn-sm{padding:7px 14px;font-size:12px;}
+.btn-d{background:transparent;border-color:var(--danger);color:var(--danger);}
+
+/* ── 13. INPUTS ── */
+.tisa-inp{
+  width:100%;padding:12px 15px;
+  border:1.5px solid var(--border);border-radius:12px;
+  font-size:13px;background:var(--bg);color:var(--ink);
+  outline:none;transition:border-color .2s,box-shadow .2s;font-weight:500;
+}
+.tisa-inp:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px var(--pglow);
+}
+
+/* ── 14. EMPTY STATES ── */
+.empty{
+  text-align:center;padding:32px 20px;
+  color:var(--ink3);font-size:12px;font-weight:600;
+  line-height:1.8;
+}
+
+/* ── 15. SCROLLBAR ── */
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--primary);}
+
+/* ── 16. PAGE TRANSITIONS ── */
+.page{display:none;}
+.page.active{display:block;animation:pageIn .2s ease;}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── 17. GOAL LIMIT PIPS ── */
+.goal-limit-bar{
+  display:flex;align-items:center;gap:7px;
+  margin-bottom:12px;padding:10px 14px;
+  background:var(--bg2);border-radius:12px;
+  border:1px solid var(--border2);
+}
+.goal-pip{
+  width:16px;height:16px;border-radius:5px;
+  background:var(--bg3);border:1.5px solid var(--border);
+  transition:all .3s;flex-shrink:0;
+}
+.goal-pip.filled{background:var(--primary);border-color:var(--primary);}
+.goal-pip.excess{background:var(--danger);border-color:var(--danger);}
+.goal-limit-lbl{font-size:11px;font-weight:700;color:var(--ink3);flex:1;}
+.goal-limit-count{font-size:12px;font-weight:800;color:var(--primary);}
+
+/* ── 18. SOCIAL TAB ── */
+.social-tab-bar{
+  display:flex;border-bottom:1px solid var(--border2);
+  margin-bottom:18px;
+}
+.social-tab-btn{
+  flex:1;padding:11px;background:none;border:none;
+  border-bottom:2.5px solid transparent;margin-bottom:-1px;
+  font-size:13px;font-weight:700;cursor:pointer;color:var(--ink3);
+  transition:all .2s;font-family:inherit;letter-spacing:.2px;
+}
+.social-tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);}
+
+/* ── 19. SESSION REFLECTION MODAL ── */
+#session-reflect-modal{
+  display:none;position:fixed;inset:0;z-index:2100;
+  background:rgba(0,0,0,.55);align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);
+}
+#session-reflect-modal.open{display:flex;}
+.reflect-box{
+  background:var(--surface);border-radius:24px;
+  padding:32px 26px;max-width:340px;width:90%;
+  box-shadow:var(--shl);text-align:center;
+  border:1.5px solid var(--border);
+  animation:modalIn .35s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ── 20. KAIZEN BOARD ── */
+.kaizen-item{
+  display:flex;align-items:center;gap:8px;padding:8px 10px;
+  background:var(--bg);border-radius:10px;
+  border:1px solid var(--border2);transition:all .2s;
+}
+.kaizen-item:hover{border-color:var(--border);}
+.kaizen-item.done-item .kaizen-text{text-decoration:line-through;opacity:.45;}
+
+/* ── 21. ATZ FLOW ── */
+.atz-sel-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:16px;padding:14px 10px;cursor:pointer;
+  transition:all .2s;text-align:center;
+}
+.atz-sel-card:hover,.atz-sel-card.sel{
+  border-color:var(--primary);background:var(--pglow);
+  transform:translateY(-2px);
+}
+
+/* ── 22. PROGRESS BARS ── */
+.xpbar-w{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin:8px 0 12px;}
+.xpbar-f{height:100%;background:linear-gradient(90deg,var(--primary),var(--pl));border-radius:3px;transition:width .8s ease;}
+.todo-pb-w{height:3px;background:var(--bg3);border-radius:2px;margin:8px 0 12px;overflow:hidden;}
+.todo-pb{height:100%;background:var(--primary);border-radius:2px;transition:width .5s ease;}
+.pt-bar-w{background:var(--bg3);border-radius:10px;height:6px;overflow:hidden;margin:5px 0;}
+.pt-bar{height:100%;background:var(--primary);border-radius:10px;transition:width .6s;}
+
+/* ── 23. HEATMAP CONTAINER ── */
+#subj-heatmap-grid{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+
+/* ── 24. BADGES ── */
+.badge-it{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:10px 12px;background:var(--bg);
+  border:1.5px solid var(--border2);border-radius:12px;
+  min-width:60px;text-align:center;transition:all .2s;
+}
+.badge-it.earned{border-color:var(--primary);background:var(--pglow);}
+.badge-it.locked{opacity:.3;filter:grayscale(1);}
+.badge-ic{font-size:22px;}
+.badge-nm{font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;}
+
+/* ── 25. SIDEBAR CARDS (journal/connect) ── */
+.sidebar-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;overflow:hidden;display:flex;flex-direction:column;
+}
+.sb-hdr{padding:14px 16px;border-bottom:1px solid var(--border2);}
+.sb-scroll{flex:1;overflow-y:auto;}
+
+/* ── 26. FOCUS GRID ── */
+.focus-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.focus-grid{grid-template-columns:1fr;}}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.settings-grid{grid-template-columns:1fr;}}
+
+/* ── 27. TEST PERFORMANCE ── */
+.test-hist-item{
+  display:flex;align-items:center;gap:12px;padding:12px;
+  border:1px solid var(--border2);border-radius:14px;
+  margin-bottom:8px;background:var(--surface);transition:all .2s;
+}
+.test-hist-item:hover{border-color:var(--primary);background:var(--pglow);}
+.test-hist-score{
+  font-size:20px;font-weight:900;min-width:50px;text-align:center;
+  font-family:"Space Mono",monospace;
+}
+.test-hist-info{flex:1;min-width:0;}
+.test-hist-name{font-size:13px;font-weight:700;color:var(--ink);}
+.test-hist-sub{font-size:11px;color:var(--ink3);font-weight:600;margin-top:2px;}
+
+/* ── 28. FACTOZ BANNER ── */
+#home-factoz-banner{transition:background .2s,border-color .2s;}
+#home-factoz-banner:hover{background:var(--bg2)!important;border-color:var(--border)!important;}
+
+/* ── 29. BOOKMARK CARD ── */
+.bm-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:16px;padding:16px;margin-bottom:10px;
+}
+.bm-card-meta{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.bm-card-q{font-size:13px;font-weight:700;color:var(--ink);line-height:1.5;margin-bottom:8px;}
+.bm-card-ans{font-size:12px;color:var(--success);font-weight:700;}
+
+/* ── 30. RESPONSIVE GRIDS ── */
+.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start;}
+.myspace-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.jgrid{display:grid;grid-template-columns:220px 1fr;gap:16px;}
+.conn-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:760px){
+  .home-grid{grid-template-columns:1fr;gap:12px;}
+  .myspace-grid{grid-template-columns:1fr;}
+  .perf-grid{grid-template-columns:1fr;}
+  .jgrid{grid-template-columns:1fr;}
+  .conn-grid{grid-template-columns:1fr;}
+  main{padding:12px 12px 88px;}
+}
+@media(min-width:761px){
+  #app-main{padding:24px 32px;max-width:1400px;margin:0 auto;}
+  .home-grid{grid-template-columns:repeat(3,1fr);}
+}
+
+/* ════════════════════════════════════════════════════
+   END TISA DESIGN SYSTEM
+   ════════════════════════════════════════════════════ */
+
+[data-theme="washi"] .page-hero{background:linear-gradient(135deg,#5c3d2e 0%,#3d2820 100%);}
+[data-theme="washi"] nav button{font-family:'Shippori Mincho',serif;}
+[data-theme="washi"] .ct{font-family:'Shippori Mincho',serif;letter-spacing:.5px;}
+[data-theme="washi"] .tisa-inp{background:#fdfaf4;border-color:rgba(92,61,46,.18);}
+[data-theme="washi"] #mobile-nav{background:rgba(253,250,244,.96);border-top:1px solid rgba(92,61,46,.12);}
+[data-theme="washi"] .modal-box{background:#fdfaf4;border-color:rgba(92,61,46,.18);}
+[data-theme="asagi"] .page-hero{background:linear-gradient(135deg,#1a5c88 0%,#103e60 100%);}
+[data-theme="asagi"] .ct{font-family:'Shippori Mincho',serif;letter-spacing:.5px;}
+[data-theme="asagi"] .tisa-inp{background:#f8fbff;border-color:rgba(26,92,136,.18);}
+[data-theme="asagi"] #mobile-nav{background:rgba(248,251,255,.96);border-top:1px solid rgba(26,92,136,.1);}
+[data-theme="asagi"] .modal-box{background:#f8fbff;}
+[data-theme="yoru"] .page-hero{background:linear-gradient(135deg,#9880e8 0%,#6040c0 100%);}
+[data-theme="yoru"] .ct{font-family:'Zen Kaku Gothic New',sans-serif;}
+[data-theme="yoru"] .tisa-inp{background:rgba(14,18,38,.8);border-color:rgba(152,128,232,.2);color:#e8e4ff;}
+[data-theme="yoru"] #mobile-nav{background:rgba(8,10,24,.96);border-top:1px solid rgba(152,128,232,.15);}
+[data-theme="yoru"] .modal-box{background:#0c1020;border-color:rgba(152,128,232,.2);}
+[data-theme="yoru"] .login-card{background:#0c1020;border-color:rgba(152,128,232,.2);}
+
+[data-theme="eink"] .page-hero{background:linear-gradient(135deg,#2c2c2c 0%,#1a1a1a 100%);color:#f4ecd8;}
+[data-theme="eink"] .page-hero h2,.page-hero p{color:#f4ecd8!important;}
+[data-theme="eink"] .card:hover{transform:none;box-shadow:none;}
+[data-theme="eink"] nav button.active{background:#2c2c2c!important;color:#f4ecd8!important;}
+[data-theme="eink"] .modal-box{background:#f4ecd8;border-color:rgba(44,44,44,.2);}
+[data-theme="eink"] #mobile-nav{background:#f4ecd8;border-top:1.5px solid rgba(44,44,44,.2);}
+[data-theme="oled"] .page-hero{background:linear-gradient(135deg,#0d1010 0%,#000 100%);border:1px solid rgba(0,255,136,.2);}
+[data-theme="oled"] #mobile-nav{background:#000;border-top:1px solid rgba(0,255,136,.15);}
+[data-theme="oled"] .modal-box{background:#070707;border-color:rgba(0,255,136,.2);}
+[data-theme="oled"] .tisa-inp{background:#0d0d0d;border-color:rgba(0,255,136,.2);color:#e8ffe0;}
+[data-theme="nord"] .page-hero{background:linear-gradient(135deg,#4c566a 0%,#3b4252 100%);}
+[data-theme="nord"] .modal-box{background:#3b4252;border-color:rgba(136,192,208,.15);}
+[data-theme="nord"] #mobile-nav{background:#272c38;border-top:1px solid rgba(136,192,208,.12);}
+[data-theme="nord"] .login-card{background:#3b4252;border-color:rgba(136,192,208,.2);}
+[data-theme="glass"] .page-hero{background:linear-gradient(135deg,rgba(99,102,241,.6) 0%,rgba(79,70,229,.4) 100%);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.15);}
+[data-theme="glass"] .modal-box{background:rgba(255,255,255,.08);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.15);}
+[data-theme="glass"] .login-card{background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);}
+
+.page-hero,.page-hero h2,.page-hero p{color:#fff!important;}
+
+/* ── Daily Goal Limit ── */
+.goal-limit-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px 12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border2);}
+.goal-pip{width:14px;height:14px;border-radius:4px;background:var(--bg3);border:1.5px solid var(--border);transition:all .3s;flex-shrink:0;}
+.goal-pip.filled{background:var(--primary);border-color:var(--primary);}
+.goal-pip.excess{background:var(--danger);border-color:var(--danger);}
+.goal-limit-lbl{font-size:11px;font-weight:700;color:var(--ink3);flex:1;}
+.goal-limit-count{font-size:11px;font-weight:800;color:var(--primary);}
+
+/* ── FOCUS OVERLAY — Redesigned ── */
+#focus-mode{
+  display:none;position:fixed;inset:0;z-index:9000;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:24px;padding:32px;
+  background:var(--bg);
+  transition:opacity .3s;
+}
+#focus-mode.active{display:flex;}
+.focus-t{
+  font-family:"Space Mono",monospace!important;
+  font-size:clamp(52px,14vw,92px);
+  font-weight:700;color:var(--primary);
+  letter-spacing:4px;line-height:1;
+  text-shadow:0 0 40px var(--pglow);
+  transition:all .3s;
+}
+#focus-mode[data-running="true"] .focus-t{
+  color:var(--primary);
+  text-shadow:0 0 60px var(--pglow),0 0 20px var(--pglow);
+}
+#focus-mode #focus-btn{
+  border-radius:100px;
+  min-width:160px;padding:16px 40px;
+  font-size:16px;font-weight:800;letter-spacing:.5px;
+}
+/* Focus overlay dark theme override */
+[data-theme="dark"] #focus-mode,
+[data-theme="oled"] #focus-mode,
+[data-theme="midnight"] #focus-mode,
+[data-theme="yoru"] #focus-mode,
+[data-theme="graphite"] #focus-mode{
+  background:var(--bg);
+}
+[data-theme="oled"] #focus-mode .focus-t{
+  text-shadow:0 0 40px rgba(0,255,136,.5),0 0 80px rgba(0,255,136,.2);
+}
+
+[data-theme="eink"] #focus-mode .focus-t{font-family:"Playfair Display",serif!important;color:#2c2c2c;text-shadow:none;}
+[data-theme="eink"] #focus-mode{background:#f4ecd8;}
+[data-theme="minimalist"] #focus-mode .focus-t{letter-spacing:2px;}
+
+/* Reflect star animation */
+#reflect-stars button{color:var(--warn);}
+#reflect-stars button.star-lit{opacity:1!important;transform:scale(1.2)!important;}
+#reflect-stars button:hover{opacity:.6!important;}
 </style>
 <!--
   ══════════════════════════════════════════════════════════════
@@ -1697,52 +2038,45 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 <div class="login-deco">
   <div class="login-blob lb1"></div>
   <div class="login-blob lb2"></div>
-  <!-- Sakura / book / pencil doodles restored -->
-  <svg class="ld-svg ld1 sakura-float" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Sakura flower -->
-    <g opacity=".85">
-      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(0 40 40)"/>
-      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(72 40 40)"/>
-      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(144 40 40)"/>
-      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(216 40 40)"/>
-      <ellipse cx="40" cy="22" rx="9" ry="16" fill="#f9a8c9" transform="rotate(288 40 40)"/>
-      <circle cx="40" cy="40" r="8" fill="#fce4ee"/>
-      <circle cx="40" cy="40" r="4" fill="#f48fb1"/>
-    </g>
+  <!-- Beautiful geometric study orbs -->
+  <svg class="ld-svg ld1" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:floatUD 7s ease-in-out infinite">
+    <circle cx="50" cy="50" r="44" fill="none" stroke="var(--primary)" stroke-width="1" opacity=".18"/>
+    <circle cx="50" cy="50" r="32" fill="none" stroke="var(--primary)" stroke-width="1.5" opacity=".22"/>
+    <circle cx="50" cy="50" r="20" fill="var(--primary)" opacity=".08"/>
+    <circle cx="50" cy="50" r="8" fill="var(--primary)" opacity=".22"/>
+    <line x1="50" y1="6" x2="50" y2="18" stroke="var(--primary)" stroke-width="1.5" opacity=".3"/>
+    <line x1="50" y1="82" x2="50" y2="94" stroke="var(--primary)" stroke-width="1.5" opacity=".3"/>
+    <line x1="6" y1="50" x2="18" y2="50" stroke="var(--primary)" stroke-width="1.5" opacity=".3"/>
+    <line x1="82" y1="50" x2="94" y2="50" stroke="var(--primary)" stroke-width="1.5" opacity=".3"/>
+    <circle cx="50" cy="6" r="3" fill="var(--primary)" opacity=".35"/>
+    <circle cx="50" cy="94" r="3" fill="var(--primary)" opacity=".35"/>
+    <circle cx="6" cy="50" r="3" fill="var(--primary)" opacity=".35"/>
+    <circle cx="94" cy="50" r="3" fill="var(--primary)" opacity=".35"/>
   </svg>
-  <svg class="ld-svg ld2 sakura-sway" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Open book -->
-    <g opacity=".75">
-      <path d="M10 25 Q45 18 45 18 Q45 18 80 25 L80 68 Q45 60 45 60 Q45 60 10 68 Z" fill="var(--primary)" opacity=".35"/>
-      <path d="M45 18 L45 60" stroke="var(--primary)" stroke-width="2.5" opacity=".5"/>
-      <line x1="18" y1="34" x2="42" y2="30" stroke="white" stroke-width="1.5" opacity=".6"/>
-      <line x1="18" y1="41" x2="42" y2="37" stroke="white" stroke-width="1.5" opacity=".6"/>
-      <line x1="18" y1="48" x2="42" y2="44" stroke="white" stroke-width="1.5" opacity=".6"/>
-      <line x1="52" y1="30" x2="76" y2="34" stroke="white" stroke-width="1.5" opacity=".6"/>
-      <line x1="52" y1="37" x2="76" y2="41" stroke="white" stroke-width="1.5" opacity=".6"/>
-      <line x1="52" y1="44" x2="76" y2="48" stroke="white" stroke-width="1.5" opacity=".6"/>
-    </g>
+  <svg class="ld-svg ld2" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:floatUD 9s ease-in-out infinite reverse">
+    <polygon points="55,10 100,80 10,80" fill="none" stroke="var(--primary)" stroke-width="1.5" opacity=".18"/>
+    <polygon points="55,25 88,75 22,75" fill="none" stroke="var(--primary)" stroke-width="1" opacity=".14"/>
+    <circle cx="55" cy="55" r="28" fill="var(--primary)" opacity=".06"/>
+    <circle cx="55" cy="10" r="4" fill="var(--primary)" opacity=".3"/>
+    <circle cx="100" cy="80" r="4" fill="var(--primary)" opacity=".3"/>
+    <circle cx="10" cy="80" r="4" fill="var(--primary)" opacity=".3"/>
   </svg>
-  <svg class="ld-svg ld3 t-anim" viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Pencil -->
-    <g opacity=".75">
-      <rect x="10" y="10" width="20" height="85" rx="3" fill="var(--primary)" opacity=".6"/>
-      <polygon points="10,95 30,95 20,115" fill="#f9c784"/>
-      <polygon points="14,108 26,108 20,115" fill="#333" opacity=".4"/>
-      <rect x="10" y="10" width="20" height="10" rx="3" fill="#ccc" opacity=".7"/>
-      <rect x="12" y="22" width="16" height="60" fill="var(--pl)" opacity=".3"/>
-    </g>
+  <svg class="ld-svg ld3" viewBox="0 0 30 110" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:floatUD 11s ease-in-out infinite">
+    <rect x="12" y="8" width="6" height="94" rx="3" fill="var(--primary)" opacity=".12"/>
+    <circle cx="15" cy="8" r="5" fill="var(--primary)" opacity=".25"/>
+    <circle cx="15" cy="35" r="3" fill="var(--primary)" opacity=".18"/>
+    <circle cx="15" cy="60" r="3" fill="var(--primary)" opacity=".14"/>
+    <circle cx="15" cy="85" r="3" fill="var(--primary)" opacity=".18"/>
+    <circle cx="15" cy="102" r="5" fill="var(--pl)" opacity=".3"/>
   </svg>
-  <svg class="ld-svg ld4 sakura-float" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Small sakura petal -->
-    <g opacity=".7">
-      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(0 30 30)"/>
-      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(72 30 30)"/>
-      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(144 30 30)"/>
-      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(216 30 30)"/>
-      <ellipse cx="30" cy="12" rx="7" ry="12" fill="#f9a8c9" transform="rotate(288 30 30)"/>
-      <circle cx="30" cy="30" r="6" fill="#fce4ee"/>
-    </g>
+  <svg class="ld-svg ld4" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:floatUD 8s ease-in-out infinite 2s">
+    <rect x="10" y="10" width="50" height="50" rx="12" fill="none" stroke="var(--primary)" stroke-width="1.5" opacity=".18"/>
+    <rect x="20" y="20" width="30" height="30" rx="7" fill="var(--primary)" opacity=".08"/>
+    <circle cx="35" cy="35" r="8" fill="var(--primary)" opacity=".15"/>
+    <circle cx="10" cy="10" r="3" fill="var(--primary)" opacity=".3"/>
+    <circle cx="60" cy="10" r="3" fill="var(--primary)" opacity=".3"/>
+    <circle cx="10" cy="60" r="3" fill="var(--primary)" opacity=".3"/>
+    <circle cx="60" cy="60" r="3" fill="var(--primary)" opacity=".3"/>
   </svg>
 </div>
 <div class="login-card">
@@ -1808,13 +2142,10 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
   <button id="nav-panda-btn" onclick="openWellnessSheet()" style="background:var(--primary);color:#fff;border-radius:99px;padding:6px 16px;font-weight:800;letter-spacing:.3px">☸️ Buddha</button>
 </nav>
 <div class="hdr-right">
-  <div class="xp-chip" onclick="showPage('profile',null)">⚡<span id="hdr-xp">0 XP</span><span id="hdr-lv" style="opacity:.7">Lv.1</span></div>
-  <div style="font-size:12px;font-weight:800;color:var(--warn);cursor:pointer">🪙<span id="hdr-coins">0</span></div>
-  <div class="user-pill" onclick="showPage('profile',null)"><div class="uav" id="user-av">?</div><span id="user-dname" style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle">...</span></div>
-  <div class="dark-toggle" id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"></div>
-  <button class="hdr-btn" onclick="toggleFocus()">🎯</button>
-  <button class="hdr-btn" style="border-color:var(--danger);color:var(--danger)" onclick="doSignOut()">Out</button>
-  <button id="pwa-desktop-btn" class="hdr-btn" title="Install TISA App" style="display:none;border-color:#c0546a;color:#c0546a;font-size:11px" onclick="pwaTriggerInstall()">⬇ Install</button>
+  <div class="user-pill" onclick="showPage('profile',null)" title="Profile"><div class="uav" id="user-av">?</div><span id="user-dname" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle">...</span></div>
+  <div class="dark-toggle" id="dark-toggle" onclick="toggleDark()" title="Toggle theme"></div>
+  <button class="hdr-btn" style="border-color:var(--danger);color:var(--danger);font-size:11px" onclick="doSignOut()">↩</button>
+  <button id="pwa-desktop-btn" class="hdr-btn" title="Install TISA App" style="display:none;border-color:#c0546a;color:#c0546a;font-size:11px" onclick="pwaTriggerInstall()">⬇</button>
 </div>
 </header>
 
@@ -1858,40 +2189,6 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
     <span class="more-list-ic">🛡️</span><span class="more-list-lb">Admin Panel</span><span class="more-list-chev">›</span>
   </button>
 </div>
-  <div class="more-cat-label">Personal</div>
-  <button class="more-list-item" data-page="journal" onclick="showPageMob('journal',null);closeMoreMenu()">
-    <span class="more-list-ic">📔</span><span class="more-list-lb">Journal</span><span class="more-list-chev">›</span>
-  </button>
-  <button class="more-list-item" data-page="tests" onclick="showPageMob('tests',null);closeMoreMenu()">
-    <span class="more-list-ic">📝</span><span class="more-list-lb">Tests</span><span class="more-list-chev">›</span>
-  </button>
-  <button class="more-list-item" onclick="toggleFocus();closeMoreMenu()">
-    <span class="more-list-ic">🎯</span><span class="more-list-lb">Focus Mode</span><span class="more-list-chev">›</span>
-  </button>
-  <div class="more-list-sep"></div>
-  <div class="more-cat-label">Social</div>
-  <button class="more-list-item" data-page="connect" onclick="showPageMob('social',null);closeMoreMenu()">
-    <span class="more-list-ic">💬</span><span class="more-list-lb">Connect & Chat</span><span class="more-list-chev">›</span>
-  </button>
-  <button class="more-list-item" data-page="community" onclick="showPageMob('social',null);closeMoreMenu()">
-    <span class="more-list-ic">🌍</span><span class="more-list-lb">Community</span><span class="more-list-chev">›</span>
-  </button>
-  <div class="more-list-sep"></div>
-  <div class="more-cat-label">System</div>
-  <button class="more-list-item" data-page="profile" onclick="showPageMob('profile',null);closeMoreMenu()">
-    <span class="more-list-ic">👤</span><span class="more-list-lb">Profile</span><span class="more-list-chev">›</span>
-  </button>
-  <button class="more-list-item" data-page="settings" onclick="showPageMob('settings',null);closeMoreMenu()">
-    <span class="more-list-ic">⚙️</span><span class="more-list-lb">Settings</span><span class="more-list-chev">›</span>
-  </button>
-  <button class="more-list-item" onclick="toggleDark();closeMoreMenu()">
-    <span class="more-list-ic">🌙</span><span class="more-list-lb">Toggle Theme</span><span class="more-list-chev">›</span>
-  </button>
-  
-  <button class="more-list-item" onclick="doSignOut()" style="margin-bottom:8px">
-    <span class="more-list-ic">🚪</span><span class="more-list-lb" style="color:var(--danger)">Sign Out</span><span class="more-list-chev">›</span>
-  </button>
-</div>
 
 <!-- HEALTH BUBBLE -->
 <!-- Old health bubble hidden - panda moved to nav FAB -->
@@ -1914,34 +2211,10 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
   </div><!-- end top padding div -->
 
   <!-- TAB 1: ACTIONS -->
-  <div id="panda-tab-actions" class="panda-panel" style="display:none" style="overflow-y:auto;padding:0 20px 24px">
-    <div class="qa-grid">
-      <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('performance',null):showPageMob('performance',null));toggleFocus()">
-        <span class="qa-ic">⏱️</span><span class="qa-lb">Start Focus</span>
-      </button>
-      <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('home',null):showPageMob('home',null));setTimeout(()=>{const i=document.getElementById('todo-inp');if(i){i.scrollIntoView({behavior:'smooth',block:'center'});i.focus();}},250)">
-        <span class="qa-ic">✅</span><span class="qa-lb">Quick Task</span>
-      </button>
-      <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('journal',null):showPageMob('journal',null));setTimeout(()=>{const i=document.getElementById('j-thoughts');if(i)i.focus();},200)">
-        <span class="qa-ic">📔</span><span class="qa-lb">Quick Log</span>
-      </button>
-      <button class="qa-btn" onclick="closeWellnessSheet();(window.innerWidth>760?showPage('social',null):showPageMob('social',null))">
-        <span class="qa-ic">💬</span><span class="qa-lb">Community</span>
-      </button>
-    </div>
-    <div style="height:1px;background:var(--border);margin:12px 0 10px;opacity:.5"></div>
-    <div style="font-size:10px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:10px">Wellness</div>
-    <div class="wellness-row">
-      <button class="wellness-btn" onclick="wellnessAction('water')"><span class="wb-ic">💧</span><span class="wb-lb">Water</span></button>
-      <button class="wellness-btn" onclick="wellnessAction('stretch')"><span class="wb-ic">🧘</span><span class="wb-lb">Stretch</span></button>
-      <button class="wellness-btn" onclick="wellnessAction('breathe')"><span class="wb-ic">🌬️</span><span class="wb-lb">Breathe</span></button>
-      <button class="wellness-btn" onclick="wellnessAction('snack')"><span class="wb-ic">🍎</span><span class="wb-lb">Snack</span></button>
-      <button class="wellness-btn" onclick="wellnessAction('eyes')"><span class="wb-ic">👁️</span><span class="wb-lb">Eyes</span></button>
-    </div>
-  </div>
+  <!-- Actions panel removed -->
 
   <!-- TAB 2: ASK PANDA -->
-  <div id="panda-tab-ask" class="panda-panel" style="display:none;flex:1;flex-direction:column;padding:0;min-height:0;position:relative">
+  <div id="panda-tab-ask" class="panda-panel" style="display:flex;flex:1;flex-direction:column;padding:0;min-height:0;position:relative">
     <div id="panda-chat-bg"></div>
 
     <!-- Header bar -->
@@ -2084,26 +2357,61 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 
 <!-- FOCUS MODE -->
 <div id="focus-mode">
-  <button class="btn btn-o" style="position:absolute;top:20px;right:20px" onclick="toggleFocus()">✕ Exit</button>
-  <div style="font-size:13px;color:var(--ink3);letter-spacing:4px;text-transform:uppercase;font-weight:700" id="focus-subj">General</div>
-  <div class="focus-t" id="focus-t">00:00:00</div>
-  <div style="font-size:13px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;font-weight:700" id="focus-lbl">ready to focus</div>
-  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
-    <button class="btn btn-p" id="focus-btn" onclick="toggleFocusTimer()" style="padding:14px 32px;font-size:14px">Start</button>
-    <button class="btn btn-o" onclick="resetFocusTimer()" style="padding:14px 32px;font-size:14px">Reset</button>
+  <button class="focus-exit-btn" onclick="toggleFocus()" title="Exit">✕</button>
+  <div id="focus-subj">General</div>
+  <div style="text-align:center">
+    <div class="focus-t" id="focus-t">00:00:00</div>
+    <div id="focus-lbl">ready · breathe</div>
+  </div>
+  <div class="focus-action-row">
+    <button class="btn btn-p" id="focus-btn" onclick="toggleFocusTimer()">Start</button>
+    <button class="focus-reset-lnk" onclick="resetFocusTimer()">reset</button>
   </div>
   <div class="pomo-dots" id="focus-pomo"></div>
+  <div class="focus-micro-quote-text" id="focus-micro-quote"></div>
 </div>
 
 <main id="app-main" style="display:none;scroll-behavior:smooth;">
 <!-- HOME PAGE -->
 <div class="page active" id="page-home">
-<div id="mob-greeting">
-  <div id="greet-text">Good morning 👋</div>
-  <div class="greet-sub" id="greet-sub">Ready to make today count?</div>
+<!-- Mobile greeting -->
+<div id="mob-greeting" style="margin-bottom:14px">
+  <div id="greet-text" style="font-size:20px;font-weight:800;color:var(--ink)">Good morning 👋</div>
+  <div class="greet-sub" id="greet-sub" style="font-size:13px;color:var(--ink3);margin-top:2px;font-weight:600">Ready to make today count?</div>
 </div>
-<div id="qbanner"><div class="qt" id="qt">...</div><div class="qa" id="qa">...</div><button class="qrefresh" onclick="nextQ()">↻</button></div>
+
+<!-- Factoz rotating fact banner -->
+<div id="home-factoz-banner" style="background:linear-gradient(120deg,var(--surface),var(--bg2));border:1px solid var(--border);border-radius:16px;padding:14px 50px 14px 28px;margin-bottom:16px;position:relative;cursor:pointer;transition:background .2s" onclick="window.nextHomeFactoz()">
+  <div style="position:absolute;left:8px;top:6px;font-size:28px;color:var(--pl);opacity:.6;line-height:1">📰</div>
+  <div style="font-size:13px;font-weight:700;color:var(--ink);line-height:1.6" id="home-factoz-text">Loading...</div>
+  <div style="font-size:10px;color:var(--ink3);margin-top:3px;font-weight:700;letter-spacing:1px;text-transform:uppercase" id="home-factoz-src">— FACTOZ</div>
+  <button onclick="event.stopPropagation();window.nextHomeFactoz()" style="position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;font-size:18px;color:var(--ink3);padding:6px;border-radius:8px;transition:all .25s;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center">↻</button>
+</div>
+
+<!-- Quick stats row -->
+<div class="stat-row" id="home-stat-row">
+  <div class="stat-tile" onclick="showPage('performance',null)">
+    <div class="st-val" id="hs-today">0h</div>
+    <div class="st-lbl">Today</div>
+  </div>
+  <div class="stat-tile" onclick="showPage('performance',null)">
+    <div class="st-val" id="hs-streak">0🔥</div>
+    <div class="st-lbl">Streak</div>
+  </div>
+  <div class="stat-tile" onclick="showPage('profile',null)">
+    <div class="st-val" id="hs-tasks">0</div>
+    <div class="st-lbl">Tasks</div>
+  </div>
+  <div class="stat-tile" onclick="showPage('profile',null)">
+    <div class="st-val" id="hs-xp">0</div>
+    <div class="st-lbl">XP</div>
+  </div>
+</div>
+
+<!-- Main grid -->
 <div class="home-grid">
+
+<!-- Timer card -->
 <div class="card elevated" id="timer-card-main">
   <div class="ct"><div class="ct-ic">⏱</div>Study Timer</div>
   <div class="pomo-dots" id="pomo-dots"></div>
@@ -2117,39 +2425,60 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
     <button class="btn btn-o btn-sm" id="pomo-tog" onclick="quickStartPomo()">🍅 Pomo</button>
     <button class="btn btn-o btn-sm" onclick="resetTimer()">Reset</button>
     <button class="btn btn-sm" id="pomo-stop-btn" onclick="stopPomo()" style="display:none;background:#ef4444;color:white;border-color:#ef4444">⏹ Stop Pomo</button>
-    <button class="btn btn-o btn-sm" onclick="toggleFocus()">🎯</button>
+    <button class="btn btn-o btn-sm" onclick="toggleFocus()" title="Full-screen focus overlay">🎯</button>
   </div>
   <div class="sess-log" id="sess-log"></div>
 </div>
+
+<!-- Pomodoro settings (hidden by default) -->
 <div class="card" id="pomo-settings-card" style="display:none">
-  <div class="ct"><div class="ct-ic">🍅</div>Pomodoro</div>
+  <div class="ct"><div class="ct-ic">🍅</div>Pomodoro Settings</div>
   <div style="display:flex;flex-direction:column;gap:10px">
-    <div><div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Focus Duration</div>
-    <div class="time-chips-scroll">
-      <button class="time-chip sel" onclick="setPomoDur(25,this)">25m</button>
-      <button class="time-chip" onclick="setPomoDur(30,this)">30m</button>
-      <button class="time-chip" onclick="setPomoDur(45,this)">45m</button>
-      <button class="time-chip" onclick="setPomoDur(50,this)">50m</button>
-      <button class="time-chip" onclick="setPomoDur(60,this)">60m</button>
-      <button class="time-chip" onclick="setPomoDur(90,this)">90m</button>
-    </div></div>
-    <div><div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Break Duration</div>
-    <div class="time-chips-scroll">
-      <button class="time-chip sel" onclick="setBreakDur(5,this)">5m</button>
-      <button class="time-chip" onclick="setBreakDur(10,this)">10m</button>
-      <button class="time-chip" onclick="setBreakDur(15,this)">15m</button>
-      <button class="time-chip" onclick="setBreakDur(20,this)">20m</button>
-    </div></div>
+    <div>
+      <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Focus Duration</div>
+      <div class="time-chips-scroll">
+        <button class="time-chip sel" onclick="setPomoDur(25,this)">25m</button>
+        <button class="time-chip" onclick="setPomoDur(30,this)">30m</button>
+        <button class="time-chip" onclick="setPomoDur(45,this)">45m</button>
+        <button class="time-chip" onclick="setPomoDur(50,this)">50m</button>
+        <button class="time-chip" onclick="setPomoDur(60,this)">60m</button>
+        <button class="time-chip" onclick="setPomoDur(90,this)">90m</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Break Duration</div>
+      <div class="time-chips-scroll">
+        <button class="time-chip sel" onclick="setBreakDur(5,this)">5m</button>
+        <button class="time-chip" onclick="setBreakDur(10,this)">10m</button>
+        <button class="time-chip" onclick="setBreakDur(15,this)">15m</button>
+        <button class="time-chip" onclick="setBreakDur(20,this)">20m</button>
+      </div>
+    </div>
     <div style="background:var(--bg);border-radius:10px;padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink2);line-height:1.7">
-      🍅 4 × <b id="pomo-dur-lbl">25m</b> focus + <b id="brk-dur-lbl">5m</b> breaks = <b id="pomo-total">2h 20m</b><br>
+      🍅 4 × <b id="pomo-dur-lbl">25m</b> focus + <b id="brk-dur-lbl">5m</b> breaks = <b id="pomo-total">2h 20m</b>
       <div class="pomo-dots" id="pomo-info" style="justify-content:flex-start;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;font-weight:700;color:var(--ink3)">Session:</span><span id="pomo-status" style="font-size:12px;font-weight:700;color:var(--primary)">Ready</span></div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:11px;font-weight:700;color:var(--ink3)">Session:</span>
+      <span id="pomo-status" style="font-size:12px;font-weight:700;color:var(--primary)">Ready</span>
+    </div>
   </div>
 </div>
+
+<!-- To-Do List -->
 <div class="card">
   <div class="ct"><div class="ct-ic">✅</div>To-Do List</div>
-  <button id="todo-add-btn-mob" onclick="toggleTodoInput()">+ Add New Task</button>
+  <!-- Daily Goal Limit Tracker -->
+  <div class="goal-limit-bar" id="goal-limit-bar">
+    <div class="goal-pip" title="Goal 1"></div>
+    <div class="goal-pip" title="Goal 2"></div>
+    <div class="goal-pip" title="Goal 3"></div>
+    <div class="goal-pip" title="Goal 4"></div>
+    <div class="goal-pip" title="Goal 5"></div>
+    <span class="goal-limit-lbl">🎯 Daily high-priority goals</span>
+    <span class="goal-limit-count" id="goal-limit-count">0/5</span>
+  </div>
+  <button id="todo-add-btn-mob" onclick="toggleTodoInput()" style="display:block">+ Add New Task</button>
   <div id="todo-add-wrap">
     <div class="todo-toolbar">
       <input type="text" class="tisa-inp" id="todo-inp" placeholder="Add a task..." maxlength="200" onkeydown="if(event.key==='Enter')addTodo()" style="flex:2;min-width:100px;padding:9px 12px;font-size:13px">
@@ -2168,29 +2497,30 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
     <button class="fbtn" onclick="setF('done',this)">Done</button>
     <button class="fbtn" onclick="setF('high',this)">High</button>
     <button class="fbtn" onclick="setF('overdue',this)">Overdue</button>
-    <button class="fbtn" style="margin-left:auto;border-color:var(--danger);color:var(--danger)" onclick="clearDone()">Clear Done</button>
+    <button class="fbtn fbtn-clear" style="margin-left:auto" onclick="clearDone()">Clear Done</button>
   </div>
   <div style="display:flex;gap:12px;margin-bottom:7px;font-size:11px;color:var(--ink3);font-weight:700;flex-wrap:wrap">
-    <span>📋 <b id="ts-tot">0</b></span><span>✅ <b id="ts-dn">0</b></span><span>🔴 <b id="ts-hi">0</b></span><span>⚠ <b id="ts-od">0</b></span>
+    <span>📋 <b id="ts-tot">0</b> total</span><span>✅ <b id="ts-dn">0</b></span><span>🔴 <b id="ts-hi">0</b> high</span><span>⚠ <b id="ts-od">0</b> overdue</span>
   </div>
   <div class="todo-pb-w"><div class="todo-pb" id="todo-pb" style="width:0%"></div></div>
-  <div class="todo-list" id="todo-list"><div class="empty">All clear! Add a task 🐼</div></div>
+  <div class="todo-list" id="todo-list"><div class="empty">All clear! Add a task 🌿</div></div>
 </div>
+
+<!-- Recent activity -->
 <div class="card">
-  <div class="ct"><div class="ct-ic">🎯</div>Focus Mode</div>
-  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:10px 0">
-    <div style="font-size:13px;color:var(--ink2);font-weight:600;text-align:center;line-height:1.6">Deep focus session.<br>Full screen. No distractions.</div>
-    <div id="focus-home-stats" style="display:flex;gap:18px;justify-content:center">
-      <div class="stat-box"><div class="snum" id="focus-t-disp">00:00:00</div><div class="slbl">Time</div></div>
-    </div>
-    <button class="btn btn-p" style="padding:12px 36px;font-size:14px;font-weight:700;letter-spacing:1px" onclick="toggleFocus()">Enter Focus 🎯</button>
-  </div>
+  <div class="ct"><div class="ct-ic">⚡</div>Recent Activity</div>
+  <div id="recent-act"><div class="empty">Start studying to see activity</div></div>
 </div>
+
 </div>
 </div>
 
 <!-- MY SPACE -->
 <div class="page" id="page-myspace">
+<div class="page-hero">
+  <h2>🗂️ My Space</h2>
+  <p>Subjects · Timetable · Todo · Resources</p>
+</div>
 <div class="myspace-grid">
   <div class="card">
     <div class="ct"><div class="ct-ic">📊</div>Today's Stats</div>
@@ -2240,7 +2570,11 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 
 <!-- PERFORMANCE -->
 <div class="page" id="page-performance">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+<div class="page-hero">
+  <h2>📊 Performance</h2>
+  <p>Study streaks · Subject heatmap · Test graphs</p>
+</div>
+<div class="perf-stat-row" style="margin-bottom:14px">
   <!-- TEST PERFORMANCE GRAPH -->
 <div class="card" id="test-perf-card" style="margin-bottom:14px">
   <div class="ct"><div class="ct-ic">📈</div>Test Performance
@@ -2326,6 +2660,10 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 
 <!-- TESTS -->
 <div class="page" id="page-tests">
+<div class="page-hero">
+  <h2>📝 Tests & Practice</h2>
+  <p>AI-generated MCQs · Subjective practice · Real exam patterns</p>
+</div>
 
 
 
@@ -2339,19 +2677,7 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
   <div id="factoz-source" style="font-size:11px;font-weight:600;color:rgba(255,255,255,.5)">— Source</div>
 </div>
 <!-- ── AI TEST ZONE HERO ── -->
-<!-- GK Daily Card — outside atz-hero so it renders independently -->
-<div id="gk-daily-wrap" class="gk-hero">
-  <div class="gk-hero-label">🌍 Daily Knowledge · GK & Current Affairs</div>
-  <div id="gk-daily-category" class="gk-hero-category">Loading…</div>
-  <div id="gk-daily-q" class="gk-hero-title">Loading today's question…</div>
-  <div id="gk-daily-opts"></div>
-  <div class="gk-exp" id="gk-daily-exp"></div>
-  <div class="gk-streak" id="gk-streak-bar" style="display:none">
-    <span class="gk-streak-fire">🔥</span>
-    <span class="gk-streak-text" id="gk-streak-txt">0 day streak</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,220,100,.6);font-weight:700">Keep it up!</span>
-  </div>
-</div>
+<!-- GK Daily removed — Factoz replaces it -->
 
 <!-- AI Test Zone hero bar -->
 <div class="atz-hero">
@@ -2417,7 +2743,7 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
         <button class="atz-chip sel" onclick="atzChip(this,'mode','quick10')">Quick 10Q</button>
         <button class="atz-chip" onclick="atzChip(this,'mode','mock30')">Mock 30Q</button>
         <button class="atz-chip" onclick="atzChip(this,'mode','full')">Full Mock</button>
-        <button class="atz-chip" onclick="atzChip(this,'mode','pyq')">PYQ Style</button>
+        
         <button class="atz-chip" onclick="atzChip(this,'mode','revision')">Revise Weak Qs</button>
       </div>
     </div>
@@ -2450,47 +2776,9 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 </div>
 
 <!-- ── REAL MOCK PAPERS LIBRARY ── -->
-<div class="card mock-papers-section">
-  <div class="ct"><div class="ct-ic">📋</div>Official PYQs & Mock Papers
-    <span style="margin-left:auto;font-size:10px;font-weight:600;color:var(--ink3)">Real papers · Official sources</span>
-  </div>
 
-  <!-- Category tabs -->
-  <div class="mock-cat-tabs" id="mock-cat-tabs">
-    <button class="mock-cat-tab sel" onclick="mockCat('jee',this)">⚗️ JEE</button>
-    <button class="mock-cat-tab" onclick="mockCat('neet',this)">🧬 NEET</button>
-    <button class="mock-cat-tab" onclick="mockCat('boards',this)">📚 Boards</button>
-    <button class="mock-cat-tab" onclick="mockCat('upsc',this)">🏛️ UPSC</button>
-    <button class="mock-cat-tab" onclick="mockCat('ssc',this)">📋 SSC</button>
-    <button class="mock-cat-tab" onclick="mockCat('banking',this)">🏦 Banking</button>
-    <button class="mock-cat-tab" onclick="mockCat('clat',this)">⚖️ CLAT</button>
-    <button class="mock-cat-tab" onclick="mockCat('nda',this)">🎖️ NDA</button>
-    <button class="mock-cat-tab" onclick="mockCat('cat',this)">📊 CAT</button>
-    <button class="mock-cat-tab" onclick="mockCat('gate',this)">🏗️ GATE</button>
-  </div>
+<!-- PYQ/Mock Papers section removed per user request -->
 
-  <!-- Source notice -->
-  <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:color-mix(in srgb,var(--primary) 8%,var(--surface));margin-bottom:12px;font-size:11px;color:var(--ink2);font-weight:600">
-    <span>ℹ️</span> Papers open on official sites (NTA, CBSE, UPSC, Mathongo, Allen, etc.). Tap <strong>View PDF</strong> for direct download or <strong>Timed Attempt</strong> to start a timer while you attempt.
-  </div>
-
-  <!-- Paper cards populated by JS -->
-  <div class="mock-paper-grid" id="mock-paper-grid"></div>
-
-  <!-- Past Tests -->
-  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2)">
-    <div class="ct" style="margin-bottom:8px"><div class="ct-ic">📊</div>Your Test History</div>
-    <div id="past-tests"><div class="empty">No tests yet — attempt a paper above!</div></div>
-  </div>
-
-  <!-- Hidden upload inputs kept for backward compat with JS -->
-  <input type="file" id="fi" multiple accept=".pdf,.png,.jpg,.jpeg" onchange="handleFiles(this.files)" style="display:none">
-  <select id="tpsel" style="display:none"></select>
-  <div id="tt-lbl" style="display:none">60</div>
-  <div id="time-chips" style="display:none"></div>
-  <div id="inline-preview" style="display:none"></div>
-  <div id="paper-list" style="display:none"></div>
-</div>
 <div style="margin-top:14px"><div class="card">
   <div class="ct"><div class="ct-ic">📒</div>Assignments & Grades</div>
   <div style="display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap">
@@ -2506,6 +2794,10 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 
 <!-- JOURNAL -->
 <div class="page" id="page-journal">
+<div class="page-hero">
+  <h2>📔 Journal</h2>
+  <p>Daily reflections · Mood tracking · Growth notes</p>
+</div>
 <div class="jgrid">
   <div class="sidebar-card">
     <div class="sb-hdr">
@@ -2553,11 +2845,24 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 
 <!-- CONNECT -->
 <div class="page" id="page-social">
+<div class="page-hero">
+  <h2>🤝 Social</h2>
+  <p>Study buddies · Community forum · Connect</p>
+</div>
 <div style="display:flex;gap:8px;margin-bottom:14px;border-bottom:2px solid var(--border2);padding-bottom:10px">
-  <button id="social-tab-connect" class="btn btn-sm btn-p" onclick="window._socialTab('connect',this)" style="font-size:12px">💬 Connect</button>
-  <button id="social-tab-community" class="btn btn-sm btn-o" onclick="window._socialTab('community',this)" style="font-size:12px">🌍 Community</button>
+  <button id="social-tab-connect" class="social-tab-btn active" onclick="window._socialTab('connect',this)">💬 Connect</button>
+  <button id="social-tab-community" class="social-tab-btn" onclick="window._socialTab('community',this)">🌍 Community</button>
 </div>
 <div id="social-connect-panel">
+<!-- Yeolpumta Live Status Banner -->
+<div style="background:linear-gradient(135deg,rgba(255,107,53,.08),rgba(255,159,67,.06));border:1px solid rgba(255,107,53,.2);border-radius:14px;padding:10px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+  <span style="font-size:18px">🔥</span>
+  <div style="flex:1">
+    <div style="font-size:11px;font-weight:800;color:#ff6b35;text-transform:uppercase;letter-spacing:1px">Yeolpumta — Live</div>
+    <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-top:1px" id="yeolpumta-count">Loading buddy status...</div>
+  </div>
+  <div style="font-size:10px;color:var(--ink3);font-weight:600">Live 🟢</div>
+</div>
 <div class="conn-grid">
   <div class="sidebar-card">
     <div class="sb-hdr">
@@ -2696,6 +3001,10 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 <!-- PROFILE -->
 
 <div class="page" id="page-profile">
+<div class="page-hero">
+  <h2>👤 Profile</h2>
+  <p>XP · Level · Badges · Study heatmap</p>
+</div>
 <div class="prof-hero">
   <div style="position:relative;display:inline-block">
     <div class="prof-av" id="prof-av">?</div>
@@ -2737,14 +3046,14 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 </div>
 </div>
 
-<!-- SETTINGS -->
+<!-- FOCUS -->
 <div class="page" id="page-focus">
 <div class="page-hero" style="background:linear-gradient(135deg,var(--primary) 0%,var(--pd) 100%);border-radius:20px;padding:20px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden">
   <div style="position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none"></div>
-  <h2 style="font-size:20px;font-weight:900;margin:0 0 4px">✨ Focus & Wellness</h2>
-  <p style="font-size:12px;opacity:.85;margin:0;font-weight:600">Zen Mode · Music · Gacha · Kaizen · Oubaitori</p>
+  <h2 style="font-size:20px;font-weight:900;margin:0 0 4px">✨ Wellness & Tools</h2>
+  <p style="font-size:12px;opacity:.85;margin:0;font-weight:600">Gacha · Zen Timer · Kaizen Board · Oubaitori</p>
 </div>
-<div class="settings-grid">
+<div class="focus-grid">
 <!-- GACHA -->
   <div class="card">
     <div class="ct"><div class="ct-ic">🎰</div>Gacha Capsule</div>
@@ -2821,7 +3130,11 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 
 
 <div class="page" id="page-settings">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div class="page-hero">
+  <h2>⚙️ Settings</h2>
+  <p>Themes · Fonts · AI · Privacy</p>
+</div>
+<div class="settings-grid">
   <div class="card">
     <div class="ct"><div class="ct-ic">🎨</div>Themes</div>
     <div class="theme-grid" id="theme-grid-el"></div>
@@ -2910,7 +3223,7 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
     <p style="font-size:12px;color:var(--ink3);margin-bottom:10px">AI is pre-configured and works out of the box. Optionally use your own Gemini key for higher rate limits.</p>
     <div style="display:flex;gap:8px;margin-bottom:8px">
       <input id="panda-key-inp" type="password" class="tisa-inp" placeholder="Paste your AIzaSy... key here" style="flex:1;font-size:12px">
-      <button class="btn btn-sm btn-p" onclick="(function(){var v=document.getElementById('panda-key-inp').value.trim();if(v){window._PANDA_KEY=v;try{localStorage.setItem('tisa_panda_key',v);}catch(e){}var s=document.getElementById('panda-key-status');s.textContent='✅ Key saved! AI features unlocked.';s.style.color='var(--success,#2d7a3a)';window.toast('✅ Gemini API key saved — AI is ready!');}else{window._PANDA_KEY='';localStorage.removeItem('tisa_panda_key');var s=document.getElementById('panda-key-status');s.textContent='Key cleared.';s.style.color='';window.toast('Key cleared');}})()" style="font-size:12px;white-space:nowrap">Save Key</button>
+      <button class="btn btn-sm btn-p" onclick="(function(){var v=document.getElementById('panda-key-inp').value.trim();if(v&&v.startsWith('AIza')&&v.length>20){window._PANDA_KEY=v;try{localStorage.setItem('tisa_panda_key',v);}catch(e){}var s=document.getElementById('panda-key-status');s.textContent='✅ Key saved & active — ask Buddha anything!';s.style.color='var(--success,#2d7a3a)';window.toast('✅ Gemini key saved — AI is ready! 🤖');}else if(v&&(!v.startsWith('AIza')||v.length<20)){var s=document.getElementById('panda-key-status');s.textContent='❌ Invalid key format. Should start with AIzaSy...';s.style.color='var(--danger,#c0392b)';}else{window._PANDA_KEY='';try{localStorage.removeItem('tisa_panda_key');}catch(e){}var s=document.getElementById('panda-key-status');s.textContent='Key cleared.';s.style.color='';window.toast('Key cleared');}})()" style="font-size:12px;white-space:nowrap">Save Key</button>
     </div>
     <div id="panda-key-status" style="font-size:11px;font-weight:700;color:var(--ink3)">No key saved — AI needs your free Gemini key to work.</div>
     <button class="btn btn-sm btn-o" onclick="window._reopenOnboarding&&window._reopenOnboarding()" style="margin-top:10px;font-size:12px;width:100%">🚀 Open AI Setup Guide</button>
@@ -3233,12 +3546,31 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import{getFirestore,initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import{getFirestore,initializeFirestore,persistentLocalCache,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
 const app=initializeApp(FC);
 const auth=getAuth(app);
-const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
+// Safe Firestore init — persistentMultipleTabManager fails on mobile/incognito (causes blank screen)
+let db;
+try{
+  db=initializeFirestore(app,{localCache:persistentLocalCache()});
+}catch(e){
+  console.warn('[TISA] Persistent cache failed, using default Firestore:',e.message);
+  db=getFirestore(app);
+}
+
+// ── SAFETY NET: if Firebase never calls onAuthStateChanged (network blocked etc),
+//    hide loading screen after 6s and show login so user is never stuck on white ──
+const _safetyTimer=setTimeout(()=>{
+  const ls=document.getElementById('loading-screen');
+  if(ls&&!ls.classList.contains('hide')){
+    ls.classList.add('hide');
+    setTimeout(()=>{ls.style.display='none';},400);
+    document.getElementById('login-screen').classList.add('show');
+    console.warn('[TISA] Safety timer fired — Firebase may be slow or blocked.');
+  }
+},6000);
 window._db=db; window._sTs=serverTimestamp; window._addDoc=addDoc; window._collection=collection;
 window._getDocs=getDocs; window._getDoc=getDoc; window._query=query; window._orderBy=orderBy;
 window._limit=limit; window._setDoc=setDoc; window._doc=doc; window._deleteDoc=deleteDoc;
@@ -3334,6 +3666,7 @@ window.deleteAllMyData = async () => {
 
 // ── AUTH STATE (KEY FIX: loading screen prevents login flash) ──
 onAuthStateChanged(auth,async(user)=>{
+  clearTimeout(_safetyTimer); // Firebase responded — cancel the safety fallback
   const ls=document.getElementById('loading-screen');
   ls.classList.add('hide');
   setTimeout(()=>ls.style.display='none',400);
@@ -3400,6 +3733,7 @@ async function showApp(user){
   document.body.classList.remove('ma-mode');
   const _maOv=document.getElementById('ma-focus-overlay');if(_maOv)_maOv.style.display='none';
   setTimeout(()=>{showPage('home',document.querySelector('nav button[onclick*="home"]'));},100);
+  setTimeout(()=>{window.updateGreeting&&window.updateGreeting();window.nextHomeFactoz&&window.nextHomeFactoz();},300);
 }
 
 // ── USER DATA ──
@@ -4465,14 +4799,31 @@ function loadMyChats(){
         const oName=(ch.memberNames||{})[oId]||'Unknown';
         const dispN=oUname?(oUname.startsWith('@')?oUname:'@'+oUname):oName;
         window._chatMap[d.id]={oId,oName,oUname};
+        const bfc=window._buddyFocusCache&&window._buddyFocusCache[oId];
+        const bStudying=bfc&&bfc.isStudying;
+        const bStart=bfc&&bfc.studyStarted?new Date(bfc.studyStarted.toDate?bfc.studyStarted.toDate():bfc.studyStarted):null;
+        const bElapsed=bStart?Math.floor((Date.now()-bStart.getTime())/60000):0;
+        const bBadge=bStudying
+          ?`<span class="buddy-studying-badge">🔥 ${bElapsed>0?bElapsed+'m':'just started'}</span>`
+          :`<span class="buddy-idle-badge">💤 offline</span>`;
         return`<div class="uitem ${d.id===aChatId?'sel':''}" id="ci-${d.id}" onclick="window._openChatSafe('${d.id}')">
-          <div class="av" style="background:var(--primary);color:white;font-weight:800;font-size:15px">${(oUname||oName||'?')[0].toUpperCase()}</div>
+          <div class="av" style="background:${bStudying?'linear-gradient(135deg,#ff6b35,#ff9f43)':'var(--primary)'};color:white;font-weight:800;font-size:15px;transition:background .5s">${(oUname||oName||'?')[0].toUpperCase()}</div>
           <div style="min-width:0;flex:1">
             <div style="font-size:12px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(dispN)}</div>
-            <div style="font-size:10px;color:var(--ink3);font-weight:500">🔒 encrypted</div>
+            <div style="margin-top:3px">${bBadge}</div>
           </div>
         </div>`;
       }).join('');
+      // Update Yeolpumta studying count
+      (function(){
+        const cache=window._buddyFocusCache||{};
+        const studying=Object.values(cache).filter(b=>b.isStudying).length;
+        const ypEl=document.getElementById('yeolpumta-count');
+        if(ypEl){
+          ypEl.textContent=studying>0?`🔥 ${studying} studying now`:'No one studying right now';
+          ypEl.style.color=studying>0?'#ff6b35':'var(--ink3)';
+        }
+      })();
       // FIX 2: auto-reopen last chat after page refresh
       if(!aChatId){
         const lastId=sessionStorage.getItem('tisa_last_chat');
@@ -4549,7 +4900,7 @@ window.toast=toast;
 
 // ── PAGE NAV ──
 window.showPage=(name,btn)=>{
-  if(name==='admin'){if(!window._isAdmin||!window._isAdmin()){window.toast('Access denied');return;}if(!_admPosts.length)_admLoad();}
+  if(name==='admin'){if(!window._isAdmin||!window._isAdmin()){window.toast('⛔ Access denied — admin only');return;}window.toast('🛡️ Loading admin data...');_admLoad();}
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const _activePage=document.getElementById('page-'+name);
   if(_activePage){_activePage.classList.add('active');_activePage.scrollTop=0;}
@@ -5362,7 +5713,7 @@ let _deferredPrompt = null;
 </script>
 
 <!-- PWA Install Banner -->
-<div id="pwa-banner" style="display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:12px 16px;align-items:center;gap:12px;box-shadow:0 4px 24px rgba(0,0,0,.15);min-width:280px;max-width:360px">
+<div id="pwa-banner" style="display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9500;background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:12px 16px;align-items:center;gap:12px;box-shadow:0 4px 24px rgba(0,0,0,.15);min-width:280px;max-width:360px">
   <div style="width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:11px;flex-shrink:0">TISA</div>
   <div style="flex:1;min-width:0">
     <div style="font-size:13px;font-weight:800;color:var(--ink)">Install TISA App</div>
@@ -5967,7 +6318,7 @@ window.closeWellnessSheet=function(){
 
 // ── PANDA HUB: Tab switcher ──
 window.switchPandaTab=function(tab){
-  ['actions','ask','pet'].forEach(t=>{
+  ['ask','pet'].forEach(t=>{
     const el=document.getElementById('panda-tab-'+t);
     // ask tab uses flex layout, others use block
     el.style.display=t===tab?(t==='ask'?'flex':'block'):'none';
@@ -5986,91 +6337,85 @@ window.switchPandaTab=function(tab){
 
 // ── ASK PANDA (AI) ──
 window._askHistory=[];
-// App default Gemini key — works for all users out of the box
-window._PANDA_KEY='REMOVED';
-// Override with user's personal key if they set one
-try{const _pk=localStorage.getItem('tisa_panda_key');if(_pk)window._PANDA_KEY=_pk;}catch(e){}
+// Always load key fresh from localStorage — never hardcode 'REMOVED'
+// AI key — always load fresh from localStorage
+window._PANDA_KEY='';
+(function(){try{var k=localStorage.getItem('tisa_panda_key');if(k&&k.length>20&&k.startsWith('AIza')){window._PANDA_KEY=k;console.log('[TISA] AI key loaded ✓');}}catch(e){}})();
+
+// Expose key refresh function (called after user saves key in settings)
+window._refreshPandaKey=function(){
+  try{const k=localStorage.getItem('tisa_panda_key');if(k&&k.startsWith('AIza'))window._PANDA_KEY=k;return window._PANDA_KEY;}catch(e){return '';}
+};
 
 // ── Core AI caller — tries Gemini direct first, falls back to Worker ──
 function _abortSignal(ms){const c=new AbortController();setTimeout(()=>c.abort(new DOMException('Timeout','TimeoutError')),ms);return c.signal;}
 window._callAI=async function(payload){
-  const key=window._PANDA_KEY||localStorage.getItem('tisa_panda_key')||'';
-  if(key&&!window._PANDA_KEY)window._PANDA_KEY=key;
+  var _fresh='';
+  try{_fresh=localStorage.getItem('tisa_panda_key')||'';}catch(e){}
+  const key=(_fresh&&_fresh.length>20&&_fresh.startsWith('AIza'))?_fresh:(window._PANDA_KEY||'');
+  if(key&&key.startsWith('AIza'))window._PANDA_KEY=key;
   const mode=payload.mode||'chat';
-
-  // ── Build prompts ──
-  let sysInstruction='',userPrompt='';
+  let sys='',uPr='';
   if(mode==='test_generator'){
-    sysInstruction='You are an expert academic examiner for Indian competitive exams (JEE/NEET/UPSC/SSC/CAT). Generate high-quality MCQ questions. Return ONLY valid JSON, no markdown, no explanation outside JSON.';
-    userPrompt='Generate '+(payload.numQuestions||5)+' MCQ questions for: '+(payload.topic||'General Knowledge')+'. Difficulty: '+(payload.difficulty||'Medium')+'.\nReturn this exact JSON structure:\n{"test_title":"<topic> Practice Test","questions":[{"q":"question text","options":["option A","option B","option C","option D"],"correct_answer":"exact text of correct option","explanation":"brief explanation"}]}';
-  } else if(mode==='gk_question'){
-    sysInstruction='You are a GK expert for Indian competitive exams. Return ONLY valid JSON, no markdown.';
-    userPrompt='Generate 1 MCQ about: '+(payload.topic||'Current Affairs India 2025')+'.\nReturn: {"q":"question","opts":["(A) opt","(B) opt","(C) opt","(D) opt"],"ans":0,"exp":"explanation"}\nans = 0-indexed integer of correct option.';
-  } else {
-    sysInstruction='You are Panda 🐼, a friendly witty study buddy for Indian students (JEE/NEET/UPSC/Boards). Answer questions accurately and helpfully. Casual tone, 1-2 emojis. For academic questions give actual answer with key facts/formulas. Keep it concise.';
-    userPrompt=(payload.context?'['+payload.context+']\n\n':'')+(payload.question||'');
+    sys='You are an expert examiner for Indian competitive exams (JEE/NEET/UPSC/SSC/CAT). Return ONLY valid JSON.';
+    uPr='Generate '+(payload.numQuestions||5)+' MCQ for: '+(payload.topic||'GK')+'. Difficulty: '+(payload.difficulty||'Medium')+'.\nJSON: {\"test_title\":\"title\",\"questions\":[{\"q\":\"?\",\"options\":[\"A\",\"B\",\"C\",\"D\"],\"correct_answer\":\"exact option text\",\"explanation\":\"why\"}]}';
+  }else{
+    sys='You are Buddha, a wise study companion for Indian students. Accurate, warm, 1-2 emojis, concise.';
+    uPr=(payload.context?'[Context: '+payload.context+'] ':'')+(payload.question||payload.prompt||'');
   }
-
-  // ── PATH 1: Direct Gemini API (browser fetch) ──
-  if(key&&key.length>10&&key.startsWith('AIza')){
-    // Try gemini-2.0-flash first, fallback to gemini-1.5-flash
+  if(key&&key.length>20&&key.startsWith('AIza')){
     const models=['gemini-2.0-flash','gemini-1.5-flash'];
     for(const model of models){
       try{
-        const bodyObj={
-          contents:[{role:'user',parts:[{text:userPrompt}]}],
-          generationConfig:{maxOutputTokens:2048,temperature:mode==='chat'?0.85:0.7}
-        };
-        if(sysInstruction) bodyObj.systemInstruction={parts:[{text:sysInstruction}]};
-        if(mode!=='chat') bodyObj.generationConfig.responseMimeType='application/json';
-        const r=await fetch(
-          'https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+key,
-          {method:'POST',headers:{'Content-Type':'application/json'},
-           body:JSON.stringify(bodyObj),signal:_abortSignal(20000)}
-        );
-        if(!r.ok){
-          const e=await r.json().catch(()=>({}));
-          const msg=e.error?.message||r.statusText;
-          // 429 = quota exhausted, try next model; 400/403 = bad key, skip both
-          if(r.status===400||r.status===403){console.warn('[TISA] Gemini key invalid/blocked:',msg);break;}
-          throw new Error('Gemini '+r.status+': '+msg);
+        const body={contents:[{role:'user',parts:[{text:uPr}]}],generationConfig:{maxOutputTokens:2048,temperature:mode==='chat'?0.85:0.5}};
+        if(sys)body.systemInstruction={parts:[{text:sys}]};
+        if(mode!=='chat')body.generationConfig.responseMimeType='application/json';
+        const ctrl=new AbortController();
+        const tmr=setTimeout(()=>ctrl.abort(),25000);
+        const resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+key,
+          {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:ctrl.signal});
+        clearTimeout(tmr);
+        if(!resp.ok){
+          const er=await resp.json().catch(()=>({}));
+          const msg=er.error?.message||resp.statusText;
+          if(resp.status===400||resp.status===403)throw new Error('Invalid API key ('+resp.status+'). Re-enter in Settings.');
+          if(resp.status===429){console.warn('[AI] Rate limit on '+model);continue;}
+          throw new Error('Gemini '+resp.status+': '+msg);
         }
-        const d=await r.json();
+        const d=await resp.json();
         const txt=(d.candidates?.[0]?.content?.parts?.[0]?.text||'').trim();
-        if(!txt)throw new Error('Gemini empty response');
-        if(mode==='chat')return {answer:txt};
-        const clean=txt.replace(/^```(?:json)?[\n]?/,'').replace(/[\n]?```$/,'').trim();
-        return JSON.parse(clean);
+        if(!txt)throw new Error('Empty Gemini response');
+        if(mode==='chat')return{answer:txt};
+        const clean=txt.replace(/^```(?:json)?[\r\n]*/,'').replace(/[\r\n]*```$/,'').trim();
+        try{return JSON.parse(clean);}catch(pe){
+          const m2=clean.match(/\{[\s\S]*\}/);
+          if(m2)return JSON.parse(m2[0]);
+          throw new Error('Cannot parse JSON response');
+        }
       }catch(e){
-        console.warn('[TISA] '+model+' failed ('+mode+'):',e.message);
-        if(model==='gemini-1.5-flash') break; // both failed
-        // try next model
+        console.warn('[AI] '+model+':',e.message);
+        if(e.message.includes('Invalid API key')||e.name==='AbortError')throw e;
+        if(model==='gemini-1.5-flash')throw new Error('AI unavailable: '+e.message);
       }
     }
   }
-
-  // ── PATH 2: Cloudflare Worker (always sends apiKey) ──
   try{
     const wp=Object.assign({},payload);
-    // Always send the key to the Worker so it doesn't need env var
-    if(key) wp.apiKey=key;
-    if(mode!=='chat') wp.mode=mode; else delete wp.mode;
-    const r=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(wp),signal:_abortSignal(28000)
-    });
-    if(!r.ok){
-      const e=await r.json().catch(()=>({}));
-      throw new Error('Worker '+r.status+': '+(e.error||r.statusText));
-    }
-    return await r.json();
-  }catch(workerErr){
-    throw new Error('AI unavailable: '+workerErr.message);
+    if(key)wp.apiKey=key;
+    if(mode!=='chat')wp.mode=mode;else delete wp.mode;
+    const ctrl2=new AbortController();
+    const tmr2=setTimeout(()=>ctrl2.abort(),20000);
+    const r2=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',
+      {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(wp),signal:ctrl2.signal});
+    clearTimeout(tmr2);
+    if(!r2.ok){const er2=await r2.json().catch(()=>({}));throw new Error('Worker '+r2.status+': '+(er2.error||r2.statusText));}
+    return await r2.json();
+  }catch(e){
+    if(!key||!key.startsWith('AIza'))throw new Error('No API key — Settings → AI Settings → paste your Gemini key.');
+    throw new Error('AI unavailable: '+e.message);
   }
 };
 
-
-// ── PANDA BRAIN — smart rule-based AI, no API key needed ──
 window._safeMath=function(expr){
   // Only allow digits, operators, parens, dots — already validated before calling
   try{
@@ -6220,8 +6565,16 @@ window.askPanda=async function(){
     unlock();
   };
 
-  const key=window._PANDA_KEY||localStorage.getItem('tisa_panda_key')||'';
-  if(key&&!window._PANDA_KEY)window._PANDA_KEY=key;
+  // Get fresh key always
+  var _k='';try{_k=localStorage.getItem('tisa_panda_key')||'';}catch(e){}
+  const key=(_k&&_k.startsWith('AIza'))?_k:(window._PANDA_KEY||'');
+  if(!key||!key.startsWith('AIza')){
+    const brain=window._pandaBrain?window._pandaBrain(q):null;
+    if(brain){showAnswer(brain);return;}
+    showAnswer('🔑 No AI key found!\n\nGo to Settings → AI Settings → paste your free Gemini key.\n\nGet it free at: aistudio.google.com/app/apikey\n\nOnce saved, ask me anything! 🐼');
+    return;
+  }
+  if(key&&key.startsWith('AIza'))window._PANDA_KEY=key;
   const sys='You are Panda 🐼, a friendly witty study buddy for Indian students (JEE/NEET/UPSC/Boards). Give accurate helpful answers. Casual tone, 1-2 emojis. For greetings be warm. For academic questions give the actual answer with key facts/formulas. Keep replies concise. Student: '+name+', studied today: '+hrs+'h '+mins+'m.';
 
   // ── PATH 1: Gemini Streaming (try 2.0-flash, fallback 1.5-flash) ──
@@ -9637,224 +9990,10 @@ function atzRenderHistory(){
     </div>`).join('');
 }
 
-// ─── GK / CURRENT AFFAIRS DAILY ────────────────────────────────────────────
-const _GK_CATEGORIES=[
-  {id:'current_affairs',label:'Current Affairs',color:'#2563eb'},
-  {id:'world_geography',label:'World Geography',color:'#059669'},
-  {id:'indian_polity',label:'Indian Polity',color:'#7c3aed'},
-  {id:'science_tech',label:'Science & Tech',color:'#dc2626'},
-  {id:'economy',label:'Economy & Finance',color:'#d97706'},
-  {id:'sports',label:'Sports',color:'#0891b2'},
-  {id:'history',label:'History',color:'#9a3412'},
-  {id:'environment',label:'Environment',color:'#16a34a'},
-  {id:'awards_honours',label:'Awards & Honours',color:'#ca8a04'},
-  {id:'art_culture',label:'Art & Culture',color:'#9333ea'},
-];
+// GK Daily removed — Factoz handles current affairs
 
-// Fallback GK questions — shown immediately while AI generates a fresh question
-const _GK_FALLBACKS=[
-  {q:'Which country topped the medal tally at the Paris Olympics 2024?',opts:['(A) China','(B) USA','(C) Great Britain','(D) Australia'],ans:1,exp:'The USA topped the Paris 2024 Olympics with 126 total medals including 40 gold medals, ahead of China (91) and Great Britain (65).',_cat:{label:'Sports',color:'#0891b2'}},
-  {q:'Who became the 15th President of India in 2022?',opts:['(A) Ram Nath Kovind','(B) Droupadi Murmu','(C) Pranab Mukherjee','(D) V.V. Giri'],ans:1,exp:'Droupadi Murmu became the 15th President of India in July 2022 — the first tribal woman and second woman to hold this office.',_cat:{label:'Indian Polity',color:'#7c3aed'}},
-  {q:'Which mission successfully landed near the Moon south pole in 2023?',opts:['(A) Luna-25','(B) Artemis-3','(C) Chandrayaan-3','(D) Chang’e-6'],ans:2,exp:'ISRO’s Chandrayaan-3 made a historic soft landing near the Moon south pole on August 23, 2023. India became the first country to achieve this.',_cat:{label:'Science & Tech',color:'#dc2626'}},
-  {q:'The 2023 ICC Cricket World Cup was won by?',opts:['(A) India','(B) Pakistan','(C) England','(D) Australia'],ans:3,exp:'Australia won the ICC Cricket World Cup 2023, defeating India in the final at Ahmedabad. It was their 6th ODI World Cup title.',_cat:{label:'Sports',color:'#0891b2'}},
-  {q:'Which Indian state has the largest geographical area?',opts:['(A) Uttar Pradesh','(B) Madhya Pradesh','(C) Rajasthan','(D) Maharashtra'],ans:2,exp:'Rajasthan is the largest Indian state by area at approx 342,239 sq km, covering about 10.4% of India’s total geographical area.',_cat:{label:'Indian Geography',color:'#059669'}},
-  {q:'Which organisation publishes the Human Development Index annually?',opts:['(A) World Bank','(B) UNDP','(C) IMF','(D) WEF'],ans:1,exp:'The UNDP (United Nations Development Programme) publishes the Human Development Index (HDI) annually. It measures health, education and living standards.',_cat:{label:'World Affairs',color:'#2563eb'}},
-  {q:'India’s first indigenously built aircraft carrier INS Vikrant was commissioned in?',opts:['(A) 2019','(B) 2020','(C) 2021','(D) 2022'],ans:3,exp:'INS Vikrant was commissioned on September 2, 2022 by PM Narendra Modi in Kochi. It is India’s first indigenously designed and built aircraft carrier.',_cat:{label:'Current Affairs',color:'#2563eb'}},
-];
-
-async function gkLoadDaily(){
-  try{const b=document.getElementById('bm-count-badge');if(b&&window._atz)b.textContent=window._atz.bookmarks.length;}catch(e){}
-  const today=new Date().toDateString();
-  const savedDate=localStorage.getItem('tisa_gk_daily_date');
-  const savedStreak=parseInt(localStorage.getItem('tisa_gk_streak')||'0');
-  const sb=document.getElementById('gk-streak-bar');
-  if(savedStreak>0&&sb){
-    sb.style.display='flex';
-    const st=document.getElementById('gk-streak-txt');
-    if(st)st.textContent=savedStreak+' day streak';
-  }
-  // Already answered today — show saved question as answered
-  if(savedDate===today){
-    const savedQ=localStorage.getItem('tisa_gk_daily_q');
-    if(savedQ){
-      try{renderGkQuestion(JSON.parse(savedQ),true);return;}catch(e){}
-    }
-    const qEl=document.getElementById('gk-daily-q');
-    if(qEl)qEl.textContent='Answered today! Come back tomorrow.';
-    return;
-  }
-  // New day — show fallback immediately, then try AI in background
-  const dayIdx=new Date().getDate()%_GK_FALLBACKS.length;
-  const fallback=_GK_FALLBACKS[dayIdx];
-  renderGkQuestion(fallback,false);
-  // Try to get fresh AI question
-  const cat=_GK_CATEGORIES[new Date().getDate()%_GK_CATEGORIES.length];
-  try{
-    const data=await window._callAI({
-      mode:'gk_question',
-      topic:cat.label,
-      category:cat.id
-    });
-    // Validate response — must have q and opts array
-    if(!data||!data.q||!Array.isArray(data.opts)||data.opts.length<2){
-      throw new Error('invalid gk response: '+JSON.stringify(data).slice(0,100));
-    }
-    data._cat=cat;
-    try{localStorage.setItem('tisa_gk_daily_q',JSON.stringify(data));}catch(e){}
-    renderGkQuestion(data,false);
-  }catch(e){
-    console.log('[GK Daily] Using fallback (AI unavailable):',e.message);
-    // fallback already shown — no action needed
-  }
-}
-
-function renderGkQuestion(q,alreadyAnswered){
-  if(!q||!q.q){console.warn('[GK] renderGkQuestion: no question data');return;}
-  // Store current question globally for event handlers
-  window._gkCurrentQ=q;
-  const cat=q._cat||{label:'GK',color:'#2563eb'};
-  const catEl=document.getElementById('gk-daily-category');
-  if(catEl){catEl.textContent=cat.label;catEl.style.background=cat.color+'22';catEl.style.color='rgba(255,255,255,.85)';}
-  const qEl=document.getElementById('gk-daily-q');
-  if(qEl)qEl.textContent=q.q;
-  const opts=q.opts||[];
-  const optsEl=document.getElementById('gk-daily-opts');
-  if(!optsEl)return;
-  optsEl.innerHTML='';
-  opts.forEach(function(o,i){
-    const btn=document.createElement('button');
-    btn.className='gk-opt'+(alreadyAnswered?(i===q.ans?' correct':''):'');
-    btn.textContent=o;
-    btn.disabled=!!alreadyAnswered;
-    if(!alreadyAnswered){
-      btn.dataset.idx=i;
-      btn.addEventListener('click',function(){
-        window.gkAnswerDaily(i, window._gkCurrentQ.ans, window._gkCurrentQ.exp||'', btn);
-      });
-    }
-    optsEl.appendChild(btn);
-  });
-  const expEl=document.getElementById('gk-daily-exp');
-  if(expEl){
-    if(alreadyAnswered&&q.exp){expEl.textContent=q.exp;expEl.style.display='block';}
-    else{expEl.textContent='';expEl.style.display='none';}
-  }
-}
-
-window.gkAnswerDaily=function(idx,ans,exp,el){
-  document.querySelectorAll('.gk-opt').forEach(b=>b.disabled=true);
-  if(idx===ans){el.classList.add('correct');window.toast('Correct! +10 XP');if(typeof addXP==='function')addXP(10,'gk daily');}
-  else{el.classList.add('wrong');const ao=document.querySelectorAll('.gk-opt');if(ao[ans])ao[ans].classList.add('correct');window.toast('Wrong! Check the explanation.');}
-  const expEl=document.getElementById('gk-daily-exp');
-  if(expEl){expEl.textContent=exp||'';expEl.style.display=exp?'block':'none';}
-  const today=new Date().toDateString();
-  const lastDate=localStorage.getItem('tisa_gk_daily_date');
-  const yesterday=new Date(Date.now()-86400000).toDateString();
-  const streak=parseInt(localStorage.getItem('tisa_gk_streak')||'0');
-  const newStreak=lastDate===yesterday?streak+1:1;
-  try{localStorage.setItem('tisa_gk_daily_date',today);localStorage.setItem('tisa_gk_streak',newStreak);}catch(e){console.warn('[TISA] localStorage quota exceeded');};
-  const sb=document.getElementById('gk-streak-bar');
-  if(sb){sb.style.display='flex';document.getElementById('gk-streak-txt').textContent=newStreak+' day streak';}
-};
-
-// ─── MOCK PAPERS CATALOGUE ──────────────────────────────────────────────────
-// All URLs are public landing pages — no CDN/S3 direct links (those give Access Denied)
-const _MOCK_PAPERS={
-  jee:[
-    {title:'JEE Main 2024 Jan Shift 1',year:2024,url:'https://cdn.digialm.com//per/g27/pub/2307/touchstone/AssemblyQP/2307/Assem_1200242107_23_01_24_13_30_11.pdf',free:true},
-    {title:'JEE Main 2023 Apr Shift 1',year:2023,url:'https://cdn.digialm.com//per/g27/pub/2307/touchstone/AssemblyQP/2307/Assem_23074200107_15_04_23_13_03_30.pdf',free:true},
-    {title:'JEE Main 2022 June Paper 1',year:2022,url:'https://jeemain.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=319',free:true},
-    {title:'JEE Advanced 2024 Paper 1',year:2024,url:'https://jeeadv.ac.in/past_qps/2024/Paper1.pdf',free:true},
-    {title:'JEE Advanced 2023 Paper 1',year:2023,url:'https://jeeadv.ac.in/past_qps/2023/Paper1.pdf',free:true},
-    {title:'JEE Advanced 2022 Paper 1',year:2022,url:'https://jeeadv.ac.in/past_qps/2022/Paper1_June2022.pdf',free:true},
-    {title:'JEE Advanced 2021 Paper 1',year:2021,url:'https://jeeadv.ac.in/past_qps/2021/Paper1.pdf',free:true},
-    {title:'JEE Advanced 2020 Paper 1',year:2020,url:'https://jeeadv.ac.in/past_qps/2020/Paper1.pdf',free:true},
-    {title:'JEE Main 2019 Jan Paper 1',year:2019,url:'https://jeemain.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=11',free:true},
-    {title:'JEE Advanced 2019 Paper 1',year:2019,url:'https://jeeadv.ac.in/past_qps/2019/Paper1.pdf',free:true}
-  ],
-  neet:[
-    {title:'NEET 2024 Official Paper',year:2024,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=386',free:true},
-    {title:'NEET 2023 Official Paper',year:2023,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=340',free:true},
-    {title:'NEET 2022 Official Paper',year:2022,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=271',free:true},
-    {title:'NEET 2021 Official Paper',year:2021,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=214',free:true},
-    {title:'NEET 2020 Official Paper',year:2020,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=163',free:true},
-    {title:'NEET 2019 Official Paper',year:2019,url:'https://neet.nta.nic.in/WebInfo/Handler/FileHandler.ashx?i=File&ii=120',free:true},
-    {title:'NEET 2018 Official Paper',year:2018,url:'https://cbseneet.nic.in/cbseneet/ShowPdf.aspx?Type=PaperSol&FileNm=NEET2018.pdf',free:true},
-    {title:'NEET 2017 Official Paper',year:2017,url:'https://cbseneet.nic.in/cbseneet/ShowPdf.aspx?Type=PaperSol&FileNm=neetug_2017_qp.pdf',free:true}
-  ],
-  boards:[
-    {title:'CBSE Class 12 Physics 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/12/Physics_XII_2024.pdf',free:true},
-    {title:'CBSE Class 12 Chemistry 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/12/Chemistry_XII_2024.pdf',free:true},
-    {title:'CBSE Class 12 Maths 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/12/Mathematics_XII_2024.pdf',free:true},
-    {title:'CBSE Class 12 Biology 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/12/Biology_XII_2024.pdf',free:true},
-    {title:'CBSE Class 12 Physics 2023',year:2023,url:'https://cbseacademic.nic.in/web_material/QP/2023/12/Physics_XII.pdf',free:true},
-    {title:'CBSE Class 12 Chemistry 2023',year:2023,url:'https://cbseacademic.nic.in/web_material/QP/2023/12/Chemistry_XII.pdf',free:true},
-    {title:'CBSE Class 12 Maths 2023',year:2023,url:'https://cbseacademic.nic.in/web_material/QP/2023/12/Mathematics_XII.pdf',free:true},
-    {title:'CBSE Class 10 Science 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/10/Science_X_2024.pdf',free:true},
-    {title:'CBSE Class 10 Maths Standard 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/10/MathsStd_X_2024.pdf',free:true},
-    {title:'CBSE Class 10 Social Science 2024',year:2024,url:'https://cbseacademic.nic.in/web_material/QP/2024/10/SocialScience_X_2024.pdf',free:true}
-  ],
-  upsc:[
-    {title:'UPSC Prelims GS-1 2024',year:2024,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2024.pdf',free:true},
-    {title:'UPSC Prelims GS-2 CSAT 2024',year:2024,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-II-2024.pdf',free:true},
-    {title:'UPSC Prelims GS-1 2023',year:2023,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2023.pdf',free:true},
-    {title:'UPSC Prelims GS-2 CSAT 2023',year:2023,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-II-2023.pdf',free:true},
-    {title:'UPSC Prelims GS-1 2022',year:2022,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2022.pdf',free:true},
-    {title:'UPSC Prelims GS-2 CSAT 2022',year:2022,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-II-2022.pdf',free:true},
-    {title:'UPSC Prelims GS-1 2021',year:2021,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2021.pdf',free:true},
-    {title:'UPSC Prelims GS-1 2020',year:2020,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2020.pdf',free:true},
-    {title:'UPSC Prelims GS-1 2019',year:2019,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2019.pdf',free:true},
-    {title:'UPSC Prelims GS-1 2018',year:2018,url:'https://upsc.gov.in/sites/default/files/QP-CS-P-I-2018.pdf',free:true}
-  ],
-  ssc:[
-    {title:'SSC CGL Tier 1 2023 (Aug)',year:2023,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/Notice_QP_CGLPPAPER_17082023.pdf',free:true},
-    {title:'SSC CHSL Tier 1 2023',year:2023,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_CHSL_Tier1_2023.pdf',free:true},
-    {title:'SSC CGL Tier 1 2022',year:2022,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_CGL_T1_2022.pdf',free:true},
-    {title:'SSC MTS 2023 Paper',year:2023,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_MTS_2023.pdf',free:true},
-    {title:'SSC CPO 2023 Paper',year:2023,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_CPO_2023.pdf',free:true},
-    {title:'SSC GD Constable 2022',year:2022,url:'https://ssc.nic.in/SSCFileServer/PortalManagement/UploadedFiles/QP_GD_2022.pdf',free:true}
-  ],
-  banking:[
-    {title:'IBPS PO Prelims 2023',year:2023,url:'https://www.ibps.in/wp-content/uploads/IBPS_PO_XIII_Pre_2023_QP.pdf',free:true},
-    {title:'IBPS Clerk Prelims 2023',year:2023,url:'https://www.ibps.in/wp-content/uploads/IBPS_Clerk_XIII_Pre_2023_QP.pdf',free:true},
-    {title:'SBI PO Prelims 2023',year:2023,url:'https://bank.sbi/documents/16012/1916455/SBI_PO_Pre_2023_QP.pdf',free:true},
-    {title:'SBI Clerk Prelims 2023',year:2023,url:'https://bank.sbi/documents/16012/1916455/SBI_Clerk_Pre_2023_QP.pdf',free:true},
-    {title:'RBI Grade B 2023',year:2023,url:'https://www.rbi.org.in/Scripts/Recruit_QP_2023_GradeB.pdf',free:true},
-    {title:'IBPS RRB PO 2023',year:2023,url:'https://www.ibps.in/wp-content/uploads/IBPS_RRB_PO_2023_QP.pdf',free:true}
-  ],
-  clat:[
-    {title:'CLAT 2024 Official Paper',year:2024,url:'https://consortiumofnlus.ac.in/clat-2024/images/CLAT_2024_Question_Paper.pdf',free:true},
-    {title:'CLAT 2023 Official Paper',year:2023,url:'https://consortiumofnlus.ac.in/clat-2023/images/CLAT_2023_Question_Paper.pdf',free:true},
-    {title:'CLAT 2022 Official Paper',year:2022,url:'https://consortiumofnlus.ac.in/clat-2022/images/clat2022questionpaper.pdf',free:true},
-    {title:'CLAT 2021 Official Paper',year:2021,url:'https://consortiumofnlus.ac.in/clat-2021/images/Question_Paper_CLAT_2021.pdf',free:true},
-    {title:'CLAT 2020 Official Paper',year:2020,url:'https://consortiumofnlus.ac.in/clat-2020/question_paper.pdf',free:true},
-    {title:'CLAT 2019 Official Paper',year:2019,url:'https://consortiumofnlus.ac.in/clat-2019/question_paper.pdf',free:true}
-  ],
-  nda:[
-    {title:'NDA 2024 Paper I (Maths)',year:2024,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2024-Maths.pdf',free:true},
-    {title:'NDA 2024 Paper II (GAT)',year:2024,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2024-GAT.pdf',free:true},
-    {title:'NDA 2023 Paper I (Maths)',year:2023,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2023-Maths.pdf',free:true},
-    {title:'NDA 2023 Paper II (GAT)',year:2023,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2023-GAT.pdf',free:true},
-    {title:'NDA 2022 Paper I (Maths)',year:2022,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2022.pdf',free:true},
-    {title:'NDA 2021 Paper I (Maths)',year:2021,url:'https://upsc.gov.in/sites/default/files/QP-NDA-I-2021.pdf',free:true}
-  ],
-  cat:[
-    {title:'CAT 2023 Slot 1',year:2023,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2023_QP_Slot1.pdf',free:true},
-    {title:'CAT 2023 Slot 2',year:2023,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2023_QP_Slot2.pdf',free:true},
-    {title:'CAT 2022 Slot 1',year:2022,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2022_QP_Slot1.pdf',free:true},
-    {title:'CAT 2022 Slot 2',year:2022,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2022_QP_Slot2.pdf',free:true},
-    {title:'CAT 2021 Slot 1',year:2021,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2021_QP_Slot1.pdf',free:true},
-    {title:'CAT 2020 Slot 1',year:2020,url:'https://iimcat.ac.in/per/g21/pub/2050/SPL/Web/pdf/CAT2020_QP_Slot1.pdf',free:true}
-  ],
-  gate:[
-    {title:'GATE CS 2024',year:2024,url:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/CS-2024.pdf',free:true},
-    {title:'GATE ECE 2024',year:2024,url:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/EC-2024.pdf',free:true},
-    {title:'GATE ME 2024',year:2024,url:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/ME-2024.pdf',free:true},
-    {title:'GATE CS 2023',year:2023,url:'https://gate2023.iitkgp.ac.in/documents/CS.pdf',free:true},
-    {title:'GATE ECE 2023',year:2023,url:'https://gate2023.iitkgp.ac.in/documents/EC.pdf',free:true},
-    {title:'GATE CE 2024',year:2024,url:'https://gate2024.iisc.ac.in/wp-content/uploads/2024/02/CE-2024.pdf',free:true}
-  ]
-}
+// Mock papers stub — content removed per user request
+var _MOCK_PAPERS={};
 
 function mockCat(cat,el){
   document.querySelectorAll('.mock-cat-tab').forEach(function(b){b.classList.remove('sel');});
@@ -9982,7 +10121,7 @@ window.pandaCalmBreath=function(){
   var phases=[{label:'Breathe IN',color:'#4ade80'},{label:'Hold',color:'#facc15'},{label:'Breathe OUT',color:'#60a5fa'},{label:'Hold',color:'#f472b6'}];
   var i=0,timer=null;
   var ov=document.createElement('div');
-  ov.style.cssText='position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,20,40,.94);font-family:"Nunito",sans-serif';
+  ov.style.cssText='position:fixed;inset:0;z-index:9500;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,20,40,.94);font-family:"Nunito",sans-serif';
   var circ=document.createElement('div');
   circ.style.cssText='width:160px;height:160px;border-radius:50%;border:4px solid #4ade80;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;transition:all 4s ease;margin-bottom:20px;text-align:center;line-height:1.3;padding:12px;';
   var lbl=document.createElement('div');
@@ -10044,13 +10183,13 @@ document.addEventListener('DOMContentLoaded',function(){
   // Load mock papers grid after a short delay
   setTimeout(function(){
     var firstTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
-    if(typeof mockCat==='function') mockCat('jee',firstTab);
+    // mock papers removed
   },200);
   // Load GK daily if we're already on tests page
   setTimeout(function(){
     var testsPage=document.getElementById('page-tests');
     if(testsPage&&(testsPage.classList.contains('active')||getComputedStyle(testsPage).display!=='none')){
-      if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+      
     }
   },500);
 });
@@ -10061,12 +10200,12 @@ window.showPage=function(name,btn){
   if(_atzOrigShowPage)_atzOrigShowPage(name,btn);
   if(name==='tests'){
     // Load GK daily once
-    if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+    
     // Always refresh mock papers grid
     setTimeout(function(){
       var activeTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
       var cat=window._mockCurrentCat||'jee';
-      if(typeof mockCat==='function') mockCat(cat,activeTab);
+      // mock papers removed
     },50);
   }
 };
@@ -10074,11 +10213,11 @@ var _atzOrigShowPageMob=window.showPageMob;
 window.showPageMob=function(name,btn){
   if(_atzOrigShowPageMob)_atzOrigShowPageMob(name,btn);
   if(name==='tests'){
-    if(!window._atz._dailyLoaded){window._atz._dailyLoaded=true;gkLoadDaily();}
+    
     setTimeout(function(){
       var activeTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
       var cat=window._mockCurrentCat||'jee';
-      if(typeof mockCat==='function') mockCat(cat,activeTab);
+      // mock papers removed
     },50);
   }
 };
@@ -10671,6 +10810,21 @@ window.renderTestGraph=function(){
         +'</div>';
     }).join('');
   }
+  // Update home stat tiles
+  (function(){
+    try{
+      var todayS=window._today?(window.studyData||{})[window._today]||0:0;
+      var h=Math.floor(todayS/3600),m=Math.floor((todayS%3600)/60);
+      var hDisp=h>0?h+'h'+(m>0?' '+m+'m':''):m+'m';
+      var el=document.getElementById('hs-today');if(el)el.textContent=hDisp||'0m';
+      var streak=0;
+      if(window.studyData&&window._dStr){for(var i=0;i<365;i++){if((window.studyData[window._dStr(i)]||0)>0)streak++;else if(i>0)break;}}
+      var sel=document.getElementById('hs-streak');if(sel)sel.textContent=streak+'🔥';
+      var done=(window.todos||[]).filter(function(t){return !t.done;}).length;
+      var tel=document.getElementById('hs-tasks');if(tel)tel.textContent=done;
+      var xel=document.getElementById('hs-xp');if(xel)xel.textContent=(window.xp||0);
+    }catch(e){}
+  })();
 };
 
 // Auto-render on Performance page visit
@@ -10692,6 +10846,7 @@ window._showReflect=function(durSecs){
   window._reflectDur=durSecs||0;
   var modal=document.getElementById('session-reflect-modal');
   if(!modal)return;
+  modal.style.display='flex';
   // Reset stars
   document.querySelectorAll('#reflect-stars button').forEach(function(b){b.style.opacity='.35';b.style.transform='';b.style.color='';});
   // Set duration
@@ -10708,12 +10863,13 @@ window._setReflectStar=function(n){
   window._reflectStar=n;
   var pandas=['😴','🙂','😊','😄','🔥'];
   var panda=document.getElementById('reflect-panda');
-  if(panda)panda.textContent=pandas[n-1]||'🐼';
+  if(panda)panda.textContent=pandas[n-1]||'🙏';
   document.querySelectorAll('#reflect-stars button').forEach(function(b){
-    var s=parseInt(b.dataset.star);
-    b.style.opacity=s<=n?'1':'.3';
-    b.style.color=s<=n?'#f59e0b':'';
-    b.style.transform=s===n?'scale(1.3)':'';
+    var lit=parseInt(b.dataset.star)<=n;
+    b.style.opacity=lit?'1':'.2';
+    b.style.transform=lit?'scale(1.25)':'scale(1)';
+    b.style.color=lit?'#f59e0b':'';
+    b.style.transition='all .15s';
   });
 };
 
@@ -10842,55 +10998,130 @@ window._socialTab=function(tab,btn){
   if(!conn||!comm)return;
   if(tab==='connect'){
     conn.style.display=''; comm.style.display='none';
-    if(btnC){btnC.className='btn btn-sm btn-p';}
-    if(btnCo){btnCo.className='btn btn-sm btn-o';}
+    if(btnC){btnC.className='social-tab-btn active';}
+    if(btnCo){btnCo.className='social-tab-btn';}
     window._loadMyChats&&window._loadMyChats();
   }else{
     conn.style.display='none'; comm.style.display='';
-    if(btnC){btnC.className='btn btn-sm btn-o';}
-    if(btnCo){btnCo.className='btn btn-sm btn-p';}
+    if(btnC){btnC.className='social-tab-btn';}
+    if(btnCo){btnCo.className='social-tab-btn active';}
     window._loadForum&&window._loadForum();
   }
 };
+
+// ── DAILY GOAL LIMIT ────────────────────────────────────────
+const MAX_DAILY_GOALS = 5;
+window._updateGoalLimit = function(){
+  const bar = document.getElementById('goal-limit-bar');
+  const lbl = document.getElementById('goal-limit-count');
+  if(!bar) return;
+  const highTodos = (window.todos||[]).filter(t=>!t.done && t.priority==='high');
+  const count = highTodos.length;
+  // Update pips
+  const pips = bar.querySelectorAll('.goal-pip');
+  pips.forEach((pip, i) => {
+    pip.className = 'goal-pip' + (i < count ? (count > MAX_DAILY_GOALS ? ' excess' : ' filled') : '');
+  });
+  if(lbl) lbl.textContent = count + '/' + MAX_DAILY_GOALS + ' goals';
+  if(count >= MAX_DAILY_GOALS){
+    lbl.style.color = count > MAX_DAILY_GOALS ? 'var(--danger)' : 'var(--warn)';
+  } else {
+    lbl.style.color = 'var(--primary)';
+  }
+};
+
+// Hook into addTodo to enforce limit
+const _origAddTodo2 = window.addTodo;
+window.addTodo = function(){
+  const pri = document.getElementById('todo-pri')?.value;
+  if(pri === 'high'){
+    const highTodos = (window.todos||[]).filter(t=>!t.done && t.priority==='high');
+    if(highTodos.length >= MAX_DAILY_GOALS){
+      window.toast('⚠️ Daily goal limit reached! Max ' + MAX_DAILY_GOALS + ' high-priority goals. Complete one first.');
+      return;
+    }
+  }
+  if(_origAddTodo2) _origAddTodo2.apply(this, arguments);
+  setTimeout(window._updateGoalLimit, 100);
+};
+
+// Hook renderTodos for goal limit update
+(function(){
+  var _rl = window.renderTodos;
+  window.renderTodos = function(){
+    if(_rl) _rl.apply(this, arguments);
+    setTimeout(window._updateGoalLimit, 50);
+  };
+})();
+
+
+// ── FOCUS OVERLAY MICRO-QUOTES ──
+const _FOCUS_QUOTES = [
+  "The secret of getting ahead is getting started.",
+  "Deep work is the superpower of the 21st century.",
+  "One focused hour beats ten distracted hours.",
+  "Excellence is a habit, not an act.",
+  "Your future self is watching you right now.",
+  "Every expert was once a beginner.",
+  "Focus is the gateway to mastery.",
+  "Consistency compounds. Show up today.",
+  "The pain of discipline is less than the pain of regret.",
+  "Stay hard. Do the work.",
+];
+window._setFocusMicroQuote = function(){
+  const el = document.getElementById('focus-micro-quote');
+  if(!el) return;
+  el.textContent = _FOCUS_QUOTES[Math.floor(Math.random() * _FOCUS_QUOTES.length)];
+};
+// Call on focus mode open
+const _origToggleFocus = window.toggleFocus;
+window.toggleFocus = function(){
+  if(_origToggleFocus) _origToggleFocus.apply(this, arguments);
+  const fm = document.getElementById('focus-mode');
+  if(fm && fm.classList.contains('active')){
+    window._setFocusMicroQuote && window._setFocusMicroQuote();
+  }
+};
+
 </script>
 
 <!-- SESSION REFLECTION MODAL -->
-<div id="session-reflect-modal" style="display:none;position:fixed;inset:0;z-index:2100;background:rgba(0,0,0,.5);align-items:center;justify-content:center;backdrop-filter:blur(4px)">
-  <div style="background:var(--surface);border-radius:20px;padding:28px 24px;max-width:340px;width:90%;box-shadow:var(--shl);text-align:center;border:1.5px solid var(--border)">
-    <div style="font-size:28px;margin-bottom:8px" id="reflect-panda">🙏</div>
-    <div style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:4px">Session complete!</div>
-    <div id="reflect-duration" style="font-size:13px;color:var(--ink3);margin-bottom:18px">You studied for 00:00</div>
-    <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">How was this session?</div>
-    <div id="reflect-stars" style="display:flex;justify-content:center;gap:10px;margin-bottom:16px">
-      <button onclick="window._setReflectStar(1)" data-star="1" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.35">★</button>
-      <button onclick="window._setReflectStar(2)" data-star="2" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.35">★</button>
-      <button onclick="window._setReflectStar(3)" data-star="3" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.35">★</button>
-      <button onclick="window._setReflectStar(4)" data-star="4" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.35">★</button>
-      <button onclick="window._setReflectStar(5)" data-star="5" style="font-size:28px;background:none;border:none;cursor:pointer;opacity:.35">★</button>
+<div id="session-reflect-modal" style="display:none;position:fixed;inset:0;z-index:2100;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);align-items:center;justify-content:center">
+  <div class="reflect-box">
+    <div style="font-size:36px;margin-bottom:12px" id="reflect-panda">🙏</div>
+    <div style="font-size:18px;font-weight:900;color:var(--ink);margin-bottom:4px;letter-spacing:-.3px">Session complete</div>
+    <div id="reflect-duration" style="font-size:13px;color:var(--ink3);margin-bottom:22px;font-weight:600">You studied for 00:00</div>
+    <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px">How did it feel?</div>
+    <div id="reflect-stars" style="display:flex;justify-content:center;gap:14px;margin-bottom:20px">
+      <button onclick="window._setReflectStar(1)" data-star="1" style="font-size:30px;background:none;border:none;cursor:pointer;opacity:.2;transition:all .15s;transform:scale(1)">★</button>
+      <button onclick="window._setReflectStar(2)" data-star="2" style="font-size:30px;background:none;border:none;cursor:pointer;opacity:.2;transition:all .15s;transform:scale(1)">★</button>
+      <button onclick="window._setReflectStar(3)" data-star="3" style="font-size:30px;background:none;border:none;cursor:pointer;opacity:.2;transition:all .15s;transform:scale(1)">★</button>
+      <button onclick="window._setReflectStar(4)" data-star="4" style="font-size:30px;background:none;border:none;cursor:pointer;opacity:.2;transition:all .15s;transform:scale(1)">★</button>
+      <button onclick="window._setReflectStar(5)" data-star="5" style="font-size:30px;background:none;border:none;cursor:pointer;opacity:.2;transition:all .15s;transform:scale(1)">★</button>
     </div>
-    <input id="reflect-note" class="tisa-inp" placeholder="Quick note... (optional)" maxlength="80" style="width:100%;margin-bottom:14px;text-align:center;font-size:12px">
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-o" style="flex:1" onclick="window._closeReflect()">Skip</button>
-      <button class="btn btn-p" style="flex:2;font-weight:800" onclick="window._saveReflect()">Save ✓</button>
+    <input id="reflect-note" class="tisa-inp" placeholder="One-line note... (optional)" maxlength="80" style="margin-bottom:16px;text-align:center;font-size:13px">
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-o" style="flex:1;font-size:13px" onclick="window._closeReflect()">Skip</button>
+      <button class="btn btn-p" style="flex:2;font-size:14px;font-weight:800" onclick="window._saveReflect()">Save ✓</button>
     </div>
   </div>
 </div>
 
 <!-- MA FOCUS OVERLAY -->
-<div id="ma-focus-overlay" style="display:none;position:fixed;inset:0;z-index:2000;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);gap:28px">
-  <div style="font-size:32px;opacity:.6">🙏</div>
+<div id="ma-focus-overlay">
+  <div style="font-size:36px;opacity:.3;letter-spacing:8px">間</div>
   <div style="text-align:center">
-    <div id="ma-timer-display" style="font-family:'Space Mono',monospace;font-size:80px;font-weight:700;color:var(--primary);letter-spacing:8px;line-height:1">00:00:00</div>
-    <div id="ma-mode-label" style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:6px;margin-top:10px">ready</div>
+    <div id="ma-timer-display">00:00:00</div>
+    <div id="ma-mode-label">ready</div>
   </div>
-  <div style="width:200px;height:2px;background:var(--border2);border-radius:1px;overflow:hidden">
-    <div id="ma-ring-fill" style="height:100%;width:0%;background:var(--primary);border-radius:1px;transition:width 1s linear"></div>
+  <div style="width:220px;height:2px;background:var(--border2);border-radius:1px;overflow:hidden">
+    <div id="ma-ring-fill"></div>
   </div>
-  <div id="ma-quote" style="font-size:13px;color:var(--ink3);text-align:center;max-width:260px;line-height:1.9;font-style:italic;opacity:.7"></div>
-  <button onclick="window.toggleMaMode&&window.toggleMaMode()" style="background:none;border:1px solid var(--border);color:var(--ink3);border-radius:100px;padding:8px 22px;font-size:11px;cursor:pointer;font-family:inherit;letter-spacing:1px">ESC</button>
+  <div id="ma-quote"></div>
+  <button onclick="window.toggleMaMode&&window.toggleMaMode()" style="background:none;border:1px solid var(--border2);color:var(--ink3);border-radius:100px;padding:8px 24px;font-size:10px;cursor:pointer;font-family:inherit;letter-spacing:2px;text-transform:uppercase;opacity:.5;transition:opacity .2s">ESC</button>
 </div>
 
-<div id="gemini-onboard-modal" class="modal-overlay" style="z-index:2100">
+<div id="gemini-onboard-modal" class="modal-overlay" style="z-index:9200">
 <div class="modal-box" style="max-width:420px;padding:32px 28px">
   <div style="text-align:center;margin-bottom:20px">
     <div style="font-size:52px;margin-bottom:10px;animation:pandaBob 2s ease-in-out infinite">🐼</div>
