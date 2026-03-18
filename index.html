@@ -1335,8 +1335,6 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
   <button id="nav-panda-btn" onclick="openWellnessSheet()" style="background:var(--primary);color:#fff;border-radius:99px;padding:6px 16px;font-weight:800;letter-spacing:.3px">☸️ Buddha</button>
 </nav>
 <div class="hdr-right">
-  <div class="xp-chip" onclick="showPage('profile',null)">⚡<span id="hdr-xp">0 XP</span><span id="hdr-lv" style="opacity:.7">Lv.1</span></div>
-  <div style="font-size:12px;font-weight:800;color:var(--warn);cursor:pointer">🪙<span id="hdr-coins">0</span></div>
   <div class="user-pill" onclick="showPage('profile',null)"><div class="uav" id="user-av">?</div><span id="user-dname" style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle">...</span></div>
   <div class="dark-toggle" id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"></div>
   <button class="hdr-btn" onclick="toggleFocus()">🎯</button>
@@ -2210,6 +2208,19 @@ input,select,textarea{font-size:16px!important;} /* prevents iOS zoom */
     <div id="prof-lv-badge"></div><div class="coins">🪙 <span id="prof-coins">0</span></div>
   </div>
   <div class="xpbar-w" style="max-width:280px;margin:8px auto 0"><div class="xpbar-f" id="prof-xpbar" style="width:0%"></div></div>
+  <!-- XP & Coins row -->
+  <div style="display:flex;gap:10px;justify-content:center;margin:12px 0;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:8px;background:color-mix(in srgb,var(--primary) 10%,var(--bg));border-radius:100px;padding:8px 18px;border:1.5px solid color-mix(in srgb,var(--primary) 25%,var(--border))">
+      <span style="font-size:16px">⚡</span>
+      <span style="font-weight:900;color:var(--primary);font-size:15px" id="hdr-xp">0 XP</span>
+      <span style="font-size:11px;font-weight:700;color:var(--ink3);background:var(--primary);color:white;border-radius:20px;padding:2px 8px" id="hdr-lv">Lv.1</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;background:color-mix(in srgb,var(--warn) 10%,var(--bg));border-radius:100px;padding:8px 18px;border:1.5px solid color-mix(in srgb,var(--warn) 25%,var(--border))">
+      <span style="font-size:16px">🪙</span>
+      <span style="font-weight:900;color:var(--warn);font-size:15px" id="hdr-coins">0</span>
+      <span style="font-size:11px;font-weight:600;color:var(--ink3)">Coins</span>
+    </div>
+  </div>
   <div class="prof-stats">
     <div class="stat-box"><div class="snum" id="p-alltime">0h</div><div class="slbl">All Time</div></div>
     <div class="stat-box"><div class="snum" id="p-wk">0h</div><div class="slbl">This Week</div></div>
@@ -4035,7 +4046,7 @@ window._esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,
 window._fmtH=function(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=Math.floor(s%60);return h+':'+pad(m)+':'+pad(sc);};
 function fmtHLabel(s){if(!s)return'0h';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);if(h>0)return m>0?h+'h '+m+'m':h+'h';if(m>0)return m+'m';return'<1m';}
 function fmtHMS(s){return pad(Math.floor(s/3600))+':'+pad(Math.floor((s%3600)/60))+':'+pad(s%60);}
-window._dStr=function(n){const d=new Date();d.setDate(d.getDate()-n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};;
+window._dStr=function(n){const d=new Date();d.setDate(d.getDate()-n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 function fmtDate(d){return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
 function toast(msg){const el=document.getElementById('toast');if(!el)return;el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2600);}
 window.toast=toast;
@@ -9931,7 +9942,7 @@ window.showPageMob=function(name,btn){
     +'</div>';
 
   el.innerHTML=html;
-};;
+};
 
   // Hook into performance page render
   var _origShowPage2=window.showPage;
