@@ -1067,7 +1067,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 @media(min-width:761px){#todo-add-btn-mob{display:none!important;}#todo-add-wrap{max-height:300px!important;opacity:1!important;}#mob-greeting{display:none!important;}}
 [data-theme="washi"]{
   /* 和紙 — Washi paper: warm cream, sumi ink, serene elegance */
-  --bg:#f7f2e8;--bg2:#ede5d4;--bg3:#e0d5c0;--surface:#fdfaf4;--surface2:#f7f2e8;
+  --bg:#ede4d0;--bg2:#dfd3bb;--bg3:#cec0a4;--surface:#f5f0e4;--surface2:#ede4d0;
   --primary:#5c3d2e;--pd:#3d2820;--pl:#a07858;--pglow:rgba(92,61,46,.1);
   --ink:#1a1008;--ink2:#4a3020;--ink3:#8a7060;
   --danger:#a82a20;--success:#2a5c30;--warn:#8a6818;
@@ -1106,7 +1106,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 [data-theme="akari"] #mobile-nav{background:rgba(18,12,8,.92);border-top:1px solid rgba(232,144,30,.15);}
 [data-theme="asagi"]{
   /* 浅葱 — Edo Asagi: Japanese indigo blue, fresh and serene */
-  --bg:#f2f6fb;--bg2:#e4edf7;--bg3:#d0e0f0;--surface:#f8fbff;--surface2:#f2f6fb;
+  --bg:#d8e8f4;--bg2:#c4d8ec;--bg3:#adc5df;--surface:#e4f0f8;--surface2:#d8e8f4;
   --primary:#1a5c88;--pd:#103e60;--pl:#4a90b8;--pglow:rgba(26,92,136,.1);
   --ink:#08182e;--ink2:#1e3c58;--ink3:#4a7090;
   --danger:#b02828;--success:#1a6838;--warn:#8a6808;
@@ -1124,7 +1124,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 [data-theme="asagi"] #qbanner{border-left:3px solid #1a5c88;background:rgba(26,92,136,.04);}
 [data-theme="matcha_seoul"]{
   /* 抹茶 Seoul — Korean café matcha: sage green, warm cream, clean minimalism */
-  --bg:#f0f5ed;--bg2:#e2eed8;--bg3:#cce2c0;--surface:#f8fbf6;--surface2:#f0f5ed;
+  --bg:#ddecd4;--bg2:#ccdfc2;--bg3:#b5ceaa;--surface:#eaf4e4;--surface2:#ddecd4;
   --primary:#3a6840;--pd:#254c2a;--pl:#7ab888;--pglow:rgba(58,104,64,.12);
   --ink:#182818;--ink2:#2e5236;--ink3:#60987a;
   --danger:#b02828;--success:#2a6830;--warn:#7a6010;
@@ -1999,43 +1999,120 @@ body.ma-mode #ma-focus-overlay{display:flex;}
   .tsvg{width:200px!important;height:200px!important;}
 }
 
-/* ══ GLOBAL ROUNDED CORNERS — no sharp boxes ══ */
-.btn{border-radius:12px!important;}
-.btn-p,.btn-o,.btn-d,.btn-sm{border-radius:12px!important;}
-.tisa-inp, input[type="text"], input[type="password"], input[type="email"],
-input[type="number"], input[type="date"], select, textarea{border-radius:12px!important;}
-.card{border-radius:20px!important;}
+/* ══════════════════════════════════════════════════════════════
+   TISA GLOBAL UI POLISH — rounds + mobile + clean
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Universal rounded corners ── */
+.btn,.btn-p,.btn-o,.btn-d,.btn-sm{border-radius:12px!important;}
+.tisa-inp,input[type=text],input[type=password],input[type=email],
+input[type=number],input[type=date],select,textarea{border-radius:12px!important;}
+.card{border-radius:20px!important;box-shadow:var(--sh);}
 .modal-box{border-radius:24px!important;}
 .pill-btn{border-radius:100px!important;}
+.atz-chip,.time-chip,.fbtn{border-radius:20px!important;}
 .tag,.cat-tag,.anon-badge{border-radius:8px!important;}
-.atz-chip{border-radius:20px!important;}
 .msg{border-radius:16px!important;}
 .msg.me{border-bottom-right-radius:4px!important;}
 .msg.them{border-bottom-left-radius:4px!important;}
 .todo-item{border-radius:14px!important;}
-.uitem{border-radius:12px!important;}
-.stat-box{border-radius:14px!important;}
-.stat-tile{border-radius:16px!important;}
+.stat-box,.stat-tile{border-radius:16px!important;}
 .sidebar-card{border-radius:18px!important;}
-.xpbar-w, .todo-pb-w, .pt-bar-w, .mcq-progress-bar{border-radius:100px!important;}
-.xpbar-f, .todo-pb, .pt-bar, .mcq-progress-fill{border-radius:100px!important;}
-.pomo-opt-btn, .pomo-brk-btn, .pomo-cyc-btn{border-radius:10px!important;}
-.time-chip{border-radius:20px!important;}
-.fbtn{border-radius:20px!important;}
-.ctab{border-radius:0;}
-.tcheck{border-radius:6px!important;}
-.ic-btn{border-radius:8px!important;}
-.skel{border-radius:12px!important;}
-.score-topic-track, .score-topic-fill{border-radius:100px!important;}
-.kaizen-item{border-radius:12px!important;}
+.xpbar-w,.todo-pb-w,.mcq-progress-bar{border-radius:100px!important;}
+.xpbar-f,.todo-pb,.mcq-progress-fill{border-radius:100px!important;}
+.tcheck{border-radius:7px!important;cursor:pointer!important;pointer-events:all!important;z-index:3;position:relative;}
 .atz-sel-card{border-radius:16px!important;}
-.badge-it{border-radius:14px!important;}
-.mcq-wrap{border-radius:20px!important;}
-.test-win{border-radius:20px!important;}
+.page-hero{border-radius:20px!important;}
 [data-theme="eink"] .card{border-radius:18px!important;}
-[data-theme="washi"] .card,[data-theme="akari"] .card{border-radius:18px!important;}
-/* ══ END ROUNDED ══ */
-</style>
+
+/* ── Typography clean ── */
+.ct{font-size:12px!important;font-weight:800!important;letter-spacing:.3px;}
+.ct-ic{font-size:14px!important;}
+h1,h2,h3{font-weight:900;}
+
+/* ── Home quote card ── */
+#home-quote-card{transition:transform .2s,box-shadow .2s;}
+#home-factoz-text{font-size:clamp(12px,1.6vw,15px)!important;line-height:1.7!important;}
+#home-factoz-src{font-size:10px!important;}
+
+/* ── Tests factoz card ── */
+#factoz-text{font-size:clamp(12px,1.6vw,15px)!important;line-height:1.65!important;}
+#factoz-source{font-size:10px!important;}
+
+/* ── Timer ── */
+.t-digits{font-size:clamp(44px,8vw,60px)!important;font-family:"Space Mono",monospace!important;font-weight:700!important;letter-spacing:-1px!important;line-height:1!important;}
+.timer-ring{width:200px!important;height:200px!important;margin:10px auto!important;position:relative!important;}
+.tsvg{width:200px!important;height:200px!important;}
+.t-inner{position:absolute!important;inset:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;}
+
+/* ── Mobile nav ── */
+nav .nb,.nav-btn{border-radius:12px!important;}
+
+/* ── Stat tiles ── */
+.stat-tile{transition:transform .15s;}
+.stat-tile:hover{transform:translateY(-2px);}
+
+/* ── Todo ── */
+.todo-item{transition:all .2s;border:1.5px solid var(--border2)!important;}
+.todo-item:hover{border-color:var(--primary)!important;}
+.todo-item.done{opacity:.5!important;}
+.tcheck{width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;border:2px solid var(--primary)!important;touch-action:none!important;}
+
+/* ── Mobile-specific improvements ── */
+@media(max-width:640px){
+  .home-grid{grid-template-columns:1fr!important;}
+  .card{padding:14px!important;}
+  .t-digits{font-size:42px!important;}
+  .timer-ring{width:180px!important;height:180px!important;}
+  .tsvg{width:180px!important;height:180px!important;}
+  nav{padding:0 8px!important;}
+  .nb{padding:8px 6px!important;font-size:9px!important;}
+  .nb-ic{font-size:16px!important;}
+  .page-hero{padding:16px!important;margin-bottom:14px!important;}
+  .page-hero h2{font-size:18px!important;}
+  .stat-row{grid-template-columns:repeat(4,1fr)!important;gap:6px!important;}
+  .st-val{font-size:16px!important;}
+  .st-lbl{font-size:8px!important;}
+  .home-grid{gap:10px!important;}
+  .t-btns{flex-wrap:wrap!important;gap:6px!important;}
+  .t-btns .btn{flex:1;min-width:70px;}
+  .btn-sm{padding:8px 12px!important;font-size:11px!important;}
+  .modal-box{max-width:calc(100vw - 32px)!important;margin:16px!important;}
+  .f-row{flex-wrap:wrap!important;gap:4px!important;}
+  .fbtn{padding:6px 10px!important;font-size:11px!important;}
+  .mcq-wrap{border-radius:16px!important;}
+  .perf-grid{grid-template-columns:1fr!important;}
+  .conn-grid,.jgrid{grid-template-columns:1fr!important;}
+  #home-quote-card{padding:18px 40px 14px 18px!important;}
+}
+
+/* ── Desktop improvements ── */
+@media(min-width:641px){
+  .home-grid{grid-template-columns:1fr 1fr 1fr!important;align-items:start!important;}
+  #timer-card-main{grid-column:1!important;}
+  .page-hero{padding:22px 24px!important;}
+  nav{max-width:1280px;margin:0 auto;}
+}
+
+/* ── ATZ chips & cards ── */
+.atz-sel-card{transition:all .15s;border:2px solid var(--border2)!important;}
+.atz-sel-card:hover{border-color:var(--primary)!important;transform:translateY(-2px);}
+.atz-sel-card.sel{border-color:var(--primary)!important;background:color-mix(in srgb,var(--primary) 6%,var(--surface))!important;}
+
+/* ── Scrollbar polish ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+::-webkit-scrollbar-thumb:hover{background:var(--primary);}
+
+/* ── Smooth page transitions ── */
+.page{animation:pageFade .2s ease;}
+@keyframes pageFade{from{opacity:.7;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── Focus ring for accessibility ── */
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
+
+/* ══ END GLOBAL UI ══ */</style>
 <!--
   ══════════════════════════════════════════════════════════════
   REQUIRED FIRESTORE SECURITY RULES  (Firebase Console → Firestore → Rules)
@@ -2307,106 +2384,170 @@ input[type="number"], input[type="date"], select, textarea{border-radius:12px!im
 
   <!-- TAB 3: MY PANDA (Virtual Pet) -->
   <div id="panda-tab-pet" class="panda-panel" style="display:none;overflow-y:auto;padding:0">
+<div style="padding:0 18px 28px">
 
-<!-- ── MY BUDDHA — Buddhist Wellness Section ── -->
-<div style="padding:0 20px 28px">
+<!-- ══ BUDDHA SVG — detailed, serene, accurate ══ -->
+<div style="text-align:center;padding:18px 0 8px;position:relative">
+  <svg viewBox="0 0 220 200" width="200" height="182" xmlns="http://www.w3.org/2000/svg">
+    <!-- Outer glow halo -->
+    <circle cx="110" cy="80" r="56" fill="none" stroke="#f0c040" stroke-width="1" opacity=".35"/>
+    <circle cx="110" cy="80" r="50" fill="none" stroke="#f0c040" stroke-width="2.5" opacity=".6"/>
+    <!-- Inner halo ring details -->
+    <circle cx="110" cy="80" r="46" fill="none" stroke="#f8d860" stroke-width=".6" opacity=".4"/>
+    <!-- Lotus platform -->
+    <ellipse cx="110" cy="168" rx="60" ry="14" fill="#e8c8b8" opacity=".4"/>
+    <!-- Lotus petals (bottom row) -->
+    <ellipse cx="74" cy="162" rx="18" ry="9" fill="#f4a0b8" opacity=".8" transform="rotate(-15,74,162)"/>
+    <ellipse cx="95" cy="165" rx="18" ry="9" fill="#f4b8c4" opacity=".85" transform="rotate(-5,95,165)"/>
+    <ellipse cx="110" cy="166" rx="20" ry="9" fill="#f4b8c4" opacity=".9"/>
+    <ellipse cx="125" cy="165" rx="18" ry="9" fill="#f4b8c4" opacity=".85" transform="rotate(5,125,165)"/>
+    <ellipse cx="146" cy="162" rx="18" ry="9" fill="#f4a0b8" opacity=".8" transform="rotate(15,146,162)"/>
+    <!-- Lotus petals (top row) -->
+    <ellipse cx="84" cy="158" rx="14" ry="8" fill="#f8c0d0" opacity=".9" transform="rotate(-10,84,158)"/>
+    <ellipse cx="110" cy="160" rx="16" ry="8" fill="#fac8d4" opacity=".9"/>
+    <ellipse cx="136" cy="158" rx="14" ry="8" fill="#f8c0d0" opacity=".9" transform="rotate(10,136,158)"/>
+    <!-- Robe body — saffron orange, full bodied -->
+    <path d="M70,155 Q66,120 72,105 Q78,90 110,88 Q142,90 148,105 Q154,120 150,155 Z" fill="#e8901e" opacity=".95"/>
+    <!-- Robe folds/shading -->
+    <path d="M88,155 Q85,125 88,108" fill="none" stroke="#c07010" stroke-width="1.2" opacity=".4"/>
+    <path d="M132,155 Q135,125 132,108" fill="none" stroke="#c07010" stroke-width="1.2" opacity=".4"/>
+    <path d="M70,140 Q110,145 150,140" fill="none" stroke="#c07010" stroke-width=".8" opacity=".3"/>
+    <!-- Neck -->
+    <rect x="102" y="102" width="16" height="12" rx="4" fill="#c8966c"/>
+    <!-- Head — slightly elongated, serene proportions -->
+    <ellipse cx="110" cy="74" rx="30" ry="32" fill="#c8966c"/>
+    <!-- Ushnisha (topknot/cranial protrusion) -->
+    <ellipse cx="110" cy="46" rx="12" ry="9" fill="#b88060"/>
+    <ellipse cx="110" cy="40" rx="8" ry="6" fill="#a87050"/>
+    <!-- Hair texture on ushnisha -->
+    <path d="M102,45 Q110,42 118,45" fill="none" stroke="#8a5a3a" stroke-width=".8" opacity=".6"/>
+    <path d="M104,50 Q110,47 116,50" fill="none" stroke="#8a5a3a" stroke-width=".8" opacity=".5"/>
+    <!-- Face — peaceful, eyes closed in meditation -->
+    <!-- Eyes closed — gentle curved lines -->
+    <path d="M99,76 Q103,73 107,76" fill="none" stroke="#3a2010" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M113,76 Q117,73 121,76" fill="none" stroke="#3a2010" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- Eyebrows — gentle arched -->
+    <path d="M98,71 Q103,68 108,70" fill="none" stroke="#5a3010" stroke-width="1.2" stroke-linecap="round" opacity=".8"/>
+    <path d="M112,70 Q117,68 122,71" fill="none" stroke="#5a3010" stroke-width="1.2" stroke-linecap="round" opacity=".8"/>
+    <!-- Nose — subtle, serene -->
+    <path d="M108,82 Q110,85 112,82" fill="none" stroke="#a07050" stroke-width="1" opacity=".7"/>
+    <ellipse cx="107" cy="82" rx="2" ry="1.2" fill="#b08060" opacity=".4"/>
+    <ellipse cx="113" cy="82" rx="2" ry="1.2" fill="#b08060" opacity=".4"/>
+    <!-- Serene smile — gentle upward curve -->
+    <path d="M103,90 Q110,96 117,90" fill="none" stroke="#7a4820" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- Bindi / Urna (third eye mark) -->
+    <circle cx="110" cy="67" r="2.8" fill="#c82020" opacity=".85"/>
+    <circle cx="110" cy="67" r="1.4" fill="#a01010" opacity=".7"/>
+    <!-- Ears — elongated earlobes (sign of wisdom) -->
+    <ellipse cx="80" cy="78" rx="5" ry="8" fill="#b88060"/>
+    <path d="M80,72 Q77,78 80,84" fill="none" stroke="#9a6840" stroke-width="1" opacity=".5"/>
+    <ellipse cx="140" cy="78" rx="5" ry="8" fill="#b88060"/>
+    <path d="M140,72 Q143,78 140,84" fill="none" stroke="#9a6840" stroke-width="1" opacity=".5"/>
+    <!-- Ear jewel drops -->
+    <circle cx="80" cy="86" r="3" fill="#f0c040" opacity=".7"/>
+    <circle cx="140" cy="86" r="3" fill="#f0c040" opacity=".7"/>
+    <!-- Dhyana mudra hands (meditation gesture) -->
+    <ellipse cx="94" cy="138" rx="18" ry="10" fill="#c8966c"/>
+    <ellipse cx="126" cy="138" rx="18" ry="10" fill="#c8966c"/>
+    <!-- Hands overlap -->
+    <ellipse cx="110" cy="140" rx="14" ry="8" fill="#c8966c"/>
+    <!-- Thumb tips touching (dhyana mudra) -->
+    <circle cx="110" cy="133" r="5" fill="#c8966c"/>
+    <!-- Robe collar -->
+    <path d="M92,104 Q110,112 128,104" fill="#d07810" opacity=".6" stroke="#b06810" stroke-width=".8"/>
+    <!-- Floating particles / merit lights -->
+    <circle cx="54" cy="68" r="3" fill="#f0c040" opacity=".5"><animate attributeName="opacity" values=".5;.1;.5" dur="2.8s" repeatCount="indefinite"/></circle>
+    <circle cx="168" cy="55" r="2.5" fill="#f0c040" opacity=".4"><animate attributeName="opacity" values=".4;.05;.4" dur="3.5s" repeatCount="indefinite"/></circle>
+    <circle cx="44" cy="110" r="2" fill="#f4c8d0" opacity=".7"><animate attributeName="opacity" values=".7;.2;.7" dur="2.1s" repeatCount="indefinite"/></circle>
+    <circle cx="176" cy="95" r="2.5" fill="#f4c8d0" opacity=".5"><animate attributeName="opacity" values=".5;.1;.5" dur="3.2s" repeatCount="indefinite"/></circle>
+    <circle cx="62" cy="42" r="1.8" fill="#f8e060" opacity=".6"><animate attributeName="opacity" values=".6;.1;.6" dur="1.9s" repeatCount="indefinite"/></circle>
+    <circle cx="158" cy="130" r="1.5" fill="#f4c8d0" opacity=".4"><animate attributeName="opacity" values=".4;.1;.4" dur="4s" repeatCount="indefinite"/></circle>
+  </svg>
 
-<!-- Buddha SVG Scene -->
-<div style="text-align:center;padding:20px 0 10px;position:relative">
-  <div style="display:inline-block;position:relative">
-    <svg viewBox="0 0 200 180" width="180" height="162" xmlns="http://www.w3.org/2000/svg">
-      <!-- Lotus base -->
-      <ellipse cx="100" cy="155" rx="55" ry="12" fill="#e8c4a0" opacity=".5"/>
-      <!-- Lotus petals -->
-      <ellipse cx="100" cy="148" rx="30" ry="10" fill="#f4b8c8" opacity=".8"/>
-      <ellipse cx="75" cy="150" rx="20" ry="8" fill="#f4b8c8" opacity=".7" transform="rotate(-20,75,150)"/>
-      <ellipse cx="125" cy="150" rx="20" ry="8" fill="#f4b8c8" opacity=".7" transform="rotate(20,125,150)"/>
-      <!-- Body / robe -->
-      <ellipse cx="100" cy="120" rx="38" ry="35" fill="#e8901e" opacity=".95"/>
-      <!-- Head -->
-      <circle cx="100" cy="72" r="26" fill="#c8966c"/>
-      <!-- Halo -->
-      <circle cx="100" cy="72" r="35" fill="none" stroke="#f0c040" stroke-width="2.5" opacity=".8"/>
-      <circle cx="100" cy="72" r="38" fill="none" stroke="#f0c040" stroke-width=".8" opacity=".4"/>
-      <!-- Eyes closed — peaceful -->
-      <path d="M91 72 Q94 69 97 72" fill="none" stroke="#5a3a1a" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M103 72 Q106 69 109 72" fill="none" stroke="#5a3a1a" stroke-width="1.5" stroke-linecap="round"/>
-      <!-- Smile -->
-      <path d="M94 79 Q100 84 106 79" fill="none" stroke="#5a3a1a" stroke-width="1.5" stroke-linecap="round"/>
-      <!-- Bindi -->
-      <circle cx="100" cy="62" r="3" fill="#e8301e" opacity=".9"/>
-      <!-- Hands in dhyana mudra -->
-      <ellipse cx="88" cy="132" rx="12" ry="7" fill="#c8966c"/>
-      <ellipse cx="112" cy="132" rx="12" ry="7" fill="#c8966c"/>
-      <!-- Floating sparkles -->
-      <circle cx="55" cy="60" r="2.5" fill="#f0c040" opacity=".7">
-        <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.3s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="148" cy="45" r="2" fill="#f0c040" opacity=".5">
-        <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3.1s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="45" cy="100" r="1.5" fill="#f4b8c8" opacity=".8">
-        <animate attributeName="opacity" values="0.8;0.2;0.8" dur="1.8s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="158" cy="90" r="2" fill="#f4b8c8" opacity=".6">
-        <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.7s" repeatCount="indefinite"/>
-      </circle>
-    </svg>
-  </div>
-  <!-- Dharma wheel indicator -->
-  <div id="pet-speech" style="font-size:12px;font-style:italic;color:var(--ink2);margin:4px 0 6px;text-align:center;min-height:18px;padding:0 10px;line-height:1.6">🙏 Still your mind. Begin within.</div>
   <!-- Study streak blessing -->
-  <div id="buddha-streak-msg" style="font-size:11px;font-weight:700;color:var(--primary);text-align:center;margin-bottom:4px"></div>
+  <div id="pet-speech" style="font-size:11px;font-style:italic;color:var(--ink2);text-align:center;margin:2px 0 4px;padding:0 8px;line-height:1.6;min-height:16px">🙏 Still your mind. Begin within.</div>
+  <div id="buddha-streak-msg" style="font-size:10px;font-weight:700;color:var(--primary);text-align:center;margin-bottom:6px"></div>
 </div>
 
-<!-- ── DAILY DHARMA ── -->
-<div style="background:linear-gradient(135deg,rgba(240,192,64,.12),rgba(232,144,30,.08));border:1px solid rgba(240,192,64,.3);border-radius:14px;padding:14px 16px;margin-bottom:12px">
-  <div style="font-size:9px;font-weight:800;color:rgba(180,120,20,.8);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">☸️ Daily Dharma</div>
-  <div id="dharma-quote" style="font-size:13px;font-style:italic;color:var(--ink);line-height:1.8;font-family:'Playfair Display',serif">Loading...</div>
+<!-- ══ DAILY DHARMA ══ -->
+<div style="background:linear-gradient(135deg,rgba(240,192,64,.1),rgba(232,144,30,.06));border:1px solid rgba(240,192,64,.28);border-radius:16px;padding:14px 15px;margin-bottom:10px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <div style="font-size:9px;font-weight:800;color:rgba(160,100,10,.8);text-transform:uppercase;letter-spacing:2px">☸️ Daily Dharma</div>
+    <button onclick="window._nextDharma&&window._nextDharma()" style="background:rgba(240,192,64,.15);border:1px solid rgba(240,192,64,.3);border-radius:8px;padding:3px 10px;font-size:10px;font-weight:700;color:rgba(140,80,10,.9);cursor:pointer;font-family:inherit">↻ New</button>
+  </div>
+  <div id="dharma-quote" style="font-size:13px;font-style:italic;color:var(--ink);line-height:1.75;font-family:'Playfair Display',serif">Loading...</div>
   <div id="dharma-source" style="font-size:10px;color:var(--ink3);margin-top:6px;font-weight:700">— The Buddha</div>
-  <button onclick="window._nextDharma&&window._nextDharma()" style="margin-top:8px;background:rgba(240,192,64,.15);border:1px solid rgba(240,192,64,.3);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;color:rgba(160,100,10,1);cursor:pointer;font-family:inherit">↻ New Teaching</button>
 </div>
 
-<!-- ── MINDFULNESS BELL ── -->
-<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;margin-bottom:12px">
-  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🔔 Mindfulness Bell</div>
-  <div style="font-size:11px;color:var(--ink3);margin-bottom:10px;line-height:1.6">Ring the bell to pause, breathe, and return to the present moment.</div>
-  <div style="display:flex;align-items:center;gap:10px">
-    <button onclick="window._ringBell&&window._ringBell()" style="background:var(--primary);color:white;border:none;border-radius:100px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .2s" id="bell-btn">🔔 Ring Bell</button>
-    <span id="bell-msg" style="font-size:11px;font-weight:600;color:var(--ink3);font-style:italic"></span>
+<!-- ══ MINDFULNESS BELL ══ -->
+<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:13px 15px;margin-bottom:10px">
+  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🔔 Mindfulness Bell</div>
+  <div style="font-size:11px;color:var(--ink3);margin-bottom:10px;line-height:1.5">Ring to pause, breathe, return to the present.</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <button onclick="window._ringBell&&window._ringBell('bowl')" id="bell-btn" style="background:var(--primary);color:white;border:none;border-radius:12px;padding:9px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .15s" ontouchstart="this.style.transform='scale(.95)'" ontouchend="this.style.transform=''">🔔 Ring Bell</button>
+    <button onclick="window._ringBell&&window._ringBell('tibetan')" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink2)">🪘 Tibetan Bowl</button>
+    <button onclick="window._ringBell&&window._ringBell('chime')" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink2)">🎵 Wind Chime</button>
   </div>
+  <div id="bell-msg" style="font-size:11px;font-weight:600;color:var(--ink3);font-style:italic;margin-top:8px;min-height:16px;transition:opacity .3s"></div>
 </div>
 
-<!-- ── BREATH MEDITATION TIMER ── -->
-<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;margin-bottom:12px">
-  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🫁 Breath Meditation</div>
-  <div style="text-align:center;padding:10px 0">
-    <div id="breath-circle" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--primary);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--primary);transition:transform 4s ease-in-out,opacity 1s;opacity:.7">Inhale</div>
-    <div id="breath-label" style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px">4-7-8 Breathing</div>
-    <div style="display:flex;gap:8px;justify-content:center">
-      <button onclick="window._startBreath&&window._startBreath()" id="breath-btn" style="background:var(--primary);color:white;border:none;border-radius:8px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">▶ Begin</button>
-      <button onclick="window._stopBreath&&window._stopBreath()" style="background:transparent;color:var(--ink3);border:1.5px solid var(--border);border-radius:8px;padding:8px 16px;font-size:12px;cursor:pointer;font-family:inherit">■ Stop</button>
+<!-- ══ 4-7-8 BREATHING ══ -->
+<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:13px 15px;margin-bottom:10px">
+  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🫁 Guided Breathing</div>
+  <div style="text-align:center;padding:4px 0">
+    <div id="breath-circle" style="width:90px;height:90px;border-radius:50%;border:3px solid var(--primary);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--primary);transition:transform 4s ease-in-out,opacity 1s,border-color .5s;opacity:.7;position:relative">
+      <span id="breath-text">Inhale</span>
+      <div id="breath-timer-ring" style="position:absolute;inset:-3px;border-radius:50%;border:3px solid transparent;border-top-color:var(--primary);opacity:0;transition:opacity .3s"></div>
     </div>
-    <div id="breath-count" style="font-size:11px;color:var(--ink3);margin-top:8px;font-weight:600"></div>
+    <div id="breath-label" style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px">4-7-8 Breathing</div>
+    <!-- Technique selector -->
+    <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:10px">
+      <button onclick="window._setBreathTech('478')" class="breath-tech-btn sel" id="bt-478" style="background:var(--primary);color:white;border:none;border-radius:10px;padding:5px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">4-7-8</button>
+      <button onclick="window._setBreathTech('box')" class="breath-tech-btn" id="bt-box" style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:5px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink2)">Box (4-4-4-4)</button>
+      <button onclick="window._setBreathTech('relax')" class="breath-tech-btn" id="bt-relax" style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:5px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink2)">Relax (5-5)</button>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button onclick="window._startBreath&&window._startBreath()" id="breath-btn" style="background:var(--primary);color:white;border:none;border-radius:12px;padding:9px 22px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">▶ Begin</button>
+      <button onclick="window._stopBreath&&window._stopBreath()" style="background:transparent;color:var(--ink3);border:1.5px solid var(--border);border-radius:12px;padding:9px 16px;font-size:12px;cursor:pointer;font-family:inherit">■ Stop</button>
+    </div>
+    <div id="breath-count" style="font-size:10px;color:var(--ink3);margin-top:8px;font-weight:600;min-height:14px"></div>
   </div>
 </div>
 
-<!-- ── FIVE PRECEPTS CHECK ── -->
-<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;margin-bottom:12px">
-  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px">🙏 Daily Intentions</div>
-  <div style="font-size:11px;color:var(--ink3);margin-bottom:8px;line-height:1.6">Inspired by the Five Precepts — set your intentions for today:</div>
-  <div id="precepts-list" style="display:flex;flex-direction:column;gap:8px"></div>
+<!-- ══ FIVE DAILY INTENTIONS (PRECEPTS) ══ -->
+<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:13px 15px;margin-bottom:10px">
+  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🙏 Daily Intentions</div>
+  <div style="font-size:10px;color:var(--ink3);margin-bottom:8px;line-height:1.5">Five Precepts — set your intentions for today.</div>
+  <div id="precepts-list" style="display:flex;flex-direction:column;gap:7px"></div>
 </div>
 
-<!-- ── MERIT COUNTER ── -->
-<div style="background:linear-gradient(135deg,rgba(92,122,62,.08),rgba(45,106,79,.05));border:1px solid var(--border2);border-radius:14px;padding:14px 16px">
-  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px">☸️ Dharma Path</div>
-  <div style="display:flex;gap:12px;text-align:center;flex-wrap:wrap;justify-content:center">
-    <div><div style="font-size:22px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace" id="merit-sessions">0</div><div style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Sessions</div></div>
-    <div><div style="font-size:22px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace" id="merit-streak">0</div><div style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Day Streak</div></div>
-    <div><div style="font-size:22px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace" id="merit-hrs">0h</div><div style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Total Hours</div></div>
+<!-- ══ FOCUS COUNTDOWN ══ -->
+<div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:13px 15px;margin-bottom:10px">
+  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">⏳ Mindful Focus</div>
+  <div style="font-size:11px;color:var(--ink3);margin-bottom:10px">Set a sacred study intention. The Buddha watches over your session.</div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+    <button onclick="window._setBuddhaTimer(10)" class="buddha-timer-chip" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink2)">10m</button>
+    <button onclick="window._setBuddhaTimer(25)" class="buddha-timer-chip" style="background:var(--primary);color:white;border:none;border-radius:10px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">25m</button>
+    <button onclick="window._setBuddhaTimer(45)" class="buddha-timer-chip" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink2)">45m</button>
+    <button onclick="window._setBuddhaTimer(60)" class="buddha-timer-chip" style="background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink2)">60m</button>
   </div>
-  <div id="buddha-wisdom-msg" style="font-size:11px;color:var(--ink2);text-align:center;margin-top:10px;font-style:italic;line-height:1.6">Each moment of study is an act of merit. 🪷</div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div id="buddha-countdown" style="font-family:'Space Mono',monospace;font-size:22px;font-weight:900;color:var(--primary);min-width:70px">—</div>
+    <button onclick="window._startBuddhaTimer&&window._startBuddhaTimer()" id="buddha-timer-btn" style="background:var(--primary);color:white;border:none;border-radius:10px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Start</button>
+    <button onclick="window._stopBuddhaTimer&&window._stopBuddhaTimer()" style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:11px;cursor:pointer;font-family:inherit;color:var(--ink3)">Reset</button>
+  </div>
+  <div id="buddha-timer-msg" style="font-size:10px;color:var(--primary);font-style:italic;margin-top:6px;min-height:14px"></div>
+</div>
+
+<!-- ══ DHARMA PATH (MERIT COUNTER) ══ -->
+<div style="background:linear-gradient(135deg,rgba(92,122,62,.07),rgba(45,106,79,.04));border:1px solid var(--border2);border-radius:16px;padding:13px 15px">
+  <div style="font-size:9px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">☸️ Dharma Path</div>
+  <div style="display:flex;gap:10px;text-align:center;flex-wrap:wrap;justify-content:space-around">
+    <div><div style="font-size:20px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace" id="merit-sessions">0</div><div style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Sessions</div></div>
+    <div><div style="font-size:20px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace" id="merit-streak">0</div><div style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Day Streak</div></div>
+    <div><div style="font-size:20px;font-weight:900;color:var(--primary);font-family:'Space Mono',monospace" id="merit-hrs">0h</div><div style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px">Total Hours</div></div>
+  </div>
+  <div id="buddha-wisdom-msg" style="font-size:10px;color:var(--ink2);text-align:center;margin-top:10px;font-style:italic;line-height:1.6">Each moment of study is an act of merit. 🪷</div>
 </div>
 
 </div></div>
@@ -2459,7 +2600,7 @@ input[type="number"], input[type="date"], select, textarea{border-radius:12px!im
   <!-- Quote text in cursive -->
   <div id="home-factoz-text" style="
     font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(15px, 2.2vw, 19px);
+    font-size: clamp(13px, 1.8vw, 16px);
     font-style: italic;
     font-weight: 500;
     color: var(--ink);
@@ -2470,9 +2611,9 @@ input[type="number"], input[type="date"], select, textarea{border-radius:12px!im
   <!-- Author -->
   <div id="home-factoz-src" style="
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--primary);
-    margin-top: 10px;
+    margin-top: 8px;
     font-weight: 600;
     letter-spacing: .5px;
     opacity: .8;
@@ -2794,7 +2935,7 @@ input[type="number"], input[type="date"], select, textarea{border-radius:12px!im
   <!-- Fact text in cursive -->
   <div id="factoz-text" style="
     font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(16px, 2.5vw, 22px);
+    font-size: clamp(13px, 1.8vw, 17px);
     font-style: italic;
     font-weight: 600;
     color: #e2e8f0;
@@ -3808,7 +3949,7 @@ onAuthStateChanged(auth,async(user)=>{
   setTimeout(()=>ls.style.display='none',400);
   if(user){
     window._currentUser=user; window._CU=user;
-    await setDoc(doc(db,'users',user.uid),{uid:user.uid,name:user.displayName,email:user.email,photo:user.photoURL,lastSeen:serverTimestamp()},{merge:true});
+    await setDoc(doc(db,'users',user.uid),{uid:user.uid,name:user.displayName,email:user.email,photo:user.photoURL,lastSeen:serverTimestamp(),lastSeenDate:new Date().toISOString().slice(0,10)},{merge:true});
     // Initialize publicStats so buddies never see 'Loading...' forever
     await setDoc(doc(db,'publicStats',user.uid),{username:window._uname||'',updatedAt:serverTimestamp()},{merge:true});
     await showApp(user);
@@ -5696,12 +5837,21 @@ window.calNext=()=>{calM++;if(calM>11){calM=0;calY++;}renderCal();};
 window.addTodo=function(){const v=document.getElementById('todo-inp')?.value.trim();if(!v)return;
   const activeTodos=(window.todos||[]).filter(t=>!t.done);
   if(activeTodos.length>=5){if(window.toast)window.toast('✋ Max 5 active goals — complete one first!');return;}window.todos.unshift({id:Date.now()+'-'+Math.random().toString(36).slice(2,8),text:v,done:false,priority:document.getElementById('todo-pri')?.value||'normal',subject:document.getElementById('todo-subj-sel')?.value||'General',due:document.getElementById('todo-due')?.value||'',createdAt:window._today});save();document.getElementById('todo-inp').value='';if(document.getElementById('todo-due'))document.getElementById('todo-due').value='';addXP(2,'task added');renderTodos();};
-window.toggleTodo=(id)=>{window.todos=window.todos.map(t=>t.id===id?{...t,done:!t.done,doneAt:!t.done?window._today:null}:t);save();if(window.todos.find(t=>t.id===id)?.done)addXP(5,'task done');renderTodos();};
+window._todoLastToggle={};
+window.toggleTodo=(id)=>{
+  const now=Date.now();
+  if(window._todoLastToggle[id]&&now-window._todoLastToggle[id]<500)return; // debounce 500ms
+  window._todoLastToggle[id]=now;
+  window.todos=window.todos.map(t=>t.id===id?{...t,done:!t.done,doneAt:!t.done?window._today:null}:t);
+  save();
+  if(window.todos.find(t=>t.id===id)?.done)addXP(5,'task done');
+  renderTodos();
+};
 window.deleteTodo=(id)=>{window.todos=window.todos.filter(t=>t.id!=id);save();renderTodos();};
 window.clearDone=()=>{window.todos=window.todos.filter(t=>!t.done);save();renderTodos();toast('Done tasks cleared');};
 window.setF=(f,btn)=>{todoFilter=f;document.querySelectorAll('.f-row .fbtn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderTodos();};
 function isOD(t){return t.due&&!t.done&&t.due<window._today;}
-function renderTodos(){const el=document.getElementById('todo-list');if(!el)return;const dn=window.todos.filter(t=>t.done).length;const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('ts-tot',window.todos.length);set('ts-dn',dn);set('ts-hi',window.todos.filter(t=>t.priority==='high'&&!t.done).length);set('ts-od',window.todos.filter(isOD).length);const pb=document.getElementById('todo-pb');if(pb)pb.style.width=(window.todos.length?Math.round(dn/window.todos.length*100):0)+'%';let fl=[...window.todos];if(todoFilter==='active')fl=fl.filter(t=>!t.done);else if(todoFilter==='done')fl=fl.filter(t=>t.done);else if(todoFilter==='high')fl=fl.filter(t=>t.priority==='high');else if(todoFilter==='overdue')fl=fl.filter(isOD);fl.sort((a,b)=>{if(!a.done&&b.done)return-1;if(a.done&&!b.done)return 1;return({high:0,normal:1,low:2}[a.priority]||1)-({high:0,normal:1,low:2}[b.priority]||1);});if(!fl.length){el.innerHTML=`<div class="empty">${todoFilter==='all'?'All clear! 🐼':'Nothing here'}</div>`;return;}el.innerHTML=fl.map(t=>{const od=isOD(t);const dl=t.due?(od?`<div class="tmeta ol">⚠ overdue · ${fmtDate(t.due)}</div>`:t.due===window._today?`<div class="tmeta" style="color:var(--primary);font-weight:800">Due today!</div>`:`<div class="tmeta">Due ${fmtDate(t.due)}</div>`):'';const pt=t.priority==='high'?`<span class="tag" style="background:#fdd;color:#922;font-size:9px">HIGH</span>`:t.priority==='low'?`<span class="tag" style="background:#dfd;color:#292;font-size:9px">LOW</span>`:'';return`<div class="todo-item ${t.done?'done':''} ${od?'overdue':''}" data-id="${t.id}"><div class="tcheck" onclick="event.stopPropagation();toggleTodo(${t.id})" ontouchend="event.stopPropagation();toggleTodo(${t.id});event.preventDefault()">${t.done?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div class="ttw"><div class="ttext">${window._esc(t.text)}</div>${dl}</div><span class="tag" style="font-size:9px">${window._esc(t.subject||'')}</span>${pt}<button class="ic-btn" onclick="deleteTodo(${t.id})" style="font-size:14px">×</button></div>`;}).join('');}
+function renderTodos(){const el=document.getElementById('todo-list');if(!el)return;const dn=window.todos.filter(t=>t.done).length;const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set('ts-tot',window.todos.length);set('ts-dn',dn);set('ts-hi',window.todos.filter(t=>t.priority==='high'&&!t.done).length);set('ts-od',window.todos.filter(isOD).length);const pb=document.getElementById('todo-pb');if(pb)pb.style.width=(window.todos.length?Math.round(dn/window.todos.length*100):0)+'%';let fl=[...window.todos];if(todoFilter==='active')fl=fl.filter(t=>!t.done);else if(todoFilter==='done')fl=fl.filter(t=>t.done);else if(todoFilter==='high')fl=fl.filter(t=>t.priority==='high');else if(todoFilter==='overdue')fl=fl.filter(isOD);fl.sort((a,b)=>{if(!a.done&&b.done)return-1;if(a.done&&!b.done)return 1;return({high:0,normal:1,low:2}[a.priority]||1)-({high:0,normal:1,low:2}[b.priority]||1);});if(!fl.length){el.innerHTML=`<div class="empty">${todoFilter==='all'?'All clear! 🐼':'Nothing here'}</div>`;return;}el.innerHTML=fl.map(t=>{const od=isOD(t);const dl=t.due?(od?`<div class="tmeta ol">⚠ overdue · ${fmtDate(t.due)}</div>`:t.due===window._today?`<div class="tmeta" style="color:var(--primary);font-weight:800">Due today!</div>`:`<div class="tmeta">Due ${fmtDate(t.due)}</div>`):'';const pt=t.priority==='high'?`<span class="tag" style="background:#fdd;color:#922;font-size:9px">HIGH</span>`:t.priority==='low'?`<span class="tag" style="background:#dfd;color:#292;font-size:9px">LOW</span>`:'';return`<div class="todo-item ${t.done?'done':''} ${od?'overdue':''}" data-id="${t.id}"><div class="tcheck" onclick="event.stopPropagation();toggleTodo(${t.id})" ontouchstart="event.stopPropagation();toggleTodo(${t.id});event.preventDefault()" style="touch-action:none">${t.done?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div class="ttw"><div class="ttext">${window._esc(t.text)}</div>${dl}</div><span class="tag" style="font-size:9px">${window._esc(t.subject||'')}</span>${pt}<button class="ic-btn" onclick="deleteTodo(${t.id})" style="font-size:14px">×</button></div>`;}).join('');}
 
 // ── CHARTS ──
 const PIE_COLORS=['#5c7a3e','#7db356','#d4688a','#2a7fa8','#d4783a','#8b6fd4','#c8941a','#2d7a3a'];
@@ -6275,6 +6425,24 @@ function _admRenderUsers(){
     const banned=_admBanned.some(b=>b.id===u.id);
     const postCount=_admPosts.filter(p=>p.uid===u.id||p.uid===u.uid).length;
     const reportCount=_admReports.filter(r=>r.targetUid===u.id||r.targetUid===u.uid).length;
+    // Last seen badge
+    const uid2=u.uid||u.id;
+    let lsBadge='<span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(128,128,128,.12);color:var(--ink3)">Never used</span>';
+    const lsDate=u.lastSeenDate||null;
+    const lsTs=u.lastSeen&&u.lastSeen.toDate?u.lastSeen.toDate():null;
+    if(lsTs){
+      const diffMs=Date.now()-lsTs.getTime();
+      const diffM=Math.floor(diffMs/60000),diffH=Math.floor(diffMs/3600000),diffD=Math.floor(diffMs/86400000);
+      const dateStr=lsTs.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+      const timeStr=lsTs.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+      if(diffM<5)lsBadge='<span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(34,197,94,.15);color:#16a34a;font-weight:700">🟢 Online now</span>';
+      else if(diffH<1)lsBadge='<span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(34,197,94,.12);color:#15803d;font-weight:700">🟢 '+diffM+'m ago · '+timeStr+'</span>';
+      else if(diffH<24)lsBadge='<span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(234,179,8,.15);color:#854d0e;font-weight:700">🟡 '+diffH+'h ago · '+dateStr+'</span>';
+      else if(diffD<3)lsBadge='<span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(249,115,22,.15);color:#9a3412;font-weight:700">🟠 '+diffD+'d ago · '+dateStr+'</span>';
+      else lsBadge='<span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(100,116,139,.12);color:var(--ink3);font-weight:700">⚫ Last: '+dateStr+' '+timeStr+'</span>';
+    } else if(lsDate){
+      lsBadge='<span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(100,116,139,.12);color:var(--ink3)">Last: '+lsDate+'</span>';
+    }
     return `<div class="card" style="margin-bottom:10px;padding:12px${banned?';border-left:4px solid var(--danger)':''}">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
         <div style="width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;flex-shrink:0">
@@ -6284,6 +6452,7 @@ function _admRenderUsers(){
           <div style="font-size:13px;font-weight:800">@${_e(u.username||'no-username')} ${banned?'<span style="color:var(--danger);font-size:11px">⛔ BANNED</span>':''}</div>
           <div style="font-size:11px;color:var(--ink2)">${_e(u.name||'No display name')}</div>
           <div style="font-size:10px;color:var(--ink3)">${_e(u.email||'No email')}</div>
+          <div style="font-size:10px;margin-top:3px">${lsBadge}</div>
         </div>
         <div style="text-align:right;font-size:10px;color:var(--ink3)">
           <div>${postCount} post${postCount!==1?'s':''}</div>
@@ -6359,6 +6528,18 @@ window._admViewUser=async function(uid){
     const banned=_admBanned.find(b=>b.uid===uid);
     const reports=_admReports.filter(r=>r.targetUid===uid);
     const joined=u.createdAt?(new Date(u.createdAt.toDate?u.createdAt.toDate():u.createdAt)).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}):'Unknown';
+    // Last seen with full date
+    let lastSeenFull='Never';
+    if(u.lastSeen&&u.lastSeen.toDate){
+      const ls=u.lastSeen.toDate();
+      const dateStr=ls.toLocaleDateString('en-IN',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+      const timeStr=ls.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+      const diffD=Math.floor((Date.now()-ls.getTime())/86400000);
+      const ago=diffD===0?'today':diffD===1?'yesterday':diffD+'d ago';
+      lastSeenFull=dateStr+' at '+timeStr+' ('+ago+')';
+    } else if(u.lastSeenDate){
+      lastSeenFull=u.lastSeenDate;
+    }
     const totalH=Math.round((u.totalStudySecs||0)/3600);
     content.innerHTML=`
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap">
@@ -6367,6 +6548,9 @@ window._admViewUser=async function(uid){
           <div style="font-size:18px;font-weight:800;color:var(--ink)">${_e(u.name||'Unknown')}</div>
           <div style="font-size:13px;color:var(--primary);font-weight:700">@${_e(u.username||uid.slice(0,8))}</div>
           <div style="font-size:11px;color:var(--ink3);margin-top:2px">Joined ${joined}</div>
+          <div style="font-size:11px;font-weight:700;margin-top:4px;padding:4px 8px;background:rgba(var(--primary-rgb,92,122,62),.08);border-radius:8px;display:inline-block">
+            🕐 Last seen: ${lastSeenFull}
+          </div>
         </div>
         ${banned?'<div style="background:var(--danger);color:white;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800">🚫 BANNED</div>':''}
       </div>
@@ -6802,16 +6986,14 @@ window._pandaBrain=function(q){
 
 const _PANDA_WORKER='https://tisa-panda.tisa-helpdesk.workers.dev';
 window.askPanda=async function(){
-  const inp=document.getElementById('ask-panda-inp');
-  const msgs=document.getElementById('ask-panda-msgs');
+  const inp  = document.getElementById('ask-panda-inp');
+  const msgs = document.getElementById('ask-panda-msgs');
   if(!inp||!msgs)return;
-  const q=inp.value.trim();
+  const q = inp.value.trim();
   if(!q)return;
   inp.value='';
-
   const qa=document.getElementById('panda-quick-area');
   if(qa)qa.style.display='none';
-
   inp.disabled=true;
   const sendBtn=document.querySelector('#panda-tab-ask .btn-p');
   if(sendBtn)sendBtn.disabled=true;
@@ -6823,132 +7005,105 @@ window.askPanda=async function(){
   ub.textContent=q;
   msgs.appendChild(ub);
 
-  // Typing indicator
+  // Thinking bubble
   const tb=document.createElement('div');
   tb.className='ask-bubble ask-panda ask-thinking';
   tb.innerHTML='<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
   msgs.appendChild(tb);
   msgs.scrollTop=msgs.scrollHeight;
 
-  const name=window._uname?'@'+window._uname:(window._CU?.displayName?.split(' ')[0]||'Student');
-  const todaySecs=window.studyData&&window._today?window.studyData[window._today]||0:0;
-  const hrs=Math.floor(todaySecs/3600),mins=Math.floor((todaySecs%3600)/60);
-
-  window._askHistory=window._askHistory||[];
-
-  const showAnswer=(text)=>{
+  const showAnswer=(text,isErr)=>{
     tb.classList.remove('ask-thinking');
     tb.innerHTML='';
-    tb.textContent=text;
+    if(isErr){
+      tb.innerHTML='<span style="color:var(--danger)">'+text+'</span>';
+    } else {
+      // Simple markdown-lite: bold, newlines
+      // Format response text safely
+      const escaped=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      const bolded=escaped.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+      tb.innerHTML=bolded.replace(/\n/g,'<br>');
+    }
+    window._askHistory=window._askHistory||[];
     window._askHistory.push({role:'user',content:q});
     window._askHistory.push({role:'assistant',content:text});
     msgs.scrollTop=msgs.scrollHeight;
     unlock();
   };
 
-  // Get fresh key always
-  var _k='';try{_k=localStorage.getItem('tisa_panda_key')||'';}catch(e){}
-  const key=(_k&&_k.startsWith('AIza'))?_k:(window._PANDA_KEY||'');
+  // Load key
+  var _k='';
+  try{_k=localStorage.getItem('tisa_panda_key')||'';}catch(e){}
+  const key=(_k&&_k.startsWith('AIza')&&_k.length>20)?_k:(window._PANDA_KEY||'');
+  if(key)window._PANDA_KEY=key;
+
+  // No key — try rule-based brain first
   if(!key||!key.startsWith('AIza')){
     const brain=window._pandaBrain?window._pandaBrain(q):null;
     if(brain){showAnswer(brain);return;}
-    showAnswer('🔑 No AI key found!\n\nGo to Settings → AI Settings → paste your free Gemini key.\n\nGet it free at: aistudio.google.com/app/apikey\n\nOnce saved, ask me anything! 🐼');
+    showAnswer('🔑 No API key found!\n\nGo to Settings → AI Settings → paste your free Gemini key.\nGet it at: aistudio.google.com/app/apikey',true);
     return;
   }
-  if(key&&key.startsWith('AIza'))window._PANDA_KEY=key;
-  const sys='You are Panda 🐼, a friendly witty study buddy for Indian students (JEE/NEET/UPSC/Boards). Give accurate helpful answers. Casual tone, 1-2 emojis. For greetings be warm. For academic questions give the actual answer with key facts/formulas. Keep replies concise. Student: '+name+', studied today: '+hrs+'h '+mins+'m.';
 
-  // ── PATH 1: Gemini Streaming (try 2.0-flash, fallback 1.5-flash) ──
-  if(key&&key.length>10&&key.startsWith('AIza')){
-    const models=['gemini-2.0-flash','gemini-1.5-flash'];
-    let streamed=false;
-    for(const model of models){
-      try{
-        const contents=[];
-        for(const m of (window._askHistory||[]).slice(-6)){
-          contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});
+  // Build system prompt
+  const name=window._uname?'@'+window._uname:(window._CU?.displayName?.split(' ')[0]||'Student');
+  const todayS=window.studyData&&window._today?window.studyData[window._today]||0:0;
+  const hrs=Math.floor(todayS/3600),mins=Math.floor((todayS%3600)/60);
+  const sys='You are Buddha 🙏, a wise and warm study companion for Indian students (JEE/NEET/UPSC/Boards/CAT). '+
+    'Give accurate, helpful answers. Use 1-2 relevant emojis. Keep answers concise and clear. '+
+    'For maths/science give key formulas. For motivation be genuine.\n'+
+    'User: '+name+'. Studied today: '+(todayS>0?hrs+'h '+mins+'m':'not yet')+'.' ;
+
+  // Build conversation history
+  const contents=[];
+  for(const m of (window._askHistory||[]).slice(-6)){
+    contents.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});
+  }
+  contents.push({role:'user',parts:[{text:q}]});
+
+  // Try Gemini REST (simple, reliable, no streaming)
+  const models=['gemini-2.0-flash','gemini-1.5-flash','gemini-1.5-pro'];
+  for(const model of models){
+    try{
+      const ctrl=new AbortController();
+      const tmr=setTimeout(()=>ctrl.abort(),20000);
+      const resp=await fetch(
+        'https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+key,
+        {method:'POST',
+         headers:{'Content-Type':'application/json'},
+         body:JSON.stringify({
+           systemInstruction:{parts:[{text:sys}]},
+           contents,
+           generationConfig:{maxOutputTokens:800,temperature:0.85}
+         }),
+         signal:ctrl.signal
         }
-        contents.push({role:'user',parts:[{text:q}]});
-        const resp=await fetch(
-          'https://generativelanguage.googleapis.com/v1beta/models/'+model+':streamGenerateContent?alt=sse&key='+key,
-          {method:'POST',headers:{'Content-Type':'application/json'},
-           body:JSON.stringify({
-             systemInstruction:{parts:[{text:sys}]},
-             contents,
-             generationConfig:{maxOutputTokens:600,temperature:0.85}
-           }),
-           signal:_abortSignal(28000)}
-        );
-        if(!resp.ok){
-          const e=await resp.json().catch(()=>({}));
-          const msg=e.error?.message||resp.statusText;
-          if(resp.status===400||resp.status===403){console.warn('[Panda] Key blocked:',msg);break;}
-          throw new Error(model+' '+resp.status+': '+msg);
+      );
+      clearTimeout(tmr);
+      if(!resp.ok){
+        const er=await resp.json().catch(()=>({}));
+        const msg=er.error?.message||resp.statusText||resp.status;
+        if(resp.status===400||resp.status===403){
+          showAnswer('❌ API key error ('+resp.status+'): '+msg+'\n\nCheck your key in Settings → AI Settings.',true);
+          return;
         }
-        tb.classList.remove('ask-thinking');
-        tb.innerHTML='';
-        tb.textContent='';
-        const reader=resp.body.getReader();
-        const dec=new TextDecoder();
-        let full='',buf='';
-        while(true){
-          const{done,value}=await reader.read();
-          if(done)break;
-          buf+=dec.decode(value,{stream:true});
-          const lines=buf.split('\n');
-          buf=lines.pop()||'';
-          for(const line of lines){
-            if(!line.startsWith('data: '))continue;
-            const raw=line.slice(6).trim();
-            if(!raw||raw==='[DONE]')continue;
-            try{
-              const ev=JSON.parse(raw);
-              const chunk=ev.candidates?.[0]?.content?.parts?.[0]?.text||'';
-              if(chunk){full+=chunk;tb.textContent=full;msgs.scrollTop=msgs.scrollHeight;}
-            }catch(_){}
-          }
-        }
-        if(full&&full.trim().length>1){
-          window._askHistory.push({role:'user',content:q});
-          window._askHistory.push({role:'assistant',content:full});
-          msgs.scrollTop=msgs.scrollHeight;
-          unlock();
-          streamed=true;
-          break;
-        }
-        throw new Error('empty stream from '+model);
-      }catch(e){
-        console.warn('[Panda]',model,'stream failed:',e.message);
-        // Restore thinking dots before next attempt
-        tb.classList.add('ask-thinking');
-        tb.innerHTML='<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+        if(resp.status===429){console.warn('[AI] rate limit on '+model);continue;}
+        throw new Error(msg);
+      }
+      const d=await resp.json();
+      const text=(d.candidates?.[0]?.content?.parts?.[0]?.text||'').trim();
+      if(!text){if(model===models[models.length-1])throw new Error('empty response');continue;}
+      showAnswer(text);
+      return;
+    }catch(e){
+      console.warn('[AI] '+model+' failed:',e.message);
+      if(e.name==='AbortError'){showAnswer('⏱️ Request timed out. Check your connection.',true);return;}
+      if(model===models[models.length-1]){
+        showAnswer('❌ AI error: '+e.message+'\n\nTip: Check your API key or internet connection.',true);
       }
     }
-    if(streamed)return;
   }
-
-  // ── PATH 2: Cloudflare Worker (sends apiKey) ──
-  try{
-    const r=await fetch('https://tisa-panda.tisa-helpdesk.workers.dev',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        question:q,
-        context:name+', '+hrs+'h '+mins+'m studied today',
-        apiKey:key
-      }),
-      signal:_abortSignal(28000)
-    });
-    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error('Worker '+(e.error||r.status));}
-    const d=await r.json();
-    const answer=(d.answer||d.reply||d.text||'').trim();
-    if(answer.length>3){showAnswer(answer);return;}
-    throw new Error('empty worker response');
-  }catch(e){
-    console.warn('[Panda] Worker failed:',e.message);
-  }
-
-  // ── PATH 3: Offline brain ──
-  showAnswer(window._pandaBrain(q));
+  unlock();
 };
 
 
@@ -11536,206 +11691,283 @@ window._homeQuoteInt = setInterval(function(){
 }, 30000);
 
 
-// ══════════════════════════════════════════════════════════════
-// BUDDHIST FEATURES — My Buddha tab
-// ══════════════════════════════════════════════════════════════
+// ══ BUDDHIST FEATURES — My Buddha tab ══════════════════════════
 (function(){
-  var DHARMA_QUOTES = [
+
+  // ── Dharma Quotes ──────────────────────────────────────────
+  var DHARMA=[
     {q:"Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.",s:"The Buddha"},
     {q:"The mind is everything. What you think you become.",s:"The Buddha"},
     {q:"Peace comes from within. Do not seek it without.",s:"The Buddha"},
     {q:"Three things cannot be long hidden: the sun, the moon, and the truth.",s:"The Buddha"},
-    {q:"In the sky there is no distinction of east and west; people create distinctions out of their own minds.",s:"The Buddha"},
     {q:"You yourself must strive. The Buddhas only point the way.",s:"Dhammapada"},
     {q:"Just as a candle cannot burn without fire, men cannot live without a spiritual life.",s:"The Buddha"},
-    {q:"What you think, you become. What you feel, you attract. What you imagine, you create.",s:"Buddhist wisdom"},
     {q:"Health is the greatest gift, contentment the greatest wealth, faithfulness the best relationship.",s:"The Buddha"},
     {q:"If you light a lamp for someone else, it will also brighten your own path.",s:"The Buddha"},
     {q:"With our thoughts we make the world.",s:"Dhammapada"},
-    {q:"Understanding is the heartwood of well-spoken words.",s:"The Buddha"},
     {q:"Pain is certain, suffering is optional.",s:"Buddhist teaching"},
     {q:"Your work is to discover your world and then with all your heart give yourself to it.",s:"The Buddha"},
     {q:"Every morning we are born again. What we do today is what matters most.",s:"Buddhist wisdom"},
     {q:"The way is not in the sky. The way is in the heart.",s:"Dhammapada"},
     {q:"Radiate boundless love towards the entire world.",s:"The Buddha"},
-    {q:"An idea that is developed and put into action is more important than an idea that exists only as an idea.",s:"The Buddha"},
+    {q:"To understand everything is to forgive everything.",s:"Buddhist wisdom"},
+    {q:"It is a man's own mind, not his enemy or foe, that lures him to evil ways.",s:"The Buddha"},
   ];
 
-  var PRECEPTS_TEXT = [
-    "I will practice non-harm — in thoughts, words and actions.",
-    "I will be honest and truthful in all I say.",
+  window._nextDharma=function(){
+    var d=DHARMA[Math.floor(Math.random()*DHARMA.length)];
+    var q=document.getElementById('dharma-quote');
+    var s=document.getElementById('dharma-source');
+    if(q){q.style.opacity='0';q.style.transition='opacity .4s';setTimeout(function(){q.textContent='\u201c'+d.q+'\u201d';q.style.opacity='1';},200);}
+    if(s){setTimeout(function(){s.textContent='\u2014 '+d.s;},200);}
+  };
+
+  // ── Bell Sounds ─────────────────────────────────────────────
+  var BELL_MSGS=["Breathe in peace. Breathe out tension. \uD83EDD07","This moment is enough. Be here. \uD83D\uDE4F","Stillness is the language of wisdom. \u2638\uFE0F","Return to your breath. Return to now. \uD83E\uDEA7","Let go of what was. Be here, fully. \uD83C\uDF3F"];
+
+  function _playBell(type){
+    try{
+      var ctx=new (window.AudioContext||window.webkitAudioContext)();
+      if(type==='bowl'){
+        [264,528,792,1056].forEach(function(f,i){
+          var o=ctx.createOscillator(),g=ctx.createGain();
+          o.connect(g);g.connect(ctx.destination);
+          o.type='sine';o.frequency.setValueAtTime(f,ctx.currentTime);
+          g.gain.setValueAtTime(0,ctx.currentTime);
+          g.gain.linearRampToValueAtTime(0.18/(i+1),ctx.currentTime+0.05);
+          g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+4);
+          o.start(ctx.currentTime);o.stop(ctx.currentTime+4);
+        });
+      } else if(type==='tibetan'){
+        [110,220,330,440,660].forEach(function(f,i){
+          var o=ctx.createOscillator(),g=ctx.createGain();
+          o.connect(g);g.connect(ctx.destination);
+          o.type=i===0?'triangle':'sine';o.frequency.setValueAtTime(f,ctx.currentTime);
+          g.gain.setValueAtTime(0,ctx.currentTime);
+          g.gain.linearRampToValueAtTime(0.2/(i+1),ctx.currentTime+0.08);
+          g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+5);
+          o.start(ctx.currentTime);o.stop(ctx.currentTime+5);
+        });
+      } else {
+        [880,1108,1318,1760,2218].forEach(function(f,i){
+          var d2=i*0.15;
+          var o=ctx.createOscillator(),g=ctx.createGain();
+          o.connect(g);g.connect(ctx.destination);
+          o.type='sine';o.frequency.setValueAtTime(f,ctx.currentTime+d2);
+          g.gain.setValueAtTime(0,ctx.currentTime+d2);
+          g.gain.linearRampToValueAtTime(0.12,ctx.currentTime+d2+0.02);
+          g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+d2+2.5);
+          o.start(ctx.currentTime+d2);o.stop(ctx.currentTime+d2+2.5);
+        });
+      }
+    }catch(e){console.warn('[Bell]',e);}
+  }
+
+  window._ringBell=function(type){
+    type=type||'bowl';
+    _playBell(type);
+    var btn=document.getElementById('bell-btn');
+    var msg=document.getElementById('bell-msg');
+    var m=BELL_MSGS[Math.floor(Math.random()*BELL_MSGS.length)];
+    if(btn){btn.style.transform='scale(1.12)';setTimeout(function(){btn.style.transform='';},200);}
+    if(msg){msg.style.opacity='0';msg.style.transition='opacity .3s';setTimeout(function(){msg.textContent=m;msg.style.opacity='1';},150);}
+  };
+
+  // ── Breathing ───────────────────────────────────────────────
+  var _breathTech='478';
+  var TECHS={
+    '478':[{label:'Inhale',dur:4000,scale:1.6,col:'var(--primary)'},{label:'Hold',dur:7000,scale:1.6,col:'#f0c040'},{label:'Exhale',dur:8000,scale:1.0,col:'var(--ink3)'}],
+    'box':[{label:'Inhale',dur:4000,scale:1.6,col:'var(--primary)'},{label:'Hold',dur:4000,scale:1.6,col:'#f0c040'},{label:'Exhale',dur:4000,scale:1.0,col:'var(--ink3)'},{label:'Hold',dur:4000,scale:1.0,col:'#8b5cf6'}],
+    'relax':[{label:'Inhale',dur:5000,scale:1.6,col:'var(--primary)'},{label:'Exhale',dur:5000,scale:1.0,col:'var(--ink3)'}]
+  };
+
+  window._setBreathTech=function(tech){
+    _breathTech=tech;
+    document.querySelectorAll('.breath-tech-btn').forEach(function(b){
+      var sel=b.id==='bt-'+tech;
+      b.style.background=sel?'var(--primary)':'var(--bg)';
+      b.style.color=sel?'white':'var(--ink2)';
+      b.style.border=sel?'none':'1px solid var(--border)';
+    });
+  };
+
+  var _bRun=false,_bPhase=0,_bTimers=[];
+  function _clearBT(){_bTimers.forEach(clearTimeout);_bTimers=[];}
+
+  function _runBreath(){
+    if(!_bRun)return;
+    var phases=TECHS[_breathTech]||TECHS['478'];
+    var p=phases[_bPhase%phases.length];
+    var circle=document.getElementById('breath-circle');
+    var txt=document.getElementById('breath-text');
+    var cnt=document.getElementById('breath-count');
+    if(!circle)return;
+    if(txt)txt.textContent=p.label;
+    circle.style.transform='scale('+p.scale+')';
+    circle.style.opacity=p.scale>1?'1':'.6';
+    circle.style.borderColor=p.col;
+    var cycle=Math.floor(_bPhase/phases.length);
+    if(cnt)cnt.textContent='Cycle '+(cycle+1)+' \u00B7 '+p.label.toLowerCase();
+    _bPhase++;
+    _bTimers.push(setTimeout(_runBreath,p.dur));
+  }
+
+  window._startBreath=function(){
+    _bRun=true;_bPhase=0;_clearBT();
+    var btn=document.getElementById('breath-btn');
+    if(btn){btn.style.opacity='.5';btn.disabled=true;}
+    _runBreath();
+  };
+
+  window._stopBreath=function(){
+    _bRun=false;_clearBT();
+    var c=document.getElementById('breath-circle'),t=document.getElementById('breath-text'),
+        l=document.getElementById('breath-label'),cnt=document.getElementById('breath-count'),
+        btn=document.getElementById('breath-btn');
+    if(c){c.style.transform='scale(1)';c.style.opacity='.7';c.style.borderColor='var(--primary)';}
+    if(t)t.textContent='Inhale';
+    if(l)l.textContent='4-7-8 Breathing';
+    if(cnt)cnt.textContent='';
+    if(btn){btn.style.opacity='1';btn.disabled=false;}
+  };
+
+  // ── Precepts ─────────────────────────────────────────────────
+  var PRECEPTS=[
+    "I will practice non-harm in thoughts, words, and actions.",
+    "I will be honest and truthful in all I say today.",
     "I will act with generosity, not taking what is not given.",
-    "I will cultivate mindfulness and keep the mind clear.",
+    "I will cultivate mindfulness and keep my mind clear.",
     "I will speak kindly and avoid harsh or idle words.",
   ];
 
-  var BELL_MESSAGES = [
-    "Breathe in peace. Breathe out tension. 🪷",
-    "This moment is enough. Be here. 🙏",
-    "Stillness is the language of wisdom. ☸️",
-    "The present moment is always sufficient. 🌸",
-    "Return to your breath. Return to now. 🫧",
-    "Let go of what was. Be here, fully. 🌿",
-  ];
-
-  // Render dharma quote
-  window._nextDharma = function(){
-    var d = DHARMA_QUOTES[Math.floor(Math.random() * DHARMA_QUOTES.length)];
-    var q = document.getElementById('dharma-quote');
-    var s = document.getElementById('dharma-source');
-    if(q){ q.style.opacity='0'; setTimeout(function(){q.textContent='"'+d.q+'"';q.style.opacity='1';q.style.transition='opacity .4s';},200); }
-    if(s){ s.textContent='— ' + d.s; }
-  };
-
-  // Mindfulness bell
-  window._ringBell = function(){
-    var btn = document.getElementById('bell-btn');
-    var msg = document.getElementById('bell-msg');
-    var m = BELL_MESSAGES[Math.floor(Math.random() * BELL_MESSAGES.length)];
-    if(btn){ btn.style.transform='scale(1.15)'; setTimeout(function(){btn.style.transform='';},300); }
-    if(msg){ msg.textContent = m; msg.style.opacity='0'; msg.style.transition='opacity .3s'; setTimeout(function(){msg.style.opacity='1';},100); }
-    // Try to play bell sound
-    try{
-      var ctx = new (window.AudioContext || window.webkitAudioContext)();
-      var osc = ctx.createOscillator();
-      var gain = ctx.createGain();
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.frequency.setValueAtTime(528, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 2.5);
-      gain.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.5);
-      osc.start(); osc.stop(ctx.currentTime + 2.5);
-    }catch(e){}
-  };
-
-  // 4-7-8 Breathing
-  var _breathRunning = false;
-  var _breathPhase = 0;
-  var _breathCycleCount = 0;
-  var _breathTimers = [];
-  var BREATH_PHASES = [
-    {label:'Inhale',duration:4000,scale:1.6,opacity:1},
-    {label:'Hold',duration:7000,scale:1.6,opacity:.9},
-    {label:'Exhale',duration:8000,scale:1,opacity:.5},
-  ];
-
-  function _clearBreathTimers(){
-    _breathTimers.forEach(function(t){clearTimeout(t);});
-    _breathTimers = [];
-  }
-
-  function _runBreathPhase(){
-    if(!_breathRunning) return;
-    var phase = BREATH_PHASES[_breathPhase % 3];
-    var circle = document.getElementById('breath-circle');
-    var label = document.getElementById('breath-label');
-    var count = document.getElementById('breath-count');
-    if(!circle) return;
-    circle.textContent = phase.label;
-    circle.style.transform = 'scale('+phase.scale+')';
-    circle.style.opacity = phase.opacity;
-    circle.style.borderColor = _breathPhase%3===0?'var(--primary)':(_breathPhase%3===1?'#f0c040':'var(--ink3)');
-    if(label) label.textContent = ['4-7-8 Breathing','Hold breath — 7 counts','Exhale fully — 8 counts'][_breathPhase%3];
-    if(count) count.textContent = 'Cycle ' + (_breathCycleCount + 1) + ' · ' + ['Breathe in for 4 counts','Hold for 7 counts','Exhale for 8 counts'][_breathPhase%3];
-    _breathPhase++;
-    if(_breathPhase % 3 === 0) _breathCycleCount++;
-    var t = setTimeout(_runBreathPhase, phase.duration);
-    _breathTimers.push(t);
-  }
-
-  window._startBreath = function(){
-    _breathRunning = true;
-    _breathPhase = 0;
-    _breathCycleCount = 0;
-    _clearBreathTimers();
-    var btn = document.getElementById('breath-btn');
-    if(btn){ btn.style.opacity='.5'; btn.disabled=true; }
-    _runBreathPhase();
-  };
-
-  window._stopBreath = function(){
-    _breathRunning = false;
-    _clearBreathTimers();
-    var circle = document.getElementById('breath-circle');
-    var label  = document.getElementById('breath-label');
-    var count  = document.getElementById('breath-count');
-    var btn    = document.getElementById('breath-btn');
-    if(circle){ circle.textContent='Inhale'; circle.style.transform='scale(1)'; circle.style.opacity='.7'; circle.style.borderColor='var(--primary)'; }
-    if(label)  label.textContent  = '4-7-8 Breathing';
-    if(count)  count.textContent  = '';
-    if(btn){   btn.style.opacity  = '1'; btn.disabled = false; btn.textContent = '▶ Begin'; btn.onclick = window._startBreath; }
-  };
-
-  // Render precepts checkboxes
   function _renderPrecepts(){
-    var el = document.getElementById('precepts-list');
-    if(!el) return;
-    var saved = {}; try{ saved=JSON.parse(localStorage.getItem('tisa_precepts_'+window._today)||'{}'); }catch(e){}
-    el.innerHTML = PRECEPTS_TEXT.map(function(p,i){
-      var checked = !!saved[i];
-      return '<label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:6px 0;border-bottom:1px solid var(--border2)">'
-        +'<input type="checkbox" '+(checked?'checked':'')
-        +' onchange="window._savePrecept('+i+',this.checked)" style="width:16px;height:16px;accent-color:var(--primary);flex-shrink:0;margin-top:2px">'
-        +'<span style="font-size:11px;font-weight:600;color:var(--ink);line-height:1.5">'+p+'</span></label>';
-    }).join('');
+    var el=document.getElementById('precepts-list');
+    if(!el)return;
+    var saved={};
+    try{saved=JSON.parse(localStorage.getItem('tisa_precepts_'+(window._today||''))||'{}');}catch(e){}
+    var h='';
+    PRECEPTS.forEach(function(p,i){
+      var chk=!!saved[i];
+      var txt=chk?'<span style="text-decoration:line-through;opacity:.5">'+p+'</span>':p;
+      h+='<label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:6px 0;border-bottom:1px solid var(--border2)">'
+        +'<input type="checkbox" '+(chk?'checked':'')
+        +' onchange="window._savePrecept('+i+',this.checked)"'
+        +' style="width:16px;height:16px;accent-color:var(--primary);flex-shrink:0;margin-top:2px">'
+        +'<span style="font-size:11px;font-weight:600;color:var(--ink);line-height:1.5">'+txt+'</span></label>';
+    });
+    el.innerHTML=h;
   }
-  window._savePrecept = function(i, val){
-    var saved={}; try{saved=JSON.parse(localStorage.getItem('tisa_precepts_'+window._today)||'{}');}catch(e){}
-    saved[i]=val;
-    try{localStorage.setItem('tisa_precepts_'+window._today, JSON.stringify(saved));}catch(e){}
+
+  window._savePrecept=function(i,val){
+    var s={};
+    try{s=JSON.parse(localStorage.getItem('tisa_precepts_'+(window._today||''))||'{}');}catch(e){}
+    s[i]=val;
+    try{localStorage.setItem('tisa_precepts_'+(window._today||''),JSON.stringify(s));}catch(e){}
+    _renderPrecepts();
   };
 
-  // Update merit counter from study data
+  // ── Buddha Focus Timer ───────────────────────────────────────
+  var _btM=25,_btS=0,_btRun=false,_btInt=null;
+  var BT_START=["May this session bring wisdom. \uD83D\uDE4F","The Buddha watches over your focus. \u2638\uFE0F","Begin with intention, end with gratitude. \uD83EDD07"];
+  var BT_END=["Session complete! Merit earned. \uD83C\uDF38","Beautifully done. Rest and reflect. \uD83C\uDFC5","Your focus was your offering. \u2638\uFE0F"];
+
+  window._setBuddhaTimer=function(m){
+    _btM=m;_btS=0;
+    var d=document.getElementById('buddha-countdown');
+    if(d)d.textContent=String(m).padStart(2,'0')+':00';
+    document.querySelectorAll('.buddha-timer-chip').forEach(function(b){
+      var sel=b.textContent.trim()===m+'m';
+      b.style.background=sel?'var(--primary)':'var(--bg)';
+      b.style.color=sel?'white':'var(--ink2)';
+      b.style.border=sel?'none':'1.5px solid var(--border)';
+    });
+  };
+
+  window._startBuddhaTimer=function(){
+    if(_btRun)return;
+    _btRun=true;_btS=_btM*60;
+    var btn=document.getElementById('buddha-timer-btn'),msg=document.getElementById('buddha-timer-msg');
+    if(btn){btn.style.opacity='.5';btn.disabled=true;}
+    if(msg)msg.textContent=BT_START[Math.floor(Math.random()*BT_START.length)];
+    _btInt=setInterval(function(){
+      _btS--;
+      var d2=document.getElementById('buddha-countdown');
+      if(d2)d2.textContent=String(Math.floor(_btS/60)).padStart(2,'0')+':'+String(_btS%60).padStart(2,'0');
+      if(_btS<=0){
+        clearInterval(_btInt);_btRun=false;
+        if(btn){btn.style.opacity='1';btn.disabled=false;}
+        if(msg)msg.textContent=BT_END[Math.floor(Math.random()*BT_END.length)];
+        window._ringBell&&window._ringBell('bowl');
+        if(d2)d2.textContent='Done! \uD83C\uDF38';
+      }
+    },1000);
+  };
+
+  window._stopBuddhaTimer=function(){
+    clearInterval(_btInt);_btRun=false;
+    var btn=document.getElementById('buddha-timer-btn');
+    if(btn){btn.style.opacity='1';btn.disabled=false;}
+    window._setBuddhaTimer(_btM);
+    var msg=document.getElementById('buddha-timer-msg');
+    if(msg)msg.textContent='';
+  };
+
+  // ── Merit counter ────────────────────────────────────────────
   function _updateMerit(){
-    var sessions = window.sessions ? window.sessions.length : 0;
-    var streak = 0;
-    if(window.studyData && window._dStr){
-      for(var i=0;i<365;i++){ if((window.studyData[window._dStr(i)]||0)>0)streak++;else if(i>0)break; }
+    var sess=window.sessions?window.sessions.length:0;
+    var streak=0;
+    if(window.studyData&&window._dStr){
+      for(var i=0;i<365;i++){
+        if((window.studyData[window._dStr(i)]||0)>0){streak++;}
+        else if(i>0){break;}
+      }
     }
-    var totalSecs = Object.values(window.studyData||{}).reduce(function(a,b){return a+(b||0);},0);
-    var hrs = Math.floor(totalSecs/3600);
-    var sel = document.getElementById('merit-sessions'); if(sel) sel.textContent = sessions;
-    var sst = document.getElementById('merit-streak'); if(sst) sst.textContent = streak;
-    var shr = document.getElementById('merit-hrs'); if(shr) shr.textContent = hrs+'h';
-    // Wisdom message based on streak
-    var msg = streak>=30?'🏅 A bodhisattva of consistency! 30+ days of merit.':
-              streak>=14?'🌟 Two weeks of dharma practice. Remarkable.':
-              streak>=7?'🌿 A full week of mindful study. Well done.':
-              streak>=3?'🌱 Three days strong. The path unfolds.':
-              'Each moment of study is an act of merit. 🪷';
-    var wm = document.getElementById('buddha-wisdom-msg'); if(wm) wm.textContent = msg;
-    // Streak blessing
-    var bm = document.getElementById('buddha-streak-msg');
-    if(bm) bm.textContent = streak>0 ? '🙏 '+streak+'-day dharma streak — keep the flame lit' : '';
+    var tot=Object.values(window.studyData||{}).reduce(function(a,b){return a+(b||0);},0);
+    var hrs=Math.floor(tot/3600);
+    var se=document.getElementById('merit-sessions');
+    var st=document.getElementById('merit-streak');
+    var sh=document.getElementById('merit-hrs');
+    if(se)se.textContent=sess;
+    if(st)st.textContent=streak;
+    if(sh)sh.textContent=hrs+'h';
+    var wm=document.getElementById('buddha-wisdom-msg');
+    if(wm){
+      wm.textContent=streak>=30?'\uD83C\uDFC5 A bodhisattva of consistency! 30+ days.':
+        streak>=14?'\uD83C\uDF1F Two weeks of dharma practice. Remarkable.':
+        streak>=7?'\uD83C\uDF3F A full week of mindful study. Well done.':
+        streak>=3?'\uD83C\uDF31 Three days strong. The path unfolds.':
+        'Each moment of study is an act of merit. \uD83EDD7';
+    }
+    var bm=document.getElementById('buddha-streak-msg');
+    if(bm)bm.textContent=streak>0?'\uD83D\uDE4F '+streak+'-day dharma streak':'';
   }
 
-  // Init when pet tab opens
-  var _origSwitchPandaTab = window.switchPandaTab;
-  window.switchPandaTab = function(tab){
-    if(_origSwitchPandaTab) _origSwitchPandaTab.apply(this, arguments);
-    if(tab === 'pet'){
+  // ── Hook into tab open ────────────────────────────────────────
+  var _origSwitch=window.switchPandaTab;
+  window.switchPandaTab=function(tab){
+    if(_origSwitch)_origSwitch.apply(this,arguments);
+    if(tab==='pet'){
       setTimeout(function(){
-        window._nextDharma && window._nextDharma();
+        window._nextDharma&&window._nextDharma();
         _renderPrecepts();
         _updateMerit();
-      }, 100);
+        window._setBuddhaTimer&&window._setBuddhaTimer(25);
+      },120);
     }
   };
 
-  // Also init on wellness sheet open
-  var _origOpenWS = window.openWellnessSheet;
-  window.openWellnessSheet = function(){
-    if(_origOpenWS) _origOpenWS.apply(this, arguments);
-    // Show dharma quote after 300ms
+  var _origOpenWS=window.openWellnessSheet;
+  window.openWellnessSheet=function(){
+    if(_origOpenWS)_origOpenWS.apply(this,arguments);
     setTimeout(function(){
-      if(document.getElementById('dharma-quote') && 
-         document.getElementById('dharma-quote').textContent === 'Loading...'){
-        window._nextDharma && window._nextDharma();
+      var dq=document.getElementById('dharma-quote');
+      if(dq&&(dq.textContent==='Loading...'||!dq.textContent)){
+        window._nextDharma&&window._nextDharma();
       }
-    }, 300);
+    },300);
   };
-})();
 
+})();
 
 // ══════════════════════════════════════════════════════════════
 // ZEN TIMER — Full-screen 25-min focus with tree animation
