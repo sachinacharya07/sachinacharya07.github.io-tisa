@@ -4145,9 +4145,27 @@ async function loadUD(){
   function _applySnap(snap){
     if(!snap.exists())return;
     const d=snap.data();
-    window.studyData=d.studyData||{};
+    // ── studyData: protect running timer data ──
+    // If the timer is running, we've been adding seconds to studyData[today] since
+    // the last save. A remote snapshot may have an older value for today.
+    // Merge: take the MAX of local vs remote for today's date to never lose seconds.
+    const remoteSD=d.studyData||{};
+    if(typeof tRun!=='undefined'&&tRun&&window._today){
+      const localToday=window.studyData[window._today]||0;
+      const remoteToday=remoteSD[window._today]||0;
+      remoteSD[window._today]=Math.max(localToday,remoteToday);
+      console.log('[TISA] Mid-session sync: kept today='+remoteSD[window._today]+'s (local='+localToday+' remote='+remoteToday+')');
+    }
+    window.studyData=remoteSD;
+    // ── sessions: merge local + remote, deduplicate, keep latest 20 ──
     if(d.sessions&&d.sessions.length){
-      sessions=d.sessions.slice(0,20);
+      const remoteSessions=d.sessions.slice(0,20);
+      // Keep any local sessions that are newer than remote's latest
+      const remoteLatest=remoteSessions[0]?.time||'';
+      const localNew=(typeof sessions!=='undefined'?sessions:[]).filter(s=>
+        !remoteSessions.some(r=>r.time===s.time&&r.sub===s.sub&&r.dur===s.dur)
+      );
+      sessions=[...localNew,...remoteSessions].slice(0,20);
       renderSessLog();renderStats();
     }
     window.todos=d.todos||[];
@@ -6076,7 +6094,10 @@ function renderBadges(){['badge-grid','prof-badges'].forEach(id=>{const el=docum
     }
     window.coins=Math.max(0,(window.coins||0)-COST);
     save();
-    renderXP&&renderXP();
+    renderXP&&renderXP(); // updates hdr-coins, coins-d, prof-coins
+    // Also update gacha panel coin display immediately
+    const cd=document.getElementById('gacha-coin-disp');
+    if(cd)cd.textContent=window.coins||0;
 
     const item=_pick();
     const inv=_loadInv();
@@ -6278,10 +6299,14 @@ window.previewPaper=(id)=>{
   }
   prev.scrollIntoView({behavior:'smooth',block:'nearest'});
 };
-window.startTest=()=>{const id=document.getElementById('tpsel')?.value;if(!id){toast('Select a paper first');return;}testPaper=window.papers.find(p=>p.id==id);if(!testPaper)return;if(!testPaper.dataUrl){window.toast('Please re-upload this paper to take the test');return;}testLeft=testTimeSelected*60;document.getElementById('m-title').textContent=testPaper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';document.getElementById('pdf-name-lbl').textContent=testPaper.name;document.getElementById('pdf-download-btn').href=testPaper.dataUrl;document.getElementById('pdf-download-btn').download=testPaper.name;const tb=document.getElementById('test-body'),toolbar=document.getElementById('pdf-toolbar');tb.style.padding='0';toolbar.style.display='flex';if(testPaper.type&&testPaper.type.startsWith('image/')){tb.innerHTML=`<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="${testPaper.dataUrl}" style="max-width:100%;border-radius:4px" id="test-img"></div>`;}else{tb.innerHTML=`<iframe src="${testPaper.dataUrl}" style="width:100%;height:560px;border:none;display:block" id="test-iframe"></iframe>`;}document.getElementById('test-modal').classList.add('open');updTestT();document.getElementById('m-got').value='';document.getElementById('m-total').value='';document.getElementById('m-wrong').value='';testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)window.submitTest();},1000);};
+window.startTest=()=>{const id=document.getElementById('tpsel')?.value;if(!id){toast('Select a paper first');return;}testPaper=window.papers.find(p=>p.id==id);if(!testPaper)return;if(!testPaper.dataUrl){window.toast('Please re-upload this paper to take the test');return;}
+  // Clear ANY running test timer before starting a new one
+  if(testInt){clearInterval(testInt);testInt=null;}
+  if(window.testInt){clearInterval(window.testInt);window.testInt=null;}
+  testLeft=testTimeSelected*60;document.getElementById('m-title').textContent=testPaper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';document.getElementById('pdf-name-lbl').textContent=testPaper.name;document.getElementById('pdf-download-btn').href=testPaper.dataUrl;document.getElementById('pdf-download-btn').download=testPaper.name;const tb=document.getElementById('test-body'),toolbar=document.getElementById('pdf-toolbar');tb.style.padding='0';toolbar.style.display='flex';if(testPaper.type&&testPaper.type.startsWith('image/')){tb.innerHTML=`<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="${testPaper.dataUrl}" style="max-width:100%;border-radius:4px" id="test-img"></div>`;}else{tb.innerHTML=`<iframe src="${testPaper.dataUrl}" style="width:100%;height:560px;border:none;display:block" id="test-iframe"></iframe>`;}document.getElementById('test-modal').classList.add('open');updTestT();document.getElementById('m-got').value='';document.getElementById('m-total').value='';document.getElementById('m-wrong').value='';testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)window.submitTest();},1000);};
 window.addTime5=()=>{if(testLeft>3*3600){toast('⚠️ Max time reached');return;}testLeft+=300;toast('+5 min added ⏱');updTestT();};
 function updTestT(){const m=Math.floor(testLeft/60),s=testLeft%60;const el=document.getElementById('m-timer');if(el){el.textContent=pad(m)+':'+pad(s);el.classList.toggle('low',testLeft<=300);}}
-window.endTest=()=>{clearInterval(testInt);document.getElementById('test-modal').classList.remove('open');};
+window.endTest=()=>{clearInterval(testInt);testInt=null;if(window.testInt){clearInterval(window.testInt);window.testInt=null;}document.getElementById('test-modal').classList.remove('open');};
 window.submitTest=()=>{sendNotification('📝 Test Complete!','Your test has ended. Check your results!');clearInterval(testInt);clearInterval(window.testInt);window.testInt=null;testInt=null;const mg=(document.getElementById('mock-m-got')?.value||document.getElementById('m-got')?.value),mt=(document.getElementById('mock-m-total')?.value||document.getElementById('m-total')?.value),mw=(document.getElementById('mock-m-wrong')?.value||document.getElementById('m-wrong')?.value);window.pastTests.unshift({name:testPaper?.name||'Unknown',dur:window._fmtH((testTimeSelected*60)-testLeft),date:new Date().toLocaleDateString(),id:Date.now(),marksGot:mg||'—',marksTotal:mt||'—',wrong:mw||'—'});save();addXP(30,'test completed');renderPastTests();document.getElementById('test-modal').classList.remove('open');toast('Test submitted! +30 XP 🐼');};
 window.toggleTestZoom=()=>{const m=document.getElementById('test-modal');const isMax=m.style.padding==='0px';m.style.padding=isMax?'16px':'0px';document.getElementById('zoom-btn').textContent=isMax?'⛶ Expand':'⛶ Shrink';};
 window.rotatePDF=()=>{const el=document.getElementById('test-img')||document.getElementById('test-iframe');if(el){const cur=parseInt(el.dataset.rot||0);el.dataset.rot=cur+90;el.style.transform='rotate('+el.dataset.rot+'deg)';}};
