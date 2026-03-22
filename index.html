@@ -4069,6 +4069,8 @@ async function showApp(user){
   window.renderThemeGrid&&window.renderThemeGrid();
   loadMyChats();
   window._showAdminButtons&&window._showAdminButtons();
+  // Show AI setup guide if user has no Gemini key yet
+  window._maybeShowOnboarding&&window._maybeShowOnboarding();
   (function(){
     var _tries=0;
     function _tryNextFact(){
@@ -5255,7 +5257,7 @@ window.resources=window.resources||[];
 window.timetable=window.timetable||{};
 window.subjects=window.subjects||[...window.defaultSubjects];
 window.customAvatarUrl=window.customAvatarUrl||'';
-window.xp=window.xp||0;window.coins=0;
+window.xp=window.xp||0;window.coins=window.coins||0;
 let tRun=false,tSecs=0,tInt=null,sessions=[];
 let pomoMode=false,pomoState='work',pomoDur=25,brkDur=5,pomoCount=0,pomoTotal=4;
 let testInt=null,testLeft=0,testPaper=null,testMins=60,testTimeSelected=60;
@@ -5908,8 +5910,128 @@ function checkXP(){
   if(ts>=18000&&!f.h5){f.h5=true;addXP(200,'5 hours! 🥇');}
 }
 function renderXP(){const lv=getLevel(),lvN=lvNames[lv],lvC=lvCls[lv],cur=lvThresh[lv],nxt=lvThresh[lv+1]||cur;const pct=nxt>cur?Math.min(100,Math.round((window.xp-cur)/(nxt-cur)*100)):100;['xpbar','prof-xpbar'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=pct+'%';});const xl=document.getElementById('xp-lbl');if(xl)xl.textContent=window.xp+' XP';const xn=document.getElementById('xp-next');if(xn)xn.textContent=(nxt-window.xp)+' XP to next';const hx=document.getElementById('hdr-xp');if(hx)hx.textContent=window.xp+' XP';const hl=document.getElementById('hdr-lv');if(hl)hl.textContent='Lv.'+(lv+1);['coins-d','hdr-coins','prof-coins'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=window.coins;});const badge=`<div class="lv-badge ${lvC}">⭐ Lv.${lv+1} ${lvN}</div>`;['lv-badge-el','prof-lv-badge'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=badge;});}
-const allBadges=[{id:'h1',icon:'🥉',name:'1h Day',check:()=>Object.values(window.studyData).some(v=>v>=3600)},{id:'h3',icon:'🥈',name:'3h Day',check:()=>Object.values(window.studyData).some(v=>v>=10800)},{id:'h5',icon:'🥇',name:'5h Day',check:()=>Object.values(window.studyData).some(v=>v>=18000)},{id:'s3',icon:'🔥',name:'3 Streak',check:()=>{let s=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)s++;else if(i>0)break;}return s>=3;}},{id:'s7',icon:'⚡',name:'Week Streak',check:()=>{let s=0;for(let i=0;i<365;i++){if(window.studyData[window._dStr(i)]>0)s++;else if(i>0)break;}return s>=7;}},{id:'t1',icon:'📝',name:'First Test',check:()=>window.pastTests.length>0},{id:'j7',icon:'📔',name:'Journaler',check:()=>Object.keys(window.journals).length>=7},{id:'f10',icon:'🌟',name:'Focused',check:()=>sessions.length>=10},{id:'panda',icon:'🐼',name:'Panda Fan',check:()=>window.xp>=500}];
-function renderBadges(){['badge-grid','prof-badges'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=allBadges.map(b=>`<div class="badge-it ${b.check()?'earned':'locked'}" title="${b.name}"><div class="badge-ic">${b.icon}</div><div class="badge-nm">${b.name}</div></div>`).join('');});}
+const _sdVal=(v)=>typeof v==='number'&&isFinite(v)?v:0;
+const _sdNum=(key)=>_sdVal(window.studyData[key]);
+const allBadges=[
+  {id:'h1',icon:'🥉',name:'1h Day',check:()=>Object.entries(window.studyData).some(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&_sdVal(v)>=3600)},
+  {id:'h3',icon:'🥈',name:'3h Day',check:()=>Object.entries(window.studyData).some(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&_sdVal(v)>=10800)},
+  {id:'h5',icon:'🥇',name:'5h Day',check:()=>Object.entries(window.studyData).some(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&_sdVal(v)>=18000)},
+  {id:'s3',icon:'🔥',name:'3 Streak',check:()=>{let s=0;for(let i=0;i<365;i++){if(_sdNum(window._dStr(i))>0)s++;else if(i>0)break;}return s>=3;}},
+  {id:'s7',icon:'⚡',name:'Week Streak',check:()=>{let s=0;for(let i=0;i<365;i++){if(_sdNum(window._dStr(i))>0)s++;else if(i>0)break;}return s>=7;}},
+  {id:'t1',icon:'📝',name:'First Test',check:()=>(window.pastTests||[]).length>0},
+  {id:'j7',icon:'📔',name:'Journaler',check:()=>Object.keys(window.journals||{}).length>=7},
+  {id:'f10',icon:'🌟',name:'Focused',check:()=>(sessions||[]).length>=10},
+  {id:'panda',icon:'🐼',name:'Panda Fan',check:()=>(window.xp||0)>=500}
+];
+function renderBadges(){['badge-grid','prof-badges'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=allBadges.map(b=>{let ok=false;try{ok=b.check();}catch(e){}return`<div class="badge-it ${ok?'earned':'locked'}" title="${b.name}"><div class="badge-ic">${b.icon}</div><div class="badge-nm">${b.name}</div></div>`;}).join('');});}
+
+// ── GACHA SYSTEM ──────────────────────────────────────────────────────────
+(function(){
+  const COST=50;
+  const POOL=[
+    // Common (60%)
+    {emoji:'📚',name:'Bookworm',rarity:'common'},
+    {emoji:'✏️',name:'Pencil Pro',rarity:'common'},
+    {emoji:'⏰',name:'Time Keeper',rarity:'common'},
+    {emoji:'🌿',name:'Sprout',rarity:'common'},
+    {emoji:'🔬',name:'Scientist',rarity:'common'},
+    {emoji:'📐',name:'Ruler',rarity:'common'},
+    {emoji:'🎯',name:'On Target',rarity:'common'},
+    {emoji:'💡',name:'Bright Idea',rarity:'common'},
+    // Uncommon (28%)
+    {emoji:'🏆',name:'Champion',rarity:'uncommon'},
+    {emoji:'🦁',name:'Courage',rarity:'uncommon'},
+    {emoji:'🌙',name:'Night Owl',rarity:'uncommon'},
+    {emoji:'⚡',name:'Lightning',rarity:'uncommon'},
+    {emoji:'🎸',name:'Rock Star',rarity:'uncommon'},
+    {emoji:'🧠',name:'Big Brain',rarity:'uncommon'},
+    // Rare (10%)
+    {emoji:'🌟',name:'Star Student',rarity:'rare'},
+    {emoji:'🦋',name:'Metamorphosis',rarity:'rare'},
+    {emoji:'🔥',name:'On Fire',rarity:'rare'},
+    {emoji:'💎',name:'Diamond Mind',rarity:'rare'},
+    // Legendary (2%)
+    {emoji:'🐼',name:'Panda Master',rarity:'legendary'},
+    {emoji:'🌈',name:'Rainbow Scholar',rarity:'legendary'},
+  ];
+  const WEIGHTS={common:60,uncommon:28,rare:10,legendary:2};
+
+  function _pick(){
+    const r=Math.random()*100;
+    let acc=0;
+    const rarities=Object.keys(WEIGHTS);
+    let rarity='common';
+    for(const rar of rarities){acc+=WEIGHTS[rar];if(r<acc){rarity=rar;break;}}
+    const pool=POOL.filter(p=>p.rarity===rarity);
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+
+  function _loadInv(){
+    try{return JSON.parse(localStorage.getItem('tisa_gacha_inv')||'[]');}catch(e){return[];}
+  }
+  function _saveInv(inv){
+    try{localStorage.setItem('tisa_gacha_inv',JSON.stringify(inv));}catch(e){}
+  }
+
+  function _renderInv(){
+    const inv=_loadInv();
+    const el=document.getElementById('gacha-inventory');
+    const empty=document.getElementById('gacha-empty');
+    const cd=document.getElementById('gacha-coin-disp');
+    if(cd)cd.textContent=window.coins||0;
+    if(!el)return;
+    if(!inv.length){
+      el.innerHTML='';
+      if(empty)empty.style.display='block';
+      return;
+    }
+    if(empty)empty.style.display='none';
+    // Group by emoji and show count
+    const grouped={};
+    inv.forEach(item=>{const k=item.emoji;grouped[k]=grouped[k]||{...item,count:0};grouped[k].count++;});
+    el.innerHTML=Object.values(grouped).map(item=>`
+      <div title="${item.name} (${item.rarity})${item.count>1?' ×'+item.count:''}" style="position:relative;cursor:default;filter:${item.rarity==='legendary'?'drop-shadow(0 0 6px gold)':item.rarity==='rare'?'drop-shadow(0 0 4px #818cf8)':'none'}">
+        ${item.emoji}
+        ${item.count>1?`<span style="position:absolute;top:-4px;right:-6px;background:var(--primary);color:white;border-radius:10px;font-size:8px;font-weight:800;padding:1px 4px;line-height:1">${item.count}</span>`:''}
+      </div>`).join('');
+  }
+
+  window.rollGacha=function(){
+    if((window.coins||0)<COST){
+      window.toast('🪙 Need '+COST+' coins! Study to earn more.');
+      return;
+    }
+    window.coins=Math.max(0,(window.coins||0)-COST);
+    save();
+    renderXP&&renderXP();
+
+    const item=_pick();
+    const inv=_loadInv();
+    inv.push({emoji:item.emoji,name:item.name,rarity:item.rarity,ts:Date.now()});
+    _saveInv(inv);
+    _renderInv();
+
+    // Animate the pull
+    const invEl=document.getElementById('gacha-inventory');
+    if(invEl){invEl.style.transform='scale(1.2)';setTimeout(()=>{invEl.style.transform='';invEl.style.transition='transform .3s';},150);}
+
+    const rarityEmoji={common:'',uncommon:'✨',rare:'💫',legendary:'🌟🌟'};
+    window.toast(`${item.emoji} ${item.name}! ${rarityEmoji[item.rarity]||''} (${item.rarity})`);
+    if(item.rarity==='legendary'||item.rarity==='rare'){
+      addXP&&addXP(item.rarity==='legendary'?20:10,'rare gacha pull');
+    }
+  };
+
+  // Render inventory on page load and when focus page is visited
+  window.addEventListener('DOMContentLoaded',function(){_renderInv();});
+  const _origShowPage=window.showPage;
+  window.showPage=function(name,btn){
+    if(_origShowPage)_origShowPage.apply(this,arguments);
+    if(name==='focus')setTimeout(_renderInv,80);
+  };
+  // Also expose for renderAll
+  window._renderGachaInv=_renderInv;
+})();
 
 // ── COUNTDOWN ──
 window.addCD=function(){const n=document.getElementById('cd-name')?.value.trim(),d=document.getElementById('cd-date')?.value;if(!n||!d){toast('Enter name and date');return;}window.countdowns.push({n,d,id:Date.now()+'-'+Math.random().toString(36).slice(2,8)});save();document.getElementById('cd-name').value='';document.getElementById('cd-date').value='';renderCDs();};
@@ -6092,7 +6214,19 @@ window.toggleTestZoom=()=>{const m=document.getElementById('test-modal');const i
 window.rotatePDF=()=>{const el=document.getElementById('test-img')||document.getElementById('test-iframe');if(el){const cur=parseInt(el.dataset.rot||0);el.dataset.rot=cur+90;el.style.transform='rotate('+el.dataset.rot+'deg)';}};
 window.zoomPDFIn=()=>{const el=document.getElementById('test-img');if(el){el.style.maxWidth=(parseFloat(el.style.maxWidth||100)+20)+'%';}};
 window.zoomPDFOut=()=>{const el=document.getElementById('test-img');if(el){el.style.maxWidth=Math.max(40,parseFloat(el.style.maxWidth||100)-20)+'%';}};
-function renderPastTests(){const el=document.getElementById('past-tests');if(!el)return;if(!window.pastTests.length){el.innerHTML='<div class="empty">No tests yet</div>';return;}el.innerHTML=window.pastTests.slice(0,6).map(t=>`<div style="padding:8px 10px;background:var(--bg);border-radius:10px;margin-bottom:5px"><div style="display:flex;justify-content:space-between;margin-bottom:3px;gap:8px;flex-wrap:wrap"><span style="font-size:12px;font-weight:800;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(t.name.split('.')[0])}</span><span style="font-size:10px;color:var(--ink3);font-weight:600;flex-shrink:0">${t.date}</span></div><div style="display:flex;gap:10px;font-size:11px;color:var(--ink3);font-weight:600;flex-wrap:wrap"><span>⏱ ${t.dur}</span><span>✅ ${t.marksGot}/${t.marksTotal}</span><span>❌ ${t.wrong}</span></div></div>`).join('');}
+function renderPastTests(){
+  // Try primary container first, fall back to atz-hist-list
+  const el=document.getElementById('past-tests')||document.getElementById('atz-hist-list');
+  if(!el)return;
+  // Only use atz-hist-list if it doesn't already have AI test history content
+  if(el.id==='atz-hist-list'&&window._atz&&window._atz.history&&window._atz.history.length)return;
+  if(!(window.pastTests||[]).length){
+    if(el.id==='past-tests')el.innerHTML='<div class="empty">No tests yet</div>';
+    return;
+  }
+  if(el.id!=='past-tests')return; // don't overwrite atz history
+  el.innerHTML=window.pastTests.slice(0,6).map(t=>`<div style="padding:8px 10px;background:var(--bg);border-radius:10px;margin-bottom:5px"><div style="display:flex;justify-content:space-between;margin-bottom:3px;gap:8px;flex-wrap:wrap"><span style="font-size:12px;font-weight:800;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc((t.name||'Test').split('.')[0])}</span><span style="font-size:10px;color:var(--ink3);font-weight:600;flex-shrink:0">${t.date||''}</span></div><div style="display:flex;gap:10px;font-size:11px;color:var(--ink3);font-weight:600;flex-wrap:wrap"><span>⏱ ${t.dur||'—'}</span><span>✅ ${t.marksGot||'—'}/${t.marksTotal||'—'}</span><span>❌ ${t.wrong||'—'}</span></div></div>`).join('');
+}
 
 // ── ASSIGNMENTS ──
 window.addAssign=()=>{const n=document.getElementById('asgn-name')?.value.trim();if(!n)return;window.assignments.unshift({id:Date.now(),name:n,subject:document.getElementById('asgn-subj')?.value||'General',marks:document.getElementById('asgn-marks')?.value||'',due:document.getElementById('asgn-due')?.value||'',done:false});save();['asgn-name','asgn-marks','asgn-due'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});addXP(3,'assignment added');renderAssignments();};
@@ -6158,6 +6292,7 @@ window.renderAll=function(){
   renderSubjList();renderSubjListMS();renderTT();renderProfilePage();
   renderBigChart();renderPieChart();renderSubjPerf();
   window.renderThemeGrid();
+  window._renderGachaInv&&window._renderGachaInv();
   setTimeout(()=>{window.renderSubjHeatmap&&window.renderSubjHeatmap();window.renderTestGraph&&window.renderTestGraph();},300);
 };
 
@@ -12664,6 +12799,77 @@ window._homeQuoteInt = setInterval(function(){
   <div style="font-size:10px;color:var(--ink3);text-align:center;margin-top:12px;line-height:1.6">🔒 Stored only in your browser — never uploaded.<br>Free tier: 1,500 requests/day — plenty for studying!</div>
 </div>
 </div>
+<script>
+// ── AI SETUP GUIDE / ONBOARDING ──────────────────────────────────────────
+(function(){
+  var MODAL_ID='gemini-onboard-modal';
+  var SKIP_KEY='tisa_onboard_skipped';
+
+  function _openModal(){
+    var m=document.getElementById(MODAL_ID);
+    if(!m)return;
+    m.classList.add('open');
+    var existing='';
+    try{existing=localStorage.getItem('tisa_panda_key')||'';}catch(e){}
+    var inp=document.getElementById('onboard-key-inp');
+    if(inp&&existing&&existing.startsWith('AIza'))inp.value=existing;
+    var st=document.getElementById('onboard-key-status');
+    if(st){st.textContent=existing?'✅ Key already saved — you can update it here.':'';st.style.color='';}
+    setTimeout(function(){if(inp)inp.focus();},200);
+  }
+
+  function _closeModal(){
+    var m=document.getElementById(MODAL_ID);
+    if(m)m.classList.remove('open');
+  }
+
+  // Called from "🚀 Open AI Setup Guide" button in Settings
+  window._reopenOnboarding=function(){_openModal();};
+
+  window._skipOnboarding=function(){
+    try{localStorage.setItem(SKIP_KEY,'1');}catch(e){}
+    _closeModal();
+    if(window.toast)window.toast('Set your key anytime in Settings → AI Settings.');
+  };
+
+  window._saveOnboardKey=function(){
+    var inp=document.getElementById('onboard-key-inp');
+    var st=document.getElementById('onboard-key-status');
+    var v=inp?inp.value.trim():'';
+    if(!v){
+      if(st){st.textContent='⚠️ Paste your Gemini key first.';st.style.color='var(--warn)';}
+      return;
+    }
+    if(!v.startsWith('AIza')||v.length<30){
+      if(st){st.textContent='❌ Invalid key — should start with AIzaSy...';st.style.color='var(--danger)';}
+      return;
+    }
+    try{localStorage.setItem('tisa_panda_key',v);}catch(e){}
+    try{localStorage.setItem(SKIP_KEY,'1');}catch(e){}
+    window._PANDA_KEY=v;
+    if(st){st.textContent='✅ Key saved! AI is ready 🎉';st.style.color='var(--success,#2d7a3a)';}
+    // Sync to settings page inputs
+    var ki=document.getElementById('panda-key-inp');if(ki)ki.value=v;
+    var ks=document.getElementById('panda-key-status');if(ks)ks.textContent='✅ Key loaded — Ask Panda is ready!';
+    if(window.toast)window.toast('🤖 Gemini key saved — AI is ready!');
+    setTimeout(_closeModal,900);
+  };
+
+  // Auto-show 2s after login if no key and user hasn't skipped
+  window._maybeShowOnboarding=function(){
+    var hasKey=false,skipped=false;
+    try{hasKey=(localStorage.getItem('tisa_panda_key')||'').startsWith('AIza');}catch(e){}
+    try{skipped=localStorage.getItem(SKIP_KEY)==='1';}catch(e){}
+    if(!hasKey&&!skipped)setTimeout(_openModal,2000);
+  };
+
+  // Backdrop click closes
+  document.addEventListener('click',function(e){
+    var m=document.getElementById(MODAL_ID);
+    if(m&&m.classList.contains('open')&&e.target===m)_closeModal();
+  });
+})();
+</script>
 <!-- Calendar Day Modal -->
 <div id="cal-day-modal" onclick="if(event.target===this)window.closeCalModal()">
   <div class="cal-day-sheet">
