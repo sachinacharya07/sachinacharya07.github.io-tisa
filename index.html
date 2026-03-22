@@ -408,12 +408,22 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 
 /* CALENDAR */
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cday{aspect-ratio:1;border-radius:5px;background:var(--bg2);cursor:pointer;transition:all .2s;position:relative}
-.cday:hover{transform:scale(1.15);z-index:1}
+.cday{aspect-ratio:1;border-radius:5px;background:var(--bg2);cursor:pointer;transition:all .2s;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.cday:hover{transform:scale(1.12);z-index:2;box-shadow:0 2px 12px rgba(0,0,0,.15)}
 .cday.h0{background:var(--bg3)}.cday.h1{background:color-mix(in srgb,var(--primary) 22%,var(--bg3))}.cday.h2{background:color-mix(in srgb,var(--primary) 48%,var(--bg3))}.cday.h3{background:color-mix(in srgb,var(--primary) 74%,var(--bg3))}.cday.h4{background:var(--primary)}
 .cday.today-c{outline:2px solid var(--primary);outline-offset:1px}
-.cday-lbl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:white;font-weight:800;opacity:0;transition:opacity .2s}
-.cday:hover .cday-lbl{opacity:1}
+.cday-lbl{font-size:8px;color:var(--ink2);font-weight:700;line-height:1}
+.cday.h2 .cday-lbl,.cday.h3 .cday-lbl,.cday.h4 .cday-lbl{color:rgba(255,255,255,.9)}
+.cday-hrs{font-size:6px;font-weight:800;color:rgba(255,255,255,.85);line-height:1;margin-top:1px;white-space:nowrap}
+.cday.h1 .cday-hrs{color:var(--primary)}
+.cday-dot{width:4px;height:4px;border-radius:50%;background:var(--warn);position:absolute;bottom:2px;right:2px;box-shadow:0 0 3px rgba(0,0,0,.3)}
+.cal-has-evt{box-shadow:0 0 0 1.5px var(--warn) inset}
+/* Calendar day modal */
+#cal-day-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:3000;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+@media(min-width:600px){#cal-day-modal{align-items:center}}
+.cal-day-sheet{background:var(--surface);border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:480px;max-height:80vh;overflow-y:auto;animation:slideUp .25s ease}
+@media(min-width:600px){.cal-day-sheet{border-radius:20px;max-height:70vh}}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
 
 /* CALCULATOR */
 .calc-wrap{background:var(--bg);border:1.5px solid var(--border);border-radius:16px;padding:12px}
@@ -3060,7 +3070,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 
 <!-- ── TEST HISTORY ── -->
 <div class="card" style="margin-bottom:14px" id="atz-hist-card">
-  <div class="ct"><div class="ct-ic">📊</div>Test History</div>
+  <div class="ct"><div class="ct-ic">📊</div>Test History
+    <button onclick="window.clearTestHistory()" style="margin-left:auto;background:none;border:1px solid var(--border);border-radius:8px;padding:3px 10px;font-size:10px;font-weight:700;cursor:pointer;color:var(--ink3);font-family:inherit" title="Clear all test history">🗑 Clear</button>
+  </div>
   <div id="atz-hist-list"><div class="empty">No AI tests yet — start your first test above! 🎯</div></div>
 </div>
 
@@ -5905,9 +5917,107 @@ function renderCDs(){const el=document.getElementById('cd-list');if(!el)return;i
 window.remCD=(id)=>{const sid=String(id);window.countdowns=window.countdowns.filter(c=>String(c.id)!==sid);save();renderCDs();};
 
 // ── CALENDAR ──
-function renderCal(){const el=document.getElementById('cal-grid');if(!el)return;const cl=document.getElementById('cal-lbl');if(cl)cl.textContent=new Date(calY,calM).toLocaleDateString('en-GB',{month:'long',year:'numeric'});const fd=new Date(calY,calM,1).getDay(),dim=new Date(calY,calM+1,0).getDate();let c='';for(let i=0;i<fd;i++)c+='<div></div>';for(let d=1;d<=dim;d++){const ds=calY+'-'+pad(calM+1)+'-'+pad(d),s=window.studyData[ds]||0,lv=s===0?0:s<3600?1:s<7200?2:s<14400?3:4,it=ds===window._today;c+=`<div class="cday h${lv} ${it?'today-c':''}" title="${window._fmtH(s)} on ${d}"><div class="cday-lbl">${d}</div></div>`;}el.innerHTML=c;}
+// ── Calendar events stored in localStorage
+window._calEvents=window._calEvents||(function(){
+  try{return JSON.parse(localStorage.getItem('tisa_cal_events')||'{}');}catch(e){return{};}
+})();
+window._saveCalEvents=function(){try{localStorage.setItem('tisa_cal_events',JSON.stringify(window._calEvents));}catch(e){}};
+
+function renderCal(){
+  const el=document.getElementById('cal-grid');if(!el)return;
+  const cl=document.getElementById('cal-lbl');
+  if(cl)cl.textContent=new Date(calY,calM).toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  const fd=new Date(calY,calM,1).getDay(),dim=new Date(calY,calM+1,0).getDate();
+  let c='';
+  for(let i=0;i<fd;i++)c+='<div></div>';
+  for(let d=1;d<=dim;d++){
+    const ds=calY+'-'+pad(calM+1)+'-'+pad(d);
+    const s=window.studyData[ds]||0;
+    const lv=s===0?0:s<1800?1:s<3600?2:s<7200?3:4;
+    const it=ds===window._today;
+    const evts=window._calEvents[ds]||[];
+    const hasEvt=evts.length>0;
+    // Format study time compactly
+    let timeLabel='';
+    if(s>=3600){timeLabel=Math.floor(s/3600)+'h'+(Math.floor((s%3600)/60)>0?Math.floor((s%3600)/60)+'m':'');}
+    else if(s>=60){timeLabel=Math.floor(s/60)+'m';}
+    else if(s>0){timeLabel=s+'s';}
+    c+=`<div class="cday h${lv}${it?' today-c':''}${hasEvt?' cal-has-evt':''}" onclick="openCalDay('${ds}')" title="${ds}${s>0?' · '+window._fmtH(s):''}${hasEvt?' · '+evts.length+' event(s)':''}">
+      <div class="cday-lbl">${d}</div>
+      ${s>0?`<div class="cday-hrs">${timeLabel}</div>`:''}
+      ${hasEvt?'<div class="cday-dot"></div>':''}
+    </div>`;
+  }
+  el.innerHTML=c;
+}
+
+window.openCalDay=function(ds){
+  const parts=ds.split('-');
+  const dateStr=new Date(ds+'T00:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const s=window.studyData[ds]||0;
+  const evts=window._calEvents[ds]||[];
+  const modal=document.getElementById('cal-day-modal');
+  const content=document.getElementById('cal-day-content');
+  if(!modal||!content)return;
+  document.getElementById('cal-day-title').textContent=dateStr;
+  const evtHtml=evts.length?evts.map((ev,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--bg);border-radius:8px;margin-bottom:5px;border-left:3px solid ${ev.color||'var(--primary)'}">
+      <span style="font-size:11px;flex:1;font-weight:600;color:var(--ink)">${window._esc(ev.text)}</span>
+      <button onclick="window._delCalEvent('${ds}',${i})" style="background:none;border:none;cursor:pointer;color:var(--ink3);font-size:13px;padding:0 2px">×</button>
+    </div>`).join(''):'<div style="font-size:11px;color:var(--ink3);font-style:italic;padding:4px 0">No events</div>';
+  content.innerHTML=`
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;font-weight:800;color:var(--ink2);margin-bottom:4px">📚 Study Time</div>
+      <div style="font-size:18px;font-weight:900;color:${s>0?'var(--primary)':'var(--ink3)'}">${s>0?window._fmtH(s):'Not studied'}</div>
+    </div>
+    <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:800;color:var(--ink2);margin-bottom:6px">📅 Events</div>
+      ${evtHtml}
+    </div>
+    <div style="display:flex;gap:6px;margin-top:8px">
+      <input id="cal-evt-inp" class="tisa-inp" placeholder="Add event (e.g. Exam, Holiday...)" style="flex:1;font-size:12px;padding:8px 10px" maxlength="80" onkeydown="if(event.key==='Enter')window._addCalEvent('${ds}')">
+      <select id="cal-evt-color" class="tisa-inp" style="padding:8px 6px;font-size:12px;width:60px">
+        <option value="var(--primary)">🟢</option>
+        <option value="var(--danger)">🔴</option>
+        <option value="var(--warn)">🟡</option>
+        <option value="#818cf8">🔵</option>
+        <option value="#f472b6">🩷</option>
+      </select>
+      <button class="btn btn-sm btn-p" onclick="window._addCalEvent('${ds}')" style="font-size:12px;white-space:nowrap">+ Add</button>
+    </div>`;
+  modal.style.display='flex';
+};
+
+window._addCalEvent=function(ds){
+  const inp=document.getElementById('cal-evt-inp');
+  const colSel=document.getElementById('cal-evt-color');
+  const txt=inp?.value.trim();
+  if(!txt)return;
+  const color=colSel?.value||'var(--primary)';
+  if(!window._calEvents[ds])window._calEvents[ds]=[];
+  window._calEvents[ds].push({text:txt,color,ts:Date.now()});
+  window._saveCalEvents();
+  if(inp)inp.value='';
+  window.openCalDay(ds); // refresh modal
+  renderCal();
+  window.toast('📅 Event added!');
+};
+
+window._delCalEvent=function(ds,i){
+  if(!window._calEvents[ds])return;
+  window._calEvents[ds].splice(i,1);
+  if(!window._calEvents[ds].length)delete window._calEvents[ds];
+  window._saveCalEvents();
+  window.openCalDay(ds);
+  renderCal();
+};
+
+window.closeCalModal=function(){
+  const modal=document.getElementById('cal-day-modal');
+  if(modal)modal.style.display='none';
+};
 window.calPrev=()=>{calM--;if(calM<0){calM=11;calY--;}renderCal();};
-window.calNext=()=>{calM++;if(calM>11){calM=0;calY++;}renderCal();};
+window.calNext=()=>{calM++;if(calM>11){calM=0;calY++;}renderCal()};
 
 // ── TODO ──
 window.addTodo=function(){const v=document.getElementById('todo-inp')?.value.trim();
@@ -10588,6 +10698,22 @@ function atzRenderHistory(){
     </div>`).join('');
 }
 
+// ── Clear all test history ──
+window.clearTestHistory=function(){
+  if(!confirm('Clear all test history? This cannot be undone.'))return;
+  // Clear AI test history
+  if(window._atz)window._atz.history=[];
+  try{localStorage.removeItem('tisa_atz_hist');}catch(e){}
+  atzSaveState&&atzSaveState();
+  atzRenderHistory();
+  // Clear mock test history
+  window.pastTests=[];
+  save();
+  renderPastTests&&renderPastTests();
+  window.toast('🗑 Test history cleared');
+  console.log('[TISA] Test history cleared');
+};
+
 // GK Daily removed — Factoz handles current affairs
 
 // Mock papers stub — content removed per user request
@@ -10920,22 +11046,27 @@ window.showPageMob=function(name,btn){
   var OUBAITORI_KEY='tisa_oubaitori';
 
   function _apply(on){
-    var pages=['page-connect','page-community'];
+    // page-social is the real page ID — page-connect/community don't exist
     var anyFound=false;
-    pages.forEach(function(id){
-      var p=document.getElementById(id);
-      if(!p)return;
+    var socialPage=document.getElementById('page-social');
+    if(socialPage){
       anyFound=true;
-      var navBtn=document.querySelector('[data-page="'+id.replace('page-','')+'"]');
-      if(on){
-        p.style.display='none';
-        if(navBtn)navBtn.style.opacity='.3';
-      }else{
-        p.style.display='';
-        if(navBtn)navBtn.style.opacity='';
-      }
-    });
-    // Also hide buddy search in connect
+      socialPage.style.display=on?'none':'';
+    }
+    // Hide/show the Social nav button (mobile bottom bar)
+    var socialNavMob=document.querySelector('.mnb[data-page="social"]');
+    if(socialNavMob){
+      anyFound=true;
+      socialNavMob.style.opacity=on?'.3':'';
+      socialNavMob.style.pointerEvents=on?'none':'';
+    }
+    // Hide/show desktop nav button if any
+    var socialNavDesk=document.querySelector('nav button[onclick*="\'social\'"]');
+    if(socialNavDesk){
+      anyFound=true;
+      socialNavDesk.style.display=on?'none':'';
+    }
+    // Buddy search row
     var buddySearch=document.getElementById('buddy-search-row');
     if(buddySearch)buddySearch.style.display=on?'none':'';
     // Update toggle UI
@@ -10948,9 +11079,9 @@ window.showPageMob=function(name,btn){
       slider.style.borderColor=on?'var(--primary)':'var(--border)';
       if(knob)knob.style.left=on?'27px':'3px';
     }
-    // If pages not found yet (DOM not fully hydrated), retry after short delay
+    console.log('[TISA] Oubaitori _apply('+on+') found='+anyFound);
     if(!anyFound&&on){
-      setTimeout(function(){_apply(on);},300);
+      setTimeout(function(){_apply(on);},400);
     }
   }
 
@@ -12532,6 +12663,16 @@ window._homeQuoteInt = setInterval(function(){
   </div>
   <div style="font-size:10px;color:var(--ink3);text-align:center;margin-top:12px;line-height:1.6">🔒 Stored only in your browser — never uploaded.<br>Free tier: 1,500 requests/day — plenty for studying!</div>
 </div>
+</div>
+<!-- Calendar Day Modal -->
+<div id="cal-day-modal" onclick="if(event.target===this)window.closeCalModal()">
+  <div class="cal-day-sheet">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:900;color:var(--ink)" id="cal-day-title">Day</div>
+      <button onclick="window.closeCalModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink3);padding:0 4px;line-height:1">✕</button>
+    </div>
+    <div id="cal-day-content"></div>
+  </div>
 </div>
 </body>
 </html>
