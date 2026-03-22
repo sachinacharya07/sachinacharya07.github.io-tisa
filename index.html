@@ -340,8 +340,8 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .forum-grid{display:grid;grid-template-columns:1fr 240px;gap:14px}
 
 /* TIMER */
-.timer-ring{position:relative;width:220px;height:220px;margin:12px auto}
-.tsvg{width:280px;height:280px;transform:rotate(-90deg);display:block}
+.timer-ring{position:relative;width:220px;height:220px;margin:12px auto;overflow:visible}
+.tsvg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);display:block}
 .t-track{fill:none;stroke:var(--bg3);stroke-width:9}
 .t-prog{fill:none;stroke:var(--primary);stroke-width:9;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset .6s ease}
 .t-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -3071,7 +3071,10 @@ html{overflow-x:hidden}
 
 <!-- ── TEST HISTORY ── -->
 <div class="card" style="margin-bottom:14px" id="atz-hist-card">
-  <div class="ct"><div class="ct-ic">📊</div>Test History</div>
+  <div class="ct" style="justify-content:space-between;align-items:center">
+    <div style="display:flex;align-items:center;gap:6px"><div class="ct-ic">📊</div>Test History</div>
+    <button type="button" class="btn-ghost" id="clear-atz-hist-btn" onclick="window._clearAtzHistory()" style="font-size:10px;padding:3px 10px;color:var(--danger);border-color:var(--danger);display:none">🗑 Clear All</button>
+  </div>
   <div id="atz-hist-list"><div class="empty">No AI tests yet — start your first test above! 🎯</div></div>
 </div>
 
@@ -4109,9 +4112,15 @@ async function loadUD(){
     window.coins=d.coins||0;
     window._initPet(d.pandaPet||null);
     // Restore Kaizen to localStorage (synced from Firestore)
-    if(d.kaizenHabits){try{localStorage.setItem('tisa_kaizen_habits',JSON.stringify(d.kaizenHabits));}catch(e){}}
-    if(d.kaizenAnti){try{localStorage.setItem('tisa_kaizen_anti',JSON.stringify(d.kaizenAnti));}catch(e){}}
+    if(d.kaizenHabits&&d.kaizenHabits.length){try{localStorage.setItem('tisa_kaizen_habits',JSON.stringify(d.kaizenHabits));}catch(e){}}
+    if(d.kaizenAnti&&d.kaizenAnti.length){try{localStorage.setItem('tisa_kaizen_anti',JSON.stringify(d.kaizenAnti));}catch(e){}}
+    // Re-render Kaizen UI immediately after data is restored
+    setTimeout(function(){
+      try{if(typeof window._renderHabits==='function')window._renderHabits();}catch(e){}
+      try{if(typeof window._renderAnti==='function')window._renderAnti();}catch(e){}
+    },100);
     window.subjects=d.subjects||[...window.defaultSubjects];
+    window.calEvents=d.calEvents||{};
     // Restore preferences (theme, font size, text colour)
     if(d.prefs){
       if(d.prefs.theme&&d.prefs.theme!==localStorage.getItem('tisa-theme')){
@@ -4171,6 +4180,7 @@ window._save=async()=>{
       papers:papersForSave,pastTests:window.pastTests,journals:window.journals,
       assignments:window.assignments,resources:window.resources,timetable:window.timetable,
       xp:window.xp,coins:window.coins,subjects:window.subjects,pandaPet:window._pet,
+      calEvents:window.calEvents||{},
       kaizenHabits:window._getKaizenHabits(),
       kaizenAnti:window._getKaizenAnti(),
       prefs:{
@@ -5225,6 +5235,7 @@ window.todos=window.todos||[];
 window.countdowns=window.countdowns||[];
 window.papers=window.papers||[];
 window.pastTests=window.pastTests||[];
+window.calEvents=window.calEvents||{};
 window.journals=window.journals||{};
 window.assignments=window.assignments||[];
 window.resources=window.resources||[];
@@ -5901,7 +5912,20 @@ function renderCDs(){const el=document.getElementById('cd-list');if(!el)return;i
 window.remCD=(id)=>{window.countdowns=window.countdowns.filter(c=>c.id!=id);save();renderCDs();};
 
 // ── CALENDAR ──
-function renderCal(){const el=document.getElementById('cal-grid');if(!el)return;const cl=document.getElementById('cal-lbl');if(cl)cl.textContent=new Date(calY,calM).toLocaleDateString('en-GB',{month:'long',year:'numeric'});const fd=new Date(calY,calM,1).getDay(),dim=new Date(calY,calM+1,0).getDate();let c='';for(let i=0;i<fd;i++)c+='<div></div>';for(let d=1;d<=dim;d++){const ds=calY+'-'+pad(calM+1)+'-'+pad(d),s=window.studyData[ds]||0,lv=s===0?0:s<3600?1:s<7200?2:s<14400?3:4,it=ds===window._today;c+=`<div class="cday h${lv} ${it?'today-c':''}" title="${window._fmtH(s)} on ${d}"><div class="cday-lbl">${d}</div></div>`;}el.innerHTML=c;}
+function renderCal(){const el=document.getElementById('cal-grid');if(!el)return;const cl=document.getElementById('cal-lbl');if(cl)cl.textContent=new Date(calY,calM).toLocaleDateString('en-GB',{month:'long',year:'numeric'});const fd=new Date(calY,calM,1).getDay(),dim=new Date(calY,calM+1,0).getDate();let c='';for(let i=0;i<fd;i++)c+='<div></div>';for(let d=1;d<=dim;d++){const ds=calY+'-'+pad(calM+1)+'-'+pad(d),s=window.studyData[ds]||0,lv=s===0?0:s<3600?1:s<7200?2:s<14400?3:4,it=ds===window._today;const ev=(window.calEvents||{})[ds]||'';const evDot=ev?'<div style="position:absolute;bottom:3px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--primary);opacity:.9"></div>':'';c+=`<div class="cday h${lv} ${it?'today-c':''}" title="${window._fmtH(s)}${ev?' · '+ev:''} on ${d}" onclick="window._openCalDay('${ds}',${d})" style="cursor:pointer;position:relative"><div class="cday-lbl">${d}</div>${evDot}</div>`;}el.innerHTML=c;}
+window._openCalDay=function(ds,d){
+  const ev=(window.calEvents||{})[ds]||'';
+  const s=window.studyData[ds]||0;
+  const dateStr=new Date(ds+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+  const studyInfo=s>0?'\n📚 Studied: '+window._fmtH(s):'';
+  const newEv=prompt(dateStr+studyInfo+'\n\nAdd event/note (leave blank to clear):',ev);
+  if(newEv===null)return; // cancelled
+  window.calEvents=window.calEvents||{};
+  if(newEv.trim()){window.calEvents[ds]=newEv.trim();}else{delete window.calEvents[ds];}
+  save();
+  renderCal();
+  if(window.toast)window.toast(newEv.trim()?'📅 Event saved!':'🗑 Event cleared.');
+};
 window.calPrev=()=>{calM--;if(calM<0){calM=11;calY--;}renderCal();};
 window.calNext=()=>{calM++;if(calM>11){calM=0;calY++;}renderCal();};
 
@@ -5963,7 +5987,7 @@ window.toggleTestZoom=()=>{const m=document.getElementById('test-modal');const i
 window.rotatePDF=()=>{const el=document.getElementById('test-img')||document.getElementById('test-iframe');if(el){const cur=parseInt(el.dataset.rot||0);el.dataset.rot=cur+90;el.style.transform='rotate('+el.dataset.rot+'deg)';}};
 window.zoomPDFIn=()=>{const el=document.getElementById('test-img');if(el){el.style.maxWidth=(parseFloat(el.style.maxWidth||100)+20)+'%';}};
 window.zoomPDFOut=()=>{const el=document.getElementById('test-img');if(el){el.style.maxWidth=Math.max(40,parseFloat(el.style.maxWidth||100)-20)+'%';}};
-function renderPastTests(){const el=document.getElementById('past-tests');if(!el)return;if(!window.pastTests.length){el.innerHTML='<div class="empty">No tests yet</div>';return;}el.innerHTML=window.pastTests.slice(0,6).map(t=>`<div style="padding:8px 10px;background:var(--bg);border-radius:10px;margin-bottom:5px"><div style="display:flex;justify-content:space-between;margin-bottom:3px;gap:8px;flex-wrap:wrap"><span style="font-size:12px;font-weight:800;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(t.name.split('.')[0])}</span><span style="font-size:10px;color:var(--ink3);font-weight:600;flex-shrink:0">${t.date}</span></div><div style="display:flex;gap:10px;font-size:11px;color:var(--ink3);font-weight:600;flex-wrap:wrap"><span>⏱ ${t.dur}</span><span>✅ ${t.marksGot}/${t.marksTotal}</span><span>❌ ${t.wrong}</span></div></div>`).join('');}
+function renderPastTests(){const el=document.getElementById('past-tests');if(!el)return;const clearBtn=document.getElementById('clear-past-btn');if(clearBtn)clearBtn.style.display=window.pastTests.length?'inline-block':'none';if(!window.pastTests.length){el.innerHTML='<div class="empty">No tests yet</div>';return;}el.innerHTML=window.pastTests.slice(0,6).map(t=>`<div style="padding:8px 10px;background:var(--bg);border-radius:10px;margin-bottom:5px"><div style="display:flex;justify-content:space-between;margin-bottom:3px;gap:8px;flex-wrap:wrap"><span style="font-size:12px;font-weight:800;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${window._esc(t.name.split('.')[0])}</span><span style="font-size:10px;color:var(--ink3);font-weight:600;flex-shrink:0">${t.date}</span></div><div style="display:flex;gap:10px;font-size:11px;color:var(--ink3);font-weight:600;flex-wrap:wrap"><span>⏱ ${t.dur}</span><span>✅ ${t.marksGot}/${t.marksTotal}</span><span>❌ ${t.wrong}</span></div></div>`).join('');}
 
 // ── ASSIGNMENTS ──
 window.addAssign=()=>{const n=document.getElementById('asgn-name')?.value.trim();if(!n)return;window.assignments.unshift({id:Date.now(),name:n,subject:document.getElementById('asgn-subj')?.value||'General',marks:document.getElementById('asgn-marks')?.value||'',due:document.getElementById('asgn-due')?.value||'',done:false});save();['asgn-name','asgn-marks','asgn-due'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});addXP(3,'assignment added');renderAssignments();};
@@ -11002,6 +11026,7 @@ window.showPageMob=function(name,btn){
     _save(K_HABITS,habits);
     inp.value='';
     _renderHabits();
+    if(typeof save==='function')save(); // sync to Firestore
     if(window.toast)window.toast('✅ Habit added — small steps count!');
   };
   window.addKaizenAnti=function(){
@@ -11012,18 +11037,19 @@ window.showPageMob=function(name,btn){
     _save(K_ANTI,anti);
     inp.value='';
     _renderAnti();
+    if(typeof save==='function')save(); // sync to Firestore
     if(window.toast)window.toast('🚫 Added to your anti-list!');
   };
   window._kaizenToggleHabit=function(i,done){
     var habits=_load(K_HABITS);
-    if(habits[i]){habits[i].done=done;_save(K_HABITS,habits);_renderHabits();}
+    if(habits[i]){habits[i].done=done;_save(K_HABITS,habits);_renderHabits();if(typeof save==='function')save();}
     if(done&&typeof addXP==='function'){addXP(5,'kaizen habit');if(window.toast)window.toast('改善 +5 XP — Kaizen point!');}
   };
   window._kaizenDelHabit=function(i){
-    var habits=_load(K_HABITS);habits.splice(i,1);_save(K_HABITS,habits);_renderHabits();
+    var habits=_load(K_HABITS);habits.splice(i,1);_save(K_HABITS,habits);_renderHabits();if(typeof save==='function')save();
   };
   window._kaizenDelAnti=function(i){
-    var anti=_load(K_ANTI);anti.splice(i,1);_save(K_ANTI,anti);_renderAnti();
+    var anti=_load(K_ANTI);anti.splice(i,1);_save(K_ANTI,anti);_renderAnti();if(typeof save==='function')save();
   };
 
   // Render on settings page visit
@@ -12738,9 +12764,20 @@ window._saveKeyFromSettings = function(){
       if (connectPanel)   connectPanel.style.display   = on ? 'none' : '';
       if (communityPanel) communityPanel.style.display  = on ? 'none' : '';
 
-      // Dim the tab buttons inside Social page
-      if (socialTabConnect)   socialTabConnect.style.opacity   = on ? '.35' : '';
-      if (socialTabCommunity) socialTabCommunity.style.opacity  = on ? '.35' : '';
+      // Fully hide the tab buttons (not just dim) — prevents switching to community
+      if (socialTabConnect)   { socialTabConnect.style.display = on ? 'none' : ''; }
+      if (socialTabCommunity) { socialTabCommunity.style.display = on ? 'none' : ''; }
+
+      // Also intercept _socialTab to block community when oubaitori is on
+      if (on) {
+        window._socialTab = function(tab, btn) {
+          try { var s=localStorage.getItem('tisa_oubaitori'); if(s==='1') return; } catch(e){}
+          // original will be restored when oubaitori is turned off
+        };
+      } else {
+        // Restore original _socialTab
+        window._socialTab = window._socialTabOrig || window._socialTab;
+      }
 
       // Show a friendly placeholder on the Social page when mode is on
       var placeholder = document.getElementById('_oubaitori_placeholder');
@@ -13176,6 +13213,39 @@ window._saveKeyFromSettings = function(){
       document.head.appendChild(style);
     })();
 
+
+    // FIX: Clear test history functions
+    window._clearAtzHistory = function() {
+      if (!window._atz || !window._atz.history || !window._atz.history.length) return;
+      if (!confirm('Clear all AI test history? This cannot be undone.')) return;
+      window._atz.history = [];
+      try { localStorage.removeItem('tisa_atz_hist'); } catch(e) {}
+      // Re-render
+      var el = document.getElementById('atz-hist-list');
+      if (el) el.innerHTML = '<div class="empty">No AI tests yet — start your first test above! 🎯</div>';
+      var btn = document.getElementById('clear-atz-hist-btn');
+      if (btn) btn.style.display = 'none';
+      if (window.toast) window.toast('🗑 AI test history cleared.');
+    };
+
+    window._clearPastTests = function() {
+      if (!window.pastTests || !window.pastTests.length) return;
+      if (!confirm('Clear all test history? This cannot be undone.')) return;
+      window.pastTests = [];
+      if (typeof save === 'function') save();
+      if (typeof renderPastTests === 'function') renderPastTests();
+      if (window.toast) window.toast('🗑 Test history cleared.');
+    };
+
+    // Show/hide clear-atz-hist-btn based on history length
+    (function _watchAtzHistory() {
+      var origRender = window.atzRenderHistory;
+      window.atzRenderHistory = function() {
+        if (origRender) origRender.apply(this, arguments);
+        var btn = document.getElementById('clear-atz-hist-btn');
+        if (btn) btn.style.display = (window._atz && window._atz.history && window._atz.history.length) ? 'inline-block' : 'none';
+      };
+    })();
 
     console.log('[TISA Patch v1.0] ✅ All fixes applied.');
   }
