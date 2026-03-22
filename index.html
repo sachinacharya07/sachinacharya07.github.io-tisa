@@ -2143,37 +2143,72 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   service cloud.firestore {
     match /databases/{database}/documents {
 
-      // Private user data — owner only
+      // ── Private user data — owner only ──
+      // Stores: studyData, todos, journals, timetable, assignments,
+      //         resources, sessions, pastTests, atzHistory, kaizen, xp, coins
       match /userData/{userId} {
         allow read, write: if request.auth != null && request.auth.uid == userId;
       }
 
-      // Public study stats — any logged-in user can READ, only owner can WRITE
-      // This is what makes the buddy Progress tracker work!
+      // ── Public study stats — readable by all logged-in users ──
+      // Used by: buddy progress tracker, leaderboard
       match /publicStats/{userId} {
         allow read: if request.auth != null;
         allow write: if request.auth != null && request.auth.uid == userId;
       }
 
-      // Chat rooms — only members can read/write
+      // ── User public profiles — username, display name, photo ──
+      // Used by: admin panel user list, buddy search, chat
+      match /users/{userId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // ── Chat rooms — members only ──
       match /chats/{chatId} {
-        allow read, write: if request.auth != null && request.auth.uid in resource.data.members;
+        allow read, write: if request.auth != null
+          && (resource == null || request.auth.uid in resource.data.members);
         match /messages/{msgId} {
           allow read, write: if request.auth != null;
         }
       }
 
-      // Community forum posts — any logged-in user can read, owner can write
+      // ── Community forum posts ──
       match /posts/{postId} {
         allow read: if request.auth != null;
-        allow write: if request.auth != null;
+        allow create: if request.auth != null;
+        allow update, delete: if request.auth != null
+          && (request.auth.uid == resource.data.uid || request.auth.uid in ['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2']);
       }
 
-      // User public profiles (username lookup)
-      match /users/{userId} {
-        allow read: if request.auth != null;
-        allow write: if request.auth != null && request.auth.uid == userId;
+      // ── Reports — any user can file, only admins can delete ──
+      match /reports/{reportId} {
+        allow read: if request.auth != null
+          && request.auth.uid in ['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2'];
+        allow create: if request.auth != null;
+        allow delete: if request.auth != null
+          && request.auth.uid in ['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2'];
       }
+
+      // ── Banned users — admins only ──
+      match /banned/{userId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null
+          && request.auth.uid in ['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2'];
+      }
+
+      // ── Warnings — admins write, recipient reads ──
+      match /warnings/{warnId} {
+        allow read: if request.auth != null
+          && (resource.data.uid == request.auth.uid
+              || request.auth.uid in ['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2']);
+        allow create, update: if request.auth != null
+          && request.auth.uid in ['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2'];
+        allow delete: if request.auth != null
+          && (resource.data.uid == request.auth.uid
+              || request.auth.uid in ['lZDsCeyuq3O1M3OqUnW9gN6DKKr1','WK2J1EdO2eZuqWyY1KVQ9Dw5aMz2']);
+      }
+
     }
   }
   ══════════════════════════════════════════════════════════════
@@ -3995,15 +4030,28 @@ window.deleteAllMyData = async () => {
 
 // ── AUTH STATE (KEY FIX: loading screen prevents login flash) ──
 onAuthStateChanged(auth,async(user)=>{
-  clearTimeout(_safetyTimer); // Firebase responded — cancel the safety fallback
+  clearTimeout(_safetyTimer);
   const ls=document.getElementById('loading-screen');
   ls.classList.add('hide');
   setTimeout(()=>ls.style.display='none',400);
   if(user){
     window._currentUser=user; window._CU=user;
-    await setDoc(doc(db,'users',user.uid),{uid:user.uid,name:user.displayName,email:user.email,photo:user.photoURL,lastSeen:serverTimestamp(),lastSeenDate:new Date().toISOString().slice(0,10)},{merge:true});
-    // Initialize publicStats so buddies never see 'Loading...' forever
-    await setDoc(doc(db,'publicStats',user.uid),{username:window._uname||'',updatedAt:serverTimestamp()},{merge:true});
+    try{
+      await setDoc(doc(db,'users',user.uid),{
+        uid:user.uid,
+        name:user.displayName||'',
+        email:user.email||'',
+        photo:user.photoURL||'',
+        lastSeen:serverTimestamp(),
+        lastSeenDate:new Date().toISOString().slice(0,10),
+        createdAt:serverTimestamp() // only set on first write due to merge:true
+      },{merge:true});
+    }catch(e){
+      console.error('[TISA] Failed to write users doc:',e.message,'— Check Firestore security rules are deployed.');
+    }
+    try{
+      await setDoc(doc(db,'publicStats',user.uid),{username:window._uname||'',updatedAt:serverTimestamp()},{merge:true});
+    }catch(e){console.warn('[TISA] publicStats write failed:',e.message);}
     await showApp(user);
   }else{
     document.getElementById('login-screen').classList.add('show');
@@ -4123,6 +4171,18 @@ async function loadUD(){
       try{localStorage.setItem('tisa_kaizen_anti',JSON.stringify(d.kaizenAnti));}catch(e){}
       console.log('[TISA] Kaizen anti restored from Firestore:',d.kaizenAnti.length);
     }
+    // Restore AI test history across devices
+    if(d.atzHistory&&Array.isArray(d.atzHistory)&&d.atzHistory.length){
+      if(window._atz){
+        // Merge: keep local entries not in cloud, then cloud entries
+        const cloudIds=new Set(d.atzHistory.map(h=>h.date+h.subject+h.correct));
+        const localOnly=(window._atz.history||[]).filter(h=>!cloudIds.has(h.date+h.subject+h.correct));
+        window._atz.history=[...localOnly,...d.atzHistory].slice(0,30);
+      }
+      try{localStorage.setItem('tisa_atz_hist',JSON.stringify(d.atzHistory));}catch(e){}
+      atzRenderHistory&&atzRenderHistory();
+      console.log('[TISA] ATZ history restored from Firestore:',d.atzHistory.length);
+    }
     if(d.prefs){
       if(d.prefs.theme&&d.prefs.theme!==localStorage.getItem('tisa-theme')){
         setTheme(d.prefs.theme);
@@ -4182,27 +4242,31 @@ window._save=async()=>{
   if(!window._CU)return;
   window._saveInFlight=true;
   try{
-    // Load kaizen data from localStorage to include in save
+    // Load kaizen data from localStorage — only write if non-empty to avoid wiping on new device
     var _kHabits=[];var _kAnti=[];
     try{_kHabits=JSON.parse(localStorage.getItem('tisa_kaizen_habits')||'[]');}catch(e){}
     try{_kAnti=JSON.parse(localStorage.getItem('tisa_kaizen_anti')||'[]');}catch(e){}
     const papersForSave=window.papers.map(p=>({id:p.id,name:p.name,size:p.size,type:p.type,date:p.date}));
-    await setDoc(doc(db,'userData',window._CU.uid),{
+    // Build payload — only include kaizen if we actually have data locally
+    // This prevents a new device (empty localStorage) from wiping cloud kaizen data
+    const payload={
       studyData:window.studyData,todos:window.todos,countdowns:window.countdowns,
       sessions:sessions.slice(0,20),
       papers:papersForSave,pastTests:window.pastTests,journals:window.journals,
       assignments:window.assignments,resources:window.resources,timetable:window.timetable,
       xp:window.xp,coins:window.coins,subjects:window.subjects,pandaPet:window._pet,
-      kaizenHabits:_kHabits,
-      kaizenAnti:_kAnti,
       prefs:{
         theme:localStorage.getItem('tisa-theme')||'light',
         fontSize:localStorage.getItem('tisa-fontsize')||'14',
         textColor:localStorage.getItem('tisa-textcolor')||''
       }
-    },{merge:true});
-    // LOADING FIX: mirror study hours into publicStats (any auth user can read)
-    // userData is owner-private, so buddy's listener was silently failing -> "Loading..."
+    };
+    if(_kHabits.length)payload.kaizenHabits=_kHabits;
+    if(_kAnti.length)payload.kaizenAnti=_kAnti;
+    // Sync AI test history across devices
+    const _atzHist=(window._atz&&window._atz.history)||[];
+    if(_atzHist.length)payload.atzHistory=_atzHist.slice(0,30);
+    await setDoc(doc(db,'userData',window._CU.uid),payload,{merge:true});
     await setDoc(doc(db,'publicStats',window._CU.uid),{
       studyData:window.studyData,
       username:window._uname||'',
@@ -5275,10 +5339,19 @@ function save(){
   clearTimeout(_saveTimer);
   _saveTimer=setTimeout(async()=>{
     try{await window._save();}catch(e){console.warn('[TISA] save failed:',e.message);}
-    // Update UI after save
     renderStats&&renderStats();
   },1500);
 }
+// Flush pending save immediately when tab goes to background (mobile throttling fix)
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='hidden'&&_saveTimer){
+    clearTimeout(_saveTimer);
+    _saveTimer=null;
+    if(window._save){
+      window._save().catch(e=>console.warn('[TISA] bg save failed:',e.message));
+    }
+  }
+});
 function pad(n){return String(n).padStart(2,'0');}
 window._esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
 window._fmtH=function(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=Math.floor(s%60);return h+':'+pad(m)+':'+pad(sc);};
@@ -5291,7 +5364,7 @@ window.toast=toast;
 
 // ── PAGE NAV ──
 window.showPage=(name,btn)=>{
-  if(name==='admin'){if(!window._isAdmin||!window._isAdmin()){window.toast('⛔ Access denied — admin only');return;}window.toast('🛡️ Loading admin data...');_admLoad();}
+  if(name==='admin'){if(!window._isAdmin||!window._isAdmin()){window.toast('⛔ Access denied — admin only');return;}window.toast('🛡️ Loading admin data...');_admLoad();setTimeout(()=>window._admStartUserListener&&window._admStartUserListener(),500);}
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const _activePage=document.getElementById('page-'+name);
   if(_activePage){_activePage.classList.add('active');_activePage.scrollTop=0;}
@@ -6631,6 +6704,8 @@ window._adminRefresh=async function(){
 
 async function _admLoad(){
   if(!_isAdmin())return;
+  const contentEl=document.getElementById('adm-content');
+  if(contentEl)contentEl.innerHTML='<div class="empty">Loading...</div>';
   try{
     const _gD=window._getDocs||getDocs,_col=window._collection||collection,
           _qr=window._query||query,_ob=window._orderBy||orderBy,
@@ -6645,16 +6720,35 @@ async function _admLoad(){
     _admPosts=pS.docs.map(d=>({id:d.id,...d.data()}));
     _admUsers=uS.docs.map(d=>({id:d.id,...d.data()}));
     _admBanned=bS.docs.map(d=>({id:d.id,...d.data()}));
-    document.getElementById('adm-rep-c').textContent=_admReports.length;
-    document.getElementById('adm-post-c').textContent=_admPosts.length;
-    document.getElementById('adm-user-c').textContent=_admUsers.length;
-    document.getElementById('adm-ban-c').textContent=_admBanned.length;
-    document.getElementById('adm-log-c').textContent=_admLog.length;
+    const setC=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+    setC('adm-rep-c',_admReports.length);
+    setC('adm-post-c',_admPosts.length);
+    setC('adm-user-c',_admUsers.length);
+    setC('adm-ban-c',_admBanned.length);
+    setC('adm-log-c',_admLog.length);
     _admRender();
+    console.log('[ADMIN] Loaded: users='+_admUsers.length+' reports='+_admReports.length);
   }catch(e){
-    document.getElementById('adm-content').innerHTML=`<div class="empty" style="color:var(--danger)">Failed: ${_e(e.message)}</div>`;
+    console.error('[ADMIN] _admLoad failed:',e);
+    if(contentEl)contentEl.innerHTML=`<div class="empty" style="color:var(--danger)">Failed to load: ${_e(e.message)}<br><br><button class="btn btn-sm btn-p" onclick="window._adminRefresh()">🔄 Retry</button></div>`;
   }
 }
+
+// Live listener for new user registrations in admin panel
+window._admStartUserListener=function(){
+  if(!_isAdmin()||window._admUserUnsub)return;
+  const _db2=window._db||db;
+  if(!_db2||!onSnapshot||!collection)return;
+  try{
+    window._admUserUnsub=onSnapshot(collection(_db2,'users'),(snap)=>{
+      _admUsers=snap.docs.map(d=>({id:d.id,...d.data()}));
+      const el=document.getElementById('adm-user-c');
+      if(el)el.textContent=_admUsers.length;
+      if(_admTab_current==='users')_admRender();
+      console.log('[ADMIN] Live users update:',_admUsers.length);
+    });
+  }catch(e){console.warn('[ADMIN] User listener failed:',e);}
+};
 
 function _admRender(){
   const el=document.getElementById('adm-content');
@@ -8068,6 +8162,8 @@ const _ATZ_SUBJECTIVE_EXAMS=new Set(['upsc','state_pcs','clat','boards11','board
 function atzSaveState(){
   localStorage.setItem('tisa_atz_bm',JSON.stringify(window._atz.bookmarks));
   localStorage.setItem('tisa_atz_hist',JSON.stringify(window._atz.history.slice(0,30)));
+  // Also sync to Firestore so history appears on all devices
+  if(window._save)window._save();
 }
 
 function atzStartFlow(){
