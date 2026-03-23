@@ -466,12 +466,9 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .cpanel.active{display:flex}
 .chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg);min-height:200px;max-height:360px}
 .msg{max-width:76%;padding:9px 13px;border-radius:14px;font-size:12px;line-height:1.6;font-weight:600;word-break:break-word;-webkit-user-select:text;user-select:text}
-/* Mobile: show delete on long press via CSS active state */
 @media(max-width:760px){
-  .msg.me .msg-del-btn{opacity:0.6!important}
-  .chat-msgs{-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-  .msg{max-width:88%}
-  .chat-inp-row{padding:8px;gap:6px}
+  .chat-msgs{-webkit-overflow-scrolling:touch}
+  .msg{max-width:82%}
 }
 .msg.them{background:var(--surface);border:1px solid var(--border2);align-self:flex-start;border-radius:16px 14px 14px 14px}
 .msg.me{background:var(--primary);color:white;align-self:flex-end;border-radius:14px 4px 14px 14px}
@@ -4859,34 +4856,24 @@ function renderMsg(m,ck){
   else txt=m.text||'';
   const t=m.ts?new Date(m.ts.toDate()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';
   let content='';
-  // Support both new fileURL (Firebase Storage) and old fileData (base64 legacy)
   const fileUrl=m.fileURL||null;
   const fileSrc=fileUrl||(m.fileData||null);
   if(fileSrc){
+    // Store file data in a map keyed by message timestamp to avoid huge onclick attributes
+    const fKey='f_'+(m.ts?.seconds||Date.now())+'_'+Math.random().toString(36).slice(2,6);
+    if(m.fileData)window._msgFileStore=window._msgFileStore||{},window._msgFileStore[fKey]={data:m.fileData,type:m.fileType||'',name:m.originalFileName||m.fileName||'file'};
     if(m.fileType&&m.fileType.startsWith('image/')){
       if(fileUrl){
-        // New: direct URL — works on all devices instantly
-        content=`<div><img src="${fileUrl}" style="max-width:190px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px;cursor:pointer" onclick="window.open('${fileUrl}','_blank')" loading="lazy"><a href="${fileUrl}" target="_blank" rel="noopener" download style="font-size:10px;color:${isMe?'rgba(255,255,255,.7)':'var(--ink3)'}">⬇ Open/Download</a></div>`;
+        content=`<div><img src="${fileUrl}" style="max-width:200px;max-height:180px;border-radius:8px;display:block;margin-bottom:6px;cursor:pointer" onclick="window._viewFullImg('${encodeURIComponent(fileUrl)}','image','url')" loading="lazy"><a href="${fileUrl}" target="_blank" rel="noopener" download style="font-size:11px;font-weight:700;color:${isMe?'rgba(255,255,255,.8)':'var(--primary)'};text-decoration:none">⬇ Download</a></div>`;
       } else {
-        // Legacy base64 fallback
-        const imgBlob=dataURLtoBlob(m.fileData);
-        const imgUrl=imgBlob?URL.createObjectURL(imgBlob):m.fileData;
-        content=`<div><img src="${imgUrl}" style="max-width:190px;max-height:160px;border-radius:8px;display:block;margin-bottom:4px" loading="lazy"><a href="#" onclick="event.preventDefault();openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'image/jpeg')}','${window._esc(m.originalFileName||'image.jpg')}')" style="font-size:10px;color:${isMe?'rgba(255,255,255,.7)':'var(--ink3)'}">⬇ Open/Download</a></div>`;
+        content=`<div><img src="${m.fileData}" style="max-width:200px;max-height:180px;border-radius:8px;display:block;margin-bottom:6px;cursor:pointer" onclick="window._viewFullImg('','image','key','${fKey}')" loading="lazy"><button onclick="window._openMsgFile('${fKey}')" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:700;color:${isMe?'rgba(255,255,255,.8)':'var(--primary)'};padding:0;text-decoration:underline">⬇ Download</button></div>`;
       }
     }else{
-      // FIX: show real filename not UUID
-      const fn=m.originalFileName||m.fileName||'File';
+      const fn=window._esc(m.originalFileName||m.fileName||'File');
       if(fileUrl){
-        // New: direct download URL
-        content=`<div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${isMe?'white':'var(--ink)'};">📄 ${window._esc(fn)}</div>
-          <a href="${fileUrl}" target="_blank" rel="noopener" download="${window._esc(fn)}" style="background:${isMe?'rgba(255,255,255,.2)':'rgba(92,122,62,.15)'};border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;color:${isMe?'white':'var(--primary)'};text-align:left;text-decoration:none;display:inline-block">⬇ Open / Download</a>
-        </div>`;
+        content=`<div style="display:flex;flex-direction:column;gap:6px"><div style="font-size:11px;font-weight:700;color:${isMe?'white':'var(--ink)'}">📄 ${fn}</div><a href="${fileUrl}" target="_blank" rel="noopener" download="${fn}" style="background:${isMe?'rgba(255,255,255,.2)':'var(--pglow)'};border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;color:${isMe?'white':'var(--primary)'};text-decoration:none;display:inline-block;text-align:center">⬇ Open / Download</a></div>`;
       } else {
-        content=`<div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${isMe?'white':'var(--ink)'};">📄 ${window._esc(fn)}</div>
-          <button onclick="openFileFromData('${encodeURIComponent(m.fileData)}','${window._esc(m.fileType||'application/octet-stream')}','${window._esc(fn)}')" style="background:${isMe?'rgba(255,255,255,.2)':'rgba(92,122,62,.15)'};border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;color:${isMe?'white':'var(--primary)'};text-align:left">⬇ Open / Download</button>
-        </div>`;
+        content=`<div style="display:flex;flex-direction:column;gap:6px"><div style="font-size:11px;font-weight:700;color:${isMe?'white':'var(--ink)'}">📄 ${fn}</div><button onclick="window._openMsgFile('${fKey}')" style="background:${isMe?'rgba(255,255,255,.2)':'var(--pglow)'};border:none;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;color:${isMe?'white':'var(--primary)'};text-align:center">⬇ Open / Download</button></div>`;
       }
     }
     if(txt&&txt!=='[image]'&&!txt.startsWith('[file:')&&txt!=='[message]') content+=`<div style="margin-top:4px">${window._esc(txt)}</div>`;
@@ -4894,9 +4881,9 @@ function renderMsg(m,ck){
     content=window._esc(txt).replace(/\n/g,'<br>');
   }
   const senderLabel=isMe?'':`<div style="font-size:9px;font-weight:700;opacity:.7;margin-bottom:3px">@${window._esc(m.suname||aOtherUname)}</div>`;
-  const reportBtn=isMe?'':`<button onclick="window._reportChatMsg(this)" data-ts="${m.ts?.seconds||Date.now()}" data-txt="${window._esc(txt.substring(0,30))}" style="background:none;border:none;cursor:pointer;font-size:10px;color:var(--ink3);padding:0 4px;opacity:.5" title="Report message">🚩</button>`;
-  const deleteBtn=isMe&&m._docId?`<button onclick="window._deleteChatMsg('${m._docId}')" style="background:none;border:none;cursor:pointer;font-size:10px;color:rgba(255,255,255,.5);padding:0 4px;opacity:0;transition:opacity .2s" class="msg-del-btn" title="Delete message">🗑</button>`:'';
-  return`<div class="msg ${isMe?'me':'them'}" style="position:relative" onmouseenter="${isMe?"this.querySelector('.msg-del-btn')&&(this.querySelector('.msg-del-btn').style.opacity='1')":''}" onmouseleave="${isMe?"this.querySelector('.msg-del-btn')&&(this.querySelector('.msg-del-btn').style.opacity='0')":''}">${senderLabel}${content}<div class="msg-t">${t}${isMe?' 🔒':''}${deleteBtn}${reportBtn}</div></div>`;
+  const reportBtn=isMe?'':`<button onclick="window._reportChatMsg(this)" data-ts="${m.ts?.seconds||Date.now()}" data-txt="${window._esc(txt.substring(0,30))}" style="background:none;border:none;cursor:pointer;font-size:11px;color:rgba(255,255,255,.5);padding:0 3px" title="Report">🚩</button>`;
+  const deleteBtn=isMe&&m._docId?`<button onclick="window._deleteChatMsg('${m._docId}')" style="background:none;border:none;cursor:pointer;font-size:11px;color:rgba(255,255,255,.55);padding:0 3px;line-height:1" title="Delete">🗑</button>`:'';
+  return`<div class="msg ${isMe?'me':'them'}">${senderLabel}${content}<div class="msg-t">${t}${isMe?' 🔒 ':' '}${deleteBtn}${reportBtn}</div></div>`;
 }
 
 let _sending=false;
@@ -4911,19 +4898,46 @@ window._deleteChatMsg=async function(docId){
   }catch(e){window.toast('Could not delete: '+e.message);}
 };
 
-// ── Full image viewer ──
-window._viewFullImg=function(encodedData,name){
+// ── Open file from message store (avoids huge base64 in onclick) ──
+window._openMsgFile=function(key){
+  const store=window._msgFileStore||{};
+  const f=store[key];
+  if(!f){window.toast('File not available');return;}
   try{
-    const dataUrl=decodeURIComponent(encodedData);
+    const blob=dataURLtoBlob(f.data);
+    if(!blob){window.open(f.data,'_blank');return;}
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=f.name||'file';a.target='_blank';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),15000);
+  }catch(e){window.toast('Cannot open file on this device');}
+};
+
+// ── Full image viewer ──
+window._viewFullImg=function(encodedData,type,source,key){
+  try{
+    let dataUrl='';
+    if(source==='url'){
+      dataUrl=decodeURIComponent(encodedData);
+    } else if(source==='key'){
+      const f=(window._msgFileStore||{})[key];
+      if(!f){window.toast('Image not available');return;}
+      dataUrl=f.data;
+    } else {
+      dataUrl=decodeURIComponent(encodedData);
+    }
     const overlay=document.createElement('div');
-    overlay.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:16px';
+    overlay.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:16px;touch-action:none';
     overlay.onclick=function(e){if(e.target===overlay)document.body.removeChild(overlay);};
+    const isDataUrl=dataUrl.startsWith('data:');
+    const dlHref=isDataUrl?dataUrl:dataUrl;
     overlay.innerHTML=`
       <div style="display:flex;justify-content:space-between;width:100%;max-width:700px;align-items:center">
-        <span style="color:white;font-size:12px;font-weight:700;opacity:.7">${name||'Image'}</span>
+        <span style="color:rgba(255,255,255,.6);font-size:11px">Image</span>
         <div style="display:flex;gap:8px">
-          <a href="${dataUrl}" download="${name||'image'}" style="background:var(--primary);color:white;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;text-decoration:none;cursor:pointer">⬇ Download</a>
-          <button onclick="document.body.removeChild(this.closest('[style*=fixed]'))" style="background:rgba(255,255,255,.15);color:white;border:none;border-radius:8px;padding:6px 14px;font-size:14px;cursor:pointer;font-weight:700">✕</button>
+          <a href="${dlHref}" download="image.jpg" style="background:var(--primary);color:white;border:none;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;text-decoration:none;cursor:pointer">⬇ Download</a>
+          <button onclick="document.body.removeChild(this.closest('div[style*=fixed]'))" style="background:rgba(255,255,255,.15);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:14px;cursor:pointer;font-weight:700">✕</button>
         </div>
       </div>
       <img src="${dataUrl}" style="max-width:100%;max-height:80vh;object-fit:contain;border-radius:8px">`;
