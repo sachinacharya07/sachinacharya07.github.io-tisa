@@ -372,7 +372,13 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .wb-lbl{font-size:9px;color:var(--ink3);font-weight:700}
 
 /* TODO */
-.todo-toolbar{display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap}
+.todo-toolbar{display:flex;flex-direction:column;gap:7px;margin-bottom:9px}
+.todo-toolbar .todo-row1{display:flex;gap:6px}
+.todo-toolbar .todo-row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.todo-toolbar .todo-row3{display:flex;gap:6px;align-items:center}
+.todo-toolbar .todo-row1{display:flex;gap:6px;align-items:center}
+.todo-toolbar .todo-row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.todo-toolbar .todo-row3{display:flex;gap:6px}
 .f-row{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
 .fbtn{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:transparent;color:var(--ink3);transition:all .2s;font-family:'Nunito',sans-serif;min-height:32px;touch-action:manipulation}
 .fbtn.active{background:var(--primary);color:white;border-color:var(--primary)}
@@ -733,16 +739,19 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 /* Wellness bottom sheet */
 #wellness-sheet{
-  position:fixed;bottom:-100vh;left:0;right:0;z-index:600;height:88vh;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;
+  position:fixed;bottom:0;left:0;right:0;z-index:600;height:88vh;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;
   background:var(--surface);
   border-radius:24px 24px 0 0;
   padding:0;
   box-shadow:0 -8px 40px rgba(0,0,0,.18);
-  transition:bottom .22s cubic-bezier(.4,0,.2,1), visibility 0s .22s;
+  transform:translateY(100%);
+  transition:transform .22s cubic-bezier(.4,0,.2,1), visibility 0s .22s;
   pointer-events:none;
   visibility:hidden;
+  will-change:transform;
+  -webkit-overflow-scrolling:touch;
 }
-#wellness-sheet.open{bottom:0;pointer-events:all;visibility:visible;transition:bottom .22s cubic-bezier(.4,0,.2,1),visibility 0s;}
+#wellness-sheet.open{transform:translateY(0);pointer-events:all;visibility:visible;transition:transform .22s cubic-bezier(.4,0,.2,1),visibility 0s;}
 #wellness-sheet-overlay{
   position:fixed;inset:0;z-index:590;
   background:rgba(0,0,0,.3);
@@ -2145,7 +2154,27 @@ nav .nb,.nav-btn{border-radius:12px!important;}
 /* ── Focus ring for accessibility ── */
 button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
 
-/* ══ END GLOBAL UI ══ */</style>
+/* ══ END GLOBAL UI ══ */
+/* ── MOBILE PERFORMANCE: GPU-accelerate key elements ── */
+#app-main{-webkit-overflow-scrolling:touch;transform:translateZ(0)}
+.page.active{transform:translateZ(0)}
+#mobile-nav{transform:translateZ(0);will-change:transform}
+#app-header{transform:translateZ(0);will-change:transform}
+.card{transform:translateZ(0)}
+.btn{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.mnb{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+#wellness-sheet-overlay{will-change:opacity;-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}
+/* Smooth scroll in all panels */
+.wellness-body,.wellness-tab-content,[id$="-panel"]{
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+}
+/* Reduce paint on active page transitions */
+@media (max-width:760px){
+  .page{contain:layout style}
+  .page.active{contain:none}
+}
+</style>
 <!--
   ══════════════════════════════════════════════════════════════
   REQUIRED FIRESTORE SECURITY RULES  (Firebase Console → Firestore → Rules)
@@ -2806,11 +2835,15 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   <button id="todo-add-btn-mob" onclick="toggleTodoInput()" style="display:block">+ Add New Task</button>
   <div id="todo-add-wrap">
     <div class="todo-toolbar">
-      <input type="text" class="tisa-inp" id="todo-inp" placeholder="Add a task..." maxlength="200" onkeydown="if(event.key==='Enter')addTodo()" style="flex:2;min-width:100px;padding:9px 12px;font-size:13px">
-      <select class="tisa-inp" id="todo-pri" style="padding:9px 10px;font-size:12px"><option value="normal">Normal</option><option value="high">🔴 High</option><option value="low">🟢 Low</option></select>
-      <select class="tisa-inp" id="todo-subj-sel" style="padding:9px 10px;font-size:12px"></select>
-      <input type="date" class="tisa-inp" id="todo-due" style="padding:9px 10px;font-size:12px">
-      <div style="display:flex;gap:6px">
+      <div class="todo-row1">
+        <input type="text" class="tisa-inp" id="todo-inp" placeholder="Add a task..." maxlength="200" onkeydown="if(event.key==='Enter')addTodo()" style="flex:1;padding:9px 12px;font-size:13px">
+      </div>
+      <div class="todo-row2">
+        <select class="tisa-inp" id="todo-pri" style="padding:9px 10px;font-size:12px"><option value="normal">Normal</option><option value="high">🔴 High</option><option value="low">🟢 Low</option></select>
+        <select class="tisa-inp" id="todo-subj-sel" style="padding:9px 10px;font-size:12px"></select>
+      </div>
+      <div class="todo-row3">
+        <input type="date" class="tisa-inp" id="todo-due" style="flex:1;padding:9px 10px;font-size:12px">
         <button class="btn btn-sm btn-p" onclick="addTodo()">+ Add</button>
         <button class="btn btn-sm btn-o" onclick="toggleTodoInput()">Cancel</button>
       </div>
@@ -3226,7 +3259,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   <span style="font-size:18px">🔥</span>
   <div style="flex:1">
     <div style="font-size:11px;font-weight:800;color:#ff6b35;text-transform:uppercase;letter-spacing:1px">Champs — Live</div>
-    <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-top:1px" id="champs-count">Loading buddy status...</div>
+    <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-top:1px" id="champs-count">Connect with study buddies to see who's studying</div>
   </div>
   <div style="font-size:10px;color:var(--ink3);font-weight:600">Live 🟢</div>
 </div>
@@ -4020,6 +4053,10 @@ window.doSignOut=async()=>{
   if(typeof tRun!=='undefined'&&tRun){clearInterval(tInt);tRun=false;}
   if(typeof focusRun!=='undefined'&&focusRun){clearInterval(focusInt);focusRun=false;}
   if(typeof testInt!=='undefined'&&testInt){clearInterval(testInt);testInt=null;}
+  // Clear studying status before signout
+  if(window._CU&&window._db&&window._setDoc&&window._doc){
+    try{await window._setDoc(window._doc(window._db,'publicStats',window._CU.uid),{isStudying:false,studyStarted:null},{merge:true});}catch(e){}
+  }
   if(window._chatUnsub)window._chatUnsub();
   if(window._forumUnsub)window._forumUnsub();
   if(window._chatListUnsub)window._chatListUnsub();
@@ -5485,11 +5522,14 @@ function save(){
 }
 // Flush pending save immediately when tab goes to background (mobile throttling fix)
 document.addEventListener('visibilitychange',function(){
-  if(document.visibilityState==='hidden'&&_saveTimer){
-    clearTimeout(_saveTimer);
-    _saveTimer=null;
+  if(document.visibilityState==='hidden'){
+    if(_saveTimer){clearTimeout(_saveTimer);_saveTimer=null;}
     if(window._save){
       window._save().catch(e=>console.warn('[TISA] bg save failed:',e.message));
+    }
+    // Clear studying status when user leaves (tab hidden/closed)
+    if(window._CU&&window._db&&window._setDoc&&window._doc&&typeof tRun!=='undefined'&&tRun){
+      window._setDoc(window._doc(window._db,'publicStats',window._CU.uid),{isStudying:false,studyStarted:null},{merge:true}).catch(()=>{});
     }
   }
 });
@@ -5894,6 +5934,12 @@ function startT(){
   tSegStart=Date.now(); // record real wall-clock start
   document.getElementById('t-btn').textContent='Pause';
   document.getElementById('t-mode').textContent=pomoMode?(pomoState==='work'?'🍅 focus':'☕ break'):'studying ✏';
+  // Mark user as studying in publicStats (drives Studying Champs + buddy focus)
+  if(window._CU&&window._db&&window._setDoc&&window._doc){
+    window._setDoc(window._doc(window._db,'publicStats',window._CU.uid),{
+      isStudying:true,studyStarted:new Date().toISOString(),username:window._uname||''
+    },{merge:true}).catch(()=>{});
+  }
   tInt=setInterval(()=>{
     // Calculate real elapsed seconds from wall clock — throttle-proof
     const now=Date.now();
@@ -5915,6 +5961,12 @@ function startT(){
 }
 function pauseT(){
   tRun=false; clearInterval(tInt);
+  // Mark user as not studying
+  if(window._CU&&window._db&&window._setDoc&&window._doc){
+    window._setDoc(window._doc(window._db,'publicStats',window._CU.uid),{
+      isStudying:false,studyStarted:null
+    },{merge:true}).catch(()=>{});
+  }
   // Capture real elapsed up to this moment
   const now=Date.now();
   const segElapsed=Math.floor((now-tSegStart)/1000);
@@ -7603,7 +7655,7 @@ window._pandaBrain=function(q){
   if(/formula|formulas/.test(ql))return '📐 Quick formula reference:\nPhysics: F=ma, KE=½mv², PE=mgh, V=IR, E=mc²\nChemistry: PV=nRT, pH=-log[H⁺], moles=mass/MM\nMaths: Quadratic=(-b±√(b²-4ac))/2a, Pythagoras: a²+b²=c²\nBiology: Photosynthesis: 6CO₂+6H₂O→C₆H₁₂O₆+6O₂\n\nAsk me about any specific formula for details!';
   if(/current affairs|news|today|2024|2025/.test(ql))return '📰 For current affairs I need my AI connection! 🌐\nBest sources for India current affairs:\n• PIB (pib.gov.in) — official govt news\n• The Hindu — analysis & editorials\n• Rajya Sabha TV — policy discussions\n• BYJU\'s/Unacademy daily GK\nCheck the GK Daily tab — it loads fresh questions when online!';
   // Absolute default — still useful
-  return 'hmm, I need my AI connection for that one 🌐\n\nBut try asking me about:\n📐 Physics/Chemistry/Maths formulas\n🧬 Biology concepts\n📚 Study tips & techniques\n🇮🇳 Indian History/Polity\n⏱️ Your study stats\n\nOr check your internet and try again — AI will give a full answer!';
+  return '🔑 No Gemini API key set.\n\nGo to Settings → AI Settings → paste your free Gemini key.\nGet it at: aistudio.google.com/app/apikey\n\nFor now I can help with:\n📐 Physics/Chemistry/Maths\n🧬 Biology concepts\n📚 Study tips\n🇮🇳 Indian History/Polity\n⏱️ Your study stats';
 };
 
 
@@ -7728,9 +7780,9 @@ window.askPanda=async function(){
     }catch(e){
       lastErr=e.message;
       console.warn('[AI] '+model+' failed:',e.message);
-      if(e.name==='AbortError'){showAnswer('⏱️ Request timed out. Check your connection.',true);return;}
+      if(e.name==='AbortError'){showAnswer('⏱️ Request timed out.\n\nCheck your Gemini key in Settings → AI Settings, and ensure you have internet.',true);return;}
       if(model===models[models.length-1]){
-        showAnswer('❌ AI error after trying all models: '+lastErr+'\n\nTips:\n• Check your Gemini key in Settings\n• Ensure key has Generative Language API enabled\n• Check internet connection',true);
+        showAnswer('❌ '+lastErr+'\n\nCheck Settings → AI Settings → your Gemini key.',true);
       }
     }
   }
