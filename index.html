@@ -738,11 +738,11 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   border-radius:24px 24px 0 0;
   padding:0;
   box-shadow:0 -8px 40px rgba(0,0,0,.18);
-  transition:bottom .35s cubic-bezier(.4,0,.2,1), visibility 0s .35s;
+  transition:bottom .22s cubic-bezier(.4,0,.2,1), visibility 0s .22s;
   pointer-events:none;
   visibility:hidden;
 }
-#wellness-sheet.open{bottom:0;pointer-events:all;visibility:visible;transition:bottom .35s cubic-bezier(.4,0,.2,1),visibility 0s;}
+#wellness-sheet.open{bottom:0;pointer-events:all;visibility:visible;transition:bottom .22s cubic-bezier(.4,0,.2,1),visibility 0s;}
 #wellness-sheet-overlay{
   position:fixed;inset:0;z-index:590;
   background:rgba(0,0,0,.3);
@@ -2372,7 +2372,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   <button class="mnb active" data-page="home" onclick="showPageMob('home',this)"><span class="mni"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block"><path d="M2.5 7.5L8 2.5l5.5 5v6.5h-4v-4h-3v4h-4V7.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mnl">Home</span></button>
   <button class="mnb" data-page="tests" onclick="showPageMob('tests',this)"><span class="mni"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block"><path d="M9.5 3H4a1 1 0 00-1 1v9a1 1 0 001 1h8a1 1 0 001-1V6.5L9.5 3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 3v4h4M5.5 9h5M5.5 11.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="mnl">Tests</span></button>
   <button id="mob-panda-fab" onclick="openWellnessSheet()" title="Buddha" style="color:white"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 2v1.5M8 12.5V14M2 8h1.5M12.5 8H14M3.8 3.8l1 1M11.2 11.2l1 1M12.2 3.8l-1 1M4.8 11.2l-1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <button class="mnb" data-page="social" onclick="showPageMob('social',this)"><span class="mni"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block"><path d="M2 10l3-3 2 2 4-4 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 6c1-1 2.5-1 3.5 0L6 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 6c-1-1-2.5-1-3.5 0L10 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="mnl">Social</span></button>
+  <button class="mnb" data-page="social" onclick="showPageMob('social',this)"><span class="mni"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5.5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M1 13c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="5.5" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M14 13c0-2-1.5-3.5-3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="mnl">Social</span></button>
   <button class="mnb" onclick="toggleMoreMenu()" style="position:relative">
     <span class="mni">⋯</span><span class="mnl">More</span>
     <span id="mob-more-badge"></span>
@@ -4070,22 +4070,17 @@ onAuthStateChanged(auth,async(user)=>{
   setTimeout(()=>ls.style.display='none',400);
   if(user){
     window._currentUser=user; window._CU=user;
-    try{
-      await setDoc(doc(db,'users',user.uid),{
-        uid:user.uid,
-        name:user.displayName||'',
-        email:user.email||'',
-        photo:user.photoURL||'',
-        lastSeen:serverTimestamp(),
-        lastSeenDate:new Date().toISOString().slice(0,10),
-        createdAt:serverTimestamp() // only set on first write due to merge:true
-      },{merge:true});
-    }catch(e){
-      console.error('[TISA] Failed to write users doc:',e.message,'— Check Firestore security rules are deployed.');
-    }
-    try{
-      await setDoc(doc(db,'publicStats',user.uid),{username:window._uname||'',updatedAt:serverTimestamp()},{merge:true});
-    }catch(e){console.warn('[TISA] publicStats write failed:',e.message);}
+    // Fire-and-forget — don't await these, they block the UI on mobile
+    setDoc(doc(db,'users',user.uid),{
+      uid:user.uid,
+      name:user.displayName||'',
+      email:user.email||'',
+      photo:user.photoURL||'',
+      lastSeen:serverTimestamp(),
+      lastSeenDate:new Date().toISOString().slice(0,10),
+      createdAt:serverTimestamp()
+    },{merge:true}).catch(e=>console.error('[TISA] Failed to write users doc:',e.message));
+    setDoc(doc(db,'publicStats',user.uid),{username:window._uname||'',updatedAt:serverTimestamp()},{merge:true}).catch(e=>console.warn('[TISA] publicStats write failed:',e.message));
     await showApp(user);
   }else{
     document.getElementById('login-screen').classList.add('show');
@@ -4126,20 +4121,10 @@ async function showApp(user){
   _setAv(av,user.photoURL,user.displayName);
   window._setAv=_setAv; // expose for reuse
 
-  // Profile name
+  // Profile name — set immediately from Google auth data
   document.getElementById('prof-name').textContent=user.displayName||'User';
 
-  const uSnap=await getDoc(doc(db,'users',user.uid));
-  const uData=uSnap.exists()?uSnap.data():{};
-  window._uname=uData.username||'';
-
-  if(!uData.username){
-    setTimeout(()=>document.getElementById('uname-modal').classList.add('open'),800);
-  }else{
-    document.getElementById('user-dname').textContent='@'+uData.username;
-    document.getElementById('prof-uname').textContent='@'+uData.username;
-  }
-  // Show page immediately, load data in background
+  // Show page IMMEDIATELY — don't wait for Firestore
   document.body.classList.remove('ma-mode');
   const _maOv=document.getElementById('ma-focus-overlay');if(_maOv)_maOv.style.display='none';
   showPage('home',document.querySelector('nav button[onclick*="home"]'));
@@ -4151,8 +4136,21 @@ async function showApp(user){
   window.renderThemeGrid&&window.renderThemeGrid();
   loadMyChats();
   window._showAdminButtons&&window._showAdminButtons();
-  // Show AI setup guide if user has no Gemini key yet
   window._maybeShowOnboarding&&window._maybeShowOnboarding();
+
+  // Load username in background — non-blocking
+  getDoc(doc(db,'users',user.uid)).then(uSnap=>{
+    const uData=uSnap.exists()?uSnap.data():{};
+    window._uname=uData.username||'';
+    if(!uData.username){
+      setTimeout(()=>document.getElementById('uname-modal').classList.add('open'),800);
+    }else{
+      document.getElementById('user-dname').textContent='@'+uData.username;
+      document.getElementById('prof-uname').textContent='@'+uData.username;
+    }
+  }).catch(e=>console.warn('[TISA] user doc load failed:',e));
+
+  // Init factoz/GK widget
   (function(){
     var _tries=0;
     function _tryNextFact(){
@@ -4160,12 +4158,9 @@ async function showApp(user){
         window.updateGreeting&&window.updateGreeting();
         window.nextHomeFactoz();
         window.nextFactoz&&window.nextFactoz();
-      } else if(_tries<20){
-        _tries++;
-        setTimeout(_tryNextFact, 200);
-      }
+      } else if(_tries<20){_tries++;setTimeout(_tryNextFact,200);}
     }
-    setTimeout(_tryNextFact, 400);
+    setTimeout(_tryNextFact,400);
   })();
 }
 
