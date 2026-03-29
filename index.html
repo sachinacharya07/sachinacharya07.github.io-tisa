@@ -3996,6 +3996,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 <div id="toast"></div>
 <footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>TISA</strong>&nbsp; · &nbsp;Created by Sachin&nbsp; · &nbsp;<span style="cursor:pointer;text-decoration:underline" onclick="document.getElementById('tos-modal').classList.add('open')">Terms of Service</span>&nbsp; · &nbsp;<span style="cursor:pointer;text-decoration:underline" onclick="document.getElementById('privacy-modal').classList.add('open')">Privacy Policy</span></footer>
 <script type="module">
+(async()=>{
 let initializeApp, getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, fbOut, setPersistence, browserLocalPersistence;
 let getFirestore, initializeFirestore, persistentLocalCache, doc, setDoc, getDoc, collection, query, where, onSnapshot, addDoc, orderBy, serverTimestamp, getDocs, updateDoc, increment, limit, deleteDoc, runTransaction;
 
@@ -4017,18 +4018,15 @@ const provider=(typeof GoogleAuthProvider==='function')?new GoogleAuthProvider()
 // Safe Firestore init — persistentLocalCache can fail on mobile/incognito
 let db=null;
 if(app){
-  if(typeof initializeFirestore==='function' && typeof persistentLocalCache==='function'){
-    try{db=initializeFirestore(app,{localCache:persistentLocalCache()});}catch(e){
-      console.warn('[TISA] Persistent cache failed, using default Firestore:',e.message);
+  if(typeof getFirestore==='function'){
+    try{db=getFirestore(app);}catch(e){
+      console.warn('[TISA] Firestore init failed:',e.message);
     }
-  }
-  if(!db && typeof getFirestore==='function'){
-    db=getFirestore(app);
   }
 }
 
 // ── SAFETY NET: if Firebase never calls onAuthStateChanged (network blocked etc),
-//    hide loading screen after 6s and show login so user is never stuck on white ──
+//    hide loading screen after 3s and show login so user is never stuck on white ──
 const _safetyTimer=setTimeout(()=>{
   const ls=document.getElementById('loading-screen');
   if(ls&&!ls.classList.contains('hide')){
@@ -4037,7 +4035,7 @@ const _safetyTimer=setTimeout(()=>{
     document.getElementById('login-screen').classList.add('show');
     console.warn('[TISA] Safety timer fired — Firebase may be slow or blocked.');
   }
-},6000);
+},3000);
 window._db=db; window._sTs=serverTimestamp; window._addDoc=addDoc; window._collection=collection;
 window._getDocs=getDocs; window._getDoc=getDoc; window._query=query; window._orderBy=orderBy;
 window._limit=limit; window._setDoc=setDoc; window._doc=doc; window._deleteDoc=deleteDoc;
@@ -4209,6 +4207,12 @@ if(auth&&typeof onAuthStateChanged==='function'){
   }else{
     document.getElementById('login-screen').classList.add('show');
   }
+},(err)=>{
+  clearTimeout(_safetyTimer);
+  console.warn('[TISA] Auth error:',err.message);
+  const ls=document.getElementById('loading-screen');
+  if(ls)ls.classList.add('hide');
+  document.getElementById('login-screen').classList.add('show');
 });
 }
 
@@ -5687,6 +5691,17 @@ window._checkDMNotifications=window._checkDMNotifications||function(){};
 setInterval(()=>{
   if(window._CU&&document.visibilityState==='visible')window._checkDMNotifications();
 },180000); // 3 minutes — reduces Firestore reads by 6×
+
+// ── EARLY STUBS: Define critical utilities before other script blocks load ──
+if(!window.toast)window.toast=function(msg){const el=document.getElementById('toast');if(el){el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2600);}};
+if(!window._esc)window._esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+if(!window.sessions)window.sessions=[];
+if(!window.countdowns)window.countdowns=[];
+if(!window.todos)window.todos=[];
+if(!window.studyData)window.studyData={};
+if(!window.subjects)window.subjects=window.defaultSubjects||['General','Math','Physics','Chemistry','Biology','History','Literature','Computer Science'];
+if(!window.papers)window.papers=[];
+})();
 </script>
 <script>
 // ══ GLOBAL STATE (protected with || fallbacks) ══
@@ -7778,6 +7793,9 @@ window._callAI=async function(payload){
   try{_fresh=localStorage.getItem('tisa_panda_key')||'';}catch(e){}
   const key=(_fresh&&_fresh.length>20&&_fresh.startsWith('AIza'))?_fresh:(window._PANDA_KEY||'');
   if(key&&key.startsWith('AIza'))window._PANDA_KEY=key;
+  if(!key||!key.startsWith('AIza')){
+    throw new Error('No valid Gemini API key found. Open Settings → AI Settings and paste your free key from aistudio.google.com/app/apikey.');
+  }
   const mode=payload.mode||'chat';
   let sys='',uPr='';
   if(mode==='test_generator'){
