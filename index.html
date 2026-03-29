@@ -11,8 +11,46 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="TISA">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%235c7a3e'/%3E%3Ctext x='96' y='96' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='64' fill='white'%3ETISA%3C/text%3E%3C/svg%3E">
-<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIlRJU0EgU3R1ZHkgQ29tcGFuaW9uIiwgInNob3J0X25hbWUiOiAiVElTQSIsICJkZXNjcmlwdGlvbiI6ICJZb3VyIHBlcnNvbmFsIHN0dWR5IGNvbXBhbmlvbiIsICJzdGFydF91cmwiOiAiLi8iLCAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsICJ0aGVtZV9jb2xvciI6ICIjYzA1NDZhIiwgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0LXByaW1hcnkiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxOTIgMTkyJyUzRSUzQ2NpcmNsZSBjeD0nOTYnIGN5PSc5Nicgcj0nOTYnIGZpbGw9JyUyM2MwNTQ2YScvJTNFJTNDdGV4dCB5PScxMzAnIHg9Jzk2JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LXNpemU9JzExMCclM0VcdWQ4M2RcdWRjM2MlM0MvdGV4dCUzRSUzQy9zdmclM0UiLCAic2l6ZXMiOiAiMTkyeDE5MiIsICJ0eXBlIjogImltYWdlL3N2Zyt4bWwifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJyUzRSUzQ2NpcmNsZSBjeD0nMjU2JyBjeT0nMjU2JyByPScyNTYnIGZpbGw9JyUyM2MwNTQ2YScvJTNFJTNDdGV4dCB5PSczNTAnIHg9JzI1NicgdGV4dC1hbmNob3I9J21pZGRsZScgZm9udC1zaXplPSczMDAnJTNFXHVkODNkXHVkYzNjJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIn1dfQ==">
+<link rel="apple-touch-icon" id="ati-link" sizes="192x192">
+<link rel="manifest" id="manifest-link">
+<script>
+// Generate PNG icon via canvas (iOS requires PNG for apple-touch-icon, not SVG)
+(function(){
+  try{
+    var c=document.createElement('canvas');c.width=192;c.height=192;
+    var ctx=c.getContext('2d');
+    // Background
+    ctx.fillStyle='#5c7a3e';
+    var r=32;ctx.beginPath();ctx.moveTo(r,0);ctx.lineTo(192-r,0);ctx.quadraticCurveTo(192,0,192,r);
+    ctx.lineTo(192,192-r);ctx.quadraticCurveTo(192,192,192-r,192);
+    ctx.lineTo(r,192);ctx.quadraticCurveTo(0,192,0,192-r);
+    ctx.lineTo(0,r);ctx.quadraticCurveTo(0,0,r,0);ctx.closePath();ctx.fill();
+    // Text
+    ctx.fillStyle='#ffffff';ctx.font='bold 64px Arial Black,Arial,sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('TISA',96,96);
+    var png=c.toDataURL('image/png');
+    // Set apple-touch-icon
+    var ati=document.getElementById('ati-link');
+    if(ati)ati.href=png;
+    // Build and inject manifest as Blob URL (iOS Safari reads Blob URLs, not data: URIs)
+    var manifest={
+      name:'TISA Study Companion',short_name:'TISA',
+      description:'Track. Improve. Study. Ace.',
+      start_url:window.location.href,
+      display:'standalone',background_color:'#f8f6f0',
+      theme_color:'#5c7a3e',orientation:'portrait-primary',
+      icons:[
+        {src:png,sizes:'192x192',type:'image/png'},
+        {src:png,sizes:'512x512',type:'image/png',purpose:'any maskable'}
+      ]
+    };
+    var blob=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'});
+    var url=URL.createObjectURL(blob);
+    var ml=document.getElementById('manifest-link');
+    if(ml)ml.href=url;
+  }catch(e){}
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Josefin+Sans:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700;800&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400&family=Syne:wght@400;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Shippori+Mincho:wght@400;500;600;700;800&family=Klee+One:wght@400;600&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -477,11 +515,13 @@ main{padding:16px;max-width:1380px;margin:0 auto;width:100%;padding-bottom:120px
 .ctab.active{color:var(--primary);border-bottom-color:var(--primary)}
 .cpanel{display:none;flex:1;flex-direction:column}
 .cpanel.active{display:flex}
-.chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg);min-height:200px;max-height:360px}
+.chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg);min-height:200px;max-height:360px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;will-change:scroll-position;contain:content}
 .msg{max-width:76%;padding:9px 13px;border-radius:14px;font-size:12px;line-height:1.6;font-weight:600;word-break:break-word;-webkit-user-select:text;user-select:text}
 @media(max-width:760px){
-  .chat-msgs{-webkit-overflow-scrolling:touch}
-  .msg{max-width:82%}
+  .chat-msgs{-webkit-overflow-scrolling:touch;max-height:calc(50dvh - 80px);min-height:180px;transform:translateZ(0);backface-visibility:hidden}
+  .msg{max-width:85%;font-size:13px}
+  .chat-inp-row input{font-size:16px} /* prevent iOS zoom on focus */
+  .csend{min-width:56px;padding:12px 10px;font-size:13px}
 }
 .msg.them{background:var(--surface);border:1px solid var(--border2);align-self:flex-start;border-radius:16px 14px 14px 14px}
 .msg.me{background:var(--primary);color:white;align-self:flex-end;border-radius:14px 4px 14px 14px}
@@ -647,6 +687,9 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
   .chat-layout{flex-direction:column;height:auto}
   .users-list{width:100%;max-height:180px;border-right:none;border-bottom:1px solid var(--border)}
   .cpanel{min-height:300px;height:auto;}
+  .conn-grid{min-height:unset!important}
+  .conn-grid .sidebar-card:first-child .sb-scroll{max-height:160px}
+  .conn-grid .sidebar-card:last-child{min-height:420px}
   .connect-layout{flex-direction:column}
   /* Cards */
   .card{padding:14px 12px;width:100%;box-sizing:border-box}
@@ -739,7 +782,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 
 /* Wellness bottom sheet */
 #wellness-sheet{
-  position:fixed;bottom:0;left:0;right:0;z-index:600;height:88vh;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;
+  position:fixed;bottom:0;left:0;right:0;z-index:600;height:88dvh;max-height:88dvh;overflow:hidden;display:flex;flex-direction:column;
   background:var(--surface);
   border-radius:24px 24px 0 0;
   padding:0;
@@ -780,7 +823,7 @@ footer strong{color:var(--primary);font-family:'Playfair Display',serif;font-siz
 .panda-panel{animation:fadeIn .2s ease;height:100%;display:flex;flex-direction:column;}
 /* ── Ask Panda chat ── */
 .ask-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;
-  padding:8px 4px;margin-bottom:0;scroll-behavior:smooth;}
+  padding:8px 4px;margin-bottom:0;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;will-change:scroll-position;}
 .ask-bubble{padding:12px 16px;border-radius:20px;font-size:15px;line-height:1.6;max-width:85%;}
 .ask-panda{background:color-mix(in srgb,var(--primary) 12%,var(--surface));
   color:var(--ink);border-bottom-left-radius:4px;align-self:flex-start;}
@@ -3597,6 +3640,12 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       </div>
     </div>
   </div>
+  <div class="card">
+    <div class="ct"><div class="ct-ic"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h10v10H3V3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 6.5v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Install App</div>
+    <div style="font-size:12px;color:var(--ink3);margin-bottom:10px">Install TISA for faster launch and full app behavior.</div>
+    <button class="btn btn-p" style="width:100%;" onclick="pwaTriggerInstall()">Install / Add to Home Screen</button>
+    <div style="font-size:11px;color:var(--ink3);margin-top:10px">iPhone users: tap Share → Add to Home Screen.</div>
+  </div>
   <!-- FONT PICKER -->
   <div class="card">
     <div class="ct"><div class="ct-ic"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 2.5a1.5 1.5 0 012.5 1.5L5.5 12.5l-3.5 1 1-3.5L11 2.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Font Style</div>
@@ -3917,7 +3966,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
     <button class="pill-btn" onclick="rotatePDF()">↻ Rotate</button>
     <button class="pill-btn" onclick="zoomPDFIn()">＋ Zoom</button>
     <button class="pill-btn" onclick="zoomPDFOut()">－ Zoom</button>
-    <a id="pdf-download-btn" class="pill-btn" download style="text-decoration:none">⬇ Download</a>
+    <button id="pdf-download-btn" class="pill-btn" onclick="window._dlTestPaper()" style="cursor:pointer">⬇ Download</button>
   </div>
   <div id="test-body" style="flex:1;overflow:auto;padding:0"></div>
   <div style="padding:12px 20px;border-top:1.5px solid var(--border2);display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--surface);flex-shrink:0">
@@ -3946,25 +3995,71 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 
 <div id="toast"></div>
 <footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>TISA</strong>&nbsp; · &nbsp;Created by Sachin&nbsp; · &nbsp;<span style="cursor:pointer;text-decoration:underline" onclick="document.getElementById('tos-modal').classList.add('open')">Terms of Service</span>&nbsp; · &nbsp;<span style="cursor:pointer;text-decoration:underline" onclick="document.getElementById('privacy-modal').classList.add('open')">Privacy Policy</span></footer>
+<script>
+window.showPage = window.showPage || function(name,btn){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  var _activePage = document.getElementById('page-'+name);
+  if(_activePage){_activePage.classList.add('active');_activePage.scrollTop = 0;}
+  var _appMain = document.getElementById('app-main');
+  if(_appMain){_appMain.scrollTop = 0;}
+  document.querySelectorAll('nav button').forEach(function(b){b.classList.remove('active');});
+  if(btn){btn.classList.add('active');}
+  else{
+    var nb = document.querySelector('nav button[data-page="'+name+'"]');
+    if(!nb){
+      document.querySelectorAll('nav button').forEach(function(b){
+        var oc = b.getAttribute('onclick') || '';
+        if(oc.indexOf("'"+name+"'") !== -1 || oc.indexOf('"'+name+'"') !== -1) nb = b;
+      });
+    }
+    if(nb) nb.classList.add('active');
+  }
+};
+window.showPageMob = window.showPageMob || function(name,btn){
+  window.showPage(name,btn);
+  document.querySelectorAll('.mnb').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.more-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn){btn.classList.add('active');}
+  else{
+    var nb = document.querySelector('.mnb[data-page="'+name+'"]');
+    if(nb) nb.classList.add('active');
+    nb = document.querySelector('.more-btn[data-page="'+name+'"]');
+    if(nb) nb.classList.add('active');
+  }
+};
+</script>
 <script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import{getFirestore,initializeFirestore,persistentLocalCache,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+(async()=>{
+let initializeApp, getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, fbOut, setPersistence, browserLocalPersistence;
+let getFirestore, initializeFirestore, persistentLocalCache, doc, setDoc, getDoc, collection, query, where, onSnapshot, addDoc, orderBy, serverTimestamp, getDocs, updateDoc, increment, limit, deleteDoc, runTransaction;
+
+try {
+  const firebaseApp = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+  const firebaseAuth = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
+  const firebaseFirestore = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  ({initializeApp} = firebaseApp);
+  ({getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut:fbOut,setPersistence,browserLocalPersistence} = firebaseAuth);
+  ({getFirestore,initializeFirestore,persistentLocalCache,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction} = firebaseFirestore);
+} catch(e) {
+  console.warn('[TISA] Firebase module load failed', e);
+}
 
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
-const app=initializeApp(FC);
-const auth=getAuth(app);
-// Safe Firestore init — persistentMultipleTabManager fails on mobile/incognito (causes blank screen)
-let db;
-try{
-  db=initializeFirestore(app,{localCache:persistentLocalCache()});
-}catch(e){
-  console.warn('[TISA] Persistent cache failed, using default Firestore:',e.message);
-  db=getFirestore(app);
+const app=(typeof initializeApp==='function')?initializeApp(FC):null;
+const auth=(app&&typeof getAuth==='function')?getAuth(app):null;
+const provider=(typeof GoogleAuthProvider==='function')?new GoogleAuthProvider():null;
+// Safe Firestore init — persistentLocalCache can fail on mobile/incognito
+let db=null;
+if(app){
+  if(typeof getFirestore==='function'){
+    try{db=getFirestore(app);}catch(e){
+      console.warn('[TISA] Firestore init failed:',e.message);
+    }
+  }
 }
 
 // ── SAFETY NET: if Firebase never calls onAuthStateChanged (network blocked etc),
-//    hide loading screen after 6s and show login so user is never stuck on white ──
+//    hide loading screen after 3s and show login so user is never stuck on white ──
 const _safetyTimer=setTimeout(()=>{
   const ls=document.getElementById('loading-screen');
   if(ls&&!ls.classList.contains('hide')){
@@ -3973,11 +4068,19 @@ const _safetyTimer=setTimeout(()=>{
     document.getElementById('login-screen').classList.add('show');
     console.warn('[TISA] Safety timer fired — Firebase may be slow or blocked.');
   }
-},6000);
+},3000);
 window._db=db; window._sTs=serverTimestamp; window._addDoc=addDoc; window._collection=collection;
 window._getDocs=getDocs; window._getDoc=getDoc; window._query=query; window._orderBy=orderBy;
 window._limit=limit; window._setDoc=setDoc; window._doc=doc; window._deleteDoc=deleteDoc;
 window._where=where; window._updateDoc=updateDoc;
+window.db=db; window.auth=auth; window.getDoc=getDoc; window.setDoc=setDoc; window.collection=collection;
+window.query=query; window.where=where; window.onSnapshot=onSnapshot; window.addDoc=addDoc; window.orderBy=orderBy;
+window.serverTimestamp=serverTimestamp; window.getDocs=getDocs; window.updateDoc=updateDoc; window.increment=increment;
+window.limit=limit; window.deleteDoc=deleteDoc; window.runTransaction=runTransaction; window.doc=doc;
+window.initializeApp=initializeApp; window.getAuth=getAuth; window.GoogleAuthProvider=GoogleAuthProvider;
+window.signInWithPopup=signInWithPopup; window.signInWithRedirect=signInWithRedirect; window.getRedirectResult=getRedirectResult;
+window.onAuthStateChanged=onAuthStateChanged; window.signOut=fbOut; window.setPersistence=setPersistence; window.browserLocalPersistence=browserLocalPersistence;
+window.persistentLocalCache=persistentLocalCache;
 
 // ── ENCRYPTION ──
 // Encryption helpers — TextEncoder/TextDecoder based, handles emoji correctly
@@ -4013,8 +4116,11 @@ function xD(enc,k){
 function cKey(a,b){return[a,b].sort().join('');}
 
 // ── PERSIST + REDIRECT RESULT ──
-setPersistence(auth,browserLocalPersistence).catch(()=>{});
-getRedirectResult(auth).then(r=>{
+if(auth&&typeof setPersistence==='function'&&browserLocalPersistence){
+  setPersistence(auth,browserLocalPersistence).catch(()=>{});
+}
+if(auth&&typeof getRedirectResult==='function'){
+  getRedirectResult(auth).then(r=>{
   if(r&&r.user){
     // Redirect sign-in succeeded - onAuthStateChanged will fire and handle the rest
     console.log('TISA redirect sign-in OK');
@@ -4024,6 +4130,7 @@ getRedirectResult(auth).then(r=>{
     setTimeout(()=>window._showLoginErr&&window._showLoginErr(e.code+': '+e.message),600);
   }
 });
+}
 
 // ── SIGN IN ──
 window._showLoginErr=(msg)=>{
@@ -4034,16 +4141,24 @@ window._showLoginErr=(msg)=>{
 };
 
 window.handleSignIn=async(btn)=>{
+  if(!auth||!GoogleAuthProvider||!signInWithPopup){
+    window._showLoginErr('Firebase unavailable. Check network or reload.');
+    return;
+  }
   btn.disabled=true;
   btn.innerHTML='<span style="display:inline-block;width:16px;height:16px;border:2.5px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px"></span>Signing in...';
-  document.getElementById('login-err').style.display='none';
+  const errEl=document.getElementById('login-err'); if(errEl)errEl.style.display='none';
   const provider=new GoogleAuthProvider();
   provider.setCustomParameters({prompt:'select_account'});
   try{
     await signInWithPopup(auth,provider);
   }catch(e){
     if(e.code==='auth/popup-blocked'||e.code==='auth/popup-closed-by-user'||e.code==='auth/cancelled-popup-request'){
-      try{await signInWithRedirect(auth,provider);}catch(e2){window._showLoginErr(e2.message);}
+      if(signInWithRedirect){
+        try{await signInWithRedirect(auth,provider);}catch(e2){window._showLoginErr(e2.message);}
+      } else {
+        window._showLoginErr('Popup failed and redirect is unavailable.');
+      }
     }else window._showLoginErr(e.message||e.code);
   }
 };
@@ -4068,7 +4183,9 @@ window.doSignOut=async()=>{
   if(typeof _userDataUnsub!=='undefined'&&_userDataUnsub){try{_userDataUnsub();}catch(e){}; _userDataUnsub=null;}
   if(window._focusUnsubs&&window._focusUnsubs.length){window._focusUnsubs.forEach(u=>{try{u();}catch(e){}});window._focusUnsubs=[];}
   if(window._buddyFocusCache)window._buddyFocusCache={};
-  await fbOut(auth);
+  if(auth&&fbOut){
+    try{await fbOut(auth);}catch(e){}
+  }
   window._CU=null; window._currentUser=null;
   document.getElementById('login-screen').classList.add('show');
   document.getElementById('app-header').style.display='none';
@@ -4100,7 +4217,8 @@ window.deleteAllMyData = async () => {
 };
 
 // ── AUTH STATE (KEY FIX: loading screen prevents login flash) ──
-onAuthStateChanged(auth,async(user)=>{
+if(auth&&typeof onAuthStateChanged==='function'){
+  onAuthStateChanged(auth,async(user)=>{
   clearTimeout(_safetyTimer);
   const ls=document.getElementById('loading-screen');
   ls.classList.add('hide');
@@ -4122,7 +4240,14 @@ onAuthStateChanged(auth,async(user)=>{
   }else{
     document.getElementById('login-screen').classList.add('show');
   }
+},(err)=>{
+  clearTimeout(_safetyTimer);
+  console.warn('[TISA] Auth error:',err.message);
+  const ls=document.getElementById('loading-screen');
+  if(ls)ls.classList.add('hide');
+  document.getElementById('login-screen').classList.add('show');
 });
+}
 
 async function showApp(user){
   // Load saved Gemini key immediately
@@ -4164,7 +4289,8 @@ async function showApp(user){
   // Show page IMMEDIATELY — don't wait for Firestore
   document.body.classList.remove('ma-mode');
   const _maOv=document.getElementById('ma-focus-overlay');if(_maOv)_maOv.style.display='none';
-  showPage('home',document.querySelector('nav button[onclick*="home"]'));
+  var _homeNav=document.querySelector('nav button[data-page="home"]')||document.querySelector('nav button[onclick*="home"]');
+  showPage('home',_homeNav);
   // Load data async (don't block UI)
   setTimeout(()=>{loadUD().catch(e=>console.warn('[TISA] loadUD error:',e));},50);
   window.startHealth&&window.startHealth();
@@ -4174,16 +4300,46 @@ async function showApp(user){
   loadMyChats();
   window._showAdminButtons&&window._showAdminButtons();
   window._maybeShowOnboarding&&window._maybeShowOnboarding();
+  // Show iOS install banner after login (not on raw page load)
+  setTimeout(function(){window._maybeShowIOSInstall&&window._maybeShowIOSInstall();},3000);
 
   // Load username in background — non-blocking
+  // First check localStorage cache to avoid modal flicker on refresh
+  try{
+    const _cachedUname=localStorage.getItem('tisa_uname_'+user.uid)||'';
+    if(_cachedUname){
+      window._uname=_cachedUname;
+      document.getElementById('user-dname').textContent='@'+_cachedUname;
+      document.getElementById('prof-uname').textContent='@'+_cachedUname;
+    }
+  }catch(e){}
   getDoc(doc(db,'users',user.uid)).then(uSnap=>{
     const uData=uSnap.exists()?uSnap.data():{};
-    window._uname=uData.username||'';
-    if(!uData.username){
-      setTimeout(()=>document.getElementById('uname-modal').classList.add('open'),800);
-    }else{
-      document.getElementById('user-dname').textContent='@'+uData.username;
-      document.getElementById('prof-uname').textContent='@'+uData.username;
+    const un=uData.username||'';
+    // Re-read localStorage here — confirmUname may have fired concurrently (race condition fix)
+    let _lsUname='';
+    try{_lsUname=localStorage.getItem('tisa_uname_'+user.uid)||'';}catch(e){}
+    if(un){
+      // Firestore has a definitive username — sync it everywhere
+      window._uname=un;
+      try{localStorage.setItem('tisa_uname_'+user.uid,un);}catch(e){}
+      document.getElementById('user-dname').textContent='@'+un;
+      document.getElementById('prof-uname').textContent='@'+un;
+    } else if(_lsUname){
+      // Firestore returned empty (stale cache / write not yet committed) but localStorage
+      // already has it — trust localStorage, do NOT overwrite window._uname or show modal
+      if(!window._uname) window._uname=_lsUname;
+    } else {
+      // Both Firestore AND localStorage are empty — genuinely new user
+      window._uname='';
+      setTimeout(()=>{
+        // Final guard: re-check in case confirmUname fired during this 800ms delay
+        let _finalCheck='';
+        try{_finalCheck=localStorage.getItem('tisa_uname_'+user.uid)||'';}catch(e){}
+        if(!_finalCheck&&!window._uname){
+          document.getElementById('uname-modal').classList.add('open');
+        }
+      },800);
     }
   }).catch(e=>console.warn('[TISA] user doc load failed:',e));
 
@@ -4221,6 +4377,14 @@ async function loadUD(){
       const remoteToday=remoteSD[window._today]||0;
       remoteSD[window._today]=Math.max(localToday,remoteToday);
       console.log('[TISA] Mid-session sync: kept today='+remoteSD[window._today]+'s (local='+localToday+' remote='+remoteToday+')');
+    }
+    // Preserve local XP flags so earned milestones don't get re-triggered after snapshot
+    if(window.studyData&&window.studyData.flags){
+      if(!remoteSD.flags)remoteSD.flags={};
+      // Merge: keep any flag that exists locally OR remotely
+      Object.keys(window.studyData.flags).forEach(day=>{
+        remoteSD.flags[day]=Object.assign({},remoteSD.flags[day]||{},window.studyData.flags[day]||{});
+      });
     }
     window.studyData=remoteSD;
     // ── sessions: merge local + remote, deduplicate, keep latest 20 ──
@@ -4309,6 +4473,8 @@ async function loadUD(){
     window._showAdminButtons&&window._showAdminButtons();
     applyMobileUI&&applyMobileUI();
     setTimeout(()=>{window.updateMoreBadge&&window.updateMoreBadge();},1000);
+    // Restore timer state after data is loaded (so studyData is ready for gap credit)
+    setTimeout(()=>{window._restoreTimerState&&window._restoreTimerState();},300);
   }
   _userDataUnsub=onSnapshot(doc(db,'userData',window._CU.uid),(snap)=>{
     if(window._saveInFlight){
@@ -4429,6 +4595,8 @@ window.confirmUname=async()=>{
   const un=document.getElementById('uname-inp').value.trim().toLowerCase();
   await setDoc(doc(db,'users',window._CU.uid),{username:un,usernameSet:true,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG2 FIX: save uid so self-search check works
   window._uname=un;
+  // Cache in localStorage so refresh doesn't show modal again before getDoc returns
+  try{localStorage.setItem('tisa_uname_'+window._CU.uid, un);}catch(e){}
   document.getElementById('uname-modal').classList.remove('open');
   document.getElementById('user-dname').textContent='@'+un;
   document.getElementById('prof-uname').textContent='@'+un;
@@ -4456,6 +4624,7 @@ window.saveNewUsername=async()=>{
   if(snap.docs.some(d=>d.id!==window._CU.uid)){fb.textContent='@'+val+' is taken';fb.style.color='var(--danger)';return;}
   await setDoc(doc(db,'users',window._CU.uid),{username:val,uid:window._CU.uid,displayName:window._CU.displayName||''},{merge:true}); // BUG9 FIX: keep uid in sync when username changes
   window._uname=val;
+  try{localStorage.setItem('tisa_uname_'+window._CU.uid, val);}catch(e){}
   document.getElementById('prof-uname').textContent='@'+val;
   document.getElementById('user-dname').textContent='@'+val;
   window.cancelUsernameEdit();
@@ -4876,6 +5045,8 @@ window.openChat=(chatId,oUid,oName,oUname)=>{
   // Clean up previous chat listener before opening new one
   if(window._chatUnsub){window._chatUnsub();window._chatUnsub=null;}
   aChatId=chatId; aOtherUid=oUid; aOtherName=oName||''; aOtherUname=oUname||oName||'';
+  // Clear message list immediately to avoid stale content flash
+  const _el=document.getElementById('chat-msgs');if(_el)_el.innerHTML='';
   // FIX 2: persist last open chat so it reopens after page refresh
   try{sessionStorage.setItem('tisa_last_chat',chatId);}catch(e){}
   const dispN=oUname?(oUname.startsWith('@')?oUname:'@'+oUname):oName;
@@ -4894,38 +5065,71 @@ window.openChat=(chatId,oUid,oName,oUname)=>{
     _cg.querySelectorAll('.ctab')[0]?.classList.add('active');
   }
   document.getElementById('cpanel-messages')?.classList.add('active');
-  // Scroll chat panel into view when layout is single column (mobile + small laptop)
+  // Scroll chat panel into view when layout is single column (mobile)
   setTimeout(()=>{
     const chatPanel = document.querySelector('.conn-grid .sidebar-card:last-child');
-    if(chatPanel && window.innerWidth <= 1100){
-      chatPanel.scrollIntoView({behavior:'smooth', block:'start'});
+    if(chatPanel && window.innerWidth <= 760){
+      const top=chatPanel.getBoundingClientRect().top+window.scrollY-60;
+      window.scrollTo({top,behavior:'smooth'});
     }
-  }, 100);
+  }, 120);
   // Unsubscribe old listener
   if(window._chatUnsub){window._chatUnsub();window._chatUnsub=null;}
   // Subscribe to live messages
   const ck=cKey(window._CU.uid,oUid);
+  let _renderedDocIds=new Set();
   window._chatUnsub=onSnapshot(
     query(collection(db,'chats',chatId,'messages'),orderBy('ts','asc'),limit(300)),
     snap=>{
       const el=document.getElementById('chat-msgs');
       if(!el)return;
-      if(snap.empty){el.innerHTML='<div class="empty">No messages yet. Say hi! 👋</div>';return;}
+      if(snap.empty){el.innerHTML='<div class="empty">No messages yet. Say hi! 👋</div>';_renderedDocIds=new Set();return;}
       const msgs=snap.docs.map(d=>({...d.data(),_docId:d.id}));
       // notify on new message from other person
       if(msgs.length>0){
         const last=msgs[msgs.length-1];
         if(last.sender && last.sender!==window._CU?.uid && last.ts){
           const msgTime=last.ts.toMillis?last.ts.toMillis():Date.now();
-          if(Date.now()-msgTime<5000){ // only notify if message is recent (within 5 sec)
+          if(Date.now()-msgTime<5000){
             sendNotification('💬 New message from '+window._esc(last.sName||aOtherName),'Tap to read');
           }
         }
       }
-      el.innerHTML=msgs.map(d=>renderMsg(d,ck)).join('');
-      // Clear file store after render - files referenced by new keys each render
+      // Incremental render: only add new messages, don't wipe entire list
+      const currentIds=new Set(msgs.map(m=>m._docId));
+      const newMsgs=msgs.filter(m=>!_renderedDocIds.has(m._docId));
+      // Check for deletions — if Firestore removed a doc, remove it from DOM too
+      const deletedIds=[..._renderedDocIds].filter(id=>!currentIds.has(id));
+      const hasDeletes=deletedIds.length>0;
+      if(newMsgs.length===0&&!hasDeletes)return; // nothing changed, skip DOM work
+      const wasAtBottom=el.scrollHeight-el.scrollTop-el.clientHeight<60;
+      if(_renderedDocIds.size===0){
+        // First load — full render
+        el.innerHTML=msgs.map(d=>renderMsg(d,ck)).join('');
+        _renderedDocIds=new Set(msgs.map(m=>m._docId));
+      } else {
+        // Remove deleted messages from DOM
+        deletedIds.forEach(id=>{
+          const node=el.querySelector('[data-docid="'+id+'"]');
+          if(node)node.remove();
+          _renderedDocIds.delete(id);
+        });
+        // Append only new messages
+        const frag=document.createDocumentFragment();
+        newMsgs.forEach(m=>{
+          const div=document.createElement('div');
+          div.innerHTML=renderMsg(m,ck);
+          while(div.firstChild)frag.appendChild(div.firstChild);
+          _renderedDocIds.add(m._docId);
+        });
+        if(newMsgs.length>0)el.appendChild(frag);
+      }
+      // Clear file store after render
       setTimeout(()=>{if(Object.keys(window._msgFileStore||{}).length>50)window._msgFileStore={};},5000);
-      requestAnimationFrame(()=>{el.scrollTop=el.scrollHeight;});
+      // Only auto-scroll if user was near bottom
+      if(wasAtBottom||newMsgs.some(m=>m.sender===(window._CU&&window._CU.uid))){
+        requestAnimationFrame(()=>{el.scrollTop=el.scrollHeight;});
+      }
     }
   );
 };
@@ -4964,7 +5168,7 @@ function renderMsg(m,ck){
   const senderLabel=isMe?'':`<div style="font-size:9px;font-weight:700;opacity:.7;margin-bottom:3px">@${window._esc(m.suname||aOtherUname)}</div>`;
   const reportBtn=isMe?'':`<button onclick="window._reportChatMsg(this)" data-ts="${m.ts?.seconds||Date.now()}" data-txt="${window._esc(txt.substring(0,30))}" style="background:none;border:none;cursor:pointer;font-size:11px;color:rgba(255,255,255,.5);padding:0 3px" title="Report">🚩</button>`;
   const deleteBtn=isMe&&m._docId?`<button onclick="window._deleteChatMsg('${m._docId}')" style="background:none;border:none;cursor:pointer;font-size:11px;color:rgba(255,255,255,.55);padding:0 3px;line-height:1" title="Delete">🗑</button>`:'';
-  return`<div class="msg ${isMe?'me':'them'}">${senderLabel}${content}<div class="msg-t">${t}${isMe?' 🔒 ':' '}${deleteBtn}${reportBtn}</div></div>`;
+  return`<div class="msg ${isMe?'me':'them'}" data-docid="${m._docId||''}">${senderLabel}${content}<div class="msg-t">${t}${isMe?' 🔒 ':' '}${deleteBtn}${reportBtn}</div></div>`;
 }
 
 let _sending=false;
@@ -4980,11 +5184,31 @@ window._deleteChatMsg=async function(docId){
 };
 
 // ── Open file from message store (avoids huge base64 in onclick) ──
+// iOS Safari: no <a download> support for blobs/data URIs — open in new tab instead
+const _isIOS=()=>/iP(hone|ad|od)/.test(navigator.userAgent)||
+  (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+
 window._openMsgFile=function(key){
   const store=window._msgFileStore||{};
   const f=store[key];
   if(!f){window.toast('File not available');return;}
   try{
+    if(_isIOS()){
+      // iOS: open data URL directly in new tab — download attribute is ignored
+      const w=window.open('','_blank');
+      if(w){
+        if(f.type&&f.type.startsWith('image/')){
+          w.document.write('<html><body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh"><img src="'+f.data+'" style="max-width:100%;max-height:100vh;object-fit:contain"><br><a href="'+f.data+'" download="'+(f.name||'file')+'" style="color:white;font-size:14px;margin-top:8px;display:block;text-align:center">⬇ Save Image<\/a><\/body><\/html>');
+          w.document.close();
+        } else {
+          // PDF / other: open data URL directly — iOS will show preview or prompt save
+          w.location.href=f.data;
+        }
+      } else {
+        window.toast('Allow pop-ups to open files on iOS');
+      }
+      return;
+    }
     const blob=dataURLtoBlob(f.data);
     if(!blob){window.open(f.data,'_blank');return;}
     const url=URL.createObjectURL(blob);
@@ -4994,6 +5218,21 @@ window._openMsgFile=function(key){
     setTimeout(()=>URL.revokeObjectURL(url),15000);
   }catch(e){window.toast('Cannot open file on this device');}
 };
+
+window._dlTestPaper=function(){
+  const tp=window._curTestPaper;
+  if(!tp||!tp.dataUrl){window.toast('No paper loaded');return;}
+  if(_isIOS()){
+    const w=window.open('','_blank');
+    if(w){w.location.href=tp.dataUrl;}
+    else{window.toast('Allow pop-ups to download on iOS');}
+    return;
+  }
+  const a=document.createElement('a');
+  a.href=tp.dataUrl;a.download=tp.name||'paper';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+};
+
 
 // ── Full image viewer ──
 window._viewFullImg=function(encodedData,type,source,key){
@@ -5071,7 +5310,7 @@ function openFileFromData(encodedData,mimeType,fileName){
       // Open image in new tab using data URL
       const w=window.open('','_blank');
       if(w){
-        w.document.write('<html><body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh"><img src="'+dataUrl+'" style="max-width:100%;max-height:100vh;object-fit:contain"></body></html>');
+        w.document.write('<html><body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh"><img src="'+dataUrl+'" style="max-width:100%;max-height:100vh;object-fit:contain"><\/body><\/html>');
         w.document.close();
       } else {
         // Fallback: download
@@ -5249,8 +5488,10 @@ function loadProgress(chatId,oUid){
     if(mw)mw.textContent=window._fmtH(wM);
   }
   updateMyProgress();
-  // Poll my data every 10 seconds while progress tab is open (timer may be running)
-  if(!window._progressMyPoll)window._progressMyPoll=setInterval(updateMyProgress,10000);
+  window._updateMyProgress=updateMyProgress; // expose so saveSecs can call it live
+  // Poll my data every 5 seconds while progress tab is open (timer may be running)
+  if(window._progressMyPoll){clearInterval(window._progressMyPoll);window._progressMyPoll=null;}
+  window._progressMyPoll=setInterval(updateMyProgress,5000);
 
   // FIX 4b: Live Firestore listener for OTHER user's study data
   // LOADING FIX: read from publicStats (public) not userData (private, would silently fail)
@@ -5484,6 +5725,17 @@ window._checkDMNotifications=window._checkDMNotifications||function(){};
 setInterval(()=>{
   if(window._CU&&document.visibilityState==='visible')window._checkDMNotifications();
 },180000); // 3 minutes — reduces Firestore reads by 6×
+
+// ── EARLY STUBS: Define critical utilities before other script blocks load ──
+if(!window.toast)window.toast=function(msg){const el=document.getElementById('toast');if(el){el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2600);}};
+if(!window._esc)window._esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+if(!window.sessions)window.sessions=[];
+if(!window.countdowns)window.countdowns=[];
+if(!window.todos)window.todos=[];
+if(!window.studyData)window.studyData={};
+if(!window.subjects)window.subjects=window.defaultSubjects||['General','Math','Physics','Chemistry','Biology','History','Literature','Computer Science'];
+if(!window.papers)window.papers=[];
+})();
 </script>
 <script>
 // ══ GLOBAL STATE (protected with || fallbacks) ══
@@ -5520,19 +5772,46 @@ function save(){
     renderStats&&renderStats();
   },1500);
 }
-// Flush pending save immediately when tab goes to background (mobile throttling fix)
+// Flush pending save + timer state when tab goes to background or is closed
+function _flushTimerState(){
+  // Flush main timer
+  if(typeof tRun!=='undefined'&&tRun&&tSegStart){
+    const segElapsed=Math.floor((Date.now()-tSegStart)/1000);
+    const unsaved=segElapsed-tSaved;
+    if(unsaved>0&&pomoState==='work'){
+      try{window.studyData[window._today]=(window.studyData[window._today]||0)+unsaved;}catch(e){}
+    }
+    try{localStorage.setItem('tisa_timer',JSON.stringify({
+      run:true,segStart:tSegStart,segBase:tSegBase,saved:segElapsed,
+      sub:(document.getElementById('subj-sel')||{}).value||'General',
+      pomo:pomoMode,pomoState:pomoState,pomoCount:pomoCount,pomoDur:pomoDur,brkDur:brkDur
+    }));}catch(e){}
+  }
+  // Flush focus timer (separate state)
+  if(typeof focusRun!=='undefined'&&focusRun&&typeof focusSegStart!=='undefined'){
+    const fElapsed=Math.floor((Date.now()-focusSegStart)/1000);
+    const fSecs=(typeof focusSegBase!=='undefined'?focusSegBase:0)+fElapsed;
+    const fUnsaved=fSecs-(typeof focusSaved!=='undefined'?focusSaved:0);
+    if(fUnsaved>0){
+      try{window.studyData[window._today]=(window.studyData[window._today]||0)+fUnsaved;}catch(e){}
+    }
+  }
+}
 document.addEventListener('visibilitychange',function(){
   if(document.visibilityState==='hidden'){
+    _flushTimerState();
     if(_saveTimer){clearTimeout(_saveTimer);_saveTimer=null;}
     if(window._save){
       window._save().catch(e=>console.warn('[TISA] bg save failed:',e.message));
     }
-    // Clear studying status when user leaves (tab hidden/closed)
+    // Clear studying status when user leaves
     if(window._CU&&window._db&&window._setDoc&&window._doc&&typeof tRun!=='undefined'&&tRun){
       window._setDoc(window._doc(window._db,'publicStats',window._CU.uid),{isStudying:false,studyStarted:null},{merge:true}).catch(()=>{});
     }
   }
 });
+// Also flush on page unload (back button, tab close)
+window.addEventListener('pagehide',_flushTimerState);
 function pad(n){return String(n).padStart(2,'0');}
 window._esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
 window._fmtH=function(s){if(!s)return'0:00:00';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=Math.floor(s%60);return h+':'+pad(m)+':'+pad(sc);};
@@ -5552,7 +5831,14 @@ window.showPage=(name,btn)=>{
   const _appMain=document.getElementById('app-main');if(_appMain)_appMain.scrollTop=0;
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  else{const nb=document.querySelector(`nav button[onclick*="'${name}'"]`);if(nb)nb.classList.add('active');}
+  else{
+    let nb=null;
+    document.querySelectorAll('nav button').forEach(b=>{
+      const oc=b.getAttribute('onclick')||'';
+      if(oc.indexOf("'"+name+"'")!==-1||oc.indexOf('"'+name+'"')!==-1) nb=b;
+    });
+    if(nb)nb.classList.add('active');
+  }
   if(name==='settings'){
     // Pre-fill panda key input if saved
     setTimeout(()=>{
@@ -5926,11 +6212,48 @@ window.focusSubjSync=function(){const el=document.getElementById('focus-subj');i
 // tTotal = total elapsed seconds for display (never resets on pause)
 // tSaved = seconds already persisted to studyData
 // tSegStart = timestamp when current segment started
-let tTotal=0, tSaved=0, tSegStart=0, tSegBase=0;
+let tTotal=0, tSaved=0, tSegStart=0, tSegBase=0, _sessLogged=false;
+
+// ── TIMER STATE RESTORE (survives refresh) ──
+window._restoreTimerState=function(){
+  try{
+    const raw=localStorage.getItem('tisa_timer');
+    if(!raw)return;
+    const st=JSON.parse(raw);
+    if(!st)return;
+    // Restore pomo settings
+    if(st.pomo!==undefined){pomoMode=st.pomo;pomoState=st.pomoState||'work';pomoCount=st.pomoCount||0;pomoDur=st.pomoDur||25;brkDur=st.brkDur||5;}
+    // Restore subject selector
+    if(st.sub){const sel=document.getElementById('subj-sel');if(sel&&window.subjects&&window.subjects.includes(st.sub))sel.value=st.sub;}
+    if(st.run){
+      // Was running when page closed/refreshed — resume from wall-clock
+      tSegStart=st.segStart||Date.now();
+      tSegBase=st.segBase||0;
+      tSaved=st.saved||0;
+      // Recalculate elapsed since segStart
+      const elapsed=Math.floor((Date.now()-tSegStart)/1000);
+      tSecs=elapsed;
+      tTotal=tSegBase+elapsed;
+      // Credit any unsaved seconds that accumulated during the gap
+      const gapUnsaved=elapsed-tSaved;
+      if(gapUnsaved>0 && pomoState==='work'){saveSecs(gapUnsaved);tSaved=elapsed;}
+      startT(); // resume
+      window.toast('⏱ Timer resumed from where you left off');
+    } else if(st.total>0||st.segBase>0){
+      // Was paused — restore display total only, don't auto-start
+      tSegBase=st.total||st.segBase||0;
+      tTotal=tSegBase;
+      tSecs=0;
+      updTD();updTRing();
+      document.getElementById('t-btn').textContent='Continue';
+      document.getElementById('t-mode').textContent='paused';
+    }
+  }catch(e){console.warn('[TISA] Timer restore failed:',e);}
+};
 window.toggleTimer=()=>tRun?pauseT():startT();
 function startT(){
   if(tInt)clearInterval(tInt);
-  tRun=true;
+  tRun=true; _sessLogged=false;
   tSegStart=Date.now(); // record real wall-clock start
   document.getElementById('t-btn').textContent='Pause';
   document.getElementById('t-mode').textContent=pomoMode?(pomoState==='work'?'🍅 focus':'☕ break'):'studying ✏';
@@ -5953,6 +6276,12 @@ function startT(){
       saveSecs(shouldHaveSaved-tSaved);
       tSaved=shouldHaveSaved;
     }
+    // Persist timer state so refresh restores it
+    try{localStorage.setItem('tisa_timer',JSON.stringify({
+      run:true,segStart:tSegStart,segBase:tSegBase,saved:tSaved,
+      sub:(document.getElementById('subj-sel')||{}).value||'General',
+      pomo:pomoMode,pomoState:pomoState,pomoCount:pomoCount,pomoDur:pomoDur,brkDur:brkDur
+    }));}catch(e){}
     if(pomoMode){
       const dur=pomoState==='work'?pomoDur*60:brkDur*60;
       if(tSecs>=dur)pomoCycle();
@@ -5979,6 +6308,15 @@ function pauseT(){
   if(unsaved>0 && pomoState==='work') saveSecs(unsaved);
   tSaved=0; tSecs=0;
   tSegBase=tTotal; // carry forward total for next segment
+  // Log session so activity feed, pie chart, subj perf all update immediately on pause
+  logSessDisplay(); _sessLogged=true;
+  renderPieChart(); renderSubjPerf();
+  // Persist paused timer state so refresh shows current total (paused, not running)
+  try{localStorage.setItem('tisa_timer',JSON.stringify({
+    run:false,segBase:tSegBase,saved:0,total:tSegBase,
+    sub:(document.getElementById('subj-sel')||{}).value||'General',
+    pomo:pomoMode,pomoState:pomoState,pomoCount:pomoCount,pomoDur:pomoDur,brkDur:brkDur
+  }));}catch(e){}
   updTD(); updTRing();
 }
 window.resetTimer=()=>{
@@ -5990,13 +6328,14 @@ window.resetTimer=()=>{
   }
   const unsaved=tSecs-tSaved;
   if(unsaved>0) saveSecs(unsaved);
-  if(tTotal>10) logSessDisplay();
+  if(tTotal>10 && !_sessLogged) logSessDisplay(); _sessLogged=false;
   tSecs=0; tTotal=0; tSaved=0; tSegBase=0;
   updTD(); updTRing();
   document.getElementById('t-btn').textContent='Start';
   document.getElementById('t-mode').textContent='ready';
+  try{localStorage.removeItem('tisa_timer');}catch(e){}
 };
-function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){const _pUnsaved=tSecs-tSaved;if(_pUnsaved>0)saveSecs(_pUnsaved);pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){
+function pomoCycle(){clearInterval(tInt);tRun=false;if(pomoState==='work'){const _pUnsaved=tSecs-tSaved;if(_pUnsaved>0)saveSecs(_pUnsaved);logSessDisplay();_sessLogged=true;pomoCount++;updPomoDots();if(pomoCount>=pomoTotal){
   pomoCount=0;
   pomoState='break';
   const longBreak=brkDur*3;
@@ -6034,7 +6373,9 @@ function saveSecs(s,segStartDate){
     // At minimum, don't let old day bleed into today — just use today
   }
   window.studyData[today]=(window.studyData[today]||0)+s;
-  save();renderStats();renderWkChart();checkXP();
+  save();renderStats();renderWkChart();checkXP();renderPieChart();renderSubjPerf();
+  // Live update chat progress panel if it's open
+  window._updateMyProgress&&window._updateMyProgress();
 }
 function logSessDisplay(){
   // Log the session for display - uses tTotal for duration shown in session log
@@ -6157,7 +6498,7 @@ window.toggleFocusTimer=()=>{
     },500); // 500ms tick so display catches up faster after tab switch
   }
 };
-window.resetFocusTimer=()=>{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){const _unsavedFocus=focusSecs-focusSaved;if(_unsavedFocus>0)saveSecs(_unsavedFocus);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),date:window._today});if(sessions.length>100)sessions.length=100;renderSessLog();renderStats();}focusSecs=0;focusSegBase=0;focusSaved=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';
+window.resetFocusTimer=()=>{if(focusRun){const segElapsed=Math.floor((Date.now()-focusSegStart)/1000);focusSecs=focusSegBase+segElapsed;clearInterval(focusInt);focusRun=false;}if(focusSecs>10){const _unsavedFocus=focusSecs-focusSaved;if(_unsavedFocus>0)saveSecs(_unsavedFocus);sessions.unshift({sub:document.getElementById('focus-subj')?.textContent||'Focus',dur:focusSecs,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),date:window._today});if(sessions.length>100)sessions.length=100;renderSessLog();renderStats();renderPieChart();renderSubjPerf();}focusSecs=0;focusSegBase=0;focusSaved=0;const ft=document.getElementById('focus-t');if(ft)ft.textContent='00:00:00';
 const fd2=document.getElementById('focus-t-disp');if(fd2)fd2.textContent='00:00:00';const fb=document.getElementById('focus-btn');if(fb)fb.textContent='Start';const fl=document.getElementById('focus-lbl');if(fl)fl.textContent='ready to focus';};
 
 // ── XP ──
@@ -6480,7 +6821,7 @@ window.startTest=()=>{const id=document.getElementById('tpsel')?.value;if(!id){t
   // Clear ANY running test timer before starting a new one
   if(testInt){clearInterval(testInt);testInt=null;}
   if(window.testInt){clearInterval(window.testInt);window.testInt=null;}
-  testLeft=testTimeSelected*60;document.getElementById('m-title').textContent=testPaper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';document.getElementById('pdf-name-lbl').textContent=testPaper.name;document.getElementById('pdf-download-btn').href=testPaper.dataUrl;document.getElementById('pdf-download-btn').download=testPaper.name;const tb=document.getElementById('test-body'),toolbar=document.getElementById('pdf-toolbar');tb.style.padding='0';toolbar.style.display='flex';if(testPaper.type&&testPaper.type.startsWith('image/')){tb.innerHTML=`<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="${testPaper.dataUrl}" style="max-width:100%;border-radius:4px" id="test-img"></div>`;}else{tb.innerHTML=`<iframe src="${testPaper.dataUrl}" style="width:100%;height:560px;border:none;display:block" id="test-iframe"></iframe>`;}document.getElementById('test-modal').classList.add('open');updTestT();document.getElementById('m-got').value='';document.getElementById('m-total').value='';document.getElementById('m-wrong').value='';testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)window.submitTest();},1000);};
+  testLeft=testTimeSelected*60;document.getElementById('m-title').textContent=testPaper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';document.getElementById('pdf-name-lbl').textContent=testPaper.name;window._curTestPaper=testPaper; // stored for iOS-safe downloadconst tb=document.getElementById('test-body'),toolbar=document.getElementById('pdf-toolbar');tb.style.padding='0';toolbar.style.display='flex';if(testPaper.type&&testPaper.type.startsWith('image/')){tb.innerHTML=`<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="${testPaper.dataUrl}" style="max-width:100%;border-radius:4px" id="test-img"></div>`;}else{tb.innerHTML=`<iframe src="${testPaper.dataUrl}" style="width:100%;height:560px;border:none;display:block" id="test-iframe"></iframe>`;}document.getElementById('test-modal').classList.add('open');updTestT();document.getElementById('m-got').value='';document.getElementById('m-total').value='';document.getElementById('m-wrong').value='';testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)window.submitTest();},1000);};
 window.addTime5=()=>{if(testLeft>3*3600){toast('⚠️ Max time reached');return;}testLeft+=300;toast('+5 min added ⏱');updTestT();};
 function updTestT(){const m=Math.floor(testLeft/60),s=testLeft%60;const el=document.getElementById('m-timer');if(el){el.textContent=pad(m)+':'+pad(s);el.classList.toggle('low',testLeft<=300);}}
 window.endTest=()=>{clearInterval(testInt);testInt=null;if(window.testInt){clearInterval(window.testInt);window.testInt=null;}document.getElementById('test-modal').classList.remove('open');};
@@ -6761,9 +7102,7 @@ setTimeout(requestNotificationPermission, 3000);
 // ── PWA: Manifest loaded from manifest.json ──
 
 // ── PWA: Service Worker ──
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(()=>{});
-}
+// No sw.js in single-file app — skip registration to avoid 404 error
 
 // ── PWA: Install Prompt ──
 // Uses browser's native install prompt — no custom banner
@@ -6800,25 +7139,26 @@ window.addEventListener('beforeinstallprompt',function(e){
   if(b)b.style.display='flex';
 });
 
-// iOS Safari fallback — no beforeinstallprompt support
-(function(){
+// iOS Safari fallback — shown after login (not on page load)
+window._maybeShowIOSInstall=function(){
   var ua=window.navigator.userAgent.toLowerCase();
   var isIos=/iphone|ipad|ipod/.test(ua);
   var isStandalone=('standalone' in window.navigator)&&window.navigator.standalone;
-  if(isIos&&!isStandalone){
-    try{
-      if(localStorage.getItem('tisa_pwa_dismissed'))return;
-      var b=document.getElementById('pwa-banner');
-      var sub=document.getElementById('pwa-sub');
-      if(sub)sub.textContent='Tap 📤 Share → “Add to Home Screen” to install';
-      if(b){
-        var installBtn=b.querySelector('[onclick="pwaTriggerInstall()"]');
-        if(installBtn)installBtn.style.display='none';
-        b.style.display='flex';
-      }
-    }catch(e){}
-  }
-})();
+  if(!isIos||isStandalone)return;
+  try{
+    if(localStorage.getItem('tisa_pwa_dismissed'))return;
+    if(sessionStorage.getItem('tisa_ios_banner_shown'))return;
+    sessionStorage.setItem('tisa_ios_banner_shown','1');
+    var b=document.getElementById('pwa-banner');
+    var sub=document.getElementById('pwa-sub');
+    if(sub)sub.textContent='Tap 📤 Share → "Add to Home Screen" to install';
+    if(b){
+      var installBtn=b.querySelector('[onclick="pwaTriggerInstall()"]');
+      if(installBtn)installBtn.style.display='none';
+      b.style.display='flex';
+    }
+  }catch(e){}
+};
 window.pwaTriggerInstall=async function(){
   if(!_dp){
     var isStandalone=window.navigator.standalone||window.matchMedia('(display-mode: standalone)').matches;
@@ -7494,6 +7834,9 @@ window._callAI=async function(payload){
   try{_fresh=localStorage.getItem('tisa_panda_key')||'';}catch(e){}
   const key=(_fresh&&_fresh.length>20&&_fresh.startsWith('AIza'))?_fresh:(window._PANDA_KEY||'');
   if(key&&key.startsWith('AIza'))window._PANDA_KEY=key;
+  if(!key||!key.startsWith('AIza')){
+    throw new Error('No valid Gemini API key found. Open Settings → AI Settings and paste your free key from aistudio.google.com/app/apikey.');
+  }
   const mode=payload.mode||'chat';
   let sys='',uPr='';
   if(mode==='test_generator'){
