@@ -2371,7 +2371,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 <div class="login-card">
   <div class="tisa-logo">TISA</div>
   <div class="tisa-tagline">Track. Improve. Study. Ace.</div>
-  <div class="login-quote-box"><span id="lq">Loading...</span></div>
+  <div class="login-quote-box"><span id="lq">Track. Improve. Study. Ace.</span></div>
   <div class="welcome-note">👋 Welcome to TISA! Track study time, connect with peers, earn badges, and grow every day. Sign in to begin your journey. 🌿</div>
   <button class="google-btn" id="google-btn" onclick="handleSignIn(this)">
     <svg viewBox="0 0 24 24" fill="none" style="width:18px;height:18px"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
@@ -3640,12 +3640,6 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       </div>
     </div>
   </div>
-  <div class="card">
-    <div class="ct"><div class="ct-ic"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h10v10H3V3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 6.5v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>Install App</div>
-    <div style="font-size:12px;color:var(--ink3);margin-bottom:10px">Install TISA for faster launch and full app behavior.</div>
-    <button class="btn btn-p" style="width:100%;" onclick="pwaTriggerInstall()">Install / Add to Home Screen</button>
-    <div style="font-size:11px;color:var(--ink3);margin-top:10px">iPhone users: tap Share → Add to Home Screen.</div>
-  </div>
   <!-- FONT PICKER -->
   <div class="card">
     <div class="ct"><div class="ct-ic"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 2.5a1.5 1.5 0 012.5 1.5L5.5 12.5l-3.5 1 1-3.5L11 2.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Font Style</div>
@@ -3668,6 +3662,44 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
     </div>
     <div id="res-list-el"><div class="empty">No resources yet</div></div>
   </div>
+  <!-- ── INSTALL APP CARD ── -->
+  <div class="card" id="settings-install-card">
+    <div class="ct"><div class="ct-ic">📲</div>Install TISA App</div>
+    <div id="settings-install-android" style="display:none">
+      <p style="font-size:12px;color:var(--ink2);margin-bottom:12px;line-height:1.7">Install TISA as an app on your device for a faster, full-screen experience — no browser bars!</p>
+      <button class="btn btn-p" style="width:100%;font-size:13px" onclick="pwaTriggerInstall()">⬇ Install TISA App</button>
+      <div style="font-size:11px;color:var(--ink3);text-align:center;margin-top:8px">Works on Android & Desktop Chrome</div>
+    </div>
+    <div id="settings-install-ios" style="display:none">
+      <p style="font-size:12px;color:var(--ink2);margin-bottom:10px;line-height:1.7">To install TISA on your iPhone or iPad:</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:12px;border:1px solid var(--border2)">
+          <span style="font-size:20px;flex-shrink:0">1️⃣</span>
+          <span style="font-size:12px;font-weight:600;color:var(--ink2)">Tap the <strong>Share</strong> button <span style="font-size:14px">📤</span> at the bottom of Safari</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:12px;border:1px solid var(--border2)">
+          <span style="font-size:20px;flex-shrink:0">2️⃣</span>
+          <span style="font-size:12px;font-weight:600;color:var(--ink2)">Scroll down and tap <strong>"Add to Home Screen"</strong></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:12px;border:1px solid var(--border2)">
+          <span style="font-size:20px;flex-shrink:0">3️⃣</span>
+          <span style="font-size:12px;font-weight:600;color:var(--ink2)">Tap <strong>Add</strong> — TISA will appear on your home screen!</span>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px 14px;background:color-mix(in srgb,var(--primary) 8%,var(--bg));border-radius:12px;border:1px solid var(--border)">
+        <div style="font-size:11px;font-weight:700;color:var(--primary)">✅ Already installed?</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:2px">If you're reading this inside the installed app, you're all set!</div>
+      </div>
+    </div>
+    <div id="settings-install-already" style="display:none">
+      <div style="text-align:center;padding:12px 0">
+        <div style="font-size:32px;margin-bottom:8px">✅</div>
+        <div style="font-size:13px;font-weight:700;color:var(--success,#2d7a3a)">TISA is already installed!</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:4px">You're running in app mode — enjoy the full experience.</div>
+      </div>
+    </div>
+  </div>
+
   <div class="card" style="grid-column:1/-1">
     <div class="ct"><div class="ct-ic"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5.5" width="10" height="7" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h.01M10 9h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 5.5V3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5 3.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 9H1.5M14.5 9H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>AI Settings</div>
     <p style="font-size:12px;color:var(--ink3);margin-bottom:10px">AI is pre-configured and works out of the box. Optionally use your own Gemini key for higher rate limits.</p>
@@ -3995,71 +4027,25 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 
 <div id="toast"></div>
 <footer id="app-footer" style="display:none">© 2026 &nbsp;<strong>TISA</strong>&nbsp; · &nbsp;Created by Sachin&nbsp; · &nbsp;<span style="cursor:pointer;text-decoration:underline" onclick="document.getElementById('tos-modal').classList.add('open')">Terms of Service</span>&nbsp; · &nbsp;<span style="cursor:pointer;text-decoration:underline" onclick="document.getElementById('privacy-modal').classList.add('open')">Privacy Policy</span></footer>
-<script>
-window.showPage = window.showPage || function(name,btn){
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  var _activePage = document.getElementById('page-'+name);
-  if(_activePage){_activePage.classList.add('active');_activePage.scrollTop = 0;}
-  var _appMain = document.getElementById('app-main');
-  if(_appMain){_appMain.scrollTop = 0;}
-  document.querySelectorAll('nav button').forEach(function(b){b.classList.remove('active');});
-  if(btn){btn.classList.add('active');}
-  else{
-    var nb = document.querySelector('nav button[data-page="'+name+'"]');
-    if(!nb){
-      document.querySelectorAll('nav button').forEach(function(b){
-        var oc = b.getAttribute('onclick') || '';
-        if(oc.indexOf("'"+name+"'") !== -1 || oc.indexOf('"'+name+'"') !== -1) nb = b;
-      });
-    }
-    if(nb) nb.classList.add('active');
-  }
-};
-window.showPageMob = window.showPageMob || function(name,btn){
-  window.showPage(name,btn);
-  document.querySelectorAll('.mnb').forEach(function(b){b.classList.remove('active');});
-  document.querySelectorAll('.more-btn').forEach(function(b){b.classList.remove('active');});
-  if(btn){btn.classList.add('active');}
-  else{
-    var nb = document.querySelector('.mnb[data-page="'+name+'"]');
-    if(nb) nb.classList.add('active');
-    nb = document.querySelector('.more-btn[data-page="'+name+'"]');
-    if(nb) nb.classList.add('active');
-  }
-};
-</script>
 <script type="module">
-(async()=>{
-let initializeApp, getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, fbOut, setPersistence, browserLocalPersistence;
-let getFirestore, initializeFirestore, persistentLocalCache, doc, setDoc, getDoc, collection, query, where, onSnapshot, addDoc, orderBy, serverTimestamp, getDocs, updateDoc, increment, limit, deleteDoc, runTransaction;
-
-try {
-  const firebaseApp = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-  const firebaseAuth = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-  const firebaseFirestore = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-  ({initializeApp} = firebaseApp);
-  ({getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut:fbOut,setPersistence,browserLocalPersistence} = firebaseAuth);
-  ({getFirestore,initializeFirestore,persistentLocalCache,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction} = firebaseFirestore);
-} catch(e) {
-  console.warn('[TISA] Firebase module load failed', e);
-}
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut as fbOut,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import{getFirestore,initializeFirestore,persistentLocalCache,doc,setDoc,getDoc,collection,query,where,onSnapshot,addDoc,orderBy,serverTimestamp,getDocs,updateDoc,increment,limit,deleteDoc,runTransaction}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const FC={apiKey:"AIzaSyDm34P9GTb2yGk7e4mI0_JSN4k7Z6J6A88",authDomain:"tisastudycompanion.firebaseapp.com",projectId:"tisastudycompanion",storageBucket:"tisastudycompanion.firebasestorage.app",messagingSenderId:"172206673109",appId:"1:172206673109:web:ec2c4db89ef85149e1665c"};
-const app=(typeof initializeApp==='function')?initializeApp(FC):null;
-const auth=(app&&typeof getAuth==='function')?getAuth(app):null;
-const provider=(typeof GoogleAuthProvider==='function')?new GoogleAuthProvider():null;
-// Safe Firestore init — persistentLocalCache can fail on mobile/incognito
-let db=null;
-if(app){
-  if(typeof getFirestore==='function'){
-    try{db=getFirestore(app);}catch(e){
-      console.warn('[TISA] Firestore init failed:',e.message);
-    }
-  }
+const app=initializeApp(FC);
+const auth=getAuth(app);
+// Safe Firestore init — persistentMultipleTabManager fails on mobile/incognito (causes blank screen)
+let db;
+try{
+  db=initializeFirestore(app,{localCache:persistentLocalCache()});
+}catch(e){
+  console.warn('[TISA] Persistent cache failed, using default Firestore:',e.message);
+  db=getFirestore(app);
 }
 
 // ── SAFETY NET: if Firebase never calls onAuthStateChanged (network blocked etc),
-//    hide loading screen after 3s and show login so user is never stuck on white ──
+//    hide loading screen after 6s and show login so user is never stuck on white ──
 const _safetyTimer=setTimeout(()=>{
   const ls=document.getElementById('loading-screen');
   if(ls&&!ls.classList.contains('hide')){
@@ -4068,19 +4054,11 @@ const _safetyTimer=setTimeout(()=>{
     document.getElementById('login-screen').classList.add('show');
     console.warn('[TISA] Safety timer fired — Firebase may be slow or blocked.');
   }
-},3000);
+},6000);
 window._db=db; window._sTs=serverTimestamp; window._addDoc=addDoc; window._collection=collection;
 window._getDocs=getDocs; window._getDoc=getDoc; window._query=query; window._orderBy=orderBy;
 window._limit=limit; window._setDoc=setDoc; window._doc=doc; window._deleteDoc=deleteDoc;
 window._where=where; window._updateDoc=updateDoc;
-window.db=db; window.auth=auth; window.getDoc=getDoc; window.setDoc=setDoc; window.collection=collection;
-window.query=query; window.where=where; window.onSnapshot=onSnapshot; window.addDoc=addDoc; window.orderBy=orderBy;
-window.serverTimestamp=serverTimestamp; window.getDocs=getDocs; window.updateDoc=updateDoc; window.increment=increment;
-window.limit=limit; window.deleteDoc=deleteDoc; window.runTransaction=runTransaction; window.doc=doc;
-window.initializeApp=initializeApp; window.getAuth=getAuth; window.GoogleAuthProvider=GoogleAuthProvider;
-window.signInWithPopup=signInWithPopup; window.signInWithRedirect=signInWithRedirect; window.getRedirectResult=getRedirectResult;
-window.onAuthStateChanged=onAuthStateChanged; window.signOut=fbOut; window.setPersistence=setPersistence; window.browserLocalPersistence=browserLocalPersistence;
-window.persistentLocalCache=persistentLocalCache;
 
 // ── ENCRYPTION ──
 // Encryption helpers — TextEncoder/TextDecoder based, handles emoji correctly
@@ -4116,11 +4094,8 @@ function xD(enc,k){
 function cKey(a,b){return[a,b].sort().join('');}
 
 // ── PERSIST + REDIRECT RESULT ──
-if(auth&&typeof setPersistence==='function'&&browserLocalPersistence){
-  setPersistence(auth,browserLocalPersistence).catch(()=>{});
-}
-if(auth&&typeof getRedirectResult==='function'){
-  getRedirectResult(auth).then(r=>{
+setPersistence(auth,browserLocalPersistence).catch(()=>{});
+getRedirectResult(auth).then(r=>{
   if(r&&r.user){
     // Redirect sign-in succeeded - onAuthStateChanged will fire and handle the rest
     console.log('TISA redirect sign-in OK');
@@ -4130,7 +4105,6 @@ if(auth&&typeof getRedirectResult==='function'){
     setTimeout(()=>window._showLoginErr&&window._showLoginErr(e.code+': '+e.message),600);
   }
 });
-}
 
 // ── SIGN IN ──
 window._showLoginErr=(msg)=>{
@@ -4141,24 +4115,16 @@ window._showLoginErr=(msg)=>{
 };
 
 window.handleSignIn=async(btn)=>{
-  if(!auth||!GoogleAuthProvider||!signInWithPopup){
-    window._showLoginErr('Firebase unavailable. Check network or reload.');
-    return;
-  }
   btn.disabled=true;
   btn.innerHTML='<span style="display:inline-block;width:16px;height:16px;border:2.5px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px"></span>Signing in...';
-  const errEl=document.getElementById('login-err'); if(errEl)errEl.style.display='none';
+  document.getElementById('login-err').style.display='none';
   const provider=new GoogleAuthProvider();
   provider.setCustomParameters({prompt:'select_account'});
   try{
     await signInWithPopup(auth,provider);
   }catch(e){
     if(e.code==='auth/popup-blocked'||e.code==='auth/popup-closed-by-user'||e.code==='auth/cancelled-popup-request'){
-      if(signInWithRedirect){
-        try{await signInWithRedirect(auth,provider);}catch(e2){window._showLoginErr(e2.message);}
-      } else {
-        window._showLoginErr('Popup failed and redirect is unavailable.');
-      }
+      try{await signInWithRedirect(auth,provider);}catch(e2){window._showLoginErr(e2.message);}
     }else window._showLoginErr(e.message||e.code);
   }
 };
@@ -4183,9 +4149,7 @@ window.doSignOut=async()=>{
   if(typeof _userDataUnsub!=='undefined'&&_userDataUnsub){try{_userDataUnsub();}catch(e){}; _userDataUnsub=null;}
   if(window._focusUnsubs&&window._focusUnsubs.length){window._focusUnsubs.forEach(u=>{try{u();}catch(e){}});window._focusUnsubs=[];}
   if(window._buddyFocusCache)window._buddyFocusCache={};
-  if(auth&&fbOut){
-    try{await fbOut(auth);}catch(e){}
-  }
+  await fbOut(auth);
   window._CU=null; window._currentUser=null;
   document.getElementById('login-screen').classList.add('show');
   document.getElementById('app-header').style.display='none';
@@ -4217,8 +4181,7 @@ window.deleteAllMyData = async () => {
 };
 
 // ── AUTH STATE (KEY FIX: loading screen prevents login flash) ──
-if(auth&&typeof onAuthStateChanged==='function'){
-  onAuthStateChanged(auth,async(user)=>{
+onAuthStateChanged(auth,async(user)=>{
   clearTimeout(_safetyTimer);
   const ls=document.getElementById('loading-screen');
   ls.classList.add('hide');
@@ -4240,14 +4203,7 @@ if(auth&&typeof onAuthStateChanged==='function'){
   }else{
     document.getElementById('login-screen').classList.add('show');
   }
-},(err)=>{
-  clearTimeout(_safetyTimer);
-  console.warn('[TISA] Auth error:',err.message);
-  const ls=document.getElementById('loading-screen');
-  if(ls)ls.classList.add('hide');
-  document.getElementById('login-screen').classList.add('show');
 });
-}
 
 async function showApp(user){
   // Load saved Gemini key immediately
@@ -4289,8 +4245,7 @@ async function showApp(user){
   // Show page IMMEDIATELY — don't wait for Firestore
   document.body.classList.remove('ma-mode');
   const _maOv=document.getElementById('ma-focus-overlay');if(_maOv)_maOv.style.display='none';
-  var _homeNav=document.querySelector('nav button[data-page="home"]')||document.querySelector('nav button[onclick*="home"]');
-  showPage('home',_homeNav);
+  showPage('home',document.querySelector('nav button[onclick*="home"]'));
   // Load data async (don't block UI)
   setTimeout(()=>{loadUD().catch(e=>console.warn('[TISA] loadUD error:',e));},50);
   window.startHealth&&window.startHealth();
@@ -4396,7 +4351,8 @@ async function loadUD(){
         !remoteSessions.some(r=>r.time===s.time&&r.sub===s.sub&&r.dur===s.dur)
       );
       sessions=[...localNew,...remoteSessions].slice(0,20);
-      renderSessLog();renderStats();
+      if(typeof renderSessLog==='function')renderSessLog();
+      if(typeof renderStats==='function')renderStats();
     }
     window.todos=d.todos||[];
     window.countdowns=d.countdowns||[];
@@ -5725,17 +5681,6 @@ window._checkDMNotifications=window._checkDMNotifications||function(){};
 setInterval(()=>{
   if(window._CU&&document.visibilityState==='visible')window._checkDMNotifications();
 },180000); // 3 minutes — reduces Firestore reads by 6×
-
-// ── EARLY STUBS: Define critical utilities before other script blocks load ──
-if(!window.toast)window.toast=function(msg){const el=document.getElementById('toast');if(el){el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2600);}};
-if(!window._esc)window._esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
-if(!window.sessions)window.sessions=[];
-if(!window.countdowns)window.countdowns=[];
-if(!window.todos)window.todos=[];
-if(!window.studyData)window.studyData={};
-if(!window.subjects)window.subjects=window.defaultSubjects||['General','Math','Physics','Chemistry','Biology','History','Literature','Computer Science'];
-if(!window.papers)window.papers=[];
-})();
 </script>
 <script>
 // ══ GLOBAL STATE (protected with || fallbacks) ══
@@ -5831,14 +5776,7 @@ window.showPage=(name,btn)=>{
   const _appMain=document.getElementById('app-main');if(_appMain)_appMain.scrollTop=0;
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  else{
-    let nb=null;
-    document.querySelectorAll('nav button').forEach(b=>{
-      const oc=b.getAttribute('onclick')||'';
-      if(oc.indexOf("'"+name+"'")!==-1||oc.indexOf('"'+name+'"')!==-1) nb=b;
-    });
-    if(nb)nb.classList.add('active');
-  }
+  else{const nb=document.querySelector(`nav button[onclick*="'${name}'"]`);if(nb)nb.classList.add('active');}
   if(name==='settings'){
     // Pre-fill panda key input if saved
     setTimeout(()=>{
@@ -6634,13 +6572,9 @@ function renderBadges(){['badge-grid','prof-badges'].forEach(id=>{const el=docum
     }
   };
 
-  // Render inventory on page load and when focus page is visited
+  // Render inventory on page load and when focus page is visited — handled by unified hook below
   window.addEventListener('DOMContentLoaded',function(){_renderInv();});
-  const _origShowPage=window.showPage;
-  window.showPage=function(name,btn){
-    if(_origShowPage)_origShowPage.apply(this,arguments);
-    if(name==='focus')setTimeout(_renderInv,80);
-  };
+  window._renderGachaInvOnPage=function(name){if(name==='focus')setTimeout(_renderInv,80);};
   // Also expose for renderAll
   window._renderGachaInv=_renderInv;
 })();
@@ -6817,11 +6751,34 @@ window.previewPaper=(id)=>{
   }
   prev.scrollIntoView({behavior:'smooth',block:'nearest'});
 };
-window.startTest=()=>{const id=document.getElementById('tpsel')?.value;if(!id){toast('Select a paper first');return;}testPaper=window.papers.find(p=>p.id==id);if(!testPaper)return;if(!testPaper.dataUrl){window.toast('Please re-upload this paper to take the test');return;}
-  // Clear ANY running test timer before starting a new one
+window.startTest=function(){
+  var id=document.getElementById('tpsel')?document.getElementById('tpsel').value:'';
+  if(!id){toast('Select a paper first');return;}
+  testPaper=window.papers.find(function(p){return p.id==id;});
+  if(!testPaper)return;
+  if(!testPaper.dataUrl){window.toast('Please re-upload this paper to take the test');return;}
   if(testInt){clearInterval(testInt);testInt=null;}
   if(window.testInt){clearInterval(window.testInt);window.testInt=null;}
-  testLeft=testTimeSelected*60;document.getElementById('m-title').textContent=testPaper.name;document.getElementById('m-sub').textContent=testTimeSelected+' min test';document.getElementById('pdf-name-lbl').textContent=testPaper.name;window._curTestPaper=testPaper; // stored for iOS-safe downloadconst tb=document.getElementById('test-body'),toolbar=document.getElementById('pdf-toolbar');tb.style.padding='0';toolbar.style.display='flex';if(testPaper.type&&testPaper.type.startsWith('image/')){tb.innerHTML=`<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="${testPaper.dataUrl}" style="max-width:100%;border-radius:4px" id="test-img"></div>`;}else{tb.innerHTML=`<iframe src="${testPaper.dataUrl}" style="width:100%;height:560px;border:none;display:block" id="test-iframe"></iframe>`;}document.getElementById('test-modal').classList.add('open');updTestT();document.getElementById('m-got').value='';document.getElementById('m-total').value='';document.getElementById('m-wrong').value='';testInt=setInterval(()=>{testLeft--;updTestT();if(testLeft<=0)window.submitTest();},1000);};
+  testLeft=testTimeSelected*60;
+  var titleEl=document.getElementById('m-title');if(titleEl)titleEl.textContent=testPaper.name;
+  var subEl=document.getElementById('m-sub');if(subEl)subEl.textContent=testTimeSelected+' min test';
+  var lblEl=document.getElementById('pdf-name-lbl');if(lblEl)lblEl.textContent=testPaper.name;
+  window._curTestPaper=testPaper;
+  var tb=document.getElementById('test-body'),toolbar=document.getElementById('pdf-toolbar');
+  if(tb)tb.style.padding='0';
+  if(toolbar)toolbar.style.display='flex';
+  if(testPaper.type&&testPaper.type.startsWith('image/')){
+    if(tb)tb.innerHTML='<div style="overflow:auto;width:100%;height:100%;background:#1a1a1a;display:flex;align-items:flex-start;justify-content:center;padding:12px"><img src="'+testPaper.dataUrl+'" style="max-width:100%;border-radius:4px" id="test-img"></div>';
+  }else{
+    if(tb)tb.innerHTML='<iframe src="'+testPaper.dataUrl+'" style="width:100%;height:560px;border:none;display:block" id="test-iframe"></iframe>';
+  }
+  var modal=document.getElementById('test-modal');if(modal)modal.classList.add('open');
+  updTestT();
+  var gotEl=document.getElementById('m-got');if(gotEl)gotEl.value='';
+  var totEl=document.getElementById('m-total');if(totEl)totEl.value='';
+  var wrgEl=document.getElementById('m-wrong');if(wrgEl)wrgEl.value='';
+  testInt=setInterval(function(){testLeft--;updTestT();if(testLeft<=0)window.submitTest();},1000);
+};
 window.addTime5=()=>{if(testLeft>3*3600){toast('⚠️ Max time reached');return;}testLeft+=300;toast('+5 min added ⏱');updTestT();};
 function updTestT(){const m=Math.floor(testLeft/60),s=testLeft%60;const el=document.getElementById('m-timer');if(el){el.textContent=pad(m)+':'+pad(s);el.classList.toggle('low',testLeft<=300);}}
 window.endTest=()=>{clearInterval(testInt);testInt=null;if(window.testInt){clearInterval(window.testInt);window.testInt=null;}document.getElementById('test-modal').classList.remove('open');};
@@ -7834,9 +7791,6 @@ window._callAI=async function(payload){
   try{_fresh=localStorage.getItem('tisa_panda_key')||'';}catch(e){}
   const key=(_fresh&&_fresh.length>20&&_fresh.startsWith('AIza'))?_fresh:(window._PANDA_KEY||'');
   if(key&&key.startsWith('AIza'))window._PANDA_KEY=key;
-  if(!key||!key.startsWith('AIza')){
-    throw new Error('No valid Gemini API key found. Open Settings → AI Settings and paste your free key from aistudio.google.com/app/apikey.');
-  }
   const mode=payload.mode||'chat';
   let sys='',uPr='';
   if(mode==='test_generator'){
@@ -11694,33 +11648,7 @@ document.addEventListener('DOMContentLoaded',function(){
   },500);
 });
 
-// Lazy-load GK daily when tests page becomes visible
-var _atzOrigShowPage=window.showPage;
-window.showPage=function(name,btn){
-  if(_atzOrigShowPage)_atzOrigShowPage(name,btn);
-  if(name==='tests'){
-    // Load GK daily once
-    
-    // Always refresh mock papers grid
-    setTimeout(function(){
-      var activeTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
-      var cat=window._mockCurrentCat||'jee';
-      // mock papers removed
-    },50);
-  }
-};
-var _atzOrigShowPageMob=window.showPageMob;
-window.showPageMob=function(name,btn){
-  if(_atzOrigShowPageMob)_atzOrigShowPageMob(name,btn);
-  if(name==='tests'){
-    
-    setTimeout(function(){
-      var activeTab=document.querySelector('#mock-cat-tabs .mock-cat-tab.sel');
-      var cat=window._mockCurrentCat||'jee';
-      // mock papers removed
-    },50);
-  }
-};
+// Lazy-load GK daily when tests page becomes visible — no showPage override needed, handled by unified hook below
 
 // ── END AI TEST ZONE ──
 
@@ -11978,12 +11906,8 @@ window.showPageMob=function(name,btn){
     if(typeof save==='function')save();
   };
 
-  // Render on settings OR focus page visit
-  var _origShowPage=window.showPage;
-  window.showPage=function(name,btn){
-    if(_origShowPage)_origShowPage.apply(this,arguments);
-    if(name==='settings'||name==='focus'){setTimeout(function(){_renderHabits();_renderAnti();},50);}
-  };
+  // Kaizen renders on settings/focus — handled by unified showPage hook below
+  window._renderKaizenOnPage=function(name){if(name==='settings'||name==='focus'){setTimeout(function(){_renderHabits();_renderAnti();},50);}};
 })();
 
 // ═══════════════════════════════════════════════════════
@@ -12088,7 +12012,8 @@ window.showPageMob=function(name,btn){
       var lv=getLevel(cell.val);
       if(cell.val){totalStudied+=cell.val;daysActive++;}
       var isToday=cell.date===window._today;
-      var hours=cell.val?window._fmtH(cell.val):'no study';
+      var _fmt=typeof window._fmtH==='function'?window._fmtH.bind(window):function(s){return s?Math.floor(s/3600)+'h':'0h';};
+      var hours=cell.val?_fmt(cell.val):'no study';
       var colors=['var(--bg3)','rgba(var(--primary-rgb,92,122,62),.2)','rgba(var(--primary-rgb,92,122,62),.4)','rgba(var(--primary-rgb,92,122,62),.6)','rgba(var(--primary-rgb,92,122,62),.8)','var(--primary)'];
       // Use actual CSS vars for colour
       var bgMap=['var(--bg3)'];
@@ -12115,18 +12040,14 @@ window.showPageMob=function(name,btn){
     +'<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px">'
     +'<span style="font-size:10px;color:var(--ink3)">Less</span>'+legendCells+'<span style="font-size:10px;color:var(--ink3)">More</span>'
     +'<span style="flex:1"></span>'
-    +'<span style="font-size:11px;font-weight:700;color:var(--ink3)">'+daysActive+' days active · '+window._fmtH(totalStudied)+' total</span>'
+    +'<span style="font-size:11px;font-weight:700;color:var(--ink3)">'+daysActive+' days active · '+(typeof window._fmtH==='function'?window._fmtH(totalStudied):Math.floor(totalStudied/3600)+'h')+' total</span>'
     +'</div>';
 
   el.innerHTML=html;
 };;
 
-  // Hook into performance page render
-  var _origShowPage2=window.showPage;
-  window.showPage=function(name,btn){
-    if(_origShowPage2)_origShowPage2.apply(this,arguments);
-    if(name==='performance'){setTimeout(window.renderSubjHeatmap,100);}
-  };
+  // Performance heatmap — handled by unified showPage hook below
+  window._renderHeatmapOnPage=function(name){if(name==='performance')setTimeout(window.renderSubjHeatmap,100);};
 })();
 
 // ═══════════════════════════════════════════════════════
@@ -12380,14 +12301,8 @@ window.renderTestGraph=function(){
   })();
 };
 
-// Auto-render on Performance page visit
-(function(){
-  var _origShowPage=window.showPage;
-  window.showPage=function(name,btn){
-    if(_origShowPage)_origShowPage.apply(this,arguments);
-    if(name==='performance')setTimeout(window.renderTestGraph,100);
-  };
-})();
+// Auto-render on Performance page visit — handled by unified showPage hook below
+window._renderTestGraphOnPage=function(name){if(name==='performance')setTimeout(window.renderTestGraph,100);};
 
 
 // ── SESSION REFLECTION ────────────────────────────────────
@@ -12611,14 +12526,8 @@ window._testsFactozInt = setInterval(function(){
   var tp = document.getElementById('page-tests');
   if(tp && tp.classList.contains('active')) window.nextFactoz && window.nextFactoz();
 }, 20000);
-// Init on tests page visit
-(function(){
-  var _origSP=window.showPage;
-  window.showPage=function(name,btn){
-    if(_origSP)_origSP.apply(this,arguments);
-    if(name==='tests'){setTimeout(window.nextFactoz,100);}
-  };
-})();
+// Init on tests page visit — handled by unified showPage hook below
+window._nextFactozOnPage=function(name){if(name==='tests'){setTimeout(window.nextFactoz,100);}};
 
 
 
@@ -12665,12 +12574,8 @@ window._testsFactozInt = setInterval(function(){
   // Apply saved font on load
   var saved=localStorage.getItem(KEY);
   if(saved)applyFont(saved);
-  // Re-render on settings visit
-  var _origSP=window.showPage;
-  window.showPage=function(name,btn){
-    if(_origSP)_origSP.apply(this,arguments);
-    if(name==='settings')setTimeout(window.renderFontGrid,50);
-  };
+  // Re-render on settings visit — handled by unified showPage hook below
+  window._renderFontGridOnPage=function(name){if(name==='settings')setTimeout(window.renderFontGrid,50);};
 })();
 
 window._socialTab=function(tab,btn){
@@ -13449,6 +13354,89 @@ window._homeQuoteInt = setInterval(function(){
 </div>
 </div>
 <script>
+// ══════════════════════════════════════════════════════════════
+// TISA v18 — UNIFIED showPage DISPATCHER
+// Replaces all fragile showPage override chains.
+// Every page-specific hook is called here, in one safe place.
+// ══════════════════════════════════════════════════════════════
+(function(){
+  var _coreShowPage = window.showPage;
+  window.showPage = function(name, btn) {
+    // Always call the core navigation function first
+    if (_coreShowPage) _coreShowPage.call(this, name, btn);
+
+    // ── Page-specific hooks ──
+    // Tests
+    if (name === 'tests') {
+      setTimeout(function(){ window.nextFactoz && window.nextFactoz(); }, 100);
+    }
+    // Performance
+    if (name === 'performance') {
+      setTimeout(function(){
+        window.renderSubjHeatmap && window.renderSubjHeatmap();
+        window.renderTestGraph && window.renderTestGraph();
+      }, 100);
+    }
+    // Settings
+    if (name === 'settings') {
+      setTimeout(function(){
+        window.renderFontGrid && window.renderFontGrid();
+        _initInstallCard();
+      }, 50);
+    }
+    // Focus / Gacha
+    if (name === 'focus') {
+      setTimeout(function(){ window._renderGachaInv && window._renderGachaInv(); }, 80);
+    }
+    // Focus + Settings → Kaizen
+    if (name === 'settings' || name === 'focus') {
+      setTimeout(function(){
+        if (window._renderKaizenOnPage) window._renderKaizenOnPage(name);
+      }, 50);
+    }
+  };
+
+  // Also patch showPageMob to always correctly call through
+  var _coreShowPageMob = window.showPageMob;
+  window.showPageMob = function(name, btn) {
+    if (_coreShowPageMob) _coreShowPageMob.call(this, name, btn);
+    // Tests
+    if (name === 'tests') {
+      setTimeout(function(){ window.nextFactoz && window.nextFactoz(); }, 120);
+    }
+  };
+})();
+
+// ── INSTALL CARD LOGIC ────────────────────────────────────────
+function _initInstallCard(){
+  var card = document.getElementById('settings-install-card');
+  if (!card) return;
+  var ios = document.getElementById('settings-install-ios');
+  var android = document.getElementById('settings-install-android');
+  var already = document.getElementById('settings-install-already');
+  if (!ios || !android || !already) return;
+
+  var ua = navigator.userAgent.toLowerCase();
+  var isIos = /iphone|ipad|ipod/.test(ua);
+  var isStandalone = (window.navigator.standalone === true) ||
+                     window.matchMedia('(display-mode: standalone)').matches;
+
+  ios.style.display = 'none';
+  android.style.display = 'none';
+  already.style.display = 'none';
+
+  if (isStandalone) {
+    already.style.display = 'block';
+  } else if (isIos) {
+    ios.style.display = 'block';
+  } else {
+    android.style.display = 'block';
+  }
+}
+// Also init when settings page is visited via mobile
+window._initInstallCard = _initInstallCard;
+// ── END INSTALL CARD ──
+
 // ── AI SETUP GUIDE / ONBOARDING ──────────────────────────────────────────
 (function(){
   var MODAL_ID='gemini-onboard-modal';
