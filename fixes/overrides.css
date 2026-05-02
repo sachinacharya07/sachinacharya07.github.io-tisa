@@ -1,0 +1,43 @@
+/* fixes/overrides.css
+   Purpose: consolidate duplicate keyframes and theme vars (matcha), and ensure fonts are loaded.
+   This file is loaded by the dev to override/patch the large inline stylesheet without editing it directly.
+*/
+
+/* Import canonical fonts (safe, single URL) */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700&display=swap');
+
+/* Consolidated canonical animations (only one copy) */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .4; }
+}
+
+/* If the file had other conflicting "pulse" definitions (different timing), this canonical version
+   will apply when this stylesheet is loaded afterwards.
+*/
+
+/* Single authoritative matcha theme vars — merge any missing variables from the duplicates here */
+:root[data-theme="matcha"], [data-theme="matcha"] {
+  --font-main: 'Outfit', sans-serif;
+  --font-head: 'Playfair Display', serif;
+  --bg: #f2f5ee;
+  --bg2: #e6ecdf;
+  --bg3: #d8e2cf;
+  --surface: #f9fbf7;
+  --surface2: #f2f5ee;
+  --primary: #4a7c59;
+  --pd: #2e5c3e;
+  --pl: #a8c8b0;
+  --pglow: rgba(74,124,89,.15);
+  --ink: #1a2e20;
+  --ink2: #3d5c45;
+  /* Add any additional matcha variables known to exist in the main stylesheet here */
+}
+
+/* Additional safety: ensure our canonical vars and keyframes take precedence when this file
+   is loaded after the main inline <style>. To apply, add a <link rel="stylesheet" href="/fixes/overrides.css"> in the <head> after fonts.
+*/
